@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+CAU TRUC NHANH
+1. main
+1.1. dev
+1.1.1. authen - ThanhTB4
+1.1.2. chat-box - DuyenTTM7
+1.1.3. chuyen-bay - DucNH66
+1.1.4. hanh-khach - DuyenTTM7
+1.1.5. thanh-toan - DuyNT58
+1.1.6. thong-ke - TiTT
+1.1.7. user - TiTT, ThanhTB4
+1.1.8. ve-may-bay - DuyNT58
+# mọi người clone git về và check-out sang nhánh của mình để code
+# Ví dụ thứ tự cú pháp: git checkout dev >> git checkout chuyen-bay
+# CÁC LỆNH GIT CƠ BẢN:
+- git branch: kiểm tra nhánh đang đứng
+- git checkout -b @tennhanh: tạo một nhánh mới ở local và chuyển sang nhánh đó --- ví dụ: git checkout -b new-thanh-toan
+- git add . : thêm tất cả các thư mục tại thư mục đang đứng vào local stage để commit
+- git add @tenthumuc: chỉ thêm thư mục chỉ định vào local stage để commit -- ví dụ: git add style.css
+- git status: kiểm tra những thư mục nào đã được add vào local stage ở nhánh đang đứng
+- git commit -m "@message": commit những thứ đã được add vào stage trước đó -- ví dụ: git commit -m "DuyNT58 update create ve-may-bay"
+- git push origin @tennhanh: push những thứ đã được commit lên nhánh cần push -- ví dụ: git push origin thanh-toan
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#LƯU Ý QUAN TRỌNG: 
+# VỀ PUSH GIT: 
+1. mọi người khi push git chỉ push trong phạm vi folder "src", không push folder "node-modules" lên source git, các tệp khác nếu nằm ngoài node-modules mà cần push lên thì nhắn trực tiếp Duy hoặc Thành để nắm tình hình nha
+2. Nhớ trước khi push thì pull về và fix conflict (nếu có) rồi mới push lại
+# VỀ MERGE GIT: mọi người đẩy source code lên nhánh cá nhân của mình và tạo pull request để Duy hoặc Thành merge vào nhánh dev, khi nào hoàn thiện dự án mới tính đến merge vào main
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
