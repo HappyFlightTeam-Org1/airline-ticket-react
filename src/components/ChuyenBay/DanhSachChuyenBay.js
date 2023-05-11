@@ -5,9 +5,8 @@ const DanhSachChuyenBay = () => {
     <div className="container-fluid">
       <Link
         as={Link}
-        to="/ThemChuyenBay"
+        to="/ThemMoiChuyenBay"
         className="text-white"
-       
       >
         <button className="btn btn-success">Thêm mới</button>
       </Link>
@@ -46,7 +45,7 @@ const DanhSachChuyenBay = () => {
             <td>
               <Link
                 as={Link}
-                to="/editCB"
+                to="/CapNhatChuyenBay"
                 className="text-white"
               >
                 <button className="btn btn-success">Chỉnh Sửa</button>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const TimKiemChuyenBay = () => {
+import DSTimKiemCBCSS from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
+const DanhSachTimKiemChuyenBay = () => {
   return (
     <div className="container my-4 xxx  ">
       <h3 style={{ color: "orange" }}>Thông tin chuyến bay (3 KẾT QUẢ)</h3>
@@ -47,7 +48,7 @@ const TimKiemChuyenBay = () => {
                       <p className="card-text">Giá: TỪ 866,000 VND</p>
                       <Link
                         as={Link}
-                        to="/addTikets"
+                        to="/ThongTinKhachHangDatVe"
                         className="text-white"
                         style={{ textDecoration: "none" }}
                       >
@@ -69,7 +70,7 @@ const TimKiemChuyenBay = () => {
                       <p className="card-text">Giá: TỪ 3,319,000 VND</p>
                       <Link
                         as={Link}
-                        to="/addTikets"
+                        to="/ThongTinKhachHangDatVe"
                         className="text-white"
                         style={{ textDecoration: "none" }}
                       >
@@ -220,9 +221,4 @@ const TimKiemChuyenBay = () => {
     </div>
   );
 };
-export default TimKiemChuyenBay;
-// import CapNhatChuyenBay from './components/ChuyenBay/CapNhatChuyenBay';
-// import DanhSachChuyenBay  from './components/ChuyenBay/DanhSachChuyenBay';
-// import ThemMoiChuyenBay from './components/ChuyenBay/ThemMoiChuyenBay';
-// import TimKiemChuyenBay from './components/ChuyenBay/TimKiemChuyenBay';
-// import ThongTinKhachHangDatVe from './components/DatVeMayBay/ThongTinKhachHangDatVe';
+export default DanhSachTimKiemChuyenBay;

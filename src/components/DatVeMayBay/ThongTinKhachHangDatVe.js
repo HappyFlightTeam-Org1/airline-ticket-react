@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
-
+import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 const BookingForm = () => {
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
@@ -58,10 +57,10 @@ const BookingForm = () => {
     const listCustomer = localStorage.getItem("myData");
     console.log(listCustomer);
     try {
-      const response = await axios.post("/api/bookings", {
-        listCustomer,
-      });
-      console.log(response.data);
+      //   const response = await axios.post("/api/bookings", {
+      //     listCustomer,
+      //   });
+      //   console.log(response.data);
       alert("Đặt vé thành công!");
     } catch (error) {
       console.log(error);
@@ -78,7 +77,10 @@ const BookingForm = () => {
           <div className="col-6 m-3">
             <div>
               <div className="card">
-                <div className="card-header  text-white">
+                <div
+                  className="card-header  text-white"
+                  style={{ backgroundColor: "orange" }}
+                >
                   <h3> Thông Tin Hành Khách</h3>
                 </div>
                 <div className="card-body">
