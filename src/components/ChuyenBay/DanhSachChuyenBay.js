@@ -1,13 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const DanhSachChuyenBay = () => {
+function DanhSachChuyenBay() {
   return (
     <div className="container-fluid">
-      <Link
-        as={Link}
-        to="/ThemMoiChuyenBay"
-        className="text-white"
-      >
+      <div style={{ height: "10px" }}></div>
+      <Link as={Link} to="/ThemMoiChuyenBay" className="text-white">
         <button className="btn btn-success">Thêm mới</button>
       </Link>
       <table className="table table-hover">
@@ -43,11 +40,197 @@ const DanhSachChuyenBay = () => {
             <td>A320</td>
             <td>Đã hoàn thành</td>
             <td>
-              <Link
-                as={Link}
-                to="/CapNhatChuyenBay"
-                className="text-white"
-              >
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
+                <button className="btn btn-success">Chỉnh Sửa</button>
+              </Link>
+            </td>
+          </tr>{" "}
+          <tr>
+            <td>CB001</td>
+            <td>Hà Nội</td>
+            <td>TP.HCM</td>
+            <td>2023-05-10</td>
+            <td>08:00</td>
+            <td>10:00</td>
+            <td>Vietnam Airlines</td>
+            <td>2 giờ</td>
+            <td>1.000.000 VNĐ</td>
+            <td>20 kg</td>
+            <td>A320</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <Link as={Link} to="/CapNhatChuyenBay" className="text-white">
                 <button className="btn btn-success">Chỉnh Sửa</button>
               </Link>
             </td>
@@ -56,5 +239,5 @@ const DanhSachChuyenBay = () => {
       </table>
     </div>
   );
-};
+}
 export default DanhSachChuyenBay;

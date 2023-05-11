@@ -2,11 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Commons/Navbar";
 import Body from "./components/Commons/Body";
 import Footer from "./components/Commons/Footer";
-import CapNhatChuyenBay from "./components/ChuyenBay/CapNhatChuyenBay";
-import DanhSachChuyenBay from "./components/ChuyenBay/DanhSachChuyenBay";
-import ThemMoiChuyenBay from "./components/ChuyenBay/ThemMoiChuyenBay";
-import TimKiemChuyenBay from "./components/ChuyenBay/DanhSachTimKiemChuyenBay";
-import ThongTinKhachHangDatVe from "./components/DatVeMayBay/ThongTinKhachHangDatVe";
+import CapNhatChuyenBay from "./components/ChuyenBay/CapNhatChuyenBay.js";
+import DanhSachChuyenBay from "./components/ChuyenBay/DanhSachChuyenBay.js";
+import ThemMoiChuyenBay from "./components/ChuyenBay/ThemMoiChuyenBay.js";
+import TimKiemChuyenBay from "./components/ChuyenBay/DanhSachTimKiemChuyenBay.js";
+import ThongTinKhachHangDatVe from "./components/DatVeMayBay/ThongTinKhachHangDatVe.js";
 
 function Controller() {
   return (

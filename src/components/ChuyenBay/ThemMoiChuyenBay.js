@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const ThemMoiChuyenBay = () => {
+function ThemMoiChuyenBay ()  {
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
