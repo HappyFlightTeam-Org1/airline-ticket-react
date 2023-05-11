@@ -1,7 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DSTimKiemCBCSS from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
-const DanhSachTimKiemChuyenBay = () => {
+function DanhSachTimKiemChuyenBay() {
+  const location = useLocation();
+  const data = location.state;
+  console.log(data);
+
   return (
     <div className="container my-4 xxx  ">
       <h3 style={{ color: "orange" }}>Thông tin chuyến bay (3 KẾT QUẢ)</h3>
@@ -220,5 +224,5 @@ const DanhSachTimKiemChuyenBay = () => {
       </div>
     </div>
   );
-};
+}
 export default DanhSachTimKiemChuyenBay;

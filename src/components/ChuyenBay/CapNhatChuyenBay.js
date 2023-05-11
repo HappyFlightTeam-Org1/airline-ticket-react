@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-
-const CapNhatChuyenBay = () => {
+function CapNhatChuyenBay() {
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
@@ -162,7 +160,7 @@ const CapNhatChuyenBay = () => {
                 <div className="form-group text-center mt-2">
                   <Link
                     as={Link}
-                    to="/TBCB"
+                    to="/DanhSachChuyenBay"
                     className="text-white"
                   >
                     <a href="" className="btn btn-success">
@@ -177,5 +175,5 @@ const CapNhatChuyenBay = () => {
       </div>
     </div>
   );
-};
+}
 export default CapNhatChuyenBay;

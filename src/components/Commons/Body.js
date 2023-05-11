@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Css from "../../Controller.css";
-import ThongTinKhachHangDatyVe from "../DatVeMayBay/ThongTinKhachHangDatVe";
+import BookingForm from "../DatVeMayBay/ThongTinKhachHangDatVe.js";
+import DanhSachTimKiemChuyenBay from "../ChuyenBay/DanhSachTimKiemChuyenBay.js";
 
 export default function Body() {
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
-  const [infoNguoiLon, setInfoNguoiLon] = useState([]);
-  const [infoTreEm, setInfoTreEm] = useState([]);
-  const [infoEmBe, setInfoEmBe] = useState([]);
+  const [soNguoiLon, setSoNguoiLon] = useState(0);
+  const [soTreEm, setSoTreEm] = useState(0);
+  const [soEmBe, setSoEmBe] = useState(0);
 
   // Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
@@ -25,33 +26,32 @@ export default function Body() {
 
   // Chọn số người lớn
   const chonSoNguoiLon = (event) => {
-    const nguoiLon = [];
-    for (let i = 0; i < event.target.value; i++) {
-      nguoiLon.push({ name: "", birthDay: "", gender: "", idCard: "" });
-    }
-    setInfoNguoiLon(nguoiLon);
+    setSoNguoiLon(event.target.value);
   };
 
   // Chọn số trẻ em
   const chonSoTreEm = (event) => {
-    const treEm = [];
-    for (let i = 0; i < event.target.value; i++) {
-      treEm.push({ name: "", birthDay: "", gender: "" });
-    }
-    setInfoTreEm(treEm);
+    setSoTreEm(event.target.value);
   };
 
   // Chọn số em bé
   const chonSoEmBe = (event) => {
-    const emBe = [];
-    for (let i = 0; i < event.target.value; i++) {
-      emBe.push({ name: "", birthDay: "", gender: "" });
-    }
-    setInfoEmBe(emBe);
+    setSoEmBe(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
   };
 
   return (
-    <div>
+    <>
+      {false && (
+        <BookingForm
+          soNguoiLon={soNguoiLon}
+          soTreEm={soTreEm}
+          soEmBe={soEmBe}
+        />
+      )}
       <section>
         <div className="silde">
           <div
@@ -106,7 +106,10 @@ export default function Body() {
             </div>
           </div>
           <div className="search">
-            <form className="row justify-content-center">
+            <form
+              className="row justify-content-center"
+              onSubmit={handleSubmit}
+            >
               <div className="form-group col-md-2">
                 <label htmlFor="loaiChuyenBay">Loại chuyến bay</label>
                 <select
@@ -179,6 +182,7 @@ export default function Body() {
                   type="number"
                   name="adults"
                   className="form-control"
+                  onChange={chonSoNguoiLon}
                 />
               </div>
               <div className="form-group col-md-3">
@@ -188,6 +192,7 @@ export default function Body() {
                   type="number"
                   className="form-control"
                   name="children"
+                  onChange={chonSoTreEm}
                 />
               </div>
               <div className="form-group col-md-2">
@@ -197,21 +202,21 @@ export default function Body() {
                   type="number"
                   className="form-control"
                   name="baby"
+                  onChange={chonSoEmBe}
                 />
               </div>
               <div className="form-group col-md-2 text-center">
                 <div className="text-white">
-                  <Link as={Link} to="TimKiemChuyenBay" className="text-white">
-                    <button type="submit" className="btn btn-success">
-                      Tìm Chuyến Bay
-                    </button>
-                  </Link>
+                  <button type="submit" className="btn btn-success">
+                    Tìm Chuyến Bay
+                  </button>
                 </div>
               </div>
             </form>
           </div>
         </div>
       </section>
+
       <main className="container my-5">
         <hr />
         <div className="row">
@@ -358,6 +363,6 @@ export default function Body() {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

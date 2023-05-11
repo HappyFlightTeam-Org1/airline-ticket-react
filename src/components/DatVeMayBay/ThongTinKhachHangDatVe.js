@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
-const BookingForm = () => {
+
+function BookingForm(props) {
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
+
+  useEffect(() => {
+    const adults = [];
+    for (let i = 0; i < props.soNguoiLon; i++) {
+      adults.push({ name: "", birthDay: "", gender: "", idCard: "" });
+    }
+    setAdultsInfo(adults);
+  }, [props.soNguoiLon]);
+
   const handleAdultCountChange = (event) => {
     const adults = [];
     for (let i = 0; i < event.target.value; i++) {
@@ -389,5 +399,5 @@ const BookingForm = () => {
       </div>
     </div>
   );
-};
+}
 export default BookingForm;
