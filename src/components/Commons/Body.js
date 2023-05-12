@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 
 export default function Body() {
   return (
@@ -28,6 +28,12 @@ export default function Body() {
     </div>
     <div className="search">
       <form className="row justify-content-center">
+      <div className="form-group col-md-4">
+
+      </div>
+      <div className="form-group col-md-2" style={{marginTop:"25px"}} >
+          <h3>Tìm Nhanh</h3>
+        </div>
       <div className="form-group col-md-2">
           <label htmlFor="flightType">Loại chuyến bay</label>
           <select id="flightType" className="form-control" name="flightType">
@@ -35,6 +41,9 @@ export default function Body() {
             <option value="Khứ Hồi">Khứ Hồi</option>
           </select>
         </div>
+        <div className="form-group col-md-4">
+
+      </div>
         <div className="form-group col-md-3"> <label htmlFor="fromCity">Điểm đi</label>
           <select id="fromCity" type="text" className="form-control" name="fromCity">
             <option>Sân Bay Nội Bài</option>
@@ -50,27 +59,29 @@ export default function Body() {
             <option>Sân Bay Tân Sơn Nhất</option>
           </select>
         </div>
-        <div className="form-group col-md-2"> <label htmlFor="departureDate">Ngày đi</label>
+        <div className="form-group col-md-3"> <label htmlFor="departureDate">Ngày đi</label>
           <input id="departureDate" type="date" className="form-control" name="departureDate" />
         </div>
-        <div className="form-group col-md-2"> <label htmlFor="returnDate" id="label_return_date"> Ngày về </label> <input
+        <div className="form-group col-md-3"> <label htmlFor="returnDate" id="label_return_date"> Ngày về </label> <input
             type="date" className="form-control" name="returnDate" id="return_date" />
        </div>
-       <div className="form-group col-md-2" style={{marginTop:"25px"}} >
-          <h3>Tìm Nhanh</h3>
-        </div>
-        <div className="form-group col-md-3"> <label htmlFor="adults">Người lớn (trên 12 tuổi)</label>
+
+        <div className="form-group col-md-3">
+           <label htmlFor="adults">Người lớn</label>
           <input id="adults" type="number" name="adults" className="form-control"  />
         </div>
         <div className="form-group col-md-3"> <label htmlFor="children">Trẻ em (dưới 12 tuổi)</label> <input id="children"
             type="number" className="form-control" name="children" /> </div>
-        <div className="form-group col-md-2"> <label htmlFor="baby">Em bé (dưới 24 tháng)</label> <input id="baby"
+        <div className="form-group col-md-3"> <label htmlFor="baby">Em bé (dưới 24 tháng)</label> <input id="baby"
             type="number" className="form-control" name="baby" />
         </div>
-        <div className="form-group col-md-2 text-center">
+        <div className="form-group col-md-3 text-center">
                <div className="text-white" >
                   <button type="submit" className="btn btn-success"> Tìm Chuyến Bay </button>
                </div>
+        </div>
+        <div className="form-group col-md-1">
+
         </div>
       </form>
     </div>
@@ -91,7 +102,7 @@ export default function Body() {
   </div>
   <hr />
   <h2 className="text-center mb-5">Dịch vụ của chúng tôi</h2>
-  <div className="row">
+  <div className="row slideanim">
     <div className="col-md-4 mb-5">
       <div className="card h-100"> <img
           src="https://img.freepik.com/free-photo/air-ticket-flight-booking-concept_53876-132659.jpg?size=626&ext=jpg&ga=GA1.1.1656001097.1679482179&semt=robertav1_2_sidr"
@@ -164,7 +175,6 @@ export default function Body() {
     </div>
   </div>
 </main>
-
     </div>
   )
 }
