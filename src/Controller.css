@@ -1,91 +1,82 @@
-header img {
-  width: 200px;
-  height: 50px;
-}
-.nav-link {
-  color: #ffffff !important; /* Màu trắng */
-}
-.login {
-  margin-left: 40%;
-}
-.silde img {
-  width: 100%;
-  height: 500px;
-}
-.silde {
-  position: relative;
+:root {
+  --cardBG: rgb(251, 244, 246);
+  --textColor: hsl(240, 4%, 36%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --gradientColor: linear-gradient(
+    to right,
+    hsl(187, 85%, 43%),
+    hsl(199, 100%, 33%)
+  );
+  --gradientColor1: linear-gradient(
+    to right,
+    hsl(187, 95%, 31%),
+    hsl(199, 97%, 26%)
+  );
 }
 
-footer {
-  background: rgb(58, 56, 56);
-  margin-top: 50px;
-  padding-top: 20px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-.footer-about-us img {
-  width: 50%;
-  height: 70px;
+a {
+  text-decoration: none !important;
 }
-
-.footer-about-us p {
+.logoDiv a {
   color: white;
 }
-
-.footer-social i {
-  color: rgb(0, 145, 255);
-  font-size: 25px;
-  background-color: whitesmoke;
-  margin-left: 5px;
-  padding: 0 2px;
-  border-radius: 2px;
+li {
+  list-style: none;
 }
 
-.footer-menu {
-  color: whitesmoke;
+.section {
+  padding: 2rem 0 2rem;
 }
 
-.footer-menu a {
-  text-decoration: none;
+.container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.footer-bottom {
-  background-color: rgb(11, 11, 11);
-  margin-top: 50px;
-  padding-top: 20px;
-  color: whitesmoke;
-  padding-bottom: 20px;
+i {
+  font-size: 2rem;
+  cursor: pointer;
 }
 
-.footer-card-icon i {
-  font-size: 35px;
+.flex {
+  display: flex;
+  align-items: center;
 }
 
-.footer-newsletter {
-  color: whitesmoke;
+.grid {
+  display: grid;
+  align-items: center;
 }
 
-.google {
-  width: 300px;
-  height: 200px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 3rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.nn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 3rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.btn a {
+  color: white;
+  font-weight: 500;
+  color: blue;
 }
 
-.card_gym {
-  margin-top: 20px;
-  margin-bottom: 20px;
+img,
+video {
+  width: 100%;
+  height: auto;
 }
-
-.search {
-  position: absolute;
-  padding: 20px;
-   top:20px;
-   left: 10%;
-   width: 80%;
-   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-   border: 1px solid #ccc; border-radius: 10px;
-   background-color: rgba(255, 255, 255, 0.7);
-   }
-  .text-white {
-      margin-top: 24px;
-   }
