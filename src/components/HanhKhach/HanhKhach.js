@@ -2,18 +2,18 @@ import './HanhKhach.css';
 
 function HanhKhach() {
     return (
-        <div class='container table-shadow'>
-        <h1 class="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
-        <form class="row justify-content-center search">
-            <div class="form-group col-md-2 ">
+        <div className='container table-shadow'>
+        <h1 className="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
+        <form className="row justify-content-center search">
+            <div className="form-group col-md-2 ">
                 <h5>Tìm Kiếm</h5>
             </div>
-            <div class="form-group col-md-2"> <input id="adults" type="text" name="adults" class="form-control"
-                    placeholder="Tên hành khách" /> </div>
+            <div className="form-group col-md-2"> <input id="adults" type="text" name="adults" className="form-control"
+                    placeholder="Tên hành khách"></input> </div>
 
-            <div class="form-group col-md-2 "> <button type="submit" class="btn btn-success"> Tìm Kiếm</button> </div>
+            <div className="form-group col-md-2 "> <button type="submit" className="btn btn-success"> Tìm Kiếm</button> </div>
         </form>
-        <table class="table table-striped">
+        <table className="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Mã Hành khách</th>
@@ -70,14 +70,14 @@ function HanhKhach() {
                 </tr>
             </tbody>
         </table>
-        <div class="pagination">
+        <div className="pagination">
             <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item disabled"> <span class="page-link">Previous</span> </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active" aria-current="page"> <span class="page-link">2</span> </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
+                <ul className="pagination">
+                    <li className="page-item disabled"> <span className="page-link">Previous</span> </li>
+                    <li className="page-item"><a className="page-link" href="#">1</a></li>
+                    <li className="page-item active" aria-current="page"> <span className="page-link">2</span> </li>
+                    <li className="page-item"><a className="page-link" href="#">3</a></li>
+                    <li className="page-item"> <a className="page-link" href="#">Next</a> </li>
                 </ul>
             </nav>
         </div>

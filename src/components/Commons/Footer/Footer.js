@@ -11,10 +11,6 @@ export default function Footer() {
    }, [])
    return (
       <section className='footer'>
-         <div className='videoDiv'>
-            <video className='video' src={video1} loop autoPlay muted type="video/mp4"></video>
-         </div>
-
          <div className='secContent '>
             <div className='contactDiv flex'>
                <div data-aos="fade-up" className='text'>
@@ -31,12 +27,12 @@ export default function Footer() {
             </div>
             <div className='footerCard flex'>
                <div className='footerIntro flex'>
-                  <div data-aos="fade-up" className='logoDiv'>
+                  {/* <div data-aos="fade-up" className='logoDiv'>
                      <a href='#' className='logo flex'>
                         <i class='bx bxs-plane-alt'></i>
                         <h2>Fresher</h2>
                      </a>
-                  </div>
+                  </div> */}
                   <div data-aos="fade-up" className='footerParagraph'>
                      Đăng ký E-Newsletter để cập nhật các thông tin, ưu đãi mới nhất từ Fresher Airlines.
                      (Không bao gồm các thông tin, ưu đãi từ chương trình Bông Sen Vàng)<br></br>

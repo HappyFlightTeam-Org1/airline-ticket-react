@@ -11,7 +11,7 @@ function TimKiemVe() {
                     <div className="form-group d-flex justify-content-center align-items-center">
                         <div className="form-group col-md-2">
                             <input id="maHoaDon" type="text" name="maHoaDon" className="form-control"
-                                placeholder="Nhập mã hóa đơn" value="OD-02929399" />
+                                placeholder="Nhập mã hóa đơn" value="" />
                         </div>
 
                         <div className="form-group col-md-2 d-flex justify-content-center">
@@ -37,7 +37,7 @@ function TimKiemVe() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class="align-middle">
                         <th scope="row">TK-001</th>
                         <td>Nguyen Van A</td>
                         <td>02-06-2023</td>
@@ -49,10 +49,9 @@ function TimKiemVe() {
                         <td>Đã Thanh Toán</td>
                         <td>
                             <button className="btn btn-primary " type="submit">In</button>
-                            <button className="btn btn-danger " type="submit">Huỷ</button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="align-middle">
                         <th scope="row">TK-002</th>
                         <td>Nguyen Van B</td>
                         <td>02-06-2023</td>
@@ -64,10 +63,9 @@ function TimKiemVe() {
                         <td>Đã Thanh Toán</td>
                         <td>
                             <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit">Huỷ</button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="align-middle">
                         <th scope="row">TK-005</th>
                         <td>Nguyen Van E</td>
                         <td>02-06-2023</td>
@@ -79,7 +77,6 @@ function TimKiemVe() {
                         <td>Đã Thanh Toán</td>
                         <td>
                             <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit">Huỷ</button>
                         </td>
                     </tr>
                 </tbody>

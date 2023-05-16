@@ -73,7 +73,7 @@ export default function Home() {
                                         <input type='number' min="0"></input>
                                    </div>
                               </div>
-                              <div className='searchOptions flex'>
+                              <div className='searchOptions flex mt-3'>
                                    <button type="submit" className="btn btn-success"> Tìm Chuyến Bay </button>
                               </div>
                          </div>
