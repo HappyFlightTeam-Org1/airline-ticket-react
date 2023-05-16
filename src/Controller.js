@@ -10,6 +10,7 @@ import ThongTinKhachHangDatVe from "./components/DatVeMayBay/ThongTinKhachHangDa
 import LichSuDatVe from "./components/VeMayBay/LichSuDatVe/LichSuDatVe.js";
 import TimKiemVe from "./components/VeMayBay/TimKiemVe/TimKiemVe.js";
 import "./Controller.css";
+import HoaDon from "./components/ThanhToan/HoaDon.js";
 
 function Controller() {
   return (
@@ -31,6 +32,10 @@ function Controller() {
               path="ThongTinKhachHangDatVe"
               element={<ThongTinKhachHangDatVe />}
             />
+            <Route path="ThanhToan" element={<HoaDon />} />
+          </Route>
+          {/* Vé máy bay */}
+          <Route>
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
           </Route>
