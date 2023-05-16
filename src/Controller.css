@@ -2,6 +2,7 @@
   --cardBG: rgb(251, 244, 246);
   --textColor: hsl(240, 4%, 36%);
   --whiteColor: hsl(0, 0%, 100%);
+  --blueColor: hsl(227, 86%, 50%);
   --gradientColor: linear-gradient(
     to right,
     hsl(187, 85%, 43%),
