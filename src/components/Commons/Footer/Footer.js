@@ -112,23 +112,23 @@ export default function Footer() {
                   </div>
                   <div data-aos="fade-up" data-aos-duration="3000" className='linkGroup '>
                      <span className='groupTitle'>
-                        Mua hành lý xuất ăn
+                     Để có chuyến bay tốt đẹp
                      </span>
                      <li className='footerList flex'>
                         <i class='bx bxs-chevron-right icon'></i>
-                        Chọn chỗ ngồi ưu tiên
+                        Điều lệ vận chuyển
                      </li>
                      <li className='footerList flex'>
                         <i class='bx bxs-chevron-right icon'></i>
-                        Mua trước hành lý
+                        Phiếu yêu cầu hoàn vé
                      </li>
                      <li className='footerList flex'>
                         <i class='bx bxs-chevron-right icon'></i>
-                        Đặt trước xuất ăn
+                        Kênh thanh toán
                      </li>
                      <li className='footerList flex'>
                         <i class='bx bxs-chevron-right icon'></i>
-                        Quà lưu niệm
+                        Hóa đơn VAT
                      </li>
                   </div>
                </div>
