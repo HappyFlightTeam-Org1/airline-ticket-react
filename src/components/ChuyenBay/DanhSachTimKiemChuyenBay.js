@@ -11,7 +11,19 @@ function DanhSachTimKiemChuyenBay() {
       <h3 style={{ color: "orange" }}>Thông tin chuyến bay (3 KẾT QUẢ)</h3>
       <hr />
       <div className="row my-4 ">
-        <div className="col-md-12 pd-5">
+         <div className="col-md-2 bg-primary ">
+         <div class="dropdown mt-2 ms-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Sắp Xếp Theo
+            </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+</div>
+         </div>
+        <div className="col-md-10 pd-5">
           <div className="card my-2 hover-ds">
             <div className="card-body ">
               <div className="row ">
@@ -88,10 +100,6 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="row my-4">
-        <div className="col-md-12 pd-5">
           <div className="card my-2 hover-ds">
             <div className="card-body">
               <div className="row">
@@ -154,10 +162,6 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="row my-4">
-        <div className="col-md-12 pd-5">
           <div className="card my-2 hover-ds">
             <div className="card-body">
               <div className="row">
