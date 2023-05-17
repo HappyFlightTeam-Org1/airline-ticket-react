@@ -45,7 +45,7 @@ function LichSuDatVe() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-001</th>
                         <td>Nguyen Van A</td>
                         <td>02-06-2023</td>
@@ -60,7 +60,7 @@ function LichSuDatVe() {
                             <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
                         </td>
                     </tr>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-002</th>
                         <td>Nguyen Van B</td>
                         <td>02-06-2023</td>
@@ -75,7 +75,7 @@ function LichSuDatVe() {
                             <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
                         </td>
                     </tr>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-003</th>
                         <td>Nguyen Van C</td>
                         <td>02-06-2023</td>
@@ -90,7 +90,7 @@ function LichSuDatVe() {
                             <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
                         </td>
                     </tr>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-004</th>
                         <td>Nguyen Van D</td>
                         <td>02-06-2023</td>
@@ -140,14 +140,14 @@ function LichSuDatVe() {
                 </nav>
             </div>
 
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-white" id="staticBackdropLabel">XÁC NHẬN</h5>
-                            <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-danger">
+                            <h5 className="modal-title text-white" id="staticBackdropLabel">XÁC NHẬN</h5>
+                            <button type="button" className="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <div>
                                 <h5>Bạn thực sự muốn hủy vé mày?</h5>
                                 <span>- Mã vé: TK001</span>
@@ -155,9 +155,9 @@ function LichSuDatVe() {
                                 <span>- Hành khách: Nguyen Van A</span>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
-                            <button type="button" class="btn btn-warning">Xác nhận</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                            <button type="button" className="btn btn-warning">Xác nhận</button>
                         </div>
                     </div>
                 </div>
@@ -168,4 +168,3 @@ function LichSuDatVe() {
     );
 }
 export default LichSuDatVe;
-
