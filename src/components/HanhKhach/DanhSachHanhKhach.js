@@ -7,7 +7,7 @@ function HanhKhach() {
   useEffect(() => {
     axios
       // Api tạm thời để test DucNH66
-      .get("http://localhost:8080/VeMayBay/list")
+      .get("http://localhost:8080/hanh-khach/list")
       .then((response) => {
         setListKH(response.data);
       })
@@ -15,7 +15,7 @@ function HanhKhach() {
   }, []);
 
   return (
-    <div className="container ">
+    <div className="container hanhkhach ">
       <h1 className="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
       <form className="row justify-content-center search">
         <div className="form-group col-md-2 ">
