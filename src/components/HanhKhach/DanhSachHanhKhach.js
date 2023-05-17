@@ -15,7 +15,7 @@ function HanhKhach() {
   }, []);
 
   return (
-    <div className="container ">
+    <div className="container hanhkhach ">
       <h1 className="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
       <form className="row justify-content-center search">
         <div className="form-group col-md-2 ">

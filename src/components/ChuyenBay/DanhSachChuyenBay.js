@@ -14,7 +14,7 @@ function DanhSachChuyenBay() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container chuyenbay">
       <h1>DANH SÁCH CHUYẾN BAY</h1>
       <hr />
       <form class="row justify-content-center search">
