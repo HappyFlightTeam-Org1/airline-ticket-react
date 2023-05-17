@@ -1,6 +1,4 @@
-.login {
-  margin-left: 40%;
-}
+
 header {
   background: var(--gradientColor);
 }
@@ -9,6 +7,7 @@ header {
 }
 .menu {
   margin-left: 5%;
+  width: 80%;
 }
 .navbar {
   box-shadow: 0 2px 10px rgba(2, 15, 29, 0.5);
