@@ -9,6 +9,7 @@ import TimKiemChuyenBay from "./components/ChuyenBay/DanhSachTimKiemChuyenBay.js
 import ThongTinKhachHangDatVe from "./components/DatVeMayBay/ThongTinKhachHangDatVe.js";
 import LichSuDatVe from "./components/VeMayBay/LichSuDatVe/LichSuDatVe.js";
 import TimKiemVe from "./components/VeMayBay/TimKiemVe/TimKiemVe.js";
+import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import "./Controller.css";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 
@@ -38,6 +39,11 @@ function Controller() {
           <Route>
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
+          </Route>
+             {/* Quản lý người dùng và thống kê */}
+             <Route>
+            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung/>} />
+
           </Route>
         </Routes>
         <Footer />
