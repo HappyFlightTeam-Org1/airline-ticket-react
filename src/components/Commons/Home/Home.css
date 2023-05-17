@@ -1,0 +1,274 @@
+
+.home{
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  margin: auto;
+
+  .overlay{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    mix-blend-mode: hard-light;
+  }
+  .video{
+    position: absolute;
+    height: 95%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    object-fit: cover;
+  }
+  .homeContent{
+        width: 100%;
+        height: max-content;
+        padding: 2rem 1.5rem 3rem;
+        display: flex;
+        row-gap: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        margin: auto;
+        z-index: 100;
+        color: white;
+
+        .texDiv{
+           padding: 2rem 0;
+            .smallText{
+              font-size: 13px;
+              text-transform: uppercase;
+            }
+            .homeTitle{
+              position: relative;
+              font-size: 1.8rem;
+            }
+        }
+        .cardDiv{
+          position: relative;
+          padding: 1rem 1rem 3rem;
+          background-color: rgba(255, 255, 255, 0.7);
+          border-radius: 10px;
+
+
+          .label{
+            display: block;
+            color: black;
+            padding-bottom: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 10px;
+          }
+          .input{
+            height: 40px;
+            padding: 0 1rem;
+            border-radius: 3rem;
+            background-color: rgba(255, 255, 255, 0.7);
+
+          }
+          .select{
+            height: 40px;
+            padding: 0 1rem;
+            border-radius: 3rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            width: 100%;
+          }
+
+          .input input{
+                background: none;
+                border: none;
+                outline: none;
+                width: 100%;
+                font-size: 13px;
+          }
+          .icon{
+            font-size: 18px;
+            color: black;
+            margin-left: 10px;
+          }
+          .searchOptions{
+            position: absolute;
+            width: max-content;
+            bottom: -1.4rem;
+            column-gap: .8rem;
+            padding: 5px 1rem;
+            left: 50%;
+            transform: translate(-50%);
+          }
+          .searchOptions button{
+            color: white;
+            background: var(--gradientColor);
+            &:hover{
+              background: var(--gradientColor1);
+            }
+          }
+        }
+        .homeFooterIcons{
+          width: 100%;
+          justify-content: space-between;
+
+          .icon{
+            font-size: 20px;
+            margin: 0 5px;
+            font-weight: 600;
+
+            &:hover{
+                 color: blue;
+            }
+          }
+        }
+  }
+}
+@media screen and (min-width: 769px){
+.home{
+        .homeContent{
+              .textDiv{
+                   .smallText{
+                     font-size: 16px;
+                   }
+                   .homeTitle{
+                     position: relative;
+                     font-size: 2.3rem;
+                     width: max-content;
+
+                      &::after{
+                        position: absolute;
+                        content: '';
+                        height: 5px;
+                        width: 145px ;
+                        right: 0px;
+                        bottom: 5px;
+                        z-index: -1;
+                      }
+                   }
+              }
+              .cardDiv{
+               grid-template-columns: repeat(4,1fr);
+               column-gap: 1rem;
+            }
+        }
+  }
+}
+.main{
+  width: 100%;
+   .secTitle{
+      .title{
+        position: relative;
+        width: max-content;
+        margin: 1rem 0;
+        z-index: 2;
+
+        &::after{
+          position: absolute;
+          content: '';
+        }
+      }
+   }
+   .secContent{
+     justify-content: center;
+     gap: 1.5rem;
+
+     .single{
+        height: 100%;
+        display: grid;
+        row-gap: 10px;
+        border-radius: 10px;
+        align-items: center;
+        background: var(--cardBG);
+        box-shadow: 0 2px 4px rgba(140, 140, 141, 0.549);
+        overflow: hidden;
+        padding: 2rem;
+
+        &:hover{
+          background:  rgb(229, 206, 212);
+          box-shadow: 0 4px 4px rgba(85, 85, 114, 0.549);
+          transition: .3s ease;
+        }
+        .imageDiv{
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+          .img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: 2s ease;
+          }
+          &:hover{
+            .img{
+              transform: scale(1.1);
+            }
+          }
+        }
+         .cardInfo{
+             padding: 1rem;
+
+             .destTitle{
+               font-size: 1.25rem;
+             }
+             .continent{
+               gap: .5rem;
+             }
+
+             .desc{
+              font-size: 13.5px;
+              color: var(--textColor);
+              font-weight: 500;
+             }
+             .btn{
+              margin-top: 1rem;
+              font-weight: 600;
+              gap: .5rem;
+              color: white;
+              background: var(--gradientColor);
+                 &:hover{
+                    background: var(--gradientColor1);
+              }
+             }
+         }
+     }
+   }
+}
+
+@media screen and (min-width: 769px) {
+     .main{
+          .secContent{
+            grid-template-columns: repeat(2,1fr);
+          }
+     }
+}
+@media screen and (min-width: 1140px) {
+     .main{
+          .secContent{
+            grid-template-columns: repeat(3,1fr);
+          }
+     }
+}
+.question{
+  width: 80%;
+  margin-left: 10%;
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  column-gap: 2%;
+     .textbox{
+      background: linear-gradient(to right, hsl(187, 50%, 62%),hsl(199, 59%, 39%));
+         &:hover{
+          background: linear-gradient(to right, hsl(187, 38%, 44%),hsl(199, 100%, 35%));
+          }
+          border-radius: 10px;
+          text-align: center;
+          padding: 1rem;
+          color: white;
+          margin-top: 10px;
+     }
+}
+.question h3 {
+  font-size: .8rem;
+}
+.bottom {
+   text-align: center;
+}
