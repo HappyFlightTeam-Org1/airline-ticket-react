@@ -91,8 +91,8 @@ function ThemMoiChuyenBay() {
                     >
                       <option value="">-- Chọn điểm đi --</option>
                       {sanBays.map((sanBay) => (
-                        <option key={sanBay.maSanBay} value={sanBay.maSanBay}>
-                          {sanBay.tenSanBay}
+                        <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                          {sanBay.thanhPho}
                         </option>
                       ))}
                     </select>
@@ -108,8 +108,8 @@ function ThemMoiChuyenBay() {
                     >
                       <option value="">-- Chọn điểm đến--</option>
                       {sanBays.map((sanBay) => (
-                        <option key={sanBay.maSanBay} value={sanBay.maSanBay}>
-                          {sanBay.tenSanBay}
+                        <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                          {sanBay.thanhPho}
                         </option>
                       ))}
                     </select>

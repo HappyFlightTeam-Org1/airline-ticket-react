@@ -104,8 +104,12 @@ function CapNhatChuyenBay() {
                     >
                       <option value="">-- Chọn điểm đi --</option>
                       {sanBays.map((sanBay) => (
-                        <option key={sanBay.maSanBay} value={sanBay.maSanBay}>
-                          {sanBay.tenSanBay}
+                        <option
+                          key={sanBay.maSanBay}
+                          selected="true"
+                          value={sanBay.thanhPho}
+                        >
+                          {sanBay.thanhPho}
                         </option>
                       ))}
                     </select>
@@ -121,8 +125,8 @@ function CapNhatChuyenBay() {
                     >
                       <option value="">-- Chọn điểm đến--</option>
                       {sanBays.map((sanBay) => (
-                        <option key={sanBay.maSanBay} value={sanBay.maSanBay}>
-                          {sanBay.tenSanBay}
+                        <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                          {sanBay.thanhPho}
                         </option>
                       ))}
                     </select>
@@ -185,16 +189,25 @@ function CapNhatChuyenBay() {
                     <select
                       name="maMayBay"
                       id="maMayBay"
-                      value={formData.maMayBay}
+                      defaultValue={formData.maMayBay}
                       onChange={handleInputChange}
                       className="form-control "
                     >
-                      <option value="">-- Chọn máy bay--</option>
-                      {mayBays.map((mayBay) => (
-                        <option key={mayBay.maMayBay} value={mayBay.maMayBay}>
-                          {mayBay.tenMayBay}
-                        </option>
-                      ))}
+                      {mayBays.map((maybay) =>
+                        maybay.maMayBay === formData.maMayBay ? (
+                          <option
+                            key={maybay.maMayBay}
+                            selected="true"
+                            value={maybay.maMayBay}
+                          >
+                            {maybay.tenMayBay}
+                          </option>
+                        ) : (
+                          <option key={maybay.maMayBay} value={maybay.maMayBay}>
+                            {maybay.tenMayBay}
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
                   <div className="col-md-6">
@@ -206,7 +219,6 @@ function CapNhatChuyenBay() {
                       onChange={handleInputChange}
                       className="form-control "
                     >
-                      <option value="">-- Chọn hãng bay--</option>
                       {hangBays.map((hangBay) => (
                         <option
                           key={hangBay.maHangBay}

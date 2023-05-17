@@ -93,8 +93,9 @@ function DanhSachChuyenBay() {
                 <td>{item.ngayKhoiHanh}</td>
                 <td>{item.gioKhoiHanh}</td>
                 <td>{item.gioHaCanh}</td>
-                <td>{item.giaVe}</td>
                 <td>{item.hangBay.tenHangBay}</td>
+
+                <td>{item.giaVe}</td>
                 <td>{item.trangThaiVanHanh}</td>
                 <td>
                   <Link
@@ -102,7 +103,7 @@ function DanhSachChuyenBay() {
                     to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
                     className="text-white"
                   >
-                    <button className="btn btn-success">Chỉnh Sửa</button>
+                    <button className="btn btn-success ">Sửa</button>
                   </Link>
                 </td>
               </tr>

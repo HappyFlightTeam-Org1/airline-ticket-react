@@ -7,7 +7,7 @@ function HanhKhach() {
   useEffect(() => {
     axios
       // Api tạm thời để test DucNH66
-      .get("http://localhost:8080/VeMayBay/list")
+      .get("http://localhost:8080/hanh-khach/list")
       .then((response) => {
         setListKH(response.data);
       })
