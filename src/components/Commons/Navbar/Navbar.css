@@ -1,11 +1,11 @@
 .login {
   margin-left: 40%;
 }
-header{
-  background:var(--gradientColor);
+header {
+  background: var(--gradientColor);
 }
 .nav-link {
-  color:white;
+  color: white;
 }
 .menu {
   margin-left: 5%;
