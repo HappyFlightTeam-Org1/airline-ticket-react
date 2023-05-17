@@ -1,0 +1,17 @@
+
+header {
+  background: var(--gradientColor);
+}
+.nav-link {
+  color: white;
+}
+.menu {
+  margin-left: 5%;
+  width: 80%;
+}
+.navbar {
+  box-shadow: 0 2px 10px rgba(2, 15, 29, 0.5);
+}
+.logoDiv img {
+  width: 10rem;
+}
