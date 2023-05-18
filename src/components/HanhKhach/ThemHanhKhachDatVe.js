@@ -1,42 +1,120 @@
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import * as Yup from "yup";
 
-function BookingForm(props) {
+const hanhKhachSchema = Yup.object().shape({
+  tenHanhKhach: Yup.string().required("Vui lòng nhập tên hành khách"),
+  // ngaySinh: Yup.date()
+  //   .required("Vui lòng chọn ngày sinh Em Bé ")
+  //   .max(new Date(), "Ngày sinh không được lớn hơn ngày hiện tại")
+  //   .test("age", "Người dùng phải nhỏ hơn 2 tuổi", function (value) {
+  //     const today3 = new Date();
+  //     const userBirthday3 = new Date(value);
+  //     const diffYears3 = today3.getFullYear() - userBirthday3.getFullYear();
+  //     const diffMonths3 = today3.getMonth() - userBirthday3.getMonth();
+  //     const diffDays3 = today3.getDate() - userBirthday3.getDate();
+
+  //     if (diffYears3 < 2) {
+  //       return true;
+  //     }
+
+  //     if (diffYears3 === 2 && diffMonths3 < 0) {
+  //       return true;
+  //     }
+  //     if (diffYears3 === 2 && diffMonths3 === 0 && diffDays3 <= 0) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }),
+  // ngaySinh: Yup.date()
+  //   .required("Vui lòng chọn ngày sinh Trẻ Em")
+  //   .max(new Date(), "Ngày sinh không được lớn hơn ngày hiện tại")
+  //   .test("age", "Người dùng phải từ 2 đến 12 tuổi", function (value) {
+  //     const today2 = new Date();
+  //     const userBirthday2 = new Date(value);
+  //     const diffYears2 = today2.getFullYear() - userBirthday2.getFullYear();
+  //     const diffMonths2 = today2.getMonth() - userBirthday2.getMonth();
+  //     const diffDays2 = today2.getDate() - userBirthday2.getDate();
+
+  //     if (diffYears2 >= 2 && diffYears2 <= 12) {
+  //       return true;
+  //     }
+
+  //     if (diffYears2 === 2 && diffMonths2 >= 0 && diffDays2 >= 0) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }),
+  // ngaySinh: Yup.date()
+  //   .required("Vui lòng chọn ngày sinh Người Lớn")
+  //   .max(new Date(), "Ngày sinh không được lớn hơn ngày hiện tại")
+  //   .test("age", "Người dùng phải lớn hơn 12 tuổi", function (value) {
+  //     const today = new Date();
+  //     const userBirthday = new Date(value);
+  //     const diffYears = today.getFullYear() - userBirthday.getFullYear();
+  //     const diffMonths = today.getMonth() - userBirthday.getMonth();
+  //     const diffDays = today.getDate() - userBirthday.getDate();
+  //     if (diffYears > 12) {
+  //       return true;
+  //     }
+  //     if (diffYears === 12 && diffMonths > 0) {
+  //       return true;
+  //     }
+  //     if (diffYears === 12 && diffMonths === 0 && diffDays >= 0) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }),
+  gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
+  // hoChieu: Yup.string().required("Vui lòng nhập số CMND/CCCD"),
+  // soDienThoai: Yup.string()
+  //   .required("Vui lòng nhập số điện thoại")
+  //   .matches(/^\+84/, 'Số điện thoại phải bắt đầu bằng "+84"'),
+});
+
+const ThongTinKhachHangDatVe = () => {
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const soNguoiLon = queryParams.get("soNguoiLon");
+  const soTreEm = queryParams.get("soTreEm");
+  const soEmBe = queryParams.get("soEmBe");
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const adults = [];
-    for (let i = 0; i < props.soNguoiLon; i++) {
-      adults.push({ name: "", birthDay: "", gender: "", idCard: "" });
+    for (let i = 0; i < soNguoiLon; i++) {
+      adults.push({
+        tenHanhKhach: "",
+        ngaySinh: "",
+        gioiTinh: "",
+        hoChieu: "",
+        soDienThoai: "",
+      });
     }
     setAdultsInfo(adults);
-  }, [props.soNguoiLon]);
+  }, [soNguoiLon]);
 
-  const handleAdultCountChange = (event) => {
-    const adults = [];
-    for (let i = 0; i < event.target.value; i++) {
-      adults.push({ name: "", birthDay: "", gender: "", idCard: "" });
-    }
-    setAdultsInfo(adults);
-  };
-
-  const handleChildrenCountChange = (event) => {
+  useEffect(() => {
     const children = [];
-    for (let i = 0; i < event.target.value; i++) {
-      children.push({ name: "", birthDay: "", gender: "" });
+    for (let i = 0; i < soTreEm; i++) {
+      children.push({ tenHanhKhach: "", ngaySinh: "", gioiTinh: "" });
     }
     setChildrenInfo(children);
-  };
+  }, [soTreEm]);
 
-  const handleBabyCountChange = (event) => {
+  useEffect(() => {
     const babies = [];
-    for (let i = 0; i < event.target.value; i++) {
-      babies.push({ name: "", birthDay: "", gender: "" });
+    for (let i = 0; i < soEmBe; i++) {
+      babies.push({ tenHanhKhach: "", ngaySinh: "", gioiTinh: "" });
     }
     setBabyInfo(babies);
-  };
+  }, [soEmBe]);
 
   const handleAdultInfoChange = (event, index) => {
     const newAdultsInfo = [...adultsInfo];
@@ -58,23 +136,52 @@ function BookingForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const dataToSave = {
-      adultsInfo,
-      childrenInfo,
-      babyInfo,
-    };
-    localStorage.setItem("myData", JSON.stringify(dataToSave));
-    const listCustomer = localStorage.getItem("myData");
-    console.log(listCustomer);
+    const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
+      (hanhKhach) => {
+        return {
+          ...hanhKhach,
+          loaiHanhKhach: getCustomerType(hanhKhach),
+        };
+      }
+    );
     try {
-      //   const response = await axios.post("/api/bookings", {
-      //     listCustomer,
-      //   });
-      //   console.log(response.data);
-      alert("Đặt vé thành công!");
+      const validatedHanhKhachs = await Promise.all(
+        hanhKhachs.map((hanhKhach) =>
+          hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
+        )
+      );
+      await axios.post(
+        "http://localhost:8080/hanh-khach/save",
+        validatedHanhKhachs,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("Thành công!");
+      navigate("/DanhSachKhachHangDatVe");
     } catch (error) {
-      console.log(error);
-      alert("Đặt vé thất bại!");
+      if (error instanceof Yup.ValidationError) {
+        const errorMessages = {};
+        error.inner.forEach((err) => {
+          errorMessages[err.path] = err.message;
+        });
+        setErrors(errorMessages);
+      } else {
+        console.error(error);
+        alert("Đặt vé thất bại!");
+      }
+    }
+  };
+
+  const getCustomerType = (hanhKhach) => {
+    if (adultsInfo.includes(hanhKhach)) {
+      return "Người Lớn";
+    } else if (childrenInfo.includes(hanhKhach)) {
+      return "Trẻ Em";
+    } else {
+      return "Em Bé";
     }
   };
 
@@ -95,40 +202,6 @@ function BookingForm(props) {
                 </div>
                 <div className="card-body">
                   <form onSubmit={handleSubmit}>
-                    {/* Tạm Thời Tí Xoá */}
-                    <div className="form-group row">
-                      <div className="col-md-4">
-                        <label for="adults">Người lớn (trên =12 tuổi)</label>
-                        <input
-                          id="adults"
-                          type="number"
-                          name="adults"
-                          className="form-control"
-                          onChange={handleAdultCountChange}
-                        />
-                      </div>
-                      <div className="col-md-4">
-                        <label for="children">Trẻ em (dưới 12 tuổi)</label>
-                        <input
-                          id="children"
-                          type="number"
-                          className="form-control"
-                          name="children"
-                          onChange={handleChildrenCountChange}
-                        />
-                      </div>
-                      <div className="col-md-4">
-                        <label for="infants">Em bé (dưới 24 tháng)</label>
-                        <input
-                          id="baby"
-                          type="number"
-                          className="form-control"
-                          name="baby"
-                          onChange={handleBabyCountChange}
-                        />
-                      </div>
-                    </div>
-
                     <div className="form-group row form-tong">
                       {adultsInfo.map((adult, index) => (
                         <div
@@ -141,31 +214,39 @@ function BookingForm(props) {
                             <input
                               className="form-control mb-1"
                               type="text"
-                              name="name"
-                              value={adult.name}
+                              name="tenHanhKhach"
+                              value={adult.tenHanhKhach}
                               onChange={(event) =>
                                 handleAdultInfoChange(event, index)
                               }
                             />
+                            {errors.tenHanhKhach && (
+                              <p className="error-message ">
+                                {errors.tenHanhKhach}
+                              </p>
+                            )}
                           </div>
                           <div>
                             <label>Ngày sinh:</label>
                             <input
                               className="form-control mb-1"
                               type="date"
-                              name="birthDay"
-                              value={adult.birthDay}
+                              name="ngaySinh"
+                              value={adult.ngaySinh}
                               onChange={(event) =>
                                 handleAdultInfoChange(event, index)
                               }
                             />
+                            {errors.ngaySinh && (
+                              <p className="error-message">{errors.ngaySinh}</p>
+                            )}
                           </div>
                           <div>
                             <label>Giới tính:</label>
                             <select
                               className="form-control mb-1"
-                              name="gender"
-                              value={adult.gender}
+                              name="gioiTinh"
+                              value={adult.gioiTinh}
                               onChange={(event) =>
                                 handleAdultInfoChange(event, index)
                               }
@@ -176,18 +257,41 @@ function BookingForm(props) {
                               <option value="Nam">Nam</option>
                               <option value="Nữ">Nữ</option>
                             </select>
+                            {errors.gioiTinh && (
+                              <p className="error-message">{errors.gioiTinh}</p>
+                            )}
                           </div>
                           <div>
                             <label>Số CMND/CCCD:</label>
                             <input
                               className="form-control mb-1"
                               type="text"
-                              name="idCard"
-                              value={adult.idCard}
+                              name="hoChieu"
+                              value={adult.hoChieu}
                               onChange={(event) =>
                                 handleAdultInfoChange(event, index)
                               }
                             />
+                            {errors.hoChieu && (
+                              <p className="error-message ">{errors.hoChieu}</p>
+                            )}
+                          </div>
+                          <div>
+                            <label>Số ĐT:</label>
+                            <input
+                              className="form-control mb-1"
+                              type="text"
+                              name="soDienThoai"
+                              value={adult.soDienThoai}
+                              onChange={(event) =>
+                                handleAdultInfoChange(event, index)
+                              }
+                            />
+                            {errors.soDienThoai && (
+                              <p className="error-message ">
+                                {errors.soDienThoai}
+                              </p>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -202,31 +306,41 @@ function BookingForm(props) {
                             <input
                               className="form-control mb-1"
                               type="text"
-                              name="name"
-                              value={children.name}
+                              name="tenHanhKhach"
+                              value={children.tenHanhKhach}
                               onChange={(event) =>
                                 handleChildrenInfoChange(event, index)
                               }
                             />
+                            {errors.tenHanhKhach && (
+                              <p className="error-message ">
+                                {errors.tenHanhKhach}
+                              </p>
+                            )}
                           </div>
                           <div>
                             <label>Ngày sinh:</label>
                             <input
                               className="form-control mb-1"
                               type="date"
-                              name="birthDay"
-                              value={children.birthDay}
+                              name="ngaySinh"
+                              value={children.ngaySinh}
                               onChange={(event) =>
                                 handleChildrenInfoChange(event, index)
                               }
                             />
+                            {errors.ngaySinh && (
+                              <p className="error-message ">
+                                {errors.ngaySinh}
+                              </p>
+                            )}
                           </div>
                           <div>
                             <label>Giới tính:</label>
                             <select
                               className="form-control mb-1"
-                              name="gender"
-                              value={children.gender}
+                              name="gioiTinh"
+                              value={children.gioiTinh}
                               onChange={(event) =>
                                 handleChildrenInfoChange(event, index)
                               }
@@ -237,6 +351,11 @@ function BookingForm(props) {
                               <option value="Nam">Nam</option>
                               <option value="Nữ">Nữ</option>
                             </select>
+                            {errors.gioiTinh && (
+                              <p className="error-message ">
+                                {errors.gioiTinh}
+                              </p>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -251,31 +370,41 @@ function BookingForm(props) {
                             <input
                               className="form-control mb-1"
                               type="text"
-                              name="name"
-                              value={baby.name}
+                              name="tenHanhKhach"
+                              value={baby.tenHanhKhach}
                               onChange={(event) =>
                                 handleBabyInfoChange(event, index)
                               }
                             />
+                            {errors.tenHanhKhach && (
+                              <p className="error-message ">
+                                {errors.tenHanhKhach}
+                              </p>
+                            )}
                           </div>
                           <div>
                             <label>Ngày sinh:</label>
                             <input
                               className="form-control mb-1"
                               type="date"
-                              name="birthDay"
-                              value={baby.birthDay}
+                              name="ngaySinh"
+                              value={baby.ngaySinh}
                               onChange={(event) =>
                                 handleBabyInfoChange(event, index)
                               }
                             />
+                            {errors.ngaySinh && (
+                              <p className="error-message ">
+                                {errors.ngaySinh}
+                              </p>
+                            )}
                           </div>
                           <div>
                             <label>Giới tính:</label>
                             <select
                               className="form-control mb-1"
-                              name="gender"
-                              value={baby.gender}
+                              name="gioiTinh"
+                              value={baby.gioiTinh}
                               onChange={(event) =>
                                 handleBabyInfoChange(event, index)
                               }
@@ -286,6 +415,11 @@ function BookingForm(props) {
                               <option value="Em Bé Nam">Em Bé Nam</option>
                               <option value="Em Bé Nữ">Em Bé Nữ</option>
                             </select>
+                            {errors.gioiTinh && (
+                              <p className="error-message ">
+                                {errors.gioiTinh}
+                              </p>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -399,5 +533,5 @@ function BookingForm(props) {
       </div>
     </div>
   );
-}
-export default BookingForm;
+};
+export default ThongTinKhachHangDatVe;
