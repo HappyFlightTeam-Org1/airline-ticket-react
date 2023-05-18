@@ -6,8 +6,10 @@ import axios from "axios";
 
 function DanhSachTimKiemChuyenBay() {
   const [chuyenBays, setChuyenBays] = useState([]);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(5);
+  const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(3);
   const [sortBy, setSortBy] = useState("giaVe");
   const [sortDirection, setSortDirection] = useState("ASC");
   const navigate = useNavigate();
@@ -18,18 +20,18 @@ function DanhSachTimKiemChuyenBay() {
   const soEmBe = queryParams.get("soEmBe");
   const diemDi = queryParams.get("diemDi");
   const diemDen = queryParams.get("diemDen");
-  const ngayKhoiHanh = queryParams.get("ngayDi");
-  const ngayKhoiHanh1 = queryParams.get("ngayDiKh");
+  const ngayDi = queryParams.get("ngayDi");
+  const ngayDiKh = queryParams.get("ngayDiKh");
   const maxPage = Math.ceil(chuyenBays.length / size);
 
   useEffect(() => {
     fetchChuyenBays();
-  }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayKhoiHanh]);
+  }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayDi, ngayDiKh]);
 
   const fetchChuyenBays = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/chuyen-bay/listPage",
+        "http://localhost:8080/chuyen-bay/listPageHaiChieu",
         {
           params: {
             page,
@@ -38,11 +40,15 @@ function DanhSachTimKiemChuyenBay() {
             sortDirection,
             diemDi,
             diemDen,
-            ngayKhoiHanh,
+            ngayDi,
+            ngayDiKh,
           },
         }
       );
-      setChuyenBays(response.data.content);
+      const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
+      const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
+      setChuyenBays(chuyenBay1Chieu.content);
+      setChuyenBayKhuHois(chuyenBayKhuHoi.content);
     } catch (error) {
       console.log(error);
     }
@@ -74,19 +80,8 @@ function DanhSachTimKiemChuyenBay() {
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
-            Navbar
+            Lọc
           </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDarkDropdown"
-            aria-controls="navbarNavDarkDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
           <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
@@ -118,16 +113,17 @@ function DanhSachTimKiemChuyenBay() {
         ></div>
 
         <div className="col-md-10 pd-5">
+          <h2>Danh sách chuyến bay đi</h2>
           {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
           {chuyenBays.length > 0 &&
             chuyenBays.map((chuyenBay) => (
               <div className="card my-2 hover-ds">
                 <div className="card-body card-bo">
                   <div className="row ">
-                    <div className="col-md-2">
+                    <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem", color: "blue" }}>
-                          Sân bay đi:
+                          Nơi đi:
                         </strong>
                         {chuyenBay.diemDi}
                       </p>
@@ -135,17 +131,12 @@ function DanhSachTimKiemChuyenBay() {
                         <strong>Giờ cất cánh :</strong> {chuyenBay.gioKhoiHanh}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Hãng hàng không:</strong>{" "}
+                        <strong>Hãng bay:</strong>{" "}
                         {chuyenBay.hangBay.tenHangBay}
                       </p>
                     </div>
-                    <div className="col-md-2" style={{ textAlign: "center" }}>
-                      <i
-                        class="bx bx-transfer-alt"
-                        style={{ fontSize: "1.5rem", color: "goldenrod" }}
-                      ></i>
-                    </div>
-                    <div className="col-md-2">
+
+                    <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem", color: "blue" }}>
                           Sân bay đến:
@@ -253,23 +244,138 @@ function DanhSachTimKiemChuyenBay() {
             totalPages={maxPage}
             onPageChange={fetchChuyenBays}
           />
-          {/* <div>
-            <button onClick={handlePreviousPage} disabled={page === 1}>
-              Previous
-            </button>
-            {pageNumbers.map((pageNumber) => (
-              <button
-                key={pageNumber}
-                onClick={() => handleJumpToPage(pageNumber)}
-                disabled={page === pageNumber}
-              >
-                {pageNumber}
-              </button>
+          {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
+
+          {chuyenBayKhuHois.length > 0 &&
+            chuyenBayKhuHois.map((chuyenBay) => (
+              <div className="card my-2 hover-ds">
+                <div className="card-body card-bo">
+                  <div className="row ">
+                    <div className="col-md-3">
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                          Nơi đi:
+                        </strong>
+                        {chuyenBay.diemDi}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Giờ cất cánh :</strong> {chuyenBay.gioKhoiHanh}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Hãng bay:</strong>{" "}
+                        {chuyenBay.hangBay.tenHangBay}
+                      </p>
+                    </div>
+
+                    <div className="col-md-3">
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                          Sân bay đến:
+                        </strong>
+                        {chuyenBay.diemDen}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Giờ hạ cánh :</strong> {chuyenBay.gioHaCanh}
+                      </p>
+                      <p style={{ fontSize: "0.8rem" }}>
+                        <strong>Thời gian bay :</strong> {chuyenBay.thoiGianBay}
+                      </p>
+                    </div>
+
+                    <div className="col-md-3 ">
+                      <a href="#" onClick={handleLinkClick}>
+                        <div
+                          className="card my-1"
+                          style={{
+                            backgroundColor: "#f4f9f5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <div
+                            className="card-body dat-ve "
+                            style={{ padding: "0.5rem" }}
+                          >
+                            <h5
+                              className="card-title "
+                              style={{ fontSize: "1rem", color: "blue" }}
+                            >
+                              Khoang Phổ thông
+                            </h5>
+                            <p
+                              className="card-text "
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "0rem",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {`${(chuyenBay.giaVe * 1).toLocaleString(
+                                "vi-VN"
+                              )} VNĐ`}
+                            </p>
+                            <p
+                              className="card-text"
+                              style={{ fontSize: "0.6rem" }}
+                            >
+                              Còn 3 ghế
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+                    <div className="col-md-3 ">
+                      <a href="#" onClick={handleLinkClick}>
+                        <div
+                          className="card my-1"
+                          style={{
+                            backgroundColor: "#f4f9f5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <div
+                            className="card-body dat-ve "
+                            style={{ padding: "0.5rem" }}
+                          >
+                            <h5
+                              className="card-title "
+                              style={{ fontSize: "1rem", color: "goldenrod" }}
+                            >
+                              Khoang Thương gia
+                            </h5>
+                            <p
+                              className="card-text "
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "0rem",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {`${(chuyenBay.giaVe * 1.5).toLocaleString(
+                                "vi-VN"
+                              )} VNĐ`}
+                            </p>
+                            <p
+                              className="card-text"
+                              style={{ fontSize: "0.6rem" }}
+                            >
+                              Còn 3 ghế
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
-            <button onClick={handleNextPage} disabled={page === maxPage}>
-              Next
-            </button>
-          </div> */}
+          {chuyenBayKhuHois.length > 0 && (
+            <Pagination
+              currentPage={page}
+              totalPages={maxPage}
+              onPageChange={fetchChuyenBays}
+            />
+          )}
         </div>
       </div>
     </div>
