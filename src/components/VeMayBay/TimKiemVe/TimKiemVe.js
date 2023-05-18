@@ -2,7 +2,7 @@ import React from "react";
 import './TimKiemVe.css'
 function TimKiemVe() {
     return (
-        <div className='container bg-body table-shadow'>
+        <div className='container bg-body table-shadow mt-3'>
             <div className="pt-5 pb-3">
                 <div className="text-center pb-3">
                     <h1>TÌM KIẾM VÉ</h1>
