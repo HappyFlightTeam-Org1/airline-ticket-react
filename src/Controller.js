@@ -13,6 +13,7 @@ import TimKiemVe from "./components/VeMayBay/TimKiemVe/TimKiemVe.js";
 import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import BarChart from "./components/DashBoard/BarChart.js";
 import "./Controller.css";
+import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 
 function Controller() {
   return (
@@ -44,12 +45,18 @@ function Controller() {
           {/* Quản lý người dùng và thống kê */}
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+
+            <Route path="BarChart" element={<BarChart />} />
           </Route>
-             {/* Quản lý người dùng và thống kê */}
-             <Route>
-                <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung/>} />
-                <Route path="BarChart" element={<BarChart/>} />
-             </Route>
+          {/* Hiển thị danh sách đặt chỗ*/}
+          <Route>
+            <Route path="DatCho" element={<DatCho />} />
+          </Route>
+          {/* Quản lý người dùng và thống kê */}
+          <Route>
+            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+            <Route path="BarChart" element={<BarChart />} />
+          </Route>
         </Routes>
         <Footer />
       </BrowserRouter>
