@@ -1,42 +1,44 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 const DatCho = () => {
-  const [selectedSeat, setSelectedSeat] = useState(null);
+    const [seatList, setSeatList] = useState([]);
+    const [selectedSeatList, setSelectedSeatList] = useState([]);
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/dat-cho/list/CB002")
+            .then((response) => {
+                setSeatList(response.data);
+                console.log("dDAT CHOO")
+                console.log(response.data);
+            })
+            .catch((err) => console.error);
+    }, []);
 
-  const seatOptions = [
-    { id: 1, name: 'A1', image: 'path/to/image-A1.jpg' },
-    { id: 2, name: 'A2', image: 'path/to/image-A2.jpg' },
-    { id: 3, name: 'B1', image: 'path/to/image-B1.jpg' },
-    // Thêm các ghế khác vào đây
-  ];
+    const handleSeatSelection = (seat) => {
+        setSelectedSeatList([...selectedSeatList, seat]);
+        console.log("selectedSeatList",selectedSeatList);
+    };
 
-  const handleSeatSelection = (seat) => {
-    setSelectedSeat(seat);
-  };
-
-  return (
-    <div>
-      <h2>Chọn ghế trong khoang máy bay</h2>
-      <div className="seat-options">
-        {seatOptions.map((seat) => (
-          <div
-            key={seat.id}
-            className={`seat-option ${selectedSeat === seat ? 'selected' : ''}`}
-            onClick={() => handleSeatSelection(seat)}
-          >
-            <img src={seat.image} alt={seat.name} />
-            <span>{seat.name}</span>
-          </div>
-        ))}
-      </div>
-      {selectedSeat && (
+    return (
         <div>
-          <h3>Ghế đã chọn: {selectedSeat.name}</h3>
-          <img src={selectedSeat.image} alt={selectedSeat.name} />
+            <div className='d-flex justify-content-center p-1'> <h1>VUI LÒNG CHỌN GHẾ</h1></div>
+            <div className="seat-options">
+                {seatList.map((seat) => (
+                    <div className='col-12 row'>
+                        <div
+                            key={seat.maDatCho}
+                            className={'col-md-3'}
+                            onClick={() => handleSeatSelection(seat)}
+                        >
+                            {/* <img src={seat.image} alt={seat.name} /> */}
+                            <i class="fa-solid fa-couch"></i>
+                            {/* <span>{seat.name}</span> */}
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default DatCho;
