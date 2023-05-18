@@ -1,11 +1,23 @@
-import React, { useState,useCallback,useRef } from 'react';
-import {Bar,Chart,Line,Pie} from "react-chartjs-2";
+import React, { useState,useCallback,useRef,useEffect } from 'react';
+import {Bar,Line,Pie} from "react-chartjs-2";
 import {UserData} from "./Data";
 import {Chart as ChartJS}  from "chart.js/auto";
 import "./BarChart.css";
+import axios from "axios";
 
 function BarChart() {
-const [userData,setUserData] = useState({
+  const [total, setTotal] = useState();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/dashboard/total")
+      .then((response) => {
+        setTotal(response.data);
+        console.log(response);
+      })
+      .catch((err) => console.error);
+  }, []);
+  const [userData,setUserData] = useState({
   labels: UserData.map((data) => data.month),
   datasets: [{
     label: "price",
@@ -48,7 +60,7 @@ const downloadImage2 = useCallback(() => {
                          <div className='icon'><i className='bx bxs-user'></i></div>
 					            <div className="info-box-content">
 					              <span className="info-box-text">Users</span><br></br>
-					              <span className="info-box-number">30</span>
+					              <span className="info-box-number" >{total}</span>
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{width: "60%"}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
