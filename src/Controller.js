@@ -11,6 +11,7 @@ import DanhSachKhachHangDatVe from "./components/HanhKhach/DanhSachHanhKhach.js"
 import LichSuDatVe from "./components/VeMayBay/LichSuDatVe/LichSuDatVe.js";
 import TimKiemVe from "./components/VeMayBay/TimKiemVe/TimKiemVe.js";
 import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
+import BarChart from "./components/DashBoard/BarChart.js";
 import "./Controller.css";
 
 function Controller() {
@@ -42,9 +43,9 @@ function Controller() {
           </Route>
              {/* Quản lý người dùng và thống kê */}
              <Route>
-            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung/>} />
-
-          </Route>
+                <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung/>} />
+                <Route path="BarChart" element={<BarChart/>} />
+             </Route>
         </Routes>
         <Footer />
       </BrowserRouter>
