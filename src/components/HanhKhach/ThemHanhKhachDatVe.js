@@ -151,7 +151,7 @@ const ThongTinKhachHangDatVe = () => {
         )
       );
       await axios.post(
-        "http://localhost:8080/VeMayBay/save",
+        "http://localhost:8080/hanh-khach/save",
         validatedHanhKhachs,
         {
           headers: {

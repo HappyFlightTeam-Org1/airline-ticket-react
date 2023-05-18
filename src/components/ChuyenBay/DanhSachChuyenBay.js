@@ -14,7 +14,7 @@ function DanhSachChuyenBay() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container chuyenbay">
       <h1>DANH SÁCH CHUYẾN BAY</h1>
       <hr />
       <form class="row justify-content-center search">
@@ -93,8 +93,9 @@ function DanhSachChuyenBay() {
                 <td>{item.ngayKhoiHanh}</td>
                 <td>{item.gioKhoiHanh}</td>
                 <td>{item.gioHaCanh}</td>
-                <td>{item.giaVe}</td>
                 <td>{item.hangBay.tenHangBay}</td>
+
+                <td>{item.giaVe}</td>
                 <td>{item.trangThaiVanHanh}</td>
                 <td>
                   <Link
@@ -102,7 +103,7 @@ function DanhSachChuyenBay() {
                     to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
                     className="text-white"
                   >
-                    <button className="btn btn-success">Chỉnh Sửa</button>
+                    <button className="btn btn-success ">Sửa</button>
                   </Link>
                 </td>
               </tr>
