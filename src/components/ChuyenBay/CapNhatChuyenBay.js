@@ -189,11 +189,12 @@ function CapNhatChuyenBay() {
                     <select
                       name="maMayBay"
                       id="maMayBay"
-                      defaultValue={formData.maMayBay}
+                      value={formData.maMayBay}
                       onChange={handleInputChange}
                       className="form-control "
                     >
                       {mayBays.map((maybay) =>
+                      
                         maybay.maMayBay === formData.maMayBay ? (
                           <option
                             key={maybay.maMayBay}
