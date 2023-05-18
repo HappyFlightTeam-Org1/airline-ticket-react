@@ -55,6 +55,7 @@ function ThemMoiChuyenBay() {
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
+                
                 <div className="form-group row">
                   <div className="col-md-6">
                     <label>Mã chuyến bay</label>
@@ -79,6 +80,7 @@ function ThemMoiChuyenBay() {
                     />
                   </div>
                 </div>
+
                 <div className="form-group row">
                   <div className="col-md-6">
                     <label>Sân bay đi</label>
