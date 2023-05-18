@@ -41,6 +41,10 @@ function Controller() {
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
           </Route>
+          {/* Quản lý người dùng và thống kê */}
+          <Route>
+            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+          </Route>
              {/* Quản lý người dùng và thống kê */}
              <Route>
                 <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung/>} />
