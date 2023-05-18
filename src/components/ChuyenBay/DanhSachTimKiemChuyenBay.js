@@ -66,6 +66,15 @@ function DanhSachTimKiemChuyenBay() {
     }
   };
 
+  const pageNumbers = Array.from(
+    { length: totalPages },
+    (_, index) => index + 1
+  );
+
+  const handleJumpToPage = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
@@ -253,7 +262,23 @@ function DanhSachTimKiemChuyenBay() {
             totalPages={totalPages}
             fetchChuyenBays={fetchChuyenBays}
           /> */}
-          
+          <div>
+            <button onClick={handlePreviousPage} disabled={page === 1}>
+              Previous
+            </button>
+            {pageNumbers.map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => handleJumpToPage(pageNumber)}
+                disabled={page === pageNumber}
+              >
+                {pageNumber}
+              </button>
+            ))}
+            <button onClick={handleNextPage} disabled={page === totalPages}>
+              Next
+            </button>
+          </div>
 
           {/* Danh sách chuyến bay về */}
           {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
