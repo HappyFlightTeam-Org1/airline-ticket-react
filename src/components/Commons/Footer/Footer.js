@@ -14,7 +14,6 @@ export default function Footer() {
          <div className='secContent '>
             <div className='contactDiv flex'>
                <div data-aos="fade-up" className='text'>
-                  <small className='small'>KEEP IN TOUCH</small>
                   <h2 className='h2'>Travel with us</h2>
                </div>
             </div>
@@ -112,7 +111,7 @@ export default function Footer() {
                   </div>
                   <div data-aos="fade-up" data-aos-duration="3000" className='linkGroup '>
                      <span className='groupTitle'>
-                     Để có chuyến bay tốt đẹp
+                        Để có chuyến bay tốt đẹp
                      </span>
                      <li className='footerList flex'>
                         <i class='bx bxs-chevron-right icon'></i>
