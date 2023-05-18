@@ -45,11 +45,17 @@ function Controller() {
           {/* Quản lý người dùng và thống kê */}
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+
             <Route path="BarChart" element={<BarChart />} />
           </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>
             <Route path="DatCho" element={<DatCho />} />
+          </Route>
+          {/* Quản lý người dùng và thống kê */}
+          <Route>
+            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+            <Route path="BarChart" element={<BarChart />} />
           </Route>
         </Routes>
         <Footer />

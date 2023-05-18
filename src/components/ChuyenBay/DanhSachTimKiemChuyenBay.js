@@ -7,9 +7,9 @@ import axios from "axios";
 function DanhSachTimKiemChuyenBay() {
   const [chuyenBays, setChuyenBays] = useState([]);
   const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
-
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [size, setSize] = useState(3);
+  const [totalPages, setTotalPages] = useState();
   const [sortBy, setSortBy] = useState("giaVe");
   const [sortDirection, setSortDirection] = useState("ASC");
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ function DanhSachTimKiemChuyenBay() {
   const diemDen = queryParams.get("diemDen");
   const ngayDi = queryParams.get("ngayDi");
   const ngayDiKh = queryParams.get("ngayDiKh");
-  const maxPage = Math.ceil(chuyenBays.length / size);
 
   useEffect(() => {
     fetchChuyenBays();
@@ -45,12 +44,25 @@ function DanhSachTimKiemChuyenBay() {
           },
         }
       );
+      setTotalPages(response.data.totalPages);
       const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
       const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
       setChuyenBays(chuyenBay1Chieu.content);
       setChuyenBayKhuHois(chuyenBayKhuHoi.content);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
@@ -77,7 +89,13 @@ function DanhSachTimKiemChuyenBay() {
   return (
     <div className="container my-4 xxx  ">
       {/* Chọn mục để sắp xếp */}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav
+        class="navbar navbar-expand-lg navbar-dark"
+        style={{
+          background:
+            "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+        }}
+      >
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             Lọc
@@ -111,7 +129,7 @@ function DanhSachTimKiemChuyenBay() {
               "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
           }}
         ></div>
-
+        {/* Danh sách chuyến bay đi */}
         <div className="col-md-10 pd-5">
           <h2>Danh sách chuyến bay đi</h2>
           {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
@@ -122,9 +140,7 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="row ">
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
-                          Nơi đi:
-                        </strong>
+                        <strong style={{ fontSize: "0.8rem" }}>Nơi đi:</strong>
                         {chuyenBay.diemDi}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
@@ -138,7 +154,7 @@ function DanhSachTimKiemChuyenBay() {
 
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                        <strong style={{ fontSize: "0.8rem" }}>
                           Sân bay đến:
                         </strong>
                         {chuyenBay.diemDen}
@@ -164,27 +180,23 @@ function DanhSachTimKiemChuyenBay() {
                             className="card-body dat-ve "
                             style={{ padding: "0.5rem" }}
                           >
-                            <h5
-                              className="card-title "
-                              style={{ fontSize: "1rem", color: "blue" }}
-                            >
-                              Khoang Phổ thông
-                            </h5>
                             <p
                               className="card-text "
                               style={{
                                 textAlign: "center",
                                 marginBottom: "0rem",
-                                fontSize: "0.8rem",
+                                fontSize: "1.25rem",
+                                color: "#005f6e",
                               }}
                             >
                               {`${(chuyenBay.giaVe * 1).toLocaleString(
                                 "vi-VN"
-                              )} VNĐ`}
+                              )} `}
+                              <sup>VND</sup>
                             </p>
                             <p
                               className="card-text"
-                              style={{ fontSize: "0.6rem" }}
+                              style={{ fontSize: "0.8rem", color: "orange" }}
                             >
                               Còn 3 ghế
                             </p>
@@ -198,7 +210,7 @@ function DanhSachTimKiemChuyenBay() {
                         <div
                           className="card my-1"
                           style={{
-                            backgroundColor: "#f4f9f5",
+                            backgroundColor: "#fbf9e4",
                             borderRadius: "10px",
                           }}
                         >
@@ -206,27 +218,24 @@ function DanhSachTimKiemChuyenBay() {
                             className="card-body dat-ve "
                             style={{ padding: "0.5rem" }}
                           >
-                            <h5
-                              className="card-title "
-                              style={{ fontSize: "1rem", color: "goldenrod" }}
-                            >
-                              Khoang Thương gia
-                            </h5>
                             <p
                               className="card-text "
                               style={{
                                 textAlign: "center",
                                 marginBottom: "0rem",
-                                fontSize: "0.8rem",
+                                fontSize: "1.25rem",
+                                color: "#222",
                               }}
                             >
                               {`${(chuyenBay.giaVe * 1.5).toLocaleString(
                                 "vi-VN"
-                              )} VNĐ`}
+                              )} `}
+                              <sup>VND</sup>
                             </p>
+
                             <p
                               className="card-text"
-                              style={{ fontSize: "0.6rem" }}
+                              style={{ fontSize: "0.8rem" }}
                             >
                               Còn 3 ghế
                             </p>
@@ -239,13 +248,15 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             ))}
           {/* Pagination */}
-          <Pagination
+          {/* <Pagination
             currentPage={page}
-            totalPages={maxPage}
-            onPageChange={fetchChuyenBays}
-          />
-          {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
+            totalPages={totalPages}
+            fetchChuyenBays={fetchChuyenBays}
+          /> */}
+          
 
+          {/* Danh sách chuyến bay về */}
+          {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
           {chuyenBayKhuHois.length > 0 &&
             chuyenBayKhuHois.map((chuyenBay) => (
               <div className="card my-2 hover-ds">
@@ -253,9 +264,7 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="row ">
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
-                          Nơi đi:
-                        </strong>
+                        <strong style={{ fontSize: "0.8rem" }}>Nơi đi:</strong>
                         {chuyenBay.diemDi}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
@@ -269,7 +278,7 @@ function DanhSachTimKiemChuyenBay() {
 
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                        <strong style={{ fontSize: "0.8rem" }}>
                           Sân bay đến:
                         </strong>
                         {chuyenBay.diemDen}
@@ -295,27 +304,23 @@ function DanhSachTimKiemChuyenBay() {
                             className="card-body dat-ve "
                             style={{ padding: "0.5rem" }}
                           >
-                            <h5
-                              className="card-title "
-                              style={{ fontSize: "1rem", color: "blue" }}
-                            >
-                              Khoang Phổ thông
-                            </h5>
                             <p
                               className="card-text "
                               style={{
                                 textAlign: "center",
                                 marginBottom: "0rem",
-                                fontSize: "0.8rem",
+                                fontSize: "1.25rem",
+                                color: "#005f6e",
                               }}
                             >
                               {`${(chuyenBay.giaVe * 1).toLocaleString(
                                 "vi-VN"
-                              )} VNĐ`}
+                              )} `}{" "}
+                              <sup>VND</sup>
                             </p>
                             <p
                               className="card-text"
-                              style={{ fontSize: "0.6rem" }}
+                              style={{ fontSize: "0.8rem", color: "orange" }}
                             >
                               Còn 3 ghế
                             </p>
@@ -329,7 +334,7 @@ function DanhSachTimKiemChuyenBay() {
                         <div
                           className="card my-1"
                           style={{
-                            backgroundColor: "#f4f9f5",
+                            backgroundColor: "#fbf9e4",
                             borderRadius: "10px",
                           }}
                         >
@@ -337,27 +342,24 @@ function DanhSachTimKiemChuyenBay() {
                             className="card-body dat-ve "
                             style={{ padding: "0.5rem" }}
                           >
-                            <h5
-                              className="card-title "
-                              style={{ fontSize: "1rem", color: "goldenrod" }}
-                            >
-                              Khoang Thương gia
-                            </h5>
                             <p
                               className="card-text "
                               style={{
                                 textAlign: "center",
                                 marginBottom: "0rem",
-                                fontSize: "0.8rem",
+                                fontSize: "1.25rem",
+                                color: "#222",
                               }}
                             >
                               {`${(chuyenBay.giaVe * 1.5).toLocaleString(
                                 "vi-VN"
-                              )} VNĐ`}
+                              )} `}
+                              <sup>VND</sup>
                             </p>
+
                             <p
                               className="card-text"
-                              style={{ fontSize: "0.6rem" }}
+                              style={{ fontSize: "0.8rem" }}
                             >
                               Còn 3 ghế
                             </p>
@@ -372,8 +374,8 @@ function DanhSachTimKiemChuyenBay() {
           {chuyenBayKhuHois.length > 0 && (
             <Pagination
               currentPage={page}
-              totalPages={maxPage}
-              onPageChange={fetchChuyenBays}
+              totalPages={totalPages}
+              fetchChuyenBays={fetchChuyenBays}
             />
           )}
         </div>
