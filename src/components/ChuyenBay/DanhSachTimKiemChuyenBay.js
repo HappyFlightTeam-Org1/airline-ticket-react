@@ -1,225 +1,381 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DSTimKiemCBCSS from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
+import Pagination from "./Pagination";
+import axios from "axios";
+
 function DanhSachTimKiemChuyenBay() {
+  const [chuyenBays, setChuyenBays] = useState([]);
+  const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(3);
+  const [sortBy, setSortBy] = useState("giaVe");
+  const [sortDirection, setSortDirection] = useState("ASC");
+  const navigate = useNavigate();
   const location = useLocation();
-  const data = location.state;
-  console.log(data);
+  const queryParams = new URLSearchParams(location.search);
+  const soNguoiLon = queryParams.get("soNguoiLon");
+  const soTreEm = queryParams.get("soTreEm");
+  const soEmBe = queryParams.get("soEmBe");
+  const diemDi = queryParams.get("diemDi");
+  const diemDen = queryParams.get("diemDen");
+  const ngayDi = queryParams.get("ngayDi");
+  const ngayDiKh = queryParams.get("ngayDiKh");
+  const maxPage = Math.ceil(chuyenBays.length / size);
+
+  useEffect(() => {
+    fetchChuyenBays();
+  }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayDi, ngayDiKh]);
+
+  const fetchChuyenBays = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/chuyen-bay/listPageHaiChieu",
+        {
+          params: {
+            page,
+            size,
+            sortBy,
+            sortDirection,
+            diemDi,
+            diemDen,
+            ngayDi,
+            ngayDiKh,
+          },
+        }
+      );
+      const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
+      const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
+      setChuyenBays(chuyenBay1Chieu.content);
+      setChuyenBayKhuHois(chuyenBayKhuHoi.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
+
+  const handleSortDirectionChange = (event) => {
+    setSortDirection(event.target.value);
+  };
+
+  const handleLinkClick = (event) => {
+    event.preventDefault();
+    navigate(
+      "/ThongTinKhachHangDatVe?soNguoiLon=" +
+        soNguoiLon +
+        "&soTreEm=" +
+        soTreEm +
+        "&soEmBe=" +
+        soEmBe
+    );
+  };
 
   return (
     <div className="container my-4 xxx  ">
-      <h3 style={{ color: "orange" }}>Thông tin chuyến bay (3 KẾT QUẢ)</h3>
-      <hr />
+      {/* Chọn mục để sắp xếp */}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            Lọc
+          </a>
+          <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <select value={sortBy} onChange={handleSortChange}>
+                  <option value="giaVe">Giá vé</option>
+                  <option value="gioKhoiHanh">Giờ khởi hành</option>
+                </select>
+                <select
+                  value={sortDirection}
+                  onChange={handleSortDirectionChange}
+                >
+                  <option value="ASC">Tăng dần</option>
+                  <option value="DESC">Giảm dần</option>
+                </select>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* Danh sách chuyến bay tìm kiếm được */}
       <div className="row my-4 ">
-        <div className="col-md-12 pd-5">
-          <div className="card my-2 hover-ds">
-            <div className="card-body ">
-              <div className="row ">
-                <div className="col-md-2">
-                  <p>
-                    <strong>Sân bay đi:</strong> SGN
-                  </p>
-                  <p>
-                    <strong>Thời gian bay:</strong> 1 tiếng 15 phút
-                  </p>
-                  <p>
-                    <strong>Hãng hàng không:</strong> Vietnam Airlines
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <p>
-                    <strong>Sân bay đến:</strong> CXR
-                  </p>
-                  <p>
-                    <strong>Loại chuyến bay:</strong> Bay thẳng
-                  </p>
-                  <p>
-                    <strong>Số chuyến bay:</strong> VN 1346
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <p>
-                    <strong>Loại máy bay:</strong> Airbus A359
-                  </p>
-                </div>
-                <div className="col-md-3 ">
-                  <div
-                    className="card my-2"
-                    style={{ backgroundColor: "#f4f9f5", borderRadius: "10px" }}
-                  >
-                    <div className="card-body dat-ve ">
-                      <h5 className="card-title">Khoang Phổ thông</h5>
-                      <p className="card-text">Giá: TỪ 866,000 VND</p>
-                      <Link
-                        as={Link}
-                        to="/ThongTinKhachHangDatVe"
-                        className="text-white"
-                        style={{ textDecoration: "none" }}
-                      >
-                        <a href="#" className="btn  btn-success">
-                          Chọn
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+        <div
+          className="col-md-2 shadow "
+          style={{
+            background:
+              "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+          }}
+        ></div>
 
-                <div className="col-md-3 ">
-                  <div
-                    className="card my-2"
-                    style={{ backgroundColor: "#FBF9E4", borderRadius: "10px" }}
-                  >
-                    <div className="card-body dat-ve">
-                      <h5 className="card-title">Khoang Thương gia</h5>
-                      <p className="card-text">Giá: TỪ 3,319,000 VND</p>
-                      <Link
-                        as={Link}
-                        to="/ThongTinKhachHangDatVe"
-                        className="text-white"
-                        style={{ textDecoration: "none" }}
-                      >
-                        <a href="#" className="btn  btn-success">
-                          Chọn
-                        </a>
-                      </Link>
+        <div className="col-md-10 pd-5">
+          <h2>Danh sách chuyến bay đi</h2>
+          {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
+          {chuyenBays.length > 0 &&
+            chuyenBays.map((chuyenBay) => (
+              <div className="card my-2 hover-ds">
+                <div className="card-body card-bo">
+                  <div className="row ">
+                    <div className="col-md-3">
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                          Nơi đi:
+                        </strong>
+                        {chuyenBay.diemDi}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Giờ cất cánh :</strong> {chuyenBay.gioKhoiHanh}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Hãng bay:</strong>{" "}
+                        {chuyenBay.hangBay.tenHangBay}
+                      </p>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row my-4">
-        <div className="col-md-12 pd-5">
-          <div className="card my-2 hover-ds">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-2">
-                  <p>
-                    <strong>Sân bay đi:</strong> SGN
-                  </p>
-                  <p>
-                    <strong>Thời gian bay:</strong> 1 tiếng 15 phút
-                  </p>
-                  <p>
-                    <strong>Hãng hàng không:</strong> Vietnam Airlines
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <p>
-                    <strong>Sân bay đến:</strong> CXR
-                  </p>
-                  <p>
-                    <strong>Loại chuyến bay:</strong> Bay thẳng
-                  </p>
-                  <p>
-                    <strong>Số chuyến bay:</strong> VN 1346
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <p>
-                    <strong>Loại máy bay:</strong> Airbus A359
-                  </p>
-                </div>
-                <div className="col-md-3 ">
-                  <div
-                    className="card my-2"
-                    style={{ backgroundColor: "#f4f9f5", borderRadius: "10px" }}
-                  >
-                    <div className="card-body dat-ve">
-                      <h5 className="card-title">Khoang Phổ thông</h5>
-                      <p className="card-text">Giá: TỪ 866,000 VND</p>
-                      <a href="#" className="btn btn-success">
-                        Chọn
+
+                    <div className="col-md-3">
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                          Sân bay đến:
+                        </strong>
+                        {chuyenBay.diemDen}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Giờ hạ cánh :</strong> {chuyenBay.gioHaCanh}
+                      </p>
+                      <p style={{ fontSize: "0.8rem" }}>
+                        <strong>Thời gian bay :</strong> {chuyenBay.thoiGianBay}
+                      </p>
+                    </div>
+
+                    <div className="col-md-3 ">
+                      <a href="#" onClick={handleLinkClick}>
+                        <div
+                          className="card my-1"
+                          style={{
+                            backgroundColor: "#f4f9f5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <div
+                            className="card-body dat-ve "
+                            style={{ padding: "0.5rem" }}
+                          >
+                            <h5
+                              className="card-title "
+                              style={{ fontSize: "1rem", color: "blue" }}
+                            >
+                              Khoang Phổ thông
+                            </h5>
+                            <p
+                              className="card-text "
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "0rem",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {`${(chuyenBay.giaVe * 1).toLocaleString(
+                                "vi-VN"
+                              )} VNĐ`}
+                            </p>
+                            <p
+                              className="card-text"
+                              style={{ fontSize: "0.6rem" }}
+                            >
+                              Còn 3 ghế
+                            </p>
+                          </div>
+                        </div>
                       </a>
                     </div>
-                  </div>
-                </div>
 
-                <div className="col-md-3 ">
-                  <div
-                    className="card my-2"
-                    style={{ backgroundColor: "#FBF9E4", borderRadius: "10px" }}
-                  >
-                    <div className="card-body dat-ve">
-                      <h5 className="card-title">Khoang Thương gia</h5>
-                      <p className="card-text">Giá: TỪ 3,319,000 VND</p>
-                      <a href="#" className="btn  btn-success">
-                        Chọn
+                    <div className="col-md-3 ">
+                      <a href="#" onClick={handleLinkClick}>
+                        <div
+                          className="card my-1"
+                          style={{
+                            backgroundColor: "#f4f9f5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <div
+                            className="card-body dat-ve "
+                            style={{ padding: "0.5rem" }}
+                          >
+                            <h5
+                              className="card-title "
+                              style={{ fontSize: "1rem", color: "goldenrod" }}
+                            >
+                              Khoang Thương gia
+                            </h5>
+                            <p
+                              className="card-text "
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "0rem",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {`${(chuyenBay.giaVe * 1.5).toLocaleString(
+                                "vi-VN"
+                              )} VNĐ`}
+                            </p>
+                            <p
+                              className="card-text"
+                              style={{ fontSize: "0.6rem" }}
+                            >
+                              Còn 3 ghế
+                            </p>
+                          </div>
+                        </div>
                       </a>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row my-4">
-        <div className="col-md-12 pd-5">
-          <div className="card my-2 hover-ds">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-2">
-                  <p>
-                    <strong>Sân bay đi:</strong> SGN
-                  </p>
-                  <p>
-                    <strong>Thời gian bay:</strong> 1 tiếng 15 phút
-                  </p>
-                  <p>
-                    <strong>Hãng hàng không:</strong> Vietnam Airlines
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <p>
-                    <strong>Sân bay đến:</strong> CXR
-                  </p>
-                  <p>
-                    <strong>Loại chuyến bay:</strong> Bay thẳng
-                  </p>
-                  <p>
-                    <strong>Số chuyến bay:</strong> VN 1346
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <p>
-                    <strong>Loại máy bay:</strong> Airbus A359
-                  </p>
-                </div>
-                <div className="col-md-3 ">
-                  <div
-                    className="card my-2"
-                    style={{ backgroundColor: "#f4f9f5", borderRadius: "10px" }}
-                  >
-                    <div className="card-body dat-ve ">
-                      <h5 className="card-title">Khoang Phổ thông</h5>
-                      <p className="card-text">Giá: TỪ 866,000 VND</p>
-                      <a href="#" className="btn  btn-success">
-                        Chọn
+            ))}
+          {/* Pagination */}
+          <Pagination
+            currentPage={page}
+            totalPages={maxPage}
+            onPageChange={fetchChuyenBays}
+          />
+          {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
+
+          {chuyenBayKhuHois.length > 0 &&
+            chuyenBayKhuHois.map((chuyenBay) => (
+              <div className="card my-2 hover-ds">
+                <div className="card-body card-bo">
+                  <div className="row ">
+                    <div className="col-md-3">
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                          Nơi đi:
+                        </strong>
+                        {chuyenBay.diemDi}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Giờ cất cánh :</strong> {chuyenBay.gioKhoiHanh}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Hãng bay:</strong>{" "}
+                        {chuyenBay.hangBay.tenHangBay}
+                      </p>
+                    </div>
+
+                    <div className="col-md-3">
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong style={{ fontSize: "0.8rem", color: "blue" }}>
+                          Sân bay đến:
+                        </strong>
+                        {chuyenBay.diemDen}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
+                        <strong>Giờ hạ cánh :</strong> {chuyenBay.gioHaCanh}
+                      </p>
+                      <p style={{ fontSize: "0.8rem" }}>
+                        <strong>Thời gian bay :</strong> {chuyenBay.thoiGianBay}
+                      </p>
+                    </div>
+
+                    <div className="col-md-3 ">
+                      <a href="#" onClick={handleLinkClick}>
+                        <div
+                          className="card my-1"
+                          style={{
+                            backgroundColor: "#f4f9f5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <div
+                            className="card-body dat-ve "
+                            style={{ padding: "0.5rem" }}
+                          >
+                            <h5
+                              className="card-title "
+                              style={{ fontSize: "1rem", color: "blue" }}
+                            >
+                              Khoang Phổ thông
+                            </h5>
+                            <p
+                              className="card-text "
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "0rem",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {`${(chuyenBay.giaVe * 1).toLocaleString(
+                                "vi-VN"
+                              )} VNĐ`}
+                            </p>
+                            <p
+                              className="card-text"
+                              style={{ fontSize: "0.6rem" }}
+                            >
+                              Còn 3 ghế
+                            </p>
+                          </div>
+                        </div>
                       </a>
                     </div>
-                  </div>
-                </div>
 
-                <div className="col-md-3 ">
-                  <div
-                    className="card my-2"
-                    style={{ backgroundColor: "#FBF9E4", borderRadius: "10px" }}
-                  >
-                    <div className="card-body dat-ve">
-                      <h5 className="card-title">Khoang Thương gia</h5>
-                      <p className="card-text">Giá: TỪ 3,319,000 VND</p>
-                      <a href="#" className="btn  btn-success">
-                        Chọn
+                    <div className="col-md-3 ">
+                      <a href="#" onClick={handleLinkClick}>
+                        <div
+                          className="card my-1"
+                          style={{
+                            backgroundColor: "#f4f9f5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <div
+                            className="card-body dat-ve "
+                            style={{ padding: "0.5rem" }}
+                          >
+                            <h5
+                              className="card-title "
+                              style={{ fontSize: "1rem", color: "goldenrod" }}
+                            >
+                              Khoang Thương gia
+                            </h5>
+                            <p
+                              className="card-text "
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "0rem",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {`${(chuyenBay.giaVe * 1.5).toLocaleString(
+                                "vi-VN"
+                              )} VNĐ`}
+                            </p>
+                            <p
+                              className="card-text"
+                              style={{ fontSize: "0.6rem" }}
+                            >
+                              Còn 3 ghế
+                            </p>
+                          </div>
+                        </div>
                       </a>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            ))}
+          {chuyenBayKhuHois.length > 0 && (
+            <Pagination
+              currentPage={page}
+              totalPages={maxPage}
+              onPageChange={fetchChuyenBays}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -4,15 +4,40 @@ import axios from "axios";
 
 function HanhKhach() {
   const [listKH, setListKH] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(1);
+  const [totalPage, setTotalPage] = useState(3);
+  const [pageNumbers, setPageNumbers] = useState([]);
+
   useEffect(() => {
     axios
-      // Api tạm thời để test DucNH66
-      .get("http://localhost:8080/hanh-khach/list")
+      .get(
+        `http://localhost:8080/hanh-khach/list-with-page?page=${currentPage}&size=${pageSize}`
+      )
       .then((response) => {
-        setListKH(response.data);
+        const data = response.data;
+        setTotalPage(data.totalPages);
+        setPageNumbers(Array.from(Array(data.totalPages).keys()));
+        setListKH(data.content);
       })
       .catch((error) => console.error);
-  }, []);
+  }, [currentPage, pageSize]);
+
+  function handleNextPageClick() {
+    if (currentPage < totalPage - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  function handlePreviousPageClick() {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  function handlePageNumberClick(pageNumber) {
+    setCurrentPage(pageNumber);
+  }
 
   return (
     <div className="container hanhkhach ">
@@ -22,22 +47,19 @@ function HanhKhach() {
           <h5>Tìm Kiếm</h5>
         </div>
         <div className="form-group col-md-2">
-          {" "}
           <input
             id="adults"
             type="text"
             name="adults"
             className="form-control"
             placeholder="Tên hành khách"
-          ></input>{" "}
+          ></input>
         </div>
 
         <div className="form-group col-md-2 ">
-          {" "}
           <button type="submit" className="btn btn-success">
-            {" "}
             Tìm Kiếm
-          </button>{" "}
+          </button>
         </div>
       </form>
       <table className="table table-striped table-shadow">
@@ -47,9 +69,7 @@ function HanhKhach() {
             <th scope="col">Loại hành khách</th>
             <th scope="col">Họ Tên</th>
             <th scope="col">Ngày sinh</th>
-            <th scope="col">Số điện thoại</th>
             <th scope="col">Giới tính</th>
-            <th scope="col">CCCD/Hộ chiếu</th>
             <th scope="col">Mã Vé</th>
             <th scope="col">Mã Chuyến bay</th>
           </tr>
@@ -62,10 +82,8 @@ function HanhKhach() {
                 <td>{item.loaiHanhKhach}</td>
                 <td>{item.tenHanhKhach}</td>
                 <td>{item.ngaySinh}</td>
-                <td>{item.soDienThoai}</td>
                 <td>{item.gioiTinh}</td>
-                <td>{item.hoChieu}</td>
-                <td>V003</td>
+                <td>V001</td>
                 <td>CB002</td>
               </tr>
             ))}
@@ -76,32 +94,46 @@ function HanhKhach() {
         <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
       )}
       {listKH.length > 0 && (
-        <div className="pagination">
-          <nav aria-label="...">
+        <div className="pagination justify-content-center">
+          <nav aria-label="Page navigation example">
             <ul className="pagination">
-              <li className="page-item disabled">
-                {" "}
-                <span className="page-link">Previous</span>{" "}
+              <li
+                className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
+              >
+                <button className="page-link" onClick={handlePreviousPageClick}>
+                  Previous
+                </button>
               </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  1
-                </a>
-              </li>
-              <li className="page-item active" aria-current="page">
-                {" "}
-                <span className="page-link">2</span>{" "}
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                {" "}
-                <a className="page-link" href="#">
+              {pageNumbers
+                .slice(currentPage, currentPage + 3)
+                .map((pageNumber) => (
+                  <li
+                    key={pageNumber}
+                    className={`page-item ${
+                      currentPage === pageNumber ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageNumberClick(pageNumber)}
+                    >
+                      {pageNumber + 1}
+                    </button>
+                  </li>
+                ))}
+              {currentPage + 3 < totalPage && (
+                <li className="page-item disabled">
+                  <span className="page-link">...</span>
+                </li>
+              )}
+              <li
+                className={`page-item ${
+                  currentPage === totalPage - 1 ? "disabled" : ""
+                }`}
+              >
+                <button className="page-link" onClick={handleNextPageClick}>
                   Next
-                </a>{" "}
+                </button>
               </li>
             </ul>
           </nav>
@@ -110,4 +142,5 @@ function HanhKhach() {
     </div>
   );
 }
+
 export default HanhKhach;

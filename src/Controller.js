@@ -6,12 +6,16 @@ import CapNhatChuyenBay from "./components/ChuyenBay/CapNhatChuyenBay.js";
 import DanhSachChuyenBay from "./components/ChuyenBay/DanhSachChuyenBay.js";
 import ThemMoiChuyenBay from "./components/ChuyenBay/ThemMoiChuyenBay.js";
 import TimKiemChuyenBay from "./components/ChuyenBay/DanhSachTimKiemChuyenBay.js";
-import ThongTinKhachHangDatVe from "./components/DatVeMayBay/ThongTinKhachHangDatVe.js";
+import ThemHanhKhachDatVe from "./components/HanhKhach/ThemHanhKhachDatVe.js";
+import DanhSachKhachHangDatVe from "./components/HanhKhach/DanhSachHanhKhach.js";
 import LichSuDatVe from "./components/VeMayBay/LichSuDatVe/LichSuDatVe.js";
 import TimKiemVe from "./components/VeMayBay/TimKiemVe/TimKiemVe.js";
+import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
+import BarChart from "./components/DashBoard/BarChart.js";
 import "./Controller.css";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
-import HanhKhach from "./components/HanhKhach/HanhKhach.js";
+import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
+
 function Controller() {
   return (
     <div className="Controller">
@@ -21,25 +25,30 @@ function Controller() {
           <Route path="/" element={<Home />} />
           {/* Thêm mới chuyến bay */}
           <Route>
-            <Route path="ThemMoiChuyenBay" element={<ThemMoiChuyenBay />} />
+            <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
             <Route path="CapNhatChuyenBay" element={<CapNhatChuyenBay />} />
             <Route path="DanhSachChuyenBay" element={<DanhSachChuyenBay />} />
             <Route path="TimKiemChuyenBay" element={<TimKiemChuyenBay />} />
             <Route path="HanhKhach" element={<HanhKhach />} />
           </Route>
-          {/* Đặt vé */}
+          {/* Hành Khách */}
           <Route>
             <Route
               path="ThongTinKhachHangDatVe"
-              element={<ThongTinKhachHangDatVe />}
+              element={<ThemHanhKhachDatVe />}
             />
-            <Route path="ThanhToan" element={<HoaDon />} />
-          </Route>
-          {/* Vé máy bay */}
-          <Route>
+            <Route
+              path="DanhSachKhachHangDatVe"
+              element={<DanhSachKhachHangDatVe />}
+            />
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
           </Route>
+             {/* Quản lý người dùng và thống kê */}
+             <Route>
+                <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung/>} />
+                <Route path="BarChart" element={<BarChart/>} />
+             </Route>
         </Routes>
         <Footer />
       </BrowserRouter>
