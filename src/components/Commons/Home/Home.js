@@ -4,12 +4,36 @@ import video from "../../../Assets/video.mp4";
 import "./Home.css";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
+import * as Yup from "yup";
+const check = Yup.object().shape({
+  diemDi: Yup.string().required("Điểm Đi không được để trống"),
+  diemDen: Yup.string()
+    .notOneOf([Yup.ref("diemDi")], "Điểm Đến không được trùng với Điểm Đi")
+    .required("Điểm Đến không được để trống"),
+});
 export default function Home() {
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
   const [soNguoiLon, setSoNguoiLon] = useState(0);
   const [soTreEm, setSoTreEm] = useState(0);
   const [soEmBe, setSoEmBe] = useState(0);
+  const [sanBays, setSanBays] = useState([]);
+  const [diemDi, setDiemDi] = useState("");
+  const [diemDen, setDiemDen] = useState("");
+  const [ngayDi, setNgayDi] = useState("");
+  const [ngayDiKh, setNgayDiKh] = useState("");
   const navigate = useNavigate();
+
+  // Lấy danh sách sân bay
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/chuyen-bay/listSelectOption")
+      .then((response) => {
+        const { sanBays } = response.data;
+        setSanBays(sanBays);
+      })
+      .catch((err) => console.error);
+  }, []);
 
   // Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
@@ -44,18 +68,27 @@ export default function Home() {
   const handleSubmit = (event) => {
     event.preventDefault();
     navigate(
-      "/ThongTinKhachHangDatVe?soNguoiLon=" +
+      "/TimKiemChuyenBay?soNguoiLon=" +
         soNguoiLon +
         "&soTreEm=" +
         soTreEm +
         "&soEmBe=" +
-        soEmBe
+        soEmBe +
+        "&diemDi=" +
+        diemDi +
+        "&diemDen=" +
+        diemDen +
+        "&ngayDi=" +
+        ngayDi +
+        "&ngayDiKh=" +
+        ngayDiKh
     );
   };
 
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
+
   return (
     <div>
       <section className="home">
@@ -95,20 +128,38 @@ export default function Home() {
                 <label className="label" htmlFor="city">
                   Điểm Đi
                 </label>
-                <select id="flightType" className="select" name="flightType">
-                  <option>Sân Bay Nội Bài</option>
-                  <option>Sân Bay Đà Nẵng</option>
-                  <option>Sân Bay Tân Sơn Nhất</option>
+                <select
+                  name="diemDi"
+                  id="diemDi"
+                  value={diemDi}
+                  onChange={(e) => setDiemDi(e.target.value.toString())}
+                  className="form-control "
+                >
+                  <option value="">-- Chọn điểm đi --</option>
+                  {sanBays.map((sanBay) => (
+                    <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                      {sanBay.thanhPho}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
                   Điểm Đến
                 </label>
-                <select id="flightType" className="select" name="flightType">
-                  <option>Sân Bay Nội Bài</option>
-                  <option>Sân Bay Đà Nẵng</option>
-                  <option>Sân Bay Tân Sơn Nhất</option>
+                <select
+                  name="diemDen"
+                  id="diemDen"
+                  value={diemDen}
+                  onChange={(e) => setDiemDen(e.target.value.toString())}
+                  className="form-control "
+                >
+                  <option value="">-- Chọn điểm đi --</option>
+                  {sanBays.map((sanBay) => (
+                    <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                      {sanBay.thanhPho}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="dateInput">
@@ -116,7 +167,12 @@ export default function Home() {
                   Ngày Đi
                 </label>
                 <div className="input flex">
-                  <input type="date" placeholder="name..."></input>
+                  <input
+                    type="date"
+                    placeholder="name..."
+                    value={ngayDi}
+                    onChange={(e) => setNgayDi(e.target.value.toString())}
+                  ></input>
                 </div>
               </div>
               <div className="dateInput">
@@ -130,6 +186,8 @@ export default function Home() {
                     className="form-control"
                     name="NgayVe"
                     id="NgayVe"
+                    value={ngayDiKh}
+                    onChange={(e) => setNgayDiKh(e.target.value.toString())}
                   ></input>
                 </div>
               </div>
