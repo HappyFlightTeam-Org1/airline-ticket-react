@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from "react";
-import { Bar, Chart, Line, Pie } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import { UserData } from "./Data";
 import { Chart as ChartJS } from "chart.js/auto";
 import "./BarChart.css";

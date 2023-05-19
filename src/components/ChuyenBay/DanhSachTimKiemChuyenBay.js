@@ -9,6 +9,8 @@ function DanhSachTimKiemChuyenBay() {
   const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(3);
+  const [totalElement, setTotalElement] = useState(0);
+  const [totalElement1, setTotalElement1] = useState(0);
   const [totalPages, setTotalPages] = useState();
   const [sortBy, setSortBy] = useState("giaVe");
   const [sortDirection, setSortDirection] = useState("ASC");
@@ -47,6 +49,9 @@ function DanhSachTimKiemChuyenBay() {
       setTotalPages(response.data.totalPages);
       const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
       const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
+      setTotalElement(response.data.chuyenBay1Chieu.totalElements);
+      setTotalElement1(response.data.chuyenBayKhuHoi.totalElements);
+
       setChuyenBays(chuyenBay1Chieu.content);
       setChuyenBayKhuHois(chuyenBayKhuHoi.content);
     } catch (error) {
@@ -54,32 +59,11 @@ function DanhSachTimKiemChuyenBay() {
     }
   };
 
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const pageNumbers = Array.from(
-    { length: totalPages },
-    (_, index) => index + 1
-  );
-
-  const handleJumpToPage = (pageNumber) => {
-    setPage(pageNumber);
-  };
-
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
-  const handleSortDirectionChange = (event) => {
+  const handleSortFieldChange = (event) => {
     setSortDirection(event.target.value);
   };
 
@@ -112,17 +96,32 @@ function DanhSachTimKiemChuyenBay() {
           <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
-                <select value={sortBy} onChange={handleSortChange}>
-                  <option value="giaVe">Giá vé</option>
-                  <option value="gioKhoiHanh">Giờ khởi hành</option>
-                </select>
-                <select
-                  value={sortDirection}
-                  onChange={handleSortDirectionChange}
-                >
-                  <option value="ASC">Tăng dần</option>
-                  <option value="DESC">Giảm dần</option>
-                </select>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="sortBySelect">
+                      Sắp xếp theo
+                    </label>
+                  </div>
+                  <select
+                    class="custom-select"
+                    id="sortBySelect"
+                    value={sortBy}
+                    onChange={handleSortChange}
+                  >
+                    <optgroup label="Lựa chọn">
+                      <option value="giaVe">Giá vé</option>
+                      <option value="gioKhoiHanh">Giờ khởi hành</option>
+                    </optgroup>
+                  </select>
+                  <select
+                    class="custom-select"
+                    value={sortDirection}
+                    onChange={handleSortFieldChange}
+                  >
+                    <option value="ASC">Tăng dần</option>
+                    <option value="DESC">Giảm dần</option>
+                  </select>
+                </div>
               </li>
             </ul>
           </div>
@@ -140,7 +139,12 @@ function DanhSachTimKiemChuyenBay() {
         ></div>
         {/* Danh sách chuyến bay đi */}
         <div className="col-md-10 pd-5">
-          <h2>Danh sách chuyến bay đi</h2>
+          <h2 style={{ color: "#005f6e" }}>
+            Danh sách chuyến bay đi{" "}
+            <span class="navbar-brand" style={{ color: "orange" }}>
+              {totalElement} kết quả
+            </span>{" "}
+          </h2>
           {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
           {chuyenBays.length > 0 &&
             chuyenBays.map((chuyenBay) => (
@@ -256,32 +260,27 @@ function DanhSachTimKiemChuyenBay() {
                 </div>
               </div>
             ))}
-          {/* Pagination */}
-          {/* <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            fetchChuyenBays={fetchChuyenBays}
-          /> */}
-          <div>
-            <button onClick={handlePreviousPage} disabled={page === 1}>
-              Previous
+          {totalElement - size > 0 ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => setSize(totalElement)}
+            >
+              Xem thêm {totalElement - size} chuyến bay khác
             </button>
-            {pageNumbers.map((pageNumber) => (
-              <button
-                key={pageNumber}
-                onClick={() => handleJumpToPage(pageNumber)}
-                disabled={page === pageNumber}
-              >
-                {pageNumber}
-              </button>
-            ))}
-            <button onClick={handleNextPage} disabled={page === totalPages}>
-              Next
+          ) : (
+            <button className="btn btn-primary" onClick={() => setSize(3)}>
+              Thu gọn
             </button>
-          </div>
-
+          )}
           {/* Danh sách chuyến bay về */}
-          {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
+          {chuyenBayKhuHois.length > 0 && (
+            <h2 style={{ color: "#005f6e" }}>
+              Danh sách chuyến bay về{" "}
+              <span class="navbar-brand" style={{ color: "orange" }}>
+                {totalElement1} kết quả
+              </span>
+            </h2>
+          )}
           {chuyenBayKhuHois.length > 0 &&
             chuyenBayKhuHois.map((chuyenBay) => (
               <div className="card my-2 hover-ds">
@@ -396,12 +395,17 @@ function DanhSachTimKiemChuyenBay() {
                 </div>
               </div>
             ))}
-          {chuyenBayKhuHois.length > 0 && (
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              fetchChuyenBays={fetchChuyenBays}
-            />
+          {totalElement1 - size > 0 ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => setSize(totalElement1)}
+            >
+              Xem thêm {totalElement1 - size} chuyến bay khác
+            </button>
+          ) : (
+            <button className="btn btn-primary" onClick={() => setSize(3)}>
+              Thu gọn
+            </button>
           )}
         </div>
       </div>
