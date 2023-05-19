@@ -14,6 +14,7 @@ import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import BarChart from "./components/DashBoard/BarChart.js";
 import "./Controller.css";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
+import HoaDon from "./components/ThanhToan/HoaDon.js";
 
 function Controller() {
   return (
@@ -56,6 +57,10 @@ function Controller() {
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
             <Route path="BarChart" element={<BarChart />} />
+          </Route>
+          {/* Hóa Đơn */}
+          <Route>
+            <Route path="ThanhToan" element={<HoaDon />} />
           </Route>
         </Routes>
         <Footer />
