@@ -8,11 +8,18 @@ function HanhKhach() {
   const [pageSize, setPageSize] = useState(5);
   const [totalPage, setTotalPage] = useState(3);
   const [pageNumbers, setPageNumbers] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [name, setName] = useState('');
+  const [isStatus, setIsStatus] = useState(false);
+  
 
   useEffect(() => {
+    const url = isSearching
+      ? `http://localhost:8080/hanh-khach/search?tenHanhKhach=${name}&page=${currentPage}&size=${pageSize}`
+      : `http://localhost:8080/hanh-khach/list-with-page?page=${currentPage}&size=${pageSize}`;
     axios
       .get(
-        `http://localhost:8080/hanh-khach/list-with-page?page=${currentPage}&size=${pageSize}`
+        url
       )
       .then((response) => {
         const data = response.data;
@@ -21,13 +28,14 @@ function HanhKhach() {
         setListKH(data.content);
       })
       .catch((error) => console.error);
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize,isStatus]);
 
   function handleNextPageClick() {
     if (currentPage < totalPage - 1) {
       setCurrentPage(currentPage + 1);
     }
   }
+
 
   function handlePreviousPageClick() {
     if (currentPage > 0) {
@@ -38,11 +46,19 @@ function HanhKhach() {
   function handlePageNumberClick(pageNumber) {
     setCurrentPage(pageNumber);
   }
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    setName(event.target.elements.adults.value);
+    setIsSearching(true);  
+    isStatus===true?setIsStatus(false):setIsStatus(true);
+  };
 
   return (
+    
     <div className="container hanhkhach ">
+      <div className="tablehk">
       <h1 className="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
-      <form className="row justify-content-center search">
+      <form className="row justify-content-center search" onSubmit={handleSearch}>
         <div className="form-group col-md-2 ">
           <h5>Tìm Kiếm</h5>
         </div>
@@ -93,6 +109,8 @@ function HanhKhach() {
       {listKH.length === 0 && (
         <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
       )}
+      </div>
+      <div>
       {listKH.length > 0 && (
         <div className="pagination justify-content-center">
           <nav aria-label="Page navigation example">
@@ -139,7 +157,10 @@ function HanhKhach() {
           </nav>
         </div>
       )}
+      </div>
     </div>
+    
+    
   );
 }
 
