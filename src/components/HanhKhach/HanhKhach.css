@@ -39,3 +39,26 @@ h5 {
   padding: 0px;
   width: 50px;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination .page-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px;
+}
+
+.pagination .page-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.pagination .page-item.active {
+  background-color: #069a69;
+  color: #fff;
+}
