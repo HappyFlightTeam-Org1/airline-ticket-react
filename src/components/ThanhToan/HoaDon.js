@@ -5,7 +5,10 @@ function HoaDon() {
     return (
         <div className='container d-flex justify-content-center'>
             <div className="order">
-                <div className="order-sidebar"></div>
+                <div className="order-sidebar">
+                    <img src="https://www.onlygfx.com/wp-content/uploads/2021/07/paper-plane-1.png" />
+
+                </div>
                 <div className="order-content">
                     <h3>CHI TIẾT GIÁ</h3>
                     <div className="content">
