@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ currentPage, totalPages, fetchChuyenBays }) => {
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      fetchChuyenBays(currentPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      fetchChuyenBays(currentPage + 1);
     }
   };
 
   const handleJumpToPage = (pageNumber) => {
-    onPageChange(pageNumber);
+    fetchChuyenBays(pageNumber);
   };
 
   const renderPageNumbers = () => {

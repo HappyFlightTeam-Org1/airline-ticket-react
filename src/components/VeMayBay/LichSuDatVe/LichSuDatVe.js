@@ -3,9 +3,9 @@ import './LichSuDatVe.css'
 import axios from "axios";
 function LichSuDatVe() {
     return (
-        <div className='container bg-body table-shadow'>
-            <div className="pt-5 pb-3">
-                <div className="text-center pb-3">
+        <div className='container bg-body table-shadow mt-3'>
+            <div className="pt-5 pb-2">
+                <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
                 </div>
                 <form className="row justify-content-center search">

@@ -134,7 +134,7 @@ export default function Home() {
                   id="diemDi"
                   value={diemDi}
                   onChange={(e) => setDiemDi(e.target.value.toString())}
-                  className="form-control "
+                  className="select "
                 >
                   <option value="">-- Chọn điểm đi --</option>
                   {sanBays.map((sanBay) => (
@@ -153,7 +153,7 @@ export default function Home() {
                   id="diemDen"
                   value={diemDen}
                   onChange={(e) => setDiemDen(e.target.value.toString())}
-                  className="form-control "
+                  className="select "
                 >
                   <option value="">-- Chọn điểm đi --</option>
                   {sanBays.map((sanBay) => (
