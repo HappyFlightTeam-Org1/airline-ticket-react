@@ -63,7 +63,7 @@ function CapNhatChuyenBay() {
               className="card-header  text-white"
               style={{ backgroundColor: "#FFA500" }}
             >
-              <h3>Chỉnh Sửa Chuyến Bay</h3>
+              <h3 autoFocus>Chỉnh Sửa Chuyến Bay</h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
@@ -194,7 +194,6 @@ function CapNhatChuyenBay() {
                       className="form-control "
                     >
                       {mayBays.map((maybay) =>
-                      
                         maybay.maMayBay === formData.maMayBay ? (
                           <option
                             key={maybay.maMayBay}
