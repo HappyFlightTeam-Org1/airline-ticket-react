@@ -3,11 +3,11 @@ import './TimKiemVe.css'
 function TimKiemVe() {
     return (
         <div className='container bg-body table-shadow mt-3'>
-            <div className="pt-5 pb-3">
-                <div className="text-center pb-3">
+            <div className="pt-5 pb-2">
+                <div className="text-center pb-2">
                     <h1>TÌM KIẾM VÉ</h1>
                 </div>
-                <form className="row justify-content-center search">
+                <form className="row justify-content-center">
                     <div className="form-group d-flex justify-content-center align-items-center">
                         <div className="form-group col-md-2">
                             <input id="maHoaDon" type="text" name="maHoaDon" className="form-control"
@@ -37,7 +37,7 @@ function TimKiemVe() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-001</th>
                         <td>Nguyen Van A</td>
                         <td>02-06-2023</td>
@@ -51,7 +51,7 @@ function TimKiemVe() {
                             <button className="btn btn-primary " type="submit">In</button>
                         </td>
                     </tr>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-002</th>
                         <td>Nguyen Van B</td>
                         <td>02-06-2023</td>
@@ -65,7 +65,7 @@ function TimKiemVe() {
                             <button className="btn btn-primary" type="submit">In</button>
                         </td>
                     </tr>
-                    <tr class="align-middle">
+                    <tr className="align-middle">
                         <th scope="row">TK-005</th>
                         <td>Nguyen Van E</td>
                         <td>02-06-2023</td>

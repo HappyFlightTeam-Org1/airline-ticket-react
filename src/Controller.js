@@ -62,6 +62,11 @@ function Controller() {
           <Route>
             <Route path="ThanhToan" element={<HoaDon />} />
           </Route>
+          {/* Quản lý lịch sử đặt vé */}
+          <Route>
+            <Route path="LichSuDatVe" element={<LichSuDatVe />} />
+            <Route path="TimKiemVe" element={<TimKiemVe />} />
+          </Route>
         </Routes>
         <Footer />
       </BrowserRouter>

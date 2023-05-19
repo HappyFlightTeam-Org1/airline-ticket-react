@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './LichSuDatVe.css'
 import axios from "axios";
 function LichSuDatVe() {
+    const [tickets, setTickets] = useState([]);
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/VeMayBay/list")
+            .then((response) => {
+                setTickets(response.data);
+                console.log("VE MAY BAY");
+                console.log(response.data);
+            })
+            .catch((err) => console.error);
+    }, []);
     return (
         <div className='container bg-body table-shadow mt-3'>
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
                 </div>
-                <form className="row justify-content-center search">
+                <form className="row justify-content-center">
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
                         <h5>Tìm Kiếm Theo</h5>
                     </div>
@@ -40,86 +51,30 @@ function LichSuDatVe() {
                         <th scope="col">Nơi Đến</th>
                         <th scope="col">Hạng Vé</th>
                         <th scope="col">Giá Vé</th>
-                        <th scope="col">TT Thanh Toán</th>
+                        {/* <th scope="col">TT Thanh Toán</th> */}
                         <th scope="col">Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="align-middle">
-                        <th scope="row">TK-001</th>
-                        <td>Nguyen Van A</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Thương Gia</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
-                        </td>
-                    </tr>
-                    <tr className="align-middle">
-                        <th scope="row">TK-002</th>
-                        <td>Nguyen Van B</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Phổ thông</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
-                        </td>
-                    </tr>
-                    <tr className="align-middle">
-                        <th scope="row">TK-003</th>
-                        <td>Nguyen Van C</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Thương Gia</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
-                        </td>
-                    </tr>
-                    <tr className="align-middle">
-                        <th scope="row">TK-004</th>
-                        <td>Nguyen Van D</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Phổ thông</td>
-                        <td>2.000.000</td>
-                        <td>Chưa Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
-                        </td>
-                    </tr>
-                    <tr class="align-middle">
-                        <th scope="row">TK-005</th>
-                        <td>Nguyen Van E</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Thương Gia</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
-                        </td>
-                    </tr>
+                    {tickets.map((item, index) => {
+                        return (
+                            <tr className="align-middle" key={item.maVe}>
+                                <th scope="row">{item.maVe}</th>
+                                <td>{item.hanhKhach.tenHanhKhach}</td>
+                                <td>{item.hoaDon.ngayTao}</td>
+                                <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
+                                <td>{item.datCho.chuyenBay.diemDi}</td>
+                                <td>{item.datCho.chuyenBay.diemDen}</td>
+                                <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                                <td>{item.giaVe}</td>
+                                {/* <td>{item.hoaDon.trangThaiThanhToan == 0 ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'}</td> */}
+                                <td>
+                                    <button className="btn btn-primary" type="submit">In</button>
+                                    <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
+                                </td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </table>
             <div className="justify-content-center pagination">
