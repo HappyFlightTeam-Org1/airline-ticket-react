@@ -59,6 +59,10 @@ function Controller() {
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
             <Route path="BarChart" element={<BarChart />} />
           </Route>
+          {/* Hóa Đơn */}
+          <Route>
+            <Route path="ThanhToan" element={<HoaDon />} />
+          </Route>
         </Routes>
         <Footer />
       </BrowserRouter>

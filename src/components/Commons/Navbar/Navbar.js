@@ -63,6 +63,18 @@ export default function Navbar() {
                 </li>
 
                 <li className="nav-item">
+                  <a href="#">
+                    <Link
+                      as={Link}
+                      to="ThanhToan"
+                      className="text-white nav-link active"
+                    >
+                      Thanh Toán
+                    </Link>
+                  </a>
+                </li>
+
+                <li className="nav-item">
                   <a className="nav-link" href="#">
                     Tin Tức
                   </a>
