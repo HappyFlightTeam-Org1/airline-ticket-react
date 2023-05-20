@@ -57,8 +57,6 @@ function DanhSachTimKiemChuyenBay() {
     }
   }, [idChuyenBayDi, idChuyenBayKhuHoi]);
 
-  console.log(chuyenBay);
-  console.log(chuyenBayKhuHoi);
   useEffect(() => {
     fetchChuyenBays();
   }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayDi, ngayDiKh]);
@@ -66,7 +64,7 @@ function DanhSachTimKiemChuyenBay() {
   const fetchChuyenBays = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/chuyen-bay/listPageHaiChieu",
+        "http://localhost:8080/chuyen-bay/listPageUser",
         {
           params: {
             page,
@@ -115,8 +113,6 @@ function DanhSachTimKiemChuyenBay() {
         idChuyenBayKhuHoi
     );
   };
-  console.log(idChuyenBayDi);
-  console.log(idChuyenBayKhuHoi);
 
   return (
     <div className="container my-4 xxx  ">
