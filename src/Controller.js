@@ -14,6 +14,7 @@ import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import BarChart from "./components/DashBoard/BarChart.js";
 import "./Controller.css";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
+import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 
 function Controller() {
@@ -29,6 +30,7 @@ function Controller() {
             <Route path="CapNhatChuyenBay" element={<CapNhatChuyenBay />} />
             <Route path="DanhSachChuyenBay" element={<DanhSachChuyenBay />} />
             <Route path="TimKiemChuyenBay" element={<TimKiemChuyenBay />} />
+            <Route path="HanhKhach" element={<HanhKhach />} />
           </Route>
           {/* Hành Khách */}
           <Route>
