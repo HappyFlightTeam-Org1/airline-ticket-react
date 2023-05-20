@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ThemMoiChuyenBay() {
   const navigate = useNavigate();
@@ -34,11 +36,11 @@ function ThemMoiChuyenBay() {
         },
       })
       .then((response) => {
-        alert("Them thanh cong");
+        toast.success("THÊM THÀNH CÔNG");
         navigate("/DanhSachChuyenBay");
       })
       .catch((err) => {
-        alert("Them that bai");
+        toast.warning("THÊM THẤT BẠI");
       });
   };
 
@@ -55,7 +57,6 @@ function ThemMoiChuyenBay() {
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
-                
                 <div className="form-group row">
                   <div className="col-md-6">
                     <label>Mã chuyến bay</label>
