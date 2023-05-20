@@ -78,6 +78,7 @@ function HoaDon() {
           </div>
           <h5> Chuyến Bay Về</h5>
           <div className="content">
+            {/* Chưa lấy được số người lớn ,trẻ em, em bé , chấm lenght không ra nha anh Duy */}
             <div>
               {chuyenBayKhuHoi.hangBay.tenHangBay} (Người Lớn x{" "}
               {adultsInfo.length}){" "}
