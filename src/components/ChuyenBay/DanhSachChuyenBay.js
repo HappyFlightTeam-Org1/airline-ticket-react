@@ -8,12 +8,12 @@ function DanhSachChuyenBay() {
   const [isSearching, setIsSearching] = useState(false);
   const [formData, setFormData] = useState({});
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(3);
+  const [size, setSize] = useState(10);
   const [sanBays, setSanBays] = useState([]);
   const [diemDi, setDiemDi] = useState();
   const [diemDen, setDiemDen] = useState();
-  const [ngayDi, setNgayDi] = useState();
-  const [totalElements, setTotalElements] = useState(0);
+  const [ngayKhoiHanh, setNgayDi] = useState();
+  // const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState();
 
   // Lấy danh sách sân bay  DucNH66
@@ -29,7 +29,7 @@ function DanhSachChuyenBay() {
 
   useEffect(() => {
     fetchChuyenBays();
-  }, [page, size, diemDi, diemDen, ngayDi]);
+  }, [page, size, diemDi, diemDen, ngayKhoiHanh]);
 
   const fetchChuyenBays = async () => {
     try {
@@ -41,13 +41,13 @@ function DanhSachChuyenBay() {
             size,
             diemDi,
             diemDen,
-            ngayDi,
+            ngayKhoiHanh,
           },
         }
       );
       setTotalPages(response.data.totalPages);
-      setTotalElements(response.data.totalElements);
-      if (diemDi || diemDen || ngayDi) {
+      // setTotalElements(response.data.totalElements);
+      if (diemDi || diemDen || ngayKhoiHanh) {
         setIsSearching(true);
         setSearchResult(response.data.content);
       } else {
@@ -68,10 +68,11 @@ function DanhSachChuyenBay() {
     setPage(0);
     setDiemDi(formData.diemDi);
     setDiemDen(formData.diemDen);
-    setNgayDi(formData.ngayDi);
-    if (!diemDi && !diemDen && !ngayDi) {
+    setNgayDi(formData.ngayKhoiHanh);
+    if (!diemDi && !diemDen && !ngayKhoiHanh) {
       setIsSearching(false);
       setListCB([]);
+      fetchChuyenBays();
     }
   };
 
@@ -150,9 +151,10 @@ function DanhSachChuyenBay() {
         </div>
         <div class="form-group col -md-2">
           <input
-            id="adults"
+            id="ngayKhoiHanh"
             type="date"
-            name="adults"
+            name="ngayKhoiHanh"
+            value={formData.ngayKhoiHanh}
             class="form-control"
             placeholder="Ngày Khởi Hành"
             onChange={handleInputChange}

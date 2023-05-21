@@ -2,10 +2,11 @@ hanhkhach {
   width: 80%;
   margin-left: 10%;
   margin-top: 100px;
-  
+
   /* background-color: #33ccff; */
 }
-.tablehk{
+
+.tablehk {
   height: 450px;
 }
 
@@ -64,4 +65,12 @@ h5 {
 .pagination .page-item.active {
   background-color: #069a69;
   color: #fff;
+}
+
+b {
+  color: beige;
+}
+
+.error-message {
+  color: red;
 }

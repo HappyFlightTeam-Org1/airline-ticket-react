@@ -49,7 +49,6 @@ function HoaDon() {
   console.log(babyInfo);
   console.log(chuyenBay);
   console.log(chuyenBayKhuHoi);
-  const total = adultsInfo.length + childrenInfo.length + babyInfo.length;
 
   return (
     <div className="container d-flex justify-content-center">
