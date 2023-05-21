@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DSTimKiemCBCSS from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
-import Pagination from "./Pagination";
 import axios from "axios";
 
 function DanhSachTimKiemChuyenBay() {
+  const [idChuyenBayDi, setIdChuyenBayDi] = useState();
+  const [idChuyenBayKhuHoi, setIdChuyenBayKhuHoi] = useState();
+  const [chuyenBay, setChuyenBay] = useState();
+  const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
+  const [hidden, setHidden] = useState(false);
+  const [hidden1, setHidden1] = useState(false);
   const [chuyenBays, setChuyenBays] = useState([]);
   const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(3);
+  const [totalElement, setTotalElement] = useState(0);
+  const [totalElement1, setTotalElement1] = useState(0);
   const [totalPages, setTotalPages] = useState();
   const [sortBy, setSortBy] = useState("giaVe");
   const [sortDirection, setSortDirection] = useState("ASC");
@@ -24,13 +31,40 @@ function DanhSachTimKiemChuyenBay() {
   const ngayDiKh = queryParams.get("ngayDiKh");
 
   useEffect(() => {
+    setHidden(!hidden);
+    setHidden1(!hidden1);
+  }, [idChuyenBayDi]);
+
+  useEffect(() => {
+    setHidden1(!hidden1);
+  }, [idChuyenBayKhuHoi]);
+
+  useEffect(() => {
+    if (idChuyenBayDi) {
+      axios
+        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
+        .then((response) => {
+          setChuyenBay(response.data);
+        });
+    }
+
+    if (idChuyenBayKhuHoi) {
+      axios
+        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
+        .then((response) => {
+          setChuyenBayKhuHoi(response.data);
+        });
+    }
+  }, [idChuyenBayDi, idChuyenBayKhuHoi]);
+
+  useEffect(() => {
     fetchChuyenBays();
   }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayDi, ngayDiKh]);
 
   const fetchChuyenBays = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/chuyen-bay/listPageHaiChieu",
+        "http://localhost:8080/chuyen-bay/listPageUser",
         {
           params: {
             page,
@@ -47,6 +81,8 @@ function DanhSachTimKiemChuyenBay() {
       setTotalPages(response.data.totalPages);
       const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
       const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
+      setTotalElement(response.data.chuyenBay1Chieu.totalElements);
+      setTotalElement1(response.data.chuyenBayKhuHoi.totalElements);
       setChuyenBays(chuyenBay1Chieu.content);
       setChuyenBayKhuHois(chuyenBayKhuHoi.content);
     } catch (error) {
@@ -54,23 +90,11 @@ function DanhSachTimKiemChuyenBay() {
     }
   };
 
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
-
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
-  const handleSortDirectionChange = (event) => {
+  const handleSortFieldChange = (event) => {
     setSortDirection(event.target.value);
   };
 
@@ -82,7 +106,11 @@ function DanhSachTimKiemChuyenBay() {
         "&soTreEm=" +
         soTreEm +
         "&soEmBe=" +
-        soEmBe
+        soEmBe +
+        "&idChuyenBayDi=" +
+        idChuyenBayDi +
+        "&idChuyenBayKhuHoi=" +
+        idChuyenBayKhuHoi
     );
   };
 
@@ -103,17 +131,32 @@ function DanhSachTimKiemChuyenBay() {
           <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
-                <select value={sortBy} onChange={handleSortChange}>
-                  <option value="giaVe">Giá vé</option>
-                  <option value="gioKhoiHanh">Giờ khởi hành</option>
-                </select>
-                <select
-                  value={sortDirection}
-                  onChange={handleSortDirectionChange}
-                >
-                  <option value="ASC">Tăng dần</option>
-                  <option value="DESC">Giảm dần</option>
-                </select>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="sortBySelect">
+                      Sắp xếp theo
+                    </label>
+                  </div>
+                  <select
+                    class="custom-select"
+                    id="sortBySelect"
+                    value={sortBy}
+                    onChange={handleSortChange}
+                  >
+                    <optgroup label="Lựa chọn">
+                      <option value="giaVe">Giá vé</option>
+                      <option value="gioKhoiHanh">Giờ khởi hành</option>
+                    </optgroup>
+                  </select>
+                  <select
+                    class="custom-select"
+                    value={sortDirection}
+                    onChange={handleSortFieldChange}
+                  >
+                    <option value="ASC">Tăng dần</option>
+                    <option value="DESC">Giảm dần</option>
+                  </select>
+                </div>
               </li>
             </ul>
           </div>
@@ -122,6 +165,7 @@ function DanhSachTimKiemChuyenBay() {
 
       {/* Danh sách chuyến bay tìm kiếm được */}
       <div className="row my-4 ">
+        {/* Div trang trí */}
         <div
           className="col-md-2 shadow "
           style={{
@@ -129,11 +173,22 @@ function DanhSachTimKiemChuyenBay() {
               "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
           }}
         ></div>
-        {/* Danh sách chuyến bay đi */}
+
+        {/* Div tổng của danh sách chuyến bay đi và về */}
         <div className="col-md-10 pd-5">
-          <h2>Danh sách chuyến bay đi</h2>
+          {/*Tiêu đề Danh sách chuyến bay đi */}
+          {hidden && chuyenBays.length > 0 && (
+            <h2 style={{ color: "#005f6e" }}>
+              Danh sách chuyến bay đi{" "}
+              <span class="navbar-brand" style={{ color: "orange" }}>
+                {totalElement} kết quả
+              </span>{" "}
+            </h2>
+          )}
           {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
-          {chuyenBays.length > 0 &&
+          {/* Danh sách chuyến bay đi */}
+          {hidden &&
+            chuyenBays.length > 0 &&
             chuyenBays.map((chuyenBay) => (
               <div className="card my-2 hover-ds">
                 <div className="card-body card-bo">
@@ -168,7 +223,9 @@ function DanhSachTimKiemChuyenBay() {
                     </div>
 
                     <div className="col-md-3 ">
-                      <a href="#" onClick={handleLinkClick}>
+                      <a
+                        onClick={() => setIdChuyenBayDi(chuyenBay.maChuyenBay)}
+                      >
                         <div
                           className="card my-1"
                           style={{
@@ -206,7 +263,9 @@ function DanhSachTimKiemChuyenBay() {
                     </div>
 
                     <div className="col-md-3 ">
-                      <a href="#" onClick={handleLinkClick}>
+                      <a
+                        onClick={() => setIdChuyenBayDi(chuyenBay.maChuyenBay)}
+                      >
                         <div
                           className="card my-1"
                           style={{
@@ -247,17 +306,33 @@ function DanhSachTimKiemChuyenBay() {
                 </div>
               </div>
             ))}
-          {/* Pagination */}
-          {/* <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            fetchChuyenBays={fetchChuyenBays}
-          /> */}
-          
-
+          {/* Hiển thị thêm dữ liệu của danh sách chuyến bay đi */}
+          {hidden &&
+            chuyenBays.length > 0 &&
+            (totalElement - size > 0 ? (
+              <button
+                className="btn btn-primary"
+                onClick={() => setSize(totalElement)}
+              >
+                Xem thêm {totalElement - size} chuyến bay khác
+              </button>
+            ) : (
+              <button className="btn btn-primary" onClick={() => setSize(3)}>
+                Thu gọn
+              </button>
+            ))}
+          {/* Tiêu đề danh sách chuyến bay về */}
+          {!hidden1 && chuyenBays.length > 0 && (
+            <h2 style={{ color: "#005f6e" }}>
+              Danh sách chuyến bay về{" "}
+              <span class="navbar-brand" style={{ color: "orange" }}>
+                {totalElement1} kết quả
+              </span>{" "}
+            </h2>
+          )}
           {/* Danh sách chuyến bay về */}
-          {chuyenBayKhuHois.length > 0 && <h2>Danh sách chuyến bay về</h2>}
-          {chuyenBayKhuHois.length > 0 &&
+          {!hidden1 &&
+            chuyenBayKhuHois.length > 0 &&
             chuyenBayKhuHois.map((chuyenBay) => (
               <div className="card my-2 hover-ds">
                 <div className="card-body card-bo">
@@ -292,7 +367,11 @@ function DanhSachTimKiemChuyenBay() {
                     </div>
 
                     <div className="col-md-3 ">
-                      <a href="#" onClick={handleLinkClick}>
+                      <a
+                        onClick={() =>
+                          setIdChuyenBayKhuHoi(chuyenBay.maChuyenBay)
+                        }
+                      >
                         <div
                           className="card my-1"
                           style={{
@@ -330,7 +409,11 @@ function DanhSachTimKiemChuyenBay() {
                     </div>
 
                     <div className="col-md-3 ">
-                      <a href="#" onClick={handleLinkClick}>
+                      <a
+                        onClick={() =>
+                          setIdChuyenBayKhuHoi(chuyenBay.maChuyenBay)
+                        }
+                      >
                         <div
                           className="card my-1"
                           style={{
@@ -371,13 +454,114 @@ function DanhSachTimKiemChuyenBay() {
                 </div>
               </div>
             ))}
-          {chuyenBayKhuHois.length > 0 && (
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              fetchChuyenBays={fetchChuyenBays}
-            />
+          {/* Hiển thị thêm danh sách */}
+          {!hidden1 &&
+            chuyenBayKhuHois.length > 0 &&
+            (totalElement1 - size > 0 ? (
+              <button
+                className="btn btn-primary"
+                onClick={() => setSize(totalElement1)}
+              >
+                Xem thêm {totalElement1 - size} chuyến bay khác
+              </button>
+            ) : (
+              <button className="btn btn-primary" onClick={() => setSize(3)}>
+                Thu gọn
+              </button>
+            ))}
+
+          {/* Chuyến bay đi */}
+          {chuyenBay != null && (
+            <div className="m-3">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="card">
+                    <div className="card-body box-shadow-tt-ve">
+                      <div className="row">
+                        <b>Chuyến bay đi • {chuyenBay.ngayKhoiHanh}</b>
+                        <div style={{ height: "10px" }}></div>
+                        <div className="col-md-6">
+                          <p>
+                            <strong>Sân bay đi:</strong> {chuyenBay.diemDi}
+                          </p>
+                          <p>
+                            <strong>Thời gian bay:</strong>{" "}
+                            {chuyenBay.thoiGianBay}
+                          </p>
+                          <p>
+                            <strong>Giờ cất cạnh</strong>{" "}
+                            {chuyenBay.gioKhoiHanh}
+                          </p>
+                        </div>
+                        <div className="col-md-6">
+                          <p>
+                            <strong>Sân bay đến:</strong> {chuyenBay.diemDen}
+                          </p>
+                          <p>
+                            <strong>Khối lượng hành lý:</strong>{" "}
+                            {chuyenBay.klhanhLy}
+                          </p>
+                          <p>
+                            <strong>Giờ hạ cánh:</strong> {chuyenBay.gioHaCanh}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
+
+          {/* chuyến bay về */}
+          {chuyenBayKhuHoi != null && (
+            <div className="m-3">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="card">
+                    <div className="card-body box-shadow-tt-ve">
+                      <div className="row">
+                        <b>Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}</b>
+                        <div style={{ height: "10px" }}></div>
+                        <div className="col-md-6">
+                          <p>
+                            <strong>Sân bay đi:</strong>{" "}
+                            {chuyenBayKhuHoi.diemDi}
+                          </p>
+                          <p>
+                            <strong>Thời gian bay:</strong>{" "}
+                            {chuyenBayKhuHoi.thoiGianBay}
+                          </p>
+                          <p>
+                            <strong>Giờ cất cánh:</strong>{" "}
+                            {chuyenBayKhuHoi.gioKhoiHanh}
+                          </p>
+                        </div>
+                        <div className="col-md-6">
+                          <p>
+                            <strong>Sân bay đến:</strong>{" "}
+                            {chuyenBayKhuHoi.diemDen}
+                          </p>
+                          <p>
+                            <strong>Khối lượng hành lý:</strong>{" "}
+                            {chuyenBayKhuHoi.klhanhLy}
+                          </p>
+                          <p>
+                            <strong>Giờ hạ cánh:</strong>{" "}
+                            {chuyenBayKhuHoi.gioHaCanh}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <button className="btn btn-primary" onClick={handleLinkClick}>
+            Tiếp tục{" "}
+          </button>
         </div>
       </div>
     </div>

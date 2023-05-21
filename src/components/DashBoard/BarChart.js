@@ -113,6 +113,9 @@ function BarChart() {
       }]
     }
   }
+  let ref = useRef(null);
+  let pieRef = useRef(null);
+  let lineRef = useRef(null);
 
   const getHoaDonThongKe =() => {
     return {
@@ -136,10 +139,6 @@ function BarChart() {
     }
   };
 
-let ref = useRef(null);
-let pieRef = useRef(null);
-let lineRef = useRef(null);
-
   const downloadImage = useCallback(() => {
     const link = document.createElement("a");
     link.download = "chart.png";
@@ -161,8 +160,8 @@ let lineRef = useRef(null);
     link.click();
   }, []);
   return (
-    <>
-    <div className='barchart'>
+
+   <div className='barchart'>
     <div data-aos="fade-up" className="container state-overview ">
       <div className="row">
         <div className="col-xl-3 col-md-6 col-12">
@@ -178,10 +177,9 @@ let lineRef = useRef(null);
               {totalND.length}% Increase in 28 Days
               </span>
             </div>
-
           </div>
+       </div>
 
-        </div>
 
         <div className="col-xl-3 col-md-6 col-12">
           <div className="info-box bg-warning shadow">
@@ -195,11 +193,9 @@ let lineRef = useRef(null);
               <span className="progress-description">
                12 Hành Khách Tháng này đạt 30% CTT
               </span>
+              </div>
             </div>
-
           </div>
-
-        </div>
 
         <div className="col-xl-3 col-md-6 col-12">
           <div className="info-box bg-danger shadow">
@@ -214,9 +210,7 @@ let lineRef = useRef(null);
               {total.length}% Increase in 28 Days
               </span>
             </div>
-
           </div>
-
         </div>
 
         <div className="col-xl-3 col-md-6 col-12">
@@ -231,14 +225,11 @@ let lineRef = useRef(null);
               <span className="progress-description">
                 80% Increase in 28 Days
               </span>
+              </div>
             </div>
-
           </div>
-
+         </div>
         </div>
-
-      </div>
-    </div>
     <div className='chart'>
     <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage2}>Download Line</button>
@@ -250,13 +241,13 @@ let lineRef = useRef(null);
         <Bar data={getHoaDonThongKe()} ref={ref} ></Bar>
         <h6>Biểu Đồ 1.B: Thể Hiện Tổng Doanh Thu Mỗi Tháng</h6>
       </div>
-    <div  data-aos="fade-up" className='bar'>
+      <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage1}>Download Pie</button>
         <Pie data={userData} ref={pieRef}></Pie>
         <h6>Biểu Đồ 1.C: Thể Hiện Số Lượng vé Mỗi Tháng</h6>
       </div>
-            <div>
-            <div className='searchCB'>
+       <div  data-aos="fade-up" className='bar1'>
+       <div className='searchCB'>
               <input
                 type="date"
                 value={firstDay}
@@ -269,7 +260,6 @@ let lineRef = useRef(null);
               />
               <button onClick={searchChuyenBay}>Tìm Chuyến Bay</button>
             </div>
-       <div  data-aos="fade-up" className='bar1'>
         <div  data-aos="fade-up" className='bay'>
           {chuyenBays.map((chuyenBay) => (
             <div data-aos="fade-up" className='plane' key={chuyenBay.maChuyenBay}>
@@ -294,10 +284,9 @@ let lineRef = useRef(null);
             </Suspense>
         </Canvas>
       </div>
-      </div>
-    </div>
-  </div>
-  </>
-  )
+   </div>
+</div>
+  );
 }
+
 export default BarChart;

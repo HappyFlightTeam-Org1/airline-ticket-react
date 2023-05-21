@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CapNhatChuyenBay() {
   const navigate = useNavigate();
@@ -47,11 +49,11 @@ function CapNhatChuyenBay() {
         },
       })
       .then((response) => {
-        alert("Cap nhat thanh cong");
+        toast.success("CẬP NHẬT THÀNH CÔNG");
         navigate("/DanhSachChuyenBay");
       })
       .catch((err) => {
-        alert("Them that bai");
+        toast.warning("CẬP NHẬT THẤT BẠI");
       });
   };
   return (
@@ -63,7 +65,7 @@ function CapNhatChuyenBay() {
               className="card-header  text-white"
               style={{ backgroundColor: "#FFA500" }}
             >
-              <h3>Chỉnh Sửa Chuyến Bay</h3>
+              <h3 autoFocus>Chỉnh Sửa Chuyến Bay</h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
@@ -194,7 +196,6 @@ function CapNhatChuyenBay() {
                       className="form-control "
                     >
                       {mayBays.map((maybay) =>
-                      
                         maybay.maMayBay === formData.maMayBay ? (
                           <option
                             key={maybay.maMayBay}
