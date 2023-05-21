@@ -70,19 +70,19 @@ export default function Home() {
     event.preventDefault();
     navigate(
       "/TimKiemChuyenBay?soNguoiLon=" +
-        soNguoiLon +
-        "&soTreEm=" +
-        soTreEm +
-        "&soEmBe=" +
-        soEmBe +
-        "&diemDi=" +
-        diemDi +
-        "&diemDen=" +
-        diemDen +
-        "&ngayDi=" +
-        ngayDi +
-        "&ngayDiKh=" +
-        ngayDiKh
+      soNguoiLon +
+      "&soTreEm=" +
+      soTreEm +
+      "&soEmBe=" +
+      soEmBe +
+      "&diemDi=" +
+      diemDi +
+      "&diemDen=" +
+      diemDen +
+      "&ngayDi=" +
+      ngayDi +
+      "&ngayDiKh=" +
+      ngayDiKh
     );
   };
 
@@ -139,7 +139,7 @@ export default function Home() {
                   <option value="">-- Chọn điểm đi --</option>
                   {sanBays.map((sanBay) => (
                     <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
-                      {sanBay.thanhPho}
+                      {sanBay.tenSanBay}
                     </option>
                   ))}
                 </select>
@@ -158,7 +158,7 @@ export default function Home() {
                   <option value="">-- Chọn điểm đi --</option>
                   {sanBays.map((sanBay) => (
                     <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
-                      {sanBay.thanhPho}
+                      {sanBay.tenSanBay}
                     </option>
                   ))}
                 </select>

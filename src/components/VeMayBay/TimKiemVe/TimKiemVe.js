@@ -21,7 +21,7 @@ function TimKiemVe() {
                 </form>
             </div>
 
-            <table className="table table-striped">
+            <table className="table table-striped border">
                 <thead>
                     <tr>
                         <th scope="col">Mã Vé</th>

@@ -4,7 +4,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-.container {
+.order-container {
   min-height: 550px;
 }
 .order {

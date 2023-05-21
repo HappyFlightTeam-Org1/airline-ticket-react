@@ -14,7 +14,10 @@ import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import BarChart from "./components/DashBoard/BarChart.js";
 import "./Controller.css";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
+import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
+import ORDER from "./components/ThanhToan/ZaloPay/ORDER.js";
+import VNPayForm from "./components/ThanhToan/VNPay/VNPayForm.js";
 
 function Controller() {
   return (
@@ -29,6 +32,7 @@ function Controller() {
             <Route path="CapNhatChuyenBay" element={<CapNhatChuyenBay />} />
             <Route path="DanhSachChuyenBay" element={<DanhSachChuyenBay />} />
             <Route path="TimKiemChuyenBay" element={<TimKiemChuyenBay />} />
+            <Route path="HanhKhach" element={<HanhKhach />} />
           </Route>
           {/* Hành Khách */}
           <Route>
@@ -60,7 +64,8 @@ function Controller() {
           </Route>
           {/* Hóa Đơn */}
           <Route>
-            <Route path="ThanhToan" element={<HoaDon />} />
+            <Route path="ThanhToan" element={<ORDER />} />
+            <Route path="VNPay" element={<VNPayForm />} />
           </Route>
           {/* Quản lý lịch sử đặt vé */}
           <Route>
