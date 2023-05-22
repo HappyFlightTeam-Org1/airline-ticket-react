@@ -195,21 +195,11 @@ function CapNhatChuyenBay() {
                       onChange={handleInputChange}
                       className="form-control "
                     >
-                      {mayBays.map((maybay) =>
-                        maybay.maMayBay === formData.maMayBay ? (
-                          <option
-                            key={maybay.maMayBay}
-                            selected="true"
-                            value={maybay.maMayBay}
-                          >
-                            {maybay.tenMayBay}
-                          </option>
-                        ) : (
-                          <option key={maybay.maMayBay} value={maybay.maMayBay}>
-                            {maybay.tenMayBay}
-                          </option>
-                        )
-                      )}
+                      {mayBays.map((maybay) => (
+                        <option key={maybay.maMayBay} value={maybay.maMayBay}>
+                          {maybay.tenMayBay}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="col-md-6">

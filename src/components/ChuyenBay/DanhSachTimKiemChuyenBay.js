@@ -16,7 +16,6 @@ function DanhSachTimKiemChuyenBay() {
   const [size, setSize] = useState(3);
   const [totalElement, setTotalElement] = useState(0);
   const [totalElement1, setTotalElement1] = useState(0);
-  const [totalPages, setTotalPages] = useState();
   const [sortBy, setSortBy] = useState("giaVe");
   const [sortDirection, setSortDirection] = useState("ASC");
   const navigate = useNavigate();
@@ -29,6 +28,7 @@ function DanhSachTimKiemChuyenBay() {
   const diemDen = queryParams.get("diemDen");
   const ngayDi = queryParams.get("ngayDi");
   const ngayDiKh = queryParams.get("ngayDiKh");
+  const loaiChuyenBay = queryParams.get("loaiChuyenBay");
 
   useEffect(() => {
     setHidden(!hidden);
@@ -78,7 +78,6 @@ function DanhSachTimKiemChuyenBay() {
           },
         }
       );
-      setTotalPages(response.data.totalPages);
       const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
       const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
       setTotalElement(response.data.chuyenBay1Chieu.totalElements);
@@ -322,7 +321,7 @@ function DanhSachTimKiemChuyenBay() {
               </button>
             ))}
           {/* Tiêu đề danh sách chuyến bay về */}
-          {!hidden1 && chuyenBays.length > 0 && (
+          {!hidden1 && chuyenBayKhuHois.length > 0 && (
             <h2 style={{ color: "#005f6e" }}>
               Danh sách chuyến bay về{" "}
               <span class="navbar-brand" style={{ color: "orange" }}>
@@ -469,7 +468,6 @@ function DanhSachTimKiemChuyenBay() {
                 Thu gọn
               </button>
             ))}
-
           {/* Chuyến bay đi */}
           {chuyenBay != null && (
             <div className="m-3">
@@ -512,7 +510,6 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             </div>
           )}
-
           {/* chuyến bay về */}
           {chuyenBayKhuHoi != null && (
             <div className="m-3">
@@ -558,10 +555,27 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             </div>
           )}
+          {/* ẨN HIỆN NÚT CHỌN LẠI  */}
+          {loaiChuyenBay === "Một Chiều" && chuyenBay && (
+            <a className="btn btn-primary">Chọn lại</a>
+          )}
 
-          <button className="btn btn-primary" onClick={handleLinkClick}>
-            Tiếp tục{" "}
-          </button>
+          {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
+            <a className="btn btn-primary">Chọn lại</a>
+          )}
+
+          {/* ẨN HIỆN NÚT TIẾP TỤC  */}
+          {loaiChuyenBay === "Một Chiều" && chuyenBay && (
+            <button className="btn btn-primary" onClick={handleLinkClick}>
+              Tiếp tục{" "}
+            </button>
+          )}
+
+          {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
+            <button className="btn btn-primary" onClick={handleLinkClick}>
+              Tiếp tục{" "}
+            </button>
+          )}
         </div>
       </div>
     </div>

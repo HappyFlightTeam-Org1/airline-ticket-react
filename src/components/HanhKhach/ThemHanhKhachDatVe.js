@@ -3,9 +3,9 @@ import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as Yup from "yup";
-
 const hanhKhachSchema = Yup.object().shape({
   tenHanhKhach: Yup.string().required("Vui lòng nhập tên hành khách"),
+  ngaySinh: Yup.string().required("Vui lòng nhập trường này"),
   gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
 });
 
@@ -22,7 +22,6 @@ const ThongTinKhachHangDatVe = () => {
   const soEmBe = queryParams.get("soEmBe");
   const idChuyenBayDi = queryParams.get("idChuyenBayDi");
   const idChuyenBayKhuHoi = queryParams.get("idChuyenBayKhuHoi");
-
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -103,46 +102,46 @@ const ThongTinKhachHangDatVe = () => {
     setBabyInfo(newBabyInfo);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
-      (hanhKhach) => {
-        return {
-          ...hanhKhach,
-          // loaiHanhKhach: getCustomerType(hanhKhach),
-        };
-      }
-    );
-    try {
-      const validatedHanhKhachs = await Promise.all(
-        hanhKhachs.map((hanhKhach) =>
-          hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
-        )
-      );
-      await axios.post(
-        "http://localhost:8080/hanh-khach/save",
-        validatedHanhKhachs,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      alert("Thành công!");
-      navigate("/DanhSachKhachHangDatVe");
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errorMessages = {};
-        error.inner.forEach((err) => {
-          errorMessages[err.path] = err.message;
-        });
-        setErrors(errorMessages);
-      } else {
-        console.error(error);
-        alert("Đặt vé thất bại!");
-      }
-    }
-  };
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
+  //     (hanhKhach) => {
+  //       return {
+  //         ...hanhKhach,
+  //         // loaiHanhKhach: getCustomerType(hanhKhach),
+  //       };
+  //     }
+  //   );
+  //   try {
+  //     const validatedHanhKhachs = await Promise.all(
+  //       hanhKhachs.map((hanhKhach) =>
+  //         hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
+  //       )
+  //     );
+  //     await axios.post(
+  //       "http://localhost:8080/hanh-khach/save",
+  //       validatedHanhKhachs,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     alert("Thành công!");
+  //     navigate("/DanhSachKhachHangDatVe");
+  //   } catch (error) {
+  //     if (error instanceof Yup.ValidationError) {
+  //       const errorMessages = {};
+  //       error.inner.forEach((err) => {
+  //         errorMessages[err.path] = err.message;
+  //       });
+  //       setErrors(errorMessages);
+  //     } else {
+  //       console.error(error);
+  //       alert("Đặt vé thất bại!");
+  //     }
+  //   }
+  // };
 
   // const getCustomerType = (hanhKhach) => {
   //   if (adultsInfo.includes(hanhKhach)) {
@@ -154,34 +153,66 @@ const ThongTinKhachHangDatVe = () => {
   //   }
   // };
 
+  // const handleClick = () => {
+  //   const queryParams = new URLSearchParams();
+  //   queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
+  //   queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
+  //   queryParams.set("babyInfo", JSON.stringify(babyInfo));
+  //   queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+  //   queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+  //   const queryString = queryParams.toString();
+  //   navigate(`/ThanhToan?${queryString}`);
+  // };
+
   const handleClick = () => {
-    const queryParams = new URLSearchParams();
-    queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
-    queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
-    queryParams.set("babyInfo", JSON.stringify(babyInfo));
-    queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
-    queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
-    const queryString = queryParams.toString();
-    navigate(`/ThanhToan?${queryString}`);
+    const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo];
+    Promise.all(
+      hanhKhachs.map((hanhKhach) =>
+        hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
+      )
+    )
+      .then(() => {
+        const queryParams = new URLSearchParams();
+        queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
+        queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
+        queryParams.set("babyInfo", JSON.stringify(babyInfo));
+        queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+        queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+        const queryString = queryParams.toString();
+        navigate(`/ThanhToan?${queryString}`);
+      })
+      .catch((error) => {
+        if (error instanceof Yup.ValidationError) {
+          const errorMessages = {};
+          error.inner.forEach((err) => {
+            errorMessages[err.path] = err.message;
+          });
+          setErrors(errorMessages);
+        } else {
+          console.error(error);
+        }
+      });
   };
 
   return (
     <div className="container-fluid">
       <div className="row justify-content-center mt-5">
         <div className="d-flex">
-          <div className="col-1"></div>
           {/* form nhập thông tin khách hàng */}
           <div className="col-6 m-3">
             <div>
               <div className="card">
                 <div
                   className="card-header  text-white"
-                  style={{ backgroundColor: "orange" }}
+                  style={{
+                    background:
+                      "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+                  }}
                 >
                   <h3> Thông Tin Hành Khách</h3>
                 </div>
                 <div className="card-body">
-                  <form onSubmit={handleSubmit}>
+                  <form>
                     <div className="form-group row form-tong">
                       {adultsInfo.map((adult, index) => (
                         <div
@@ -405,13 +436,9 @@ const ThongTinKhachHangDatVe = () => {
                       ))}
                     </div>
                     <div className="form-group text-center mt-2">
-                      <button
-                        type="submit"
-                        className="btn btn-success"
-                        onClick={handleClick}
-                      >
+                      <a className="btn btn-success" onClick={handleClick}>
                         Tiếp Tục
-                      </button>
+                      </a>
                     </div>
                   </form>
                 </div>
@@ -420,28 +447,31 @@ const ThongTinKhachHangDatVe = () => {
           </div>
 
           {/* form thông tin chuyến bay  */}
-          <div className="col-4">
+          <div>
             <div className="m-3">
               <strong>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-airplane-engines"
-                  viewBox="0 0 16 16"
-                  color="#0099ff"
-                >
-                  <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
-                </svg>
-                {chuyenBayKhuHoi != null && chuyenBay != null && (
+                {chuyenBayKhuHoi && chuyenBay && (
                   <span>
-                    {chuyenBay.diemDi} ⇄ {chuyenBay.diemDen}
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-airplane-engines"
+                      viewBox="0 0 16 16"
+                      color="#0099ff"
+                    >
+                      <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
+                    </svg>
+                    {chuyenBay.diemDi}{" "}
+                    <span style={{ color: "#3498db" }}>⇄ </span>{" "}
+                    {chuyenBay.diemDen}
                   </span>
                 )}
               </strong>
 
-              {chuyenBay != null && chuyenBayKhuHoi === null && (
+              {chuyenBay && !chuyenBayKhuHoi && (
                 <strong>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -454,36 +484,33 @@ const ThongTinKhachHangDatVe = () => {
                   >
                     <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
                   </svg>
-                  {chuyenBay.diemDi}
-                </strong>
-              )}
-              {chuyenBayKhuHoi != null && chuyenBay === null && (
-                <strong>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-airplane-engines"
-                    viewBox="0 0 16 16"
-                    color="#0099ff"
-                  >
-                    <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
-                  </svg>
-                  {chuyenBayKhuHoi.diemDi}
+                  {chuyenBay.diemDi}{" "}
+                  <span style={{ color: "#3498db" }}>⇉ </span>
+                  {chuyenBay.diemDen}
                 </strong>
               )}
             </div>
 
             {/* Chuyến bay đi */}
-            {chuyenBay != null && (
+            {chuyenBay && (
               <div className="m-3">
                 <div className="row">
                   <div className="col-md-12">
                     <div className="card">
-                      <div className="card-body box-shadow-tt-ve">
+                      <div
+                        className="card-body box-shadow-tt-ve "
+                        style={{
+                          background:
+                            "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+                        }}
+                      >
                         <div className="row">
-                          <b>Chuyến bay đi • {chuyenBay.ngayKhoiHanh}</b>
+                          {chuyenBay && !chuyenBayKhuHoi ? (
+                            <b>Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}</b>
+                          ) : (
+                            <b>Chuyến bay đi • {chuyenBay.ngayKhoiHanh}</b>
+                          )}
+
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
@@ -498,7 +525,7 @@ const ThongTinKhachHangDatVe = () => {
                               {chuyenBay.thoiGianBay}
                             </p>
                             <p>
-                              <strong>Thời gian bay:</strong>
+                              <strong>Hãng Bay:</strong>
                               {chuyenBay.hangBay.tenHangBay}
                             </p>
                           </div>
@@ -528,12 +555,18 @@ const ThongTinKhachHangDatVe = () => {
             )}
 
             {/* chuyến bay về */}
-            {chuyenBayKhuHoi != null && (
+            {chuyenBayKhuHoi && (
               <div className="m-3">
                 <div className="row">
                   <div className="col-md-12">
                     <div className="card">
-                      <div className="card-body box-shadow-tt-ve">
+                      <div
+                        className="card-body box-shadow-tt-ve "
+                        style={{
+                          background:
+                            "linear-gradient( to left,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+                        }}
+                      >
                         <div className="row">
                           <b>Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}</b>
                           <div style={{ height: "10px" }}></div>
@@ -581,7 +614,6 @@ const ThongTinKhachHangDatVe = () => {
               </div>
             )}
           </div>
-          <div className="col-1"></div>
         </div>
       </div>
     </div>
