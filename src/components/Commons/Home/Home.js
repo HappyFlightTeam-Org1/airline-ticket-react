@@ -6,22 +6,21 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
 import * as Yup from "yup";
-const check = Yup.object().shape({
-  diemDi: Yup.string().required("Điểm Đi không được để trống"),
-  diemDen: Yup.string()
-    .notOneOf([Yup.ref("diemDi")], "Điểm Đến không được trùng với Điểm Đi")
-    .required("Điểm Đến không được để trống"),
+
+const checkFormSearch = Yup.object().shape({
+  diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
+  diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
+  ngayDi: Yup.date().required("Vui lòng chọn ngày đi"),
 });
+
 export default function Home() {
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
-  const [soNguoiLon, setSoNguoiLon] = useState(0);
+  const [soNguoiLon, setSoNguoiLon] = useState(1);
   const [soTreEm, setSoTreEm] = useState(0);
   const [soEmBe, setSoEmBe] = useState(0);
   const [sanBays, setSanBays] = useState([]);
-  const [diemDi, setDiemDi] = useState("");
-  const [diemDen, setDiemDen] = useState("");
-  const [ngayDi, setNgayDi] = useState("");
-  const [ngayDiKh, setNgayDiKh] = useState("");
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({});
 
   const navigate = useNavigate();
 
@@ -38,7 +37,7 @@ export default function Home() {
 
   // Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
-    const ngayVe = document.getElementById("NgayVe");
+    const ngayVe = document.getElementById("ngayDiKh");
     const divNgayVe = document.getElementById("div-NgayVe");
     const labelNgayVe = document.getElementById("label-NgayVe");
     if (loaiChuyenBay === "Một Chiều") {
@@ -50,6 +49,10 @@ export default function Home() {
       labelNgayVe.hidden = false;
     }
   }, [loaiChuyenBay]);
+
+  const handleChangeInput = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
   // Chọn số người lớn
   const chonSoNguoiLon = (event) => {
@@ -76,14 +79,50 @@ export default function Home() {
         "&soEmBe=" +
         soEmBe +
         "&diemDi=" +
-        diemDi +
+        formData.diemDi +
         "&diemDen=" +
-        diemDen +
+        formData.diemDen +
         "&ngayDi=" +
-        ngayDi +
+        formData.ngayDi +
         "&ngayDiKh=" +
-        ngayDiKh
+        formData.ngayDiKh +
+        "&loaiChuyenBay=" +
+        loaiChuyenBay
     );
+  };
+
+  const handleSubmits = (event) => {
+    event.preventDefault();
+
+    checkFormSearch
+      .validate(formData, { abortEarly: false })
+      .then(() => {
+        navigate(
+          "/TimKiemChuyenBay?soNguoiLon=" +
+            soNguoiLon +
+            "&soTreEm=" +
+            soTreEm +
+            "&soEmBe=" +
+            soEmBe +
+            "&diemDi=" +
+            formData.diemDi +
+            "&diemDen=" +
+            formData.diemDen +
+            "&ngayDi=" +
+            formData.ngayDi +
+            "&ngayDiKh=" +
+            formData.ngayDiKh +
+            "&loaiChuyenBay=" +
+            loaiChuyenBay
+        );
+      })
+      .catch((validationErrors) => {
+        const errors = {};
+        validationErrors.inner.forEach((error) => {
+          errors[error.path] = error.message;
+        });
+        setErrors(errors);
+      });
   };
 
   useEffect(() => {
@@ -108,7 +147,8 @@ export default function Home() {
               Tìm Kiếm Chuyến Bay
             </h1>
           </div>
-          <form onSubmit={handleSubmit}>
+
+          <form onSubmit={handleSubmits}>
             <div data-aos="fade-up" className="cardDiv grid">
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
@@ -132,8 +172,8 @@ export default function Home() {
                 <select
                   name="diemDi"
                   id="diemDi"
-                  value={diemDi}
-                  onChange={(e) => setDiemDi(e.target.value.toString())}
+                  value={formData.diemDi}
+                  onChange={handleChangeInput}
                   className="select "
                 >
                   <option value="">-- Chọn điểm đi --</option>
@@ -143,6 +183,9 @@ export default function Home() {
                     </option>
                   ))}
                 </select>
+                {errors.diemDi && (
+                  <strong style={{ color: "red" }}>{errors.diemDi}</strong>
+                )}
               </div>
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
@@ -151,8 +194,8 @@ export default function Home() {
                 <select
                   name="diemDen"
                   id="diemDen"
-                  value={diemDen}
-                  onChange={(e) => setDiemDen(e.target.value.toString())}
+                  value={formData.diemDen}
+                  onChange={handleChangeInput}
                   className="select "
                 >
                   <option value="">-- Chọn điểm đi --</option>
@@ -162,6 +205,7 @@ export default function Home() {
                     </option>
                   ))}
                 </select>
+                {errors.diemDen && <strong>{errors.diemDen}</strong>}
               </div>
               <div className="dateInput">
                 <label className="label" htmlFor="city">
@@ -171,10 +215,12 @@ export default function Home() {
                   <input
                     type="date"
                     placeholder="name..."
-                    value={ngayDi}
-                    onChange={(e) => setNgayDi(e.target.value.toString())}
+                    value={formData.ngayDi}
+                    name="ngayDi"
+                    onChange={handleChangeInput}
                   ></input>
                 </div>
+                {errors.ngayDi && <strong>{errors.ngayDi}</strong>}
               </div>
               <div className="dateInput">
                 <label id="label-NgayVe" className="label" htmlFor="city">
@@ -185,11 +231,12 @@ export default function Home() {
                     type="date"
                     placeholder="name..."
                     className="form-control"
-                    name="NgayVe"
-                    id="NgayVe"
-                    value={ngayDiKh}
-                    onChange={(e) => setNgayDiKh(e.target.value.toString())}
+                    name="ngayDiKh"
+                    id="ngayDiKh"
+                    value={formData.ngayDiKh}
+                    onChange={handleChangeInput}
                   ></input>
+                  {errors.ngayDiKh && <strong>{errors.ngayDiKh}</strong>}
                 </div>
               </div>
               <div className="destinationInput">
@@ -199,7 +246,8 @@ export default function Home() {
                 <div className="input flex">
                   <input
                     type="number"
-                    min="0"
+                    min="1"
+                    defaultValue={1}
                     onChange={chonSoNguoiLon}
                   ></input>
                 </div>
@@ -228,6 +276,7 @@ export default function Home() {
               </div>
             </div>
           </form>
+
           <div data-aos="fade-up" className="homeFooterIcons flex">
             <div className="rightIcons">
               <i class="bx bxl-facebook icon"></i>
