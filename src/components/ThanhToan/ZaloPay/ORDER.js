@@ -1,26 +1,54 @@
 import React, { useState } from 'react';
 import './../HoaDon.css'
+import { Link } from "react-router-dom";
 import axios from "axios";
-const getCurrentTime = () => {
-    const currentTime = new Date();
-    const year = currentTime.getFullYear();
-    const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
-    const day = String(currentTime.getDate()).padStart(2, '0'); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
-    const hours = String(currentTime.getHours()).padStart(2, '0'); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
-    const minutes = String(currentTime.getMinutes()).padStart(2, '0'); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
-    const seconds = String(currentTime.getSeconds()).padStart(2, '0'); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
-    const formattedTime = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
-    // console.log("formattedTime", formattedTime);
-    return formattedTime;
-}
+
+
 
 function ORDER() {
-    const [orderCode, setOrderCode] = useState(getCurrentTime);
+    const [createDate, setCreateDate] = useState();
+    const getOrderCode = () => {
+        const currentTime = new Date();
+        const year = currentTime.getFullYear();
+        const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
+        const day = String(currentTime.getDate()).padStart(2, '0'); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
+        const hours = String(currentTime.getHours()).padStart(2, '0'); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
+        const minutes = String(currentTime.getMinutes()).padStart(2, '0'); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
+        const seconds = String(currentTime.getSeconds()).padStart(2, '0'); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
+        const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+        const createOrderDate = year + "-" + month + "-" + day;
+        setCreateDate(createOrderDate);
+        return orderCode;
+    }
+    const [orderCode, setOrderCode] = useState(getOrderCode);
+    const [amount, setAmount] = useState(100000);
+
+
+    const formValues = {
+        maHoaDon: orderCode,
+        ngayTao: createDate,
+        tongTien: amount,
+        trangThaiThanhToan: 0,
+        trangThaiXoa: 0,
+        emailNguoiDung: "user@example.com"
+    }
+    const handleSubmit = async (event) => {
+        console.log("formValues", formValues);
+        event.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/thanh-toan/vnpay/make-order', formValues);
+            console.log("response.data", response.data); // Xử lý dữ liệu phản hồi từ API
+            window.location.href = response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
 
     return (
         <div className='container d-flex justify-content-center'>
-            <div className="order">
+            <form className="order">
                 <div className="order-sidebar"></div>
                 <div className="order-content">
                     <h3>CHI TIẾT GIÁ</h3>
@@ -51,10 +79,11 @@ function ORDER() {
                     <hr></hr>
                     <div className="content">
                         <div><strong>THÀNH TIỀN</strong></div>
-                        <div><strong>11.170.000VND</strong></div>
+                        <div><strong>{amount}</strong></div>
                     </div>
                     <div className="button">
-                        <button classNameName="shadow">Thanh Toán</button>
+                        <button onClick={handleSubmit} classNameName="shadow">
+                            Thanh Toán</button>
                     </div>
                 </div>
                 <div className="item3">
@@ -95,7 +124,7 @@ function ORDER() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }
