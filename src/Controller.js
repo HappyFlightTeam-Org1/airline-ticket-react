@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./Controller.css";
 import Navbar from "./components/Commons/Navbar/Navbar.js";
 import Home from "./components/Commons/Home/Home.js";
 import Footer from "./components/Commons/Footer/Footer.js";
@@ -12,7 +13,6 @@ import LichSuDatVe from "./components/VeMayBay/LichSuDatVe/LichSuDatVe.js";
 import TimKiemVe from "./components/VeMayBay/TimKiemVe/TimKiemVe.js";
 import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import BarChart from "./components/DashBoard/BarChart.js";
-import "./Controller.css";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
