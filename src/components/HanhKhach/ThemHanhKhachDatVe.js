@@ -50,8 +50,6 @@ const ThongTinKhachHangDatVe = () => {
         tenHanhKhach: "",
         ngaySinh: "",
         gioiTinh: "",
-        hoChieu: "",
-        soDienThoai: "",
         loaiHanhKhach: "Người Lớn",
       });
     }
@@ -151,17 +149,6 @@ const ThongTinKhachHangDatVe = () => {
   //   } else {
   //     return "Em Bé";
   //   }
-  // };
-
-  // const handleClick = () => {
-  //   const queryParams = new URLSearchParams();
-  //   queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
-  //   queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
-  //   queryParams.set("babyInfo", JSON.stringify(babyInfo));
-  //   queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
-  //   queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
-  //   const queryString = queryParams.toString();
-  //   navigate(`/ThanhToan?${queryString}`);
   // };
 
   const handleClick = () => {
@@ -270,38 +257,6 @@ const ThongTinKhachHangDatVe = () => {
                             </select>
                             {errors.gioiTinh && (
                               <p className="error-message">{errors.gioiTinh}</p>
-                            )}
-                          </div>
-                          <div>
-                            <label>Số CMND/CCCD:</label>
-                            <input
-                              className="form-control mb-1"
-                              type="text"
-                              name="hoChieu"
-                              value={adult.hoChieu}
-                              onChange={(event) =>
-                                handleAdultInfoChange(event, index)
-                              }
-                            />
-                            {errors.hoChieu && (
-                              <p className="error-message ">{errors.hoChieu}</p>
-                            )}
-                          </div>
-                          <div>
-                            <label>Số ĐT:</label>
-                            <input
-                              className="form-control mb-1"
-                              type="text"
-                              name="soDienThoai"
-                              value={adult.soDienThoai}
-                              onChange={(event) =>
-                                handleAdultInfoChange(event, index)
-                              }
-                            />
-                            {errors.soDienThoai && (
-                              <p className="error-message ">
-                                {errors.soDienThoai}
-                              </p>
                             )}
                           </div>
                         </div>

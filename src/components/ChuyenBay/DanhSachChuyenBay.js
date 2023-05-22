@@ -8,7 +8,7 @@ function DanhSachChuyenBay() {
   const [isSearching, setIsSearching] = useState(false);
   const [formData, setFormData] = useState({});
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(5);
   const [sanBays, setSanBays] = useState([]);
   const [diemDi, setDiemDi] = useState();
   const [diemDen, setDiemDen] = useState();
@@ -81,7 +81,7 @@ function DanhSachChuyenBay() {
   };
 
   const calculatePageNumbers = () => {
-    const totalVisiblePages = 5;
+    const totalVisiblePages = 4;
     const startPage = Math.max(0, page - Math.floor(totalVisiblePages / 2));
     const endPage = Math.min(totalPages - 1, startPage + totalVisiblePages - 1);
     return Array.from(
@@ -91,7 +91,6 @@ function DanhSachChuyenBay() {
   };
   const renderPageNumbers = () => {
     const pageNumbers = calculatePageNumbers();
-
     return pageNumbers.map((pageNumber) => (
       <li
         key={pageNumber}
@@ -248,21 +247,11 @@ function DanhSachChuyenBay() {
             <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
           )}
 
-      {/* Phân trang DucNH66  DucNH66 */}
+      {/* Phân trang DucNH66  */}
       {(listCB.length > 0 || searchResult.length > 0) && (
         <div className="pagination">
           <nav aria-label="...">
             <ul className="pagination">
-              <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
-                <button
-                  type="button"
-                  className="page-link bg-success text-white"
-                  disabled={page === 0}
-                  onClick={() => handlePageChange(page - 1)}
-                >
-                  Previous
-                </button>
-              </li>
               <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                 <button
                   type="button"
@@ -273,22 +262,18 @@ function DanhSachChuyenBay() {
                   Start
                 </button>
               </li>
-              {renderPageNumbers()}
-              <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
-              >
+              <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                 <button
-                  className={`page-link bg-danger text-white  ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
-                  onClick={() => setPage(totalPages - 1)}
-                  disabled={page === totalPages - 1}
+                  type="button"
+                  className="page-link bg-success text-white"
+                  disabled={page === 0}
+                  onClick={() => handlePageChange(page - 1)}
                 >
-                  End
+                  Previous
                 </button>
               </li>
+              {renderPageNumbers()}
+
               <li
                 className={`page-item   ${
                   page === totalPages - 1 ? "disabled" : ""
@@ -303,6 +288,21 @@ function DanhSachChuyenBay() {
                   disabled={page === totalPages - 1}
                 >
                   Next
+                </button>
+              </li>
+              <li
+                className={`page-item   ${
+                  page === totalPages - 1 ? "disabled" : ""
+                }`}
+              >
+                <button
+                  className={`page-link bg-danger text-white  ${
+                    page === totalPages - 1 ? "disabled" : ""
+                  }`}
+                  onClick={() => setPage(totalPages - 1)}
+                  disabled={page === totalPages - 1}
+                >
+                  End
                 </button>
               </li>
             </ul>
