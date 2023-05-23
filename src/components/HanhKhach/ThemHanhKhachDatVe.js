@@ -12,43 +12,27 @@ const hanhKhachSchema = Yup.object().shape({
 
 const ThongTinKhachHangDatVe = () => {
   //DucNH66 lấy data
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const soNguoiLon = queryParams.get("soNguoiLon") ?? "null";
+  const soTreEm = queryParams.get("soTreEm") ?? "null";
+  const soEmBe = queryParams.get("soEmBe") ?? "null";
+  const tiketType = queryParams.get("tiketType") ?? "null";
+  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi") ?? "null";
+  const chuyenBay =
+    queryParams.get("chuyenBay") === "undefined"
+      ? null
+      : JSON.parse(queryParams.get("chuyenBay"));
+  const chuyenBayKhuHoi =
+    queryParams.get("chuyenBayKhuHoi") === "undefined"
+      ? null
+      : JSON.parse(queryParams.get("chuyenBayKhuHoi"));
+
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
-  const [chuyenBay, setChuyenBay] = useState();
-  const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const soNguoiLon = queryParams.get("soNguoiLon");
-  const soTreEm = queryParams.get("soTreEm");
-  const soEmBe = queryParams.get("soEmBe");
-  const idChuyenBayDi = queryParams.get("idChuyenBayDi");
-  const idChuyenBayKhuHoi = queryParams.get("idChuyenBayKhuHoi");
-  const tiketType = queryParams.get("tiketType");
-  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
-
-  //DucNH66 lấy thông tin chuyến bay được chọn
-  useEffect(() => {
-    if (idChuyenBayDi) {
-      axios
-        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
-        .then((response) => {
-          setChuyenBay(response.data);
-          console.log(response.data, " 1 chiều");
-        });
-    }
-
-    if (idChuyenBayKhuHoi) {
-      axios
-        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
-        .then((response) => {
-          console.log(response.data, "khu hoi");
-          setChuyenBayKhuHoi(response.data);
-        });
-    }
-  }, [idChuyenBayDi, idChuyenBayKhuHoi]);
 
   //Ducnh66 số người lớn
   useEffect(() => {
@@ -122,10 +106,10 @@ const ThongTinKhachHangDatVe = () => {
         queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
         queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
         queryParams.set("babyInfo", JSON.stringify(babyInfo));
-        queryParams.set("idChuyenBayDi", JSON.stringify(idChuyenBayDi));
-        queryParams.set("idChuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
-        queryParams.set("tiketType", JSON.stringify(tiketType));
-        queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
+        queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+        queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+        queryParams.set("tiketType", tiketType);
+        queryParams.set("tiketTypeKhuHoi", tiketTypeKhuHoi);
         const queryString = queryParams.toString();
         navigate(`/DatCho?${queryString}`);
       })
@@ -141,6 +125,15 @@ const ThongTinKhachHangDatVe = () => {
         }
       });
   };
+
+  //DucNH66 LOG
+  console.log("nguoi lon: ", adultsInfo);
+  console.log("tre em: ", childrenInfo);
+  console.log("em be: ", babyInfo);
+  console.log("loai ve 1: ", tiketType);
+  console.log("loai ve 2: ", tiketTypeKhuHoi);
+  console.log("Chuyen Bay Di hk: ", chuyenBay);
+  console.log("Chuyen Bay Khu Hoi hk: ", chuyenBayKhuHoi);
 
   return (
     <div className="container-fluid">

@@ -120,25 +120,20 @@ function DanhSachTimKiemChuyenBay() {
     setIdChuyenBayKhuHoi(chuyenBayKhuHoi.maChuyenBay);
     console.log(chuyenBayKhuHoi.maChuyenBay + " Chuyến Bay Khứ Hồi");
   };
-  //DucNH66 gởi dữ liệu đến trang hành khách
+
+  //DucNH66 gởi dữ liệu đến trang thêm hành khách
   const handleLinkClick = (event) => {
     event.preventDefault();
-    navigate(
-      "/ThongTinKhachHangDatVe?soNguoiLon=" +
-        soNguoiLon +
-        "&soTreEm=" +
-        soTreEm +
-        "&soEmBe=" +
-        soEmBe +
-        "&idChuyenBayDi=" +
-        idChuyenBayDi +
-        "&idChuyenBayKhuHoi=" +
-        idChuyenBayKhuHoi +
-        "&tiketType=" +
-        tiketType +
-        "&tiketTypeKhuHoi=" +
-        tiketTypeKhuHoi
-    );
+    const queryParams = new URLSearchParams();
+    queryParams.set("soNguoiLon", soNguoiLon);
+    queryParams.set("soTreEm", soTreEm);
+    queryParams.set("soEmBe", soEmBe);
+    queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+    queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+    queryParams.set("tiketType", tiketType);
+    queryParams.set("tiketTypeKhuHoi", tiketTypeKhuHoi);
+    const queryString = queryParams.toString();
+    navigate(`/ThongTinKhachHangDatVe?${queryString}`);
   };
 
   //DucNH66 RELOAD lại trang để chọn lại chuyến bay
@@ -154,6 +149,8 @@ function DanhSachTimKiemChuyenBay() {
   console.log("loai ve 2: ", tiketTypeKhuHoi);
   console.log("id Chuyen Bay Di: ", idChuyenBayDi);
   console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
+  console.log("Chuyen Bay Di: ", chuyenBay);
+  console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
 
   return (
     <div className="container my-4 xxx  ">
