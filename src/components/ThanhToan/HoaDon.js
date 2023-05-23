@@ -21,6 +21,14 @@ function HoaDon() {
     const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState(
         JSON.parse(queryParams.get("chuyenBayKhuHoi"))
     );
+    const tiketType = JSON.parse(queryParams.get("tiketType"));
+    const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
+    const [maDatCho, setMaDatCho] = useState(
+        JSON.parse(queryParams.get("maDatCho"))
+    );
+    const [maDatChoKhuHoi, setMaDatChoKhuHoi] = useState(
+        JSON.parse(queryParams.get("maDatChoKhuHoi"))
+    );
 
     //lấy list hanhKhachDTO từ component nhập thông tin
     const hanhKhachs = [...adultsInfo[0], ...childrenInfo[0], ...babyInfo[0]].map(
@@ -61,6 +69,16 @@ function HoaDon() {
 
     //show tổng tiền ra màn hình đơn vị VND
     const total = CurrencyFormat(getTotal());
+
+    console.log(adultsInfo);
+    console.log(childrenInfo);
+    console.log(babyInfo);
+    console.log(chuyenBay);
+    console.log(chuyenBayKhuHoi);
+    console.log(tiketType);
+    console.log(tiketTypeKhuHoi);
+    console.log(maDatCho);
+    console.log(maDatChoKhuHoi);
 
     //ngày tạo hóa đơn
     const [createDate, setCreateDate] = useState();
@@ -117,12 +135,6 @@ function HoaDon() {
             console.error(error);
         }
     };
-
-    console.log(adultsInfo);
-    console.log(childrenInfo);
-    console.log(babyInfo);
-    console.log(chuyenBay);
-    console.log("chuyenBayKhuHoi", chuyenBayKhuHoi);
 
     return (
         <div className="container d-flex justify-content-center">

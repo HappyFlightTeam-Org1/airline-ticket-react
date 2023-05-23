@@ -1,3 +1,87 @@
+<<<<<<< HEAD
+.maybay {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.thuong-gia {
+    color: rgb(0, 255, 157);
+    cursor: pointer;
+}
+
+.thuong-gia:hover {
+    color: rgb(255, 213, 3);
+    cursor: pointer;
+    border-bottom: 1px solid rgb(0, 255, 157);
+}
+
+.pho-thong {
+    color: rgb(15, 220, 243);
+    cursor: pointer;
+}
+
+.pho-thong:hover {
+    color: rgb(255, 213, 3);
+    cursor: pointer;
+    border-bottom: 1px solid rgb(15, 220, 243);
+}
+
+.selected-seat {
+    color: rgb(255, 0, 25);
+    cursor: not-allowed;
+}
+
+.selected-seat:hover {
+    color: rgb(255, 0, 25);
+    cursor: not-allowed;
+    opacity: 0.5;
+    border-bottom: 1px solid rgb(255, 0, 25);
+}
+
+.fa-couch {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.ghichu1 i {
+
+    color: rgb(0, 255, 157);
+}
+
+.ghichu2 i {
+    color: rgb(15, 220, 243);
+}
+
+.ghichu3 i {
+    color: red;
+}
+
+.ghichu4 i {
+    color: rgb(255, 213, 3);
+}
+
+
+.datcholeft h4 {
+    margin-left: 20px;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.ghichu1,
+.ghichu2,
+.ghichu3,
+.ghichu4,
+.ghichu5 {
+    display: flex;
+}
+
+.color {
+    color: rgb(255, 213, 3);
+}
+
+.span {
+    color: red;
+=======
 .datcho {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -71,4 +155,5 @@
 }
 .ghichu3 i {
   color: red;
+>>>>>>> 717981307759f5cfbda98a61fe64b2d30388f586
 }
