@@ -1,9 +1,12 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import DSTimKiemCBCSS from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
+import css from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
 import axios from "axios";
 
+//DucNH66 Danh sách khách hàng tìm kiếm thấy
 function DanhSachTimKiemChuyenBay() {
+  //DucNH66 lấy data
   const [tiketType, setTiketType] = useState();
   const [tiketTypeKhuHoi, setTiketTypeKhuHoi] = useState();
   const [idChuyenBayDi, setIdChuyenBayDi] = useState();
@@ -32,15 +35,18 @@ function DanhSachTimKiemChuyenBay() {
   const ngayDiKh = queryParams.get("ngayDiKh");
   const loaiChuyenBay = queryParams.get("loaiChuyenBay");
 
+  //DucNH66 xử lý ẩn hiện danh sách chuyến bay 1 chiều
   useEffect(() => {
     setHidden(!hidden);
     setHidden1(!hidden1);
   }, [idChuyenBayDi]);
 
+  //DucNH66 xử lý ẩn hiện danh sách chuyến bay khừ hồi
   useEffect(() => {
     setHidden1(!hidden1);
   }, [idChuyenBayKhuHoi]);
 
+  //DucNH66 thông tin chuyến bay vừa được chọn
   useEffect(() => {
     if (idChuyenBayDi) {
       axios
@@ -59,10 +65,12 @@ function DanhSachTimKiemChuyenBay() {
     }
   }, [idChuyenBayDi, idChuyenBayKhuHoi]);
 
+  //DucNH66 load lại danh sách chuyến bay được tìm kiếm thấy khi có sự thay đổi
   useEffect(() => {
     fetchChuyenBays();
   }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayDi, ngayDiKh]);
 
+  //DucNH66  lấy danh sách chuyến bay từ db
   const fetchChuyenBays = async () => {
     try {
       const response = await axios.get(
@@ -80,41 +88,39 @@ function DanhSachTimKiemChuyenBay() {
           },
         }
       );
-      const chuyenBay1Chieu = response.data.chuyenBay1Chieu;
-      const chuyenBayKhuHoi = response.data.chuyenBayKhuHoi;
+      setChuyenBays(response.data.chuyenBay1Chieu.content);
+      setChuyenBayKhuHois(response.data.chuyenBayKhuHoi.content);
       setTotalElement(response.data.chuyenBay1Chieu.totalElements);
       setTotalElement1(response.data.chuyenBayKhuHoi.totalElements);
-      setChuyenBays(chuyenBay1Chieu.content);
-      setChuyenBayKhuHois(chuyenBayKhuHoi.content);
     } catch (error) {
       console.log(error);
     }
   };
 
+  //DucNH66 chọn kiểu sắp xếp tăng/giảm
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
+  //DucNH66 chọn field để sắp xếp
   const handleSortFieldChange = (event) => {
     setSortDirection(event.target.value);
   };
 
+  //DucNH66 Lấy id và hạng ghế chuyến bay 1 chiều
   const handleGetData = (chuyenBay, value) => {
-    console.log(value);
     setTiketType(value);
     setIdChuyenBayDi(chuyenBay.maChuyenBay);
-    console.log(chuyenBay.maChuyenBay + " Chuyến Bay Đi");
   };
-  console.log(tiketType + " tiket type bay đi");
 
+  //DucNH66 Lấy id và hạng ghế chuyến bay khứ hồi
   const handleGetDataKhuHoi = (chuyenBayKhuHoi, value) => {
     console.log(value);
     setTiketTypeKhuHoi(value);
     setIdChuyenBayKhuHoi(chuyenBayKhuHoi.maChuyenBay);
     console.log(chuyenBayKhuHoi.maChuyenBay + " Chuyến Bay Khứ Hồi");
   };
-  console.log(tiketTypeKhuHoi + "  tiket type Khứ Hồi");
-
+  //DucNH66 gởi dữ liệu đến trang hành khách
   const handleLinkClick = (event) => {
     event.preventDefault();
     navigate(
@@ -135,9 +141,19 @@ function DanhSachTimKiemChuyenBay() {
     );
   };
 
+  //DucNH66 RELOAD lại trang để chọn lại chuyến bay
   const goBack = () => {
     window.location.reload();
   };
+
+  //DucNH66 LOG
+  console.log("sl nguoi lon: ", soNguoiLon);
+  console.log("sl tre em: ", soTreEm);
+  console.log("sl em be: ", soEmBe);
+  console.log("loai ve 1: ", tiketType);
+  console.log("loai ve 2: ", tiketTypeKhuHoi);
+  console.log("id Chuyen Bay Di: ", idChuyenBayDi);
+  console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
 
   return (
     <div className="container my-4 xxx  ">
