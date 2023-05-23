@@ -5,12 +5,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ThemMoiChuyenBay() {
+  //DucNH66 lấy  data
   const navigate = useNavigate();
   const [mayBays, setMayBays] = useState([]);
   const [sanBays, setSanBays] = useState([]);
   const [hangBays, setHangBays] = useState([]);
   const [formData, setFormData] = useState({});
 
+  //DucNH66 Lấy data liên quan của chuyến bay
   useEffect(() => {
     axios
       .get("http://localhost:8080/chuyen-bay/listSelectOption")
@@ -23,10 +25,12 @@ function ThemMoiChuyenBay() {
       .catch((err) => console.error);
   }, []);
 
+  //DucNH66 Nhận dữ liệu được nhập từ formData
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  //DucNH66 lưu vào db
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
@@ -56,6 +60,7 @@ function ThemMoiChuyenBay() {
               <h3> Thêm Mới Chuyến Bay</h3>
             </div>
             <div className="card-body">
+              {/* DucNH66 form nhập thông tin  */}
               <form onSubmit={handleSubmit}>
                 <div className="form-group row">
                   <div className="col-md-6">

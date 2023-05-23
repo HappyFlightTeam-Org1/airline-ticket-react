@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ const hanhKhachSchema = Yup.object().shape({
 });
 
 const ThongTinKhachHangDatVe = () => {
+  //DucNH66 lấy data
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
@@ -27,12 +29,14 @@ const ThongTinKhachHangDatVe = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  //DucNH66 lấy thông tin chuyến bay được chọn
   useEffect(() => {
     if (idChuyenBayDi) {
       axios
         .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
         .then((response) => {
           setChuyenBay(response.data);
+          console.log(response.data, " 1 chiều");
         });
     }
 
@@ -40,11 +44,13 @@ const ThongTinKhachHangDatVe = () => {
       axios
         .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
         .then((response) => {
+          console.log(response.data, "khu hoi");
           setChuyenBayKhuHoi(response.data);
         });
     }
   }, [idChuyenBayDi, idChuyenBayKhuHoi]);
 
+  //Ducnh66 số người lớn
   useEffect(() => {
     const adults = [];
     for (let i = 0; i < soNguoiLon; i++) {
@@ -57,7 +63,7 @@ const ThongTinKhachHangDatVe = () => {
     }
     setAdultsInfo(adults);
   }, [soNguoiLon]);
-
+  //Ducnh66 số trẻ em
   useEffect(() => {
     const children = [];
     for (let i = 0; i < soTreEm; i++) {
@@ -70,7 +76,7 @@ const ThongTinKhachHangDatVe = () => {
     }
     setChildrenInfo(children);
   }, [soTreEm]);
-
+  //Ducnh66 số em bé
   useEffect(() => {
     const babies = [];
     for (let i = 0; i < soEmBe; i++) {
@@ -84,76 +90,27 @@ const ThongTinKhachHangDatVe = () => {
     setBabyInfo(babies);
   }, [soEmBe]);
 
+  //DucNH66 nhận dữ liệu từ form người lớn
   const handleAdultInfoChange = (event, index) => {
     const newAdultsInfo = [...adultsInfo];
     newAdultsInfo[index][event.target.name] = event.target.value;
     setAdultsInfo(newAdultsInfo);
   };
-
+  //DucNH66 nhận dữ liệu từ form trẻ em
   const handleChildrenInfoChange = (event, index) => {
     const newChildrenInfo = [...childrenInfo];
     newChildrenInfo[index][event.target.name] = event.target.value;
     setChildrenInfo(newChildrenInfo);
   };
-
+  //DucNH66 nhận dữ liệu từ form em bé
   const handleBabyInfoChange = (event, index) => {
     const newBabyInfo = [...babyInfo];
     newBabyInfo[index][event.target.name] = event.target.value;
     setBabyInfo(newBabyInfo);
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
-  //     (hanhKhach) => {
-  //       return {
-  //         ...hanhKhach,
-  //         // loaiHanhKhach: getCustomerType(hanhKhach),
-  //       };
-  //     }
-  //   );
-  //   try {
-  //     const validatedHanhKhachs = await Promise.all(
-  //       hanhKhachs.map((hanhKhach) =>
-  //         hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
-  //       )
-  //     );
-  //     await axios.post(
-  //       "http://localhost:8080/hanh-khach/save",
-  //       validatedHanhKhachs,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     alert("Thành công!");
-  //     navigate("/DanhSachKhachHangDatVe");
-  //   } catch (error) {
-  //     if (error instanceof Yup.ValidationError) {
-  //       const errorMessages = {};
-  //       error.inner.forEach((err) => {
-  //         errorMessages[err.path] = err.message;
-  //       });
-  //       setErrors(errorMessages);
-  //     } else {
-  //       console.error(error);
-  //       alert("Đặt vé thất bại!");
-  //     }
-  //   }
-  // };
-
-  // const getCustomerType = (hanhKhach) => {
-  //   if (adultsInfo.includes(hanhKhach)) {
-  //     return "Người Lớn";
-  //   } else if (childrenInfo.includes(hanhKhach)) {
-  //     return "Trẻ Em";
-  //   } else {
-  //     return "Em Bé";
-  //   }
-  // };
-
-  const handleClick = () => {
+  //DucNH66 gởi data sang trang đặt chỗ
+  const handleSendData = () => {
     const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo];
     Promise.all(
       hanhKhachs.map((hanhKhach) =>
@@ -165,8 +122,8 @@ const ThongTinKhachHangDatVe = () => {
         queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
         queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
         queryParams.set("babyInfo", JSON.stringify(babyInfo));
-        queryParams.set("chuyenBay", JSON.stringify(idChuyenBayDi));
-        queryParams.set("chuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
+        queryParams.set("idChuyenBayDi", JSON.stringify(idChuyenBayDi));
+        queryParams.set("idChuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
         queryParams.set("tiketType", JSON.stringify(tiketType));
         queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
         const queryString = queryParams.toString();
@@ -189,7 +146,6 @@ const ThongTinKhachHangDatVe = () => {
     <div className="container-fluid">
       <div className="row justify-content-center mt-5">
         <div className="d-flex">
-          {/* form nhập thông tin khách hàng */}
           <div className="col-6 m-3">
             <div>
               <div className="card">
@@ -203,6 +159,7 @@ const ThongTinKhachHangDatVe = () => {
                   <h3> Thông Tin Hành Khách</h3>
                 </div>
                 <div className="card-body">
+                  {/* form nhập thông tin khách hàng */}
                   <form>
                     <div className="form-group row form-tong">
                       {adultsInfo.map((adult, index) => (
@@ -395,7 +352,7 @@ const ThongTinKhachHangDatVe = () => {
                       ))}
                     </div>
                     <div className="form-group text-center mt-2">
-                      <a className="btn btn-success" onClick={handleClick}>
+                      <a className="btn btn-success" onClick={handleSendData}>
                         Tiếp Tục
                       </a>
                     </div>

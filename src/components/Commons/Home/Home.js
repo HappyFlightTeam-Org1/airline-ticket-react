@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import video from "../../../Assets/video.mp4";
 import "./Home.css";
 import Aos from "aos";
@@ -14,6 +14,7 @@ const checkFormSearch = Yup.object().shape({
 });
 
 export default function Home() {
+  //DucNh66 useState
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
   const [soNguoiLon, setSoNguoiLon] = useState(1);
   const [soTreEm, setSoTreEm] = useState(0);
@@ -21,10 +22,9 @@ export default function Home() {
   const [sanBays, setSanBays] = useState([]);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({});
-
   const navigate = useNavigate();
 
-  // Lấy danh sách sân bay
+  //DucNH66 Lấy danh sách sân bay
   useEffect(() => {
     axios
       .get("http://localhost:8080/chuyen-bay/listSelectOption")
@@ -35,7 +35,7 @@ export default function Home() {
       .catch((err) => console.error);
   }, []);
 
-  // Chọn chuyến bay 1chiều/khứ hồi
+  //DucNH66 Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
     const ngayVe = document.getElementById("ngayDiKh");
     const divNgayVe = document.getElementById("div-NgayVe");
@@ -50,70 +50,49 @@ export default function Home() {
     }
   }, [loaiChuyenBay]);
 
+  //DucNH66 lấy dữ liệu từ form nhập dữ liệu tìm kiếm
   const handleChangeInput = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  // Chọn số người lớn
+  //DucNH66 Chọn số người lớn
   const chonSoNguoiLon = (event) => {
     setSoNguoiLon(event.target.value);
   };
 
-  // Chọn số trẻ em
+  //DucNH66 Chọn số trẻ em
   const chonSoTreEm = (event) => {
     setSoTreEm(event.target.value);
   };
 
-  // Chọn số em bé
+  //DucNH66 Chọn số em bé
   const chonSoEmBe = (event) => {
     setSoEmBe(event.target.value);
   };
 
+  //DucNH66 Gởi dữ liệu đi để tìm kiếm chuyến bay
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate(
-      "/TimKiemChuyenBay?soNguoiLon=" +
-      soNguoiLon +
-      "&soTreEm=" +
-      soTreEm +
-      "&soEmBe=" +
-      soEmBe +
-      "&diemDi=" +
-      formData.diemDi +
-      "&diemDen=" +
-      formData.diemDen +
-      "&ngayDi=" +
-      formData.ngayDi +
-      "&ngayDiKh=" +
-      formData.ngayDiKh +
-      "&loaiChuyenBay=" +
-      loaiChuyenBay
-    );
-  };
-
-  const handleSubmits = (event) => {
-    event.preventDefault();
-
     checkFormSearch
       .validate(formData, { abortEarly: false })
       .then(() => {
         navigate(
           "/TimKiemChuyenBay?soNguoiLon=" +
-          soNguoiLon +
-          "&soTreEm=" +
-          soTreEm +
-          "&soEmBe=" +
-          soEmBe +
-          "&diemDi=" +
-          formData.diemDi +
-          "&diemDen=" +
-          formData.diemDen +
-          "&ngayDi=" +
-          formData.ngayDi +
-          "&ngayDiKh=" +
-          formData.ngayDiKh +
-          "&loaiChuyenBay=" +
-          loaiChuyenBay
+            soNguoiLon +
+            "&soTreEm=" +
+            soTreEm +
+            "&soEmBe=" +
+            soEmBe +
+            "&diemDi=" +
+            formData.diemDi +
+            "&diemDen=" +
+            formData.diemDen +
+            "&ngayDi=" +
+            formData.ngayDi +
+            "&ngayDiKh=" +
+            formData.ngayDiKh +
+            "&loaiChuyenBay=" +
+            loaiChuyenBay
         );
       })
       .catch((validationErrors) => {
@@ -147,8 +126,8 @@ export default function Home() {
               Tìm Kiếm Chuyến Bay
             </h1>
           </div>
-
-          <form onSubmit={handleSubmits}>
+          {/* Form nhập dữ liệu tìm kiếm */}
+          <form onSubmit={handleSubmit}>
             <div data-aos="fade-up" className="cardDiv grid">
               <div className="destinationInput">
                 <label className="label" htmlFor="city">

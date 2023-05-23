@@ -168,7 +168,7 @@ function DanhSachChuyenBay() {
       <Link as={Link} to="/ThemChuyenBay" className="text-white">
         <button className="btn btn-success">Thêm mới</button>
       </Link>
-      <table className="table table-hover table-shadow">
+      <table className="table table-striped shadow">
         <thead className="thead-dark">
           <tr>
             <th scope="col">Stt</th>

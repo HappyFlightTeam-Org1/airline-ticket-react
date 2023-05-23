@@ -4,24 +4,21 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import css from "./DatCho.css";
 
+//Ducnh66 Chọn ghế cho hành khách
 const DatCho = () => {
-
+  // Ducnh66 Lấy data cho chọn ghế hành khách
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const [adultsInfo, setAdultsInfo] = useState([
-    JSON.parse(queryParams.get("adultsInfo")),
-  ]);
-  const [childrenInfo, setChildrenInfo] = useState([
+  const [adultsInfo] = useState([JSON.parse(queryParams.get("adultsInfo"))]);
+  const [childrenInfo] = useState([
     JSON.parse(queryParams.get("childrenInfo")),
   ]);
-  const [babyInfo, setBabyInfo] = useState([
-    JSON.parse(queryParams.get("babyInfo")),
-  ]);
+  const [babyInfo] = useState([JSON.parse(queryParams.get("babyInfo"))]);
   const tiketType = JSON.parse(queryParams.get("tiketType"));
   const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
-  const idChuyenBayDi = JSON.parse(queryParams.get("chuyenBay"));
-  const idChuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
+  const idChuyenBayDi = JSON.parse(queryParams.get("idChuyenBayDi"));
+  const idChuyenBayKhuHoi = JSON.parse(queryParams.get("idChuyenBayKhuHoi"));
   const [seatList1Chieu, setSeatList1Chieu] = useState([]);
   const [seatListKhuHoi, setSeatListKhuHoi] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -35,7 +32,8 @@ const DatCho = () => {
   const maxSeat = adultsInfo[0].length + childrenInfo[0].length;
   var gheDaChon = 0;
   var gheDaChonKhuHoi = 0;
-  // Lấy danh sách ghế của chuyến bay và máy bay tương ứng
+
+  //DucNH66 Lấy danh sách ghế của chuyến bay và số lượng các loại ghế
   useEffect(() => {
     if (idChuyenBayDi) {
       axios
@@ -66,7 +64,7 @@ const DatCho = () => {
     }
   }, [idChuyenBayDi, idChuyenBayKhuHoi]);
 
-  //Tinh toan ghe da duoc chon 1 chieu
+  //DucNH66 số lượng  ghế đã được chọn 1 chiều
   seatList1Chieu &&
     seatList1Chieu.map((item) => {
       if (item.trangThai === "selected") {
@@ -75,7 +73,7 @@ const DatCho = () => {
       return gheDaChon;
     });
 
-  //Tinh toan ghe da duoc chon khu hoi
+  //DucNH66 số lượng ghế đã được chọn khứ hồi
   seatListKhuHoi &&
     seatListKhuHoi.map((item) => {
       if (item.trangThai === "selected") {
@@ -84,8 +82,7 @@ const DatCho = () => {
       return gheDaChonKhuHoi;
     });
 
-
-  // Chon ghe 1 chieu
+  //DucNH66 Chọn ghế 1 chiều
   const handleSeatClick = (seat) => {
     const index = selectedSeats.indexOf(seat.maDatCho);
     const seatType = seat.ghe.loaiGhe.tenLoaiGhe;
@@ -107,7 +104,7 @@ const DatCho = () => {
     }
   };
 
-  // Chon ghe khu hoi
+  //DucNH66 Chọn ghế nếu chuyến bay khứ hồi chiều
   const handleSeatClickKhuHoi = (seat) => {
     const index = selectedSeatsKhuHoi.indexOf(seat.maDatCho);
     const seatType = seat.ghe.loaiGhe.tenLoaiGhe;
@@ -129,20 +126,20 @@ const DatCho = () => {
     }
   };
 
-  //Ducnh66
+  //DucNH66 check ghế đã được chọn hay chưa(available/selected)
   const isSeatSelected = (seat) => selectedSeats.includes(seat.maDatCho);
   const isSeatSelectedKhuHoi = (seat) =>
     selectedSeatsKhuHoi.includes(seat.maDatCho);
 
-  //Ducnh66
+  //Ducnh66 gởi dữ liệu đi nếu chuyến bay 1 chiều
   const handleClick = () => {
     if (selectedSeats.length === maxSeat) {
       const queryParams = new URLSearchParams();
       queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
       queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
       queryParams.set("babyInfo", JSON.stringify(babyInfo));
-      queryParams.set("chuyenBay", JSON.stringify(idChuyenBayDi));
-      queryParams.set("chuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
+      queryParams.set("idChuyenBayDi", JSON.stringify(idChuyenBayDi));
+      queryParams.set("idChuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
       queryParams.set("tiketType", JSON.stringify(tiketType));
       queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
       queryParams.set("maDatCho", JSON.stringify(selectedSeats));
@@ -154,15 +151,15 @@ const DatCho = () => {
     }
   };
 
-  //Ducnh66
+  //DucNH66 gởi dữ liệu đi nếu chuyến bay khứ hồi
   const handleClickKhuHoi = () => {
     if (selectedSeatsKhuHoi.length === maxSeat) {
       const queryParams = new URLSearchParams();
       queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
       queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
       queryParams.set("babyInfo", JSON.stringify(babyInfo));
-      queryParams.set("chuyenBay", JSON.stringify(idChuyenBayDi));
-      queryParams.set("chuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
+      queryParams.set("idChuyenBayDi", JSON.stringify(idChuyenBayDi));
+      queryParams.set("idChuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
       queryParams.set("tiketType", JSON.stringify(tiketType));
       queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
       queryParams.set("maDatCho", JSON.stringify(selectedSeats));
@@ -174,7 +171,7 @@ const DatCho = () => {
     }
   };
 
-  //Ducnh66
+  //DucNH66 ẩn hiện form chọn ghế nếu chuyến bay khứ hồi
   const handleClickNext = () => {
     if (selectedSeats.length === maxSeat) {
       setHiddens(!hiddens);
@@ -184,14 +181,25 @@ const DatCho = () => {
     }
   };
 
-  //Ducnh66
+  //DucNH66 reload lại trang để chọn lại
   const goBack = () => {
     window.location.reload();
   };
-  console.log(tiketType);
-  console.log(tiketTypeKhuHoi);
+
+  //DucNH66 LOG
+  console.log("nguoi lon: ", adultsInfo);
+  console.log("tre em: ", childrenInfo);
+  console.log("em be: ", babyInfo);
+  console.log("loai ve 1: ", tiketType);
+  console.log("loai ve 2: ", tiketTypeKhuHoi);
+  console.log("ma dat cho 1: ", selectedSeats);
+  console.log("ma dat cho 2: ", selectedSeatsKhuHoi);
+  console.log("id Chuyen Bay Di: ", idChuyenBayDi);
+  console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
+
   return (
     <div className="container mt-3">
+      {/* DucNH66 Ghế chuyến bay đi */}
       {hiddens && (
         <div className="row">
           <h1>
@@ -209,10 +217,11 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${
+                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
@@ -279,6 +288,7 @@ const DatCho = () => {
           </div>
         </div>
       )}
+      {/* DucNH66 Ghế chuyến bay khứ hồi */}
       {hiddensKhuHoi && (
         <div className="row">
           <h1>
@@ -296,10 +306,11 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${
+                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
 
                   `}
@@ -366,5 +377,4 @@ const DatCho = () => {
     </div>
   );
 };
-
 export default DatCho;
