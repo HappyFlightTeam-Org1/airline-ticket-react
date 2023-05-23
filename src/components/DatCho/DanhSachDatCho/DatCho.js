@@ -209,11 +209,10 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
@@ -297,11 +296,10 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
 
                   `}
