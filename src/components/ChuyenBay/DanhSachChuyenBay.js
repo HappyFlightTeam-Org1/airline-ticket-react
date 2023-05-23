@@ -113,10 +113,10 @@ function DanhSachChuyenBay() {
       <hr />
       {/* Form tìm kiếm  DucNH66*/}
       <form class="row justify-content-center search" onSubmit={handleSearch}>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <h5>Tìm Kiếm Theo</h5>
         </div>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <select
             name="diemDi"
             id="diemDi"
@@ -132,7 +132,7 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <select
             name="diemDen"
             id="diemDen"
@@ -148,7 +148,7 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <input
             id="ngayKhoiHanh"
             type="date"

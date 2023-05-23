@@ -86,8 +86,14 @@ export default function Navbar() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Tìm Kiếm Vé
+                  <a href="#">
+                    <Link
+                      as={Link}
+                      to="TimKiemVe"
+                      className="text-white nav-link active"
+                    >
+                      Tìm Kiếm Vé
+                    </Link>
                   </a>
                 </li>
                 <li className="nav-item">

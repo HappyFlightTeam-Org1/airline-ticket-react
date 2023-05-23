@@ -64,7 +64,7 @@ const DatCho = () => {
     }
   }, [idChuyenBayDi, idChuyenBayKhuHoi]);
 
-  //DucNH66 số lượng  ghế đã được chọn 1 chiếu
+  //DucNH66 số lượng  ghế đã được chọn 1 chiều
   seatList1Chieu &&
     seatList1Chieu.map((item) => {
       if (item.trangThai === "selected") {
@@ -82,7 +82,7 @@ const DatCho = () => {
       return gheDaChonKhuHoi;
     });
 
-  //DucNH66 Chọn ghế nếu chuyến bay 1  chiều
+  //DucNH66 Chọn ghế 1 chiều
   const handleSeatClick = (seat) => {
     const index = selectedSeats.indexOf(seat.maDatCho);
     const seatType = seat.ghe.loaiGhe.tenLoaiGhe;
@@ -221,9 +221,9 @@ const DatCho = () => {
                         seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""} 
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelected(seat) ? "color" : ""}
-                
+
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""
@@ -310,9 +310,9 @@ const DatCho = () => {
                         seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""} 
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
-                
+
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""

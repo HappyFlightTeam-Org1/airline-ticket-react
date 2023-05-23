@@ -16,7 +16,6 @@ import BarChart from "./components/DashBoard/BarChart.js";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
-
 function Controller() {
   return (
     <div className="Controller">
@@ -44,12 +43,6 @@ function Controller() {
             />
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
-          </Route>
-          {/* Quản lý người dùng và thống kê */}
-          <Route>
-            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
-
-            <Route path="BarChart" element={<BarChart />} />
           </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>

@@ -163,7 +163,7 @@ export default function Home() {
                   ))}
                 </select>
                 {errors.diemDi && (
-                  <strong style={{ color: "red" }}>{errors.diemDi}</strong>
+                  <p style={{ color: "red" }}>{errors.diemDi}</p>
                 )}
               </div>
               <div className="destinationInput">
@@ -177,14 +177,14 @@ export default function Home() {
                   onChange={handleChangeInput}
                   className="select "
                 >
-                  <option value="">-- Chọn điểm đi --</option>
+                  <option value="">-- Chọn điểm đến --</option>
                   {sanBays.map((sanBay) => (
                     <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
                       {sanBay.thanhPho}
                     </option>
                   ))}
                 </select>
-                {errors.diemDen && <strong>{errors.diemDen}</strong>}
+                {errors.diemDen && <p>{errors.diemDen}</p>}
               </div>
               <div className="dateInput">
                 <label className="label" htmlFor="city">
@@ -199,7 +199,7 @@ export default function Home() {
                     onChange={handleChangeInput}
                   ></input>
                 </div>
-                {errors.ngayDi && <strong>{errors.ngayDi}</strong>}
+                {errors.ngayDi && <p>{errors.ngayDi}</p>}
               </div>
               <div className="dateInput">
                 <label id="label-NgayVe" className="label" htmlFor="city">

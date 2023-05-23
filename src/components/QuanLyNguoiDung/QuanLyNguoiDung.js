@@ -1,6 +1,7 @@
 import React, {useEffect,useState} from 'react';
 import "./QuanLyNguoiDung.css"
 import axios from 'axios';
+import * as XLSX from 'xlsx/xlsx.mjs';
 export default function QuanLyNguoiDung() {
   const  [dataNguoiDung,setDataNguoiDung] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -12,6 +13,7 @@ export default function QuanLyNguoiDung() {
   const [soDienThoai,setSoDienThoai] = useState("");
   const [email,setEmail] = useState("");
   const [isStatus, setIsStatus] = useState(false);
+  const [dataExcel, setDataExcel] = useState({})
   useEffect(() => {
     const url = isSearching
       ? `http://localhost:8080/nguoi-dung/search?hoVaTen=${name}&soDienThoai=${soDienThoai}&email=${email}&page=${currentPage}&size=${pageSize}`
@@ -25,8 +27,23 @@ export default function QuanLyNguoiDung() {
         setTotalPage(data.totalPages);
         setPageNumbers(Array.from(Array(data.totalPages).keys()));
         setDataNguoiDung(data.content);
+        console.log(dataNguoiDung);
       })
       .catch((error) => console.error);
+
+      axios
+      .get("http://localhost:8080/nguoi-dung/list")
+      .then((response) => {
+        const users = response.data.map((user) => ({
+          ...user,
+          quocTich: user.quocTich.tenQuocTich,
+          taiKhoan: user.taiKhoan.tenTaiKhoan
+        }));
+        setDataExcel(users);
+        console.log(dataExcel);
+      })
+      .catch((err) => console.error);
+
   }, [currentPage, pageSize,isStatus]);
 
   function handleNextPageClick() {
@@ -51,9 +68,19 @@ export default function QuanLyNguoiDung() {
     setIsSearching(true);
     isStatus===true?setIsStatus(false):setIsStatus(true);
   };
+
+  const handleOnExport = () => {
+    var wb = XLSX.utils.book_new(),
+    ws = XLSX.utils.json_to_sheet(dataExcel);
+
+    XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+
+    XLSX.writeFile(wb, "MyExcel.xlsx");
+  }
   return (
     <div className='container bg-body table-shadow'>
             <div className="pt-5 pb-3">
+               {/* <button onClick={hanldeOnExport} >Excel</button> */}
                 <div className="text-center pb-3">
                     <h1>DANH SÁCH NGƯỜI DÙNG</h1>
                 </div>
@@ -103,8 +130,8 @@ export default function QuanLyNguoiDung() {
                         <td>{data.diaChi}</td>
                         <td>{data.quocTich.tenQuocTich}</td>
                         <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                            <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
+                            <button className="btn btn-danger" type="submit">Khoá</button>
+                            <button className="btn btn-info" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
                         </td>
                     </tr>
                     )
@@ -155,6 +182,10 @@ export default function QuanLyNguoiDung() {
               </li>
             </ul>
           </nav>
+                    <div className="form-group col-md-2 export d-flex justify-content-center align-items-center">
+                          <button onClick={handleOnExport} className="btn btn-success">Excel <i class="fa-sharp fa-regular fa-file-excel"></i></button>
+
+                    </div>
         </div>
       )}
             </div>

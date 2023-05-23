@@ -4,9 +4,9 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-/* .container {
+.order-container {
   min-height: 550px;
-} */
+}
 .order {
   width: 90%;
   min-height: 550px;
@@ -63,4 +63,8 @@ a {
 }
 h6 {
   margin-top: 10px;
+}
+
+.chuyen-bay {
+  min-height: 300px;
 }

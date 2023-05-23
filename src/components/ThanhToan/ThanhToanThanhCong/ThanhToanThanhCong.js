@@ -1,44 +1,40 @@
 import React, { useState, useEffect } from "react";
-import './TimKiemVe.css'
+import './ThanhToanThanhCong.css'
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-function TimKiemVe() {
+function ThanhToanThanhCong() {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const orderCode = queryParams.get("vnp_TxnRef");
 
     const [tickets, setTickets] = useState([]);
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        let orderCode = event.target.elements.maHoaDon.value;
-        const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
-        try {
-            const response = await axios.get(apiURLQuery);
-            console.log("response.data", response);
-            // Xử lý dữ liệu phản hồi từ API
-            if (response.data.length > 0) {
-                setTickets(response.data);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    const apiURLUpdate = "http://localhost:8080/hoa-don/update/" + orderCode;
+    const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
+    useEffect(() => {
+        axios
+            .post(apiURLUpdate)
+            .then((response) => {
+                console.log("THANH CONG!! HAY KHONG");
+                console.log(response.data);
+                axios
+                    .get(apiURLQuery)
+                    .then((response) => {
+                        setTickets(response.data);
+                        console.log("VE MAY BAY");
+                        console.log(response.data);
+                    })
+                    .catch((err) => console.error);
+            })
+            .catch((err) => console.error);
+        console.log("orderCode", orderCode);
 
-
+    }, []);
     return (
         <div className='container bg-body table-shadow mt-3'>
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
-                    <h1>TÌM KIẾM VÉ</h1>
+                    <h1>VÉ VỪA ĐẶT</h1>
                 </div>
-                <form onSubmit={handleSubmit} className="row justify-content-center">
-                    <div className="form-group d-flex justify-content-center align-items-center">
-                        <div className="form-group col-md-2">
-                            <input id="maHoaDon" type="text" name="maHoaDon" className="form-control"
-                                placeholder="Nhập mã đặt chỗ" />
-                        </div>
-
-                        <div className="form-group col-md-2 d-flex justify-content-center">
-                            <button type="submit" className="btn btn-success"> Tìm Kiếm</button>
-                        </div>
-                    </div>
-                </form>
             </div>
 
             <table className="table table-striped border">
@@ -52,6 +48,7 @@ function TimKiemVe() {
                         <th scope="col">Nơi Đến</th>
                         <th scope="col">Hạng Vé</th>
                         <th scope="col">Giá Vé</th>
+                        {/* <th scope="col">TT Thanh Toán</th> */}
                         <th scope="col">Thao Tác</th>
                     </tr>
                 </thead>
@@ -67,9 +64,10 @@ function TimKiemVe() {
                                 <td>{item.datCho.chuyenBay.diemDen}</td>
                                 <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
                                 <td>{item.giaVe}</td>
+                                {/* <td>{item.hoaDon.trangThaiThanhToan == 0 ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'}</td> */}
                                 <td>
                                     <button className="btn btn-primary" type="submit">In</button>
-                                    <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
+
                                 </td>
                             </tr>
                         )
@@ -96,4 +94,4 @@ function TimKiemVe() {
         </div>
     );
 }
-export default TimKiemVe;
+export default ThanhToanThanhCong;
