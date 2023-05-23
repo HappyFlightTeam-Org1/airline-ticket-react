@@ -1,15 +1,24 @@
 .maybay {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 50px;
+    background: linear-gradient(
+        to right,
+        hsl(187, 85%, 43%),
+        hsl(199, 100%, 33%)
+      );;
 }
-
+hr{
+    margin-bottom: 50px;
+}
 .thuong-gia {
     color: rgb(0, 255, 157);
     cursor: pointer;
+   
 }
 
 .thuong-gia:hover {
-    color: rgb(255, 213, 3);
+    color:yellow;
     cursor: pointer;
     border-bottom: 1px solid rgb(0, 255, 157);
 }
@@ -20,7 +29,7 @@
 }
 
 .pho-thong:hover {
-    color: rgb(255, 213, 3);
+    color: yellow;
     cursor: pointer;
     border-bottom: 1px solid rgb(15, 220, 243);
 }
@@ -58,7 +67,12 @@
 .ghichu4 i {
     color: rgb(255, 213, 3);
 }
-
+.datcholeft{
+    margin-left: 20px;
+}
+.datcholeft img{
+ height: 350px;
+}
 
 .datcholeft h4 {
     margin-left: 20px;
@@ -80,4 +94,10 @@
 
 .span {
     color: red;
+}
+.khoan {
+    color: white;
+}
+sub{
+    color: white;
 }

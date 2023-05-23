@@ -104,8 +104,14 @@ export default function Navbar() {
               </ul>
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 login">
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Đăng nhập
+                  <a  href="#">
+                  <Link
+                      as={Link}
+                      to="Login"
+                      className="text-white nav-link active"
+                    >
+                      Đăng Nhập
+                    </Link>
                   </a>
                 </li>
                 <li className="nav-item">

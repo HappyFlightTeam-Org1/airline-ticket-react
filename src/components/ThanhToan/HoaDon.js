@@ -24,9 +24,6 @@ function HoaDon() {
       };
     }
   );
-
-  console.log("hanhKhachs", hanhKhachs);
-
   //hàm format tiền
   const CurrencyFormat = (money) => {
     const formattedValue = new Intl.NumberFormat("vi-VN", {
@@ -70,7 +67,7 @@ function HoaDon() {
   //ngày tạo hóa đơn
   const [createDate, setCreateDate] = useState();
 
-  //hàm lấy tổng tiền
+  //hàm lấy mã hóa đơn
   const getOrderCode = () => {
     const currentTime = new Date();
     const year = currentTime.getFullYear();
@@ -89,7 +86,12 @@ function HoaDon() {
   const [orderCode, setOrderCode] = useState(getOrderCode);
 
   //tổng tiền
-  const [amount, setAmount] = useState(getTotal);
+  const [amount, setAmount] = useState(getTotal());
+
+  // khi chuyến bay thay đổi thì lấy được tổng tiền để gửi xuống thanh toán
+  useEffect(() => {
+    setAmount(getTotal());
+  }, [chuyenBay]);
 
   //hoaDonDTO
   const hoaDonDTO = {
@@ -101,17 +103,15 @@ function HoaDon() {
     emailNguoiDung: "user@example.com",
   };
 
-  //maDatChos
-  const datChos = [28, 29, 36, 37];
-
+  //veMayBayDTO
   const veMayBayDTO = {
     hoaDonDTO: hoaDonDTO,
     hanhKhachDTOs: hanhKhachs,
-    maDatChos: datChos,
+    maDatChos: maDatCho,
+    maDatChoKhuHoi: maDatChoKhuHoi,
   };
 
   const handleSubmit = async (event) => {
-    console.log("veMayBayDTO", veMayBayDTO);
     event.preventDefault();
     try {
       const response = await axios.post(
@@ -124,6 +124,7 @@ function HoaDon() {
       console.error(error);
     }
   };
+  //maDatChos
 
   return (
     <div className="container d-flex justify-content-center">

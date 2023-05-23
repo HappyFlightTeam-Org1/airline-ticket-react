@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import css from "./DatCho.css";
+import plane from "../../../Assets/planeDC.png";
+import plane1 from "../../../Assets/plane1.png";
 
 //Ducnh66 Chọn ghế cho hành khách
+
 const DatCho = () => {
   // Ducnh66 Lấy data cho chọn ghế hành khách
   const navigate = useNavigate();
@@ -209,6 +212,7 @@ const DatCho = () => {
   return (
     <div className="container mt-3">
       {/* DucNH66 Ghế chuyến bay đi */}
+
       {hiddens && (
         <div className="row">
           <h1>
@@ -216,9 +220,15 @@ const DatCho = () => {
             {tiketType}
           </h1>
           <hr />
-          <div className="col-3"></div>
-          <div className="col-6 maybay  ">
+          <div data-aos="fade-up" className="col-4">
+            <img src={plane1}></img>
+          </div>
+          <div data-aos="fade-up" className="col-4 maybay  ">
             <div className="row p-3 ">
+              <div className="col-3 khoan d-flex justify-content-center">A</div>
+              <div className="col-3 khoan d-flex justify-content-center">B</div>
+              <div className="col-3 khoan d-flex justify-content-center">C</div>
+              <div className="col-3 khoan d-flex justify-content-center">D</div>
               {seatList1Chieu &&
                 seatList1Chieu.map((seat) => (
                   <div
@@ -231,6 +241,12 @@ const DatCho = () => {
                           ? "thuong-gia"
                           : "pho-thong"
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${
+                          seat.trangThai === "selected" ? "selected-seat" : ""
+                        }
+
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
@@ -247,8 +263,8 @@ const DatCho = () => {
                 ))}
             </div>
           </div>
-          <div className="col-3">
-            <div className="datcholeft">
+          <div className="col-4">
+            <div data-aos="fade-up" className="datcholeft">
               <div className="ghichu1">
                 <i class="fa-solid fa-couch"></i>{" "}
                 <h4>
@@ -293,6 +309,7 @@ const DatCho = () => {
                   </button>
                 )}
               </div>
+              <img src={plane}></img>
             </div>
           </div>
         </div>
@@ -320,6 +337,11 @@ const DatCho = () => {
                           ? "thuong-gia"
                           : "pho-thong"
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${
+                          seat.trangThai === "selected" ? "selected-seat" : ""
+                        }
+
+
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
 
                   `}
