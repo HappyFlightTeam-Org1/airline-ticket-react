@@ -15,20 +15,68 @@ function HoaDon() {
     const [babyInfo, setBabyInfo] = useState([
         JSON.parse(queryParams.get("babyInfo")),
     ]);
-    const [chuyenBay, setChuyenBay] = useState(
-        JSON.parse(queryParams.get("chuyenBay"))
-    );
-    const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState(
-        JSON.parse(queryParams.get("chuyenBayKhuHoi"))
-    );
-    const tiketType = JSON.parse(queryParams.get("tiketType"));
-    const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
+    const idChuyenBayDi = JSON.parse(queryParams.get("chuyenBay"));
+    const idChuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
+
+    // const [chuyenBay, setChuyenBay] = useState();
+
+    // const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
+    const response1 = {};
+    axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi).then((re) => {
+        response1 = re.data;
+        console.log("response1", response1);
+    })
+    const chuyenBay = response1.data;
+    console.log("here", response1);
+
+    const response2 = axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi);
+    const chuyenBayKhuHoi = response2.data;
+    console.log("here22222", response2);
+
+    const tiketType = JSON.parse(queryParams.get("tiketType").trim());
+    const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi").trim());
     const [maDatCho, setMaDatCho] = useState(
         JSON.parse(queryParams.get("maDatCho"))
     );
     const [maDatChoKhuHoi, setMaDatChoKhuHoi] = useState(
         JSON.parse(queryParams.get("maDatChoKhuHoi"))
     );
+
+    // const chuyenBay = axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
+    //     .then((response) => {
+    //         console.log("response1111111", response.data);
+    //         // setChuyenBay(response.data);
+    //     });
+
+    // axios.get("http://localhost:8080/chuyen-bay/findById/CB899")
+    // axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
+    //     .then((response) => {
+    //         console.log("response1111111", response.data);
+    //         setChuyenBay(response.data);
+    //     });
+
+    // axios.get("http://localhost:8080/chuyen-bay/findById/CB999")
+    // axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
+    //     .then((response) => {
+    //         setChuyenBayKhuHoi(response.data);
+    //     });
+
+    // useEffect(() => {
+    //     if (idChuyenBayDi) {
+    //         axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
+    //             .then((response) => {
+    //                 console.log("response", response);
+    //                 setChuyenBay(response.data);
+    //             });
+    //     }
+    //     if (idChuyenBayKhuHoi) {
+    //         axios.get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
+    //             .then((response) => {
+    //                 setChuyenBayKhuHoi(response.data);
+    //             });
+    //     }
+    // },
+    //     [idChuyenBayDi, idChuyenBayKhuHoi]);
 
     //lấy list hanhKhachDTO từ component nhập thông tin
     const hanhKhachs = [...adultsInfo[0], ...childrenInfo[0], ...babyInfo[0]].map(
@@ -69,12 +117,13 @@ function HoaDon() {
 
     //show tổng tiền ra màn hình đơn vị VND
     const total = CurrencyFormat(getTotal());
-
+    console.log("chuyenbay di", chuyenBay);
+    console.log("chuyenbay khu hoi", chuyenBayKhuHoi);
     console.log(adultsInfo);
     console.log(childrenInfo);
     console.log(babyInfo);
-    console.log(chuyenBay);
-    console.log(chuyenBayKhuHoi);
+    console.log(idChuyenBayDi);
+    console.log(idChuyenBayKhuHoi);
     console.log(tiketType);
     console.log(tiketTypeKhuHoi);
     console.log(maDatCho);

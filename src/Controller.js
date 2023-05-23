@@ -16,10 +16,6 @@ import BarChart from "./components/DashBoard/BarChart.js";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
-import ORDER from "./components/ThanhToan/ZaloPay/ORDER.js";
-import VNPayForm from "./components/ThanhToan/VNPay/VNPayForm.js";
-import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhToanThanhCong";
-
 function Controller() {
   return (
     <div className="Controller">
@@ -48,12 +44,6 @@ function Controller() {
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
           </Route>
-          {/* Quản lý người dùng và thống kê */}
-          <Route>
-            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
-
-            <Route path="BarChart" element={<BarChart />} />
-          </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>
             <Route path="DatCho" element={<DatCho />} />
@@ -66,12 +56,6 @@ function Controller() {
           {/* Hóa Đơn */}
           <Route>
             <Route path="ThanhToan" element={<HoaDon />} />
-            <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
-          </Route>
-          {/* Quản lý lịch sử đặt vé */}
-          <Route>
-            <Route path="LichSuDatVe" element={<LichSuDatVe />} />
-            <Route path="TimKiemVe" element={<TimKiemVe />} />
           </Route>
         </Routes>
         <Footer />

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import css from "./DatCho.css";
 
 const DatCho = () => {
+
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -82,6 +83,7 @@ const DatCho = () => {
       }
       return gheDaChonKhuHoi;
     });
+
 
   // Chon ghe 1 chieu
   const handleSeatClick = (seat) => {
@@ -208,11 +210,11 @@ const DatCho = () => {
                   >
                     <i
                       className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
-                        ? "thuong-gia"
-                        : "pho-thong"
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""} 
+                          ? "thuong-gia"
+                          : "pho-thong"
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelected(seat) ? "color" : ""}
-                
+
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""
@@ -295,11 +297,11 @@ const DatCho = () => {
                   >
                     <i
                       className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
-                        ? "thuong-gia"
-                        : "pho-thong"
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""} 
+                          ? "thuong-gia"
+                          : "pho-thong"
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
-                
+
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""
