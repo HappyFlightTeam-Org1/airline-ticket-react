@@ -3,13 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import css from "./DatCho.css";
-<<<<<<< HEAD
 import plane from "../../../Assets/planeDC.png";
 import plane1 from "../../../Assets/plane1.png";
-=======
+
 
 //Ducnh66 Chọn ghế cho hành khách
->>>>>>> 092aea167f264087de31839530ba7ef3a0934288
+
 const DatCho = () => {
   // Ducnh66 Lấy data cho chọn ghế hành khách
   const navigate = useNavigate();
@@ -203,12 +202,9 @@ const DatCho = () => {
   console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
 
   return (
-<<<<<<< HEAD
-    <div  className="container mt-3">
-=======
     <div className="container mt-3">
       {/* DucNH66 Ghế chuyến bay đi */}
->>>>>>> 092aea167f264087de31839530ba7ef3a0934288
+
       {hiddens && (
         <div className="row">
           <h1>
@@ -244,13 +240,11 @@ const DatCho = () => {
                         seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-<<<<<<< HEAD
-
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                         } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-=======
+
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
->>>>>>> 092aea167f264087de31839530ba7ef3a0934288
+
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
@@ -342,12 +336,9 @@ const DatCho = () => {
                           ? "thuong-gia"
                           : "pho-thong"
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-<<<<<<< HEAD
-
                         } ${seat.trangThai === "selected" ? "selected-seat" : ""}
 
-=======
->>>>>>> 092aea167f264087de31839530ba7ef3a0934288
+
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
 
                   `}
