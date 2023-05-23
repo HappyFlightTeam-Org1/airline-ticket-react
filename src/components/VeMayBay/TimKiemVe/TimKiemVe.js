@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './TimKiemVe.css'
+import axios from "axios";
 function TimKiemVe() {
+
+    const [tickets, setTickets] = useState([]);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        let orderCode = event.target.elements.maHoaDon.value;
+        const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
+        try {
+            const response = await axios.get(apiURLQuery);
+            console.log("response.data", response);
+            // Xử lý dữ liệu phản hồi từ API
+            if (response.data.length > 0) {
+                setTickets(response.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
     return (
         <div className='container bg-body table-shadow mt-3'>
-            <div className="pt-5 pb-3">
-                <div className="text-center pb-3">
+            <div className="pt-5 pb-2">
+                <div className="text-center pb-2">
                     <h1>TÌM KIẾM VÉ</h1>
                 </div>
-                <form className="row justify-content-center search">
+                <form onSubmit={handleSubmit} className="row justify-content-center">
                     <div className="form-group d-flex justify-content-center align-items-center">
                         <div className="form-group col-md-2">
                             <input id="maHoaDon" type="text" name="maHoaDon" className="form-control"
-                                placeholder="Nhập mã hóa đơn" value="" />
+                                placeholder="Nhập mã đặt chỗ" />
                         </div>
 
                         <div className="form-group col-md-2 d-flex justify-content-center">
@@ -21,7 +41,7 @@ function TimKiemVe() {
                 </form>
             </div>
 
-            <table className="table table-striped">
+            <table className="table table-striped border">
                 <thead>
                     <tr>
                         <th scope="col">Mã Vé</th>
@@ -32,53 +52,28 @@ function TimKiemVe() {
                         <th scope="col">Nơi Đến</th>
                         <th scope="col">Hạng Vé</th>
                         <th scope="col">Giá Vé</th>
-                        <th scope="col">TT Thanh Toán</th>
                         <th scope="col">Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="align-middle">
-                        <th scope="row">TK-001</th>
-                        <td>Nguyen Van A</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Thương Gia</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary " type="submit">In</button>
-                        </td>
-                    </tr>
-                    <tr class="align-middle">
-                        <th scope="row">TK-002</th>
-                        <td>Nguyen Van B</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Phổ thông</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                        </td>
-                    </tr>
-                    <tr class="align-middle">
-                        <th scope="row">TK-005</th>
-                        <td>Nguyen Van E</td>
-                        <td>02-06-2023</td>
-                        <td>04-06-2023</td>
-                        <td>Đà Nẵng</td>
-                        <td>Hà Nội</td>
-                        <td>Thương Gia</td>
-                        <td>2.000.000</td>
-                        <td>Đã Thanh Toán</td>
-                        <td>
-                            <button className="btn btn-primary" type="submit">In</button>
-                        </td>
-                    </tr>
+                    {tickets.map((item, index) => {
+                        return (
+                            <tr className="align-middle" key={item.maVe}>
+                                <th scope="row">{item.maVe}</th>
+                                <td>{item.hanhKhach.tenHanhKhach}</td>
+                                <td>{item.hoaDon.ngayTao}</td>
+                                <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
+                                <td>{item.datCho.chuyenBay.diemDi}</td>
+                                <td>{item.datCho.chuyenBay.diemDen}</td>
+                                <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                                <td>{item.giaVe}</td>
+                                <td>
+                                    <button className="btn btn-primary" type="submit">In</button>
+                                    <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
+                                </td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </table>
             <div className="justify-content-center pagination">

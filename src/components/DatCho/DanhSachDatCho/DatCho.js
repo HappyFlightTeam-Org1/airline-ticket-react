@@ -192,7 +192,7 @@ const DatCho = () => {
   console.log(tiketType);
   console.log(tiketTypeKhuHoi);
   return (
-    <div className="container mt-3">
+    <div  className="container mt-3">
       {hiddens && (
         <div className="row">
           <h1>
@@ -200,9 +200,10 @@ const DatCho = () => {
             {tiketType}
           </h1>
           <hr />
-          <div className="col-4">
+          <div data-aos="fade-up" className="col-4">
+            <img src={plane1}></img>
           </div>
-          <div className="col-4 maybay  ">
+          <div data-aos="fade-up" className="col-4 maybay  ">
             <div className="row p-3 ">
                   <div className="col-3 khoan d-flex justify-content-center">
                               A
@@ -223,11 +224,12 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
+
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
@@ -245,7 +247,7 @@ const DatCho = () => {
             </div>
           </div>
           <div className="col-4">
-            <div className="datcholeft">
+            <div data-aos="fade-up" className="datcholeft">
               <div className="ghichu1">
                 <i class="fa-solid fa-couch"></i>{" "}
                 <h4>
@@ -290,8 +292,9 @@ const DatCho = () => {
                   </button>
                 )}
               </div>
+              <img src={plane}></img>
             </div>
-            <img src={plane}></img>
+
           </div>
         </div>
       )}
@@ -312,11 +315,13 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
 
                   `}

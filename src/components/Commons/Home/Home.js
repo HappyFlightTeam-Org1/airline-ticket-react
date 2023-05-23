@@ -73,21 +73,21 @@ export default function Home() {
     event.preventDefault();
     navigate(
       "/TimKiemChuyenBay?soNguoiLon=" +
-        soNguoiLon +
-        "&soTreEm=" +
-        soTreEm +
-        "&soEmBe=" +
-        soEmBe +
-        "&diemDi=" +
-        formData.diemDi +
-        "&diemDen=" +
-        formData.diemDen +
-        "&ngayDi=" +
-        formData.ngayDi +
-        "&ngayDiKh=" +
-        formData.ngayDiKh +
-        "&loaiChuyenBay=" +
-        loaiChuyenBay
+      soNguoiLon +
+      "&soTreEm=" +
+      soTreEm +
+      "&soEmBe=" +
+      soEmBe +
+      "&diemDi=" +
+      formData.diemDi +
+      "&diemDen=" +
+      formData.diemDen +
+      "&ngayDi=" +
+      formData.ngayDi +
+      "&ngayDiKh=" +
+      formData.ngayDiKh +
+      "&loaiChuyenBay=" +
+      loaiChuyenBay
     );
   };
 
@@ -99,21 +99,21 @@ export default function Home() {
       .then(() => {
         navigate(
           "/TimKiemChuyenBay?soNguoiLon=" +
-            soNguoiLon +
-            "&soTreEm=" +
-            soTreEm +
-            "&soEmBe=" +
-            soEmBe +
-            "&diemDi=" +
-            formData.diemDi +
-            "&diemDen=" +
-            formData.diemDen +
-            "&ngayDi=" +
-            formData.ngayDi +
-            "&ngayDiKh=" +
-            formData.ngayDiKh +
-            "&loaiChuyenBay=" +
-            loaiChuyenBay
+          soNguoiLon +
+          "&soTreEm=" +
+          soTreEm +
+          "&soEmBe=" +
+          soEmBe +
+          "&diemDi=" +
+          formData.diemDi +
+          "&diemDen=" +
+          formData.diemDen +
+          "&ngayDi=" +
+          formData.ngayDi +
+          "&ngayDiKh=" +
+          formData.ngayDiKh +
+          "&loaiChuyenBay=" +
+          loaiChuyenBay
         );
       })
       .catch((validationErrors) => {
