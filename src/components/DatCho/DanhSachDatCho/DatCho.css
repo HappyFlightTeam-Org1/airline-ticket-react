@@ -1,74 +1,103 @@
-.datcho {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding-bottom: 50px;
-    background-color: rgb(250, 233, 233);
-      .img{
-        position: absolute;
-        z-index: -1;
-      }
-}
-.maybay{
+.maybay {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 50px;
     background: linear-gradient(
         to right,
         hsl(187, 85%, 43%),
         hsl(199, 100%, 33%)
-      );
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 50px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-          .datghe{
-                width: 100%;
-                padding: 1rem;
-                .hangghe {
-                    display: flex;
-                    justify-content:space-between;
-                    padding: 1rem 0;
-                    color: yellow;
-                    .hangtrai{
-                        width: 40%;
-                        display: flex;
-                        justify-content: space-around;
-                    }
-                    .hangphai{
-                        width: 40%;
-                        display: flex;
-                        justify-content: space-around;
-                    }
-                }
-          }
+      );;
 }
-.phothong {
-  margin-top: 20px;
-     .hangghe {
-      color: white !important;
-     }
+hr{
+    margin-bottom: 50px;
 }
-.hangghe h3 {
-  color: black;
+.thuong-gia {
+    color: rgb(0, 255, 157);
+    cursor: pointer;
 }
-.datcholeft {
-  padding: 50px;
+
+.thuong-gia:hover {
+    color: rgb(255, 213, 3);
+    cursor: pointer;
+    border-bottom: 1px solid rgb(0, 255, 157);
 }
-.datcholeft h4 {
-  margin-left: 20px;
-  font-size: 1rem;
-  margin-top: 8px;
+
+.pho-thong {
+    color: rgb(15, 220, 243);
+    cursor: pointer;
 }
-.ghichu1,.ghichu2,.ghichu3 {
-  display: flex;
+
+.pho-thong:hover {
+    color: rgb(255, 213, 3);
+    cursor: pointer;
+    border-bottom: 1px solid rgb(15, 220, 243);
 }
+
+.selected-seat {
+    color: rgb(255, 0, 25);
+    cursor: not-allowed;
+}
+
+.selected-seat:hover {
+    color: rgb(255, 0, 25);
+    cursor: not-allowed;
+    opacity: 0.5;
+    border-bottom: 1px solid rgb(255, 0, 25);
+}
+
+.fa-couch {
+    cursor: pointer;
+    padding: 10px;
+}
+
 .ghichu1 i {
-  color:yellow;
+
+    color: rgb(0, 255, 157);
 }
-.ghichu2 i{
-  display: flex;
-  color: white;
+
+.ghichu2 i {
+    color: rgb(15, 220, 243);
 }
+
 .ghichu3 i {
-  color: red;
+    color: red;
+}
+
+.ghichu4 i {
+    color: rgb(255, 213, 3);
+}
+.datcholeft{
+    margin-left: 20px;
+}
+.datcholeft img{
+    width: 1rem;
+    height: .5rem;
+}
+
+.datcholeft h4 {
+    margin-left: 20px;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.ghichu1,
+.ghichu2,
+.ghichu3,
+.ghichu4,
+.ghichu5 {
+    display: flex;
+}
+
+.color {
+    color: rgb(255, 213, 3);
+}
+
+.span {
+    color: red;
+}
+.khoan {
+    color: white;
+}
+sub{
+    color: white;
 }
