@@ -14,11 +14,10 @@ const DatCho = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const [adultsInfo] = useState([JSON.parse(queryParams.get("adultsInfo"))]);
-  const [childrenInfo] = useState([
-    JSON.parse(queryParams.get("childrenInfo")),
-  ]);
-  const [babyInfo] = useState([JSON.parse(queryParams.get("babyInfo"))]);
+  const adultsInfo = JSON.parse(queryParams.get("adultsInfo"));
+  const childrenInfo =
+    JSON.parse(queryParams.get("childrenInfo"));
+  const babyInfo = JSON.parse(queryParams.get("babyInfo"));
   const tiketType = JSON.parse(queryParams.get("tiketType"));
   const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
   const idChuyenBayDi = JSON.parse(queryParams.get("idChuyenBayDi"));
@@ -33,7 +32,8 @@ const DatCho = () => {
   const [slgheThuongGiaKhuHoi, setSoLuongGheTGKhuHoi] = useState(0);
   const [hiddens, setHiddens] = useState(true);
   const [hiddensKhuHoi, setHiddensKhuHoi] = useState(false);
-  const maxSeat = adultsInfo[0].length + childrenInfo[0].length;
+  const maxSeat = adultsInfo.length + childrenInfo.length;
+
   var gheDaChon = 0;
   var gheDaChonKhuHoi = 0;
 
@@ -217,18 +217,18 @@ const DatCho = () => {
           </div>
           <div data-aos="fade-up" className="col-4 maybay  ">
             <div className="row p-3 ">
-                  <div className="col-3 khoan d-flex justify-content-center">
-                              A
-                  </div>
-                  <div className="col-3 khoan d-flex justify-content-center">
-                              B
-                  </div>
-                  <div className="col-3 khoan d-flex justify-content-center">
-                              C
-                  </div>
-                  <div className="col-3 khoan d-flex justify-content-center">
-                              D
-                  </div>
+              <div className="col-3 khoan d-flex justify-content-center">
+                A
+              </div>
+              <div className="col-3 khoan d-flex justify-content-center">
+                B
+              </div>
+              <div className="col-3 khoan d-flex justify-content-center">
+                C
+              </div>
+              <div className="col-3 khoan d-flex justify-content-center">
+                D
+              </div>
               {seatList1Chieu &&
                 seatList1Chieu.map((seat) => (
                   <div
@@ -236,11 +236,10 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                         } ${seat.trangThai === "selected" ? "selected-seat" : ""}
 
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
@@ -331,11 +330,10 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                         } ${seat.trangThai === "selected" ? "selected-seat" : ""}
 
 
