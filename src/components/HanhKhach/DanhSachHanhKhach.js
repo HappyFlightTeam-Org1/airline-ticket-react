@@ -11,7 +11,7 @@ function HanhKhach() {
   const [isSearching, setIsSearching] = useState(false);
   const [name, setName] = useState('');
   const [isStatus, setIsStatus] = useState(false);
-  
+
 
   useEffect(() => {
     const url = isSearching
@@ -49,20 +49,20 @@ function HanhKhach() {
   const handleSearch = async (event) => {
     event.preventDefault();
     setName(event.target.elements.adults.value);
-    setIsSearching(true);  
+    setIsSearching(true);
     isStatus===true?setIsStatus(false):setIsStatus(true);
   };
 
   return (
-    
+
     <div className="container hanhkhach ">
       <div className="tablehk">
       <h1 className="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
       <form className="row justify-content-center search" onSubmit={handleSearch}>
-        <div className="form-group col-md-2 ">
+        <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
           <h5>Tìm Kiếm</h5>
         </div>
-        <div className="form-group col-md-2">
+        <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
           <input
             id="adults"
             type="text"
@@ -72,7 +72,7 @@ function HanhKhach() {
           ></input>
         </div>
 
-        <div className="form-group col-md-2 ">
+        <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
           <button type="submit" className="btn btn-success">
             Tìm Kiếm
           </button>
@@ -159,8 +159,8 @@ function HanhKhach() {
       )}
       </div>
     </div>
-    
-    
+
+
   );
 }
 

@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: center;
   margin: auto;
-  margin-top: 50px;
   background: var(--gradientColor);
     .videoDiv{
       position: absolute;
