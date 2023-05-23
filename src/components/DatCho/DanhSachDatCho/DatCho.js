@@ -6,7 +6,7 @@ const DatCho = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/dat-cho/list/CB002")
+      .get("http://localhost:8080/dat-cho/list/CB888")
       .then((response) => {
         setSeatList(response.data);
         console.log("dDAT CHOO");

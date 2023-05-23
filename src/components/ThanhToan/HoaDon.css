@@ -64,3 +64,7 @@ a {
 h6 {
   margin-top: 10px;
 }
+
+.chuyen-bay {
+  min-height: 300px;
+}

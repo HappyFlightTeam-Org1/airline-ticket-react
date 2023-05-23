@@ -75,8 +75,14 @@ export default function Navbar() {
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Tin Tức
+                  <a href="#">
+                    <Link
+                      as={Link}
+                      to="DatCho"
+                      className="text-white nav-link active"
+                    >
+                      Đặt chỗ
+                    </Link>
                   </a>
                 </li>
                 <li className="nav-item">

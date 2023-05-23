@@ -6,7 +6,11 @@ import axios from "axios";
 
 
 function ORDER() {
+
+    //ngày tạo hóa đon
     const [createDate, setCreateDate] = useState();
+
+    //hàm lấy mã hóa đơn
     const getOrderCode = () => {
         const currentTime = new Date();
         const year = currentTime.getFullYear();
@@ -20,10 +24,14 @@ function ORDER() {
         setCreateDate(createOrderDate);
         return orderCode;
     }
+
+    //mã hóa đơn
     const [orderCode, setOrderCode] = useState(getOrderCode);
+
+    //tổng tiền
     const [amount, setAmount] = useState(100000);
 
-
+    //hoaDonDTO
     const formValues = {
         maHoaDon: orderCode,
         ngayTao: createDate,
@@ -32,6 +40,8 @@ function ORDER() {
         trangThaiXoa: 0,
         emailNguoiDung: "user@example.com"
     }
+
+
     const handleSubmit = async (event) => {
         console.log("formValues", formValues);
         event.preventDefault();

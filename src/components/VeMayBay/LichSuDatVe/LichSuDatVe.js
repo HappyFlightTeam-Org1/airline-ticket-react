@@ -1,18 +1,47 @@
 import React, { useState, useEffect } from "react";
 import './LichSuDatVe.css'
 import axios from "axios";
+import ReactPaginate from 'react-paginate';
 function LichSuDatVe() {
+
+
     const [tickets, setTickets] = useState([]);
+    const [pageNumber, setPageNumber] = useState(0);
+
+    const ticketPerPages = 5;
+    const pagesVisited = pageNumber * ticketPerPages;
+
     useEffect(() => {
-        axios
-            .get("http://localhost:8080/VeMayBay/list")
+        getTicketList();
+    }, [pageNumber]);
+
+
+    const getTicketList = async () => {
+        const response = await axios.get(`http://localhost:8080/VeMayBay/list?page=${pageNumber}&size=${ticketPerPages}`)
             .then((response) => {
                 setTickets(response.data);
                 console.log("VE MAY BAY");
                 console.log(response.data);
             })
             .catch((err) => console.error);
-    }, []);
+    };
+
+    const pageCount = Math.ceil(tickets.length / ticketPerPages);
+
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+    };
+
+    // useEffect(() => {
+    //     axios
+    //         .get("http://localhost:8080/VeMayBay/list")
+    //         .then((response) => {
+    //             setTickets(response.data);
+    //             console.log("VE MAY BAY");
+    //             console.log(response.data);
+    //         })
+    //         .catch((err) => console.error);
+    // }, []);
     return (
         <div className='container bg-body table-shadow mt-3'>
             <div className="pt-5 pb-2">
@@ -51,7 +80,6 @@ function LichSuDatVe() {
                         <th scope="col">Nơi Đến</th>
                         <th scope="col">Hạng Vé</th>
                         <th scope="col">Giá Vé</th>
-                        {/* <th scope="col">TT Thanh Toán</th> */}
                         <th scope="col">Thao Tác</th>
                     </tr>
                 </thead>
@@ -67,7 +95,6 @@ function LichSuDatVe() {
                                 <td>{item.datCho.chuyenBay.diemDen}</td>
                                 <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
                                 <td>{item.giaVe}</td>
-                                {/* <td>{item.hoaDon.trangThaiThanhToan == 0 ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'}</td> */}
                                 <td>
                                     <button className="btn btn-primary" type="submit">In</button>
                                     <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
@@ -76,7 +103,16 @@ function LichSuDatVe() {
                         )
                     })}
                 </tbody>
+
             </table>
+            <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName="pagination"
+                activeClassName="active"
+            />
             <div className="justify-content-center pagination">
                 <nav aria-label="...">
                     <ul className="pagination">
