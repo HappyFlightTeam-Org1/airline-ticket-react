@@ -6,45 +6,18 @@ function HoaDon() {
   //DucNH66 Lấy dữ liệu từ đặt chỗ gởi qua
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const [adultsInfo] = useState([JSON.parse(queryParams.get("adultsInfo"))]);
-  const [childrenInfo] = useState([
-    JSON.parse(queryParams.get("childrenInfo")),
-  ]);
-  const [babyInfo] = useState([JSON.parse(queryParams.get("babyInfo"))]);
-  const [maDatCho] = JSON.parse(queryParams.get("maDatCho"));
-  const [maDatChoKhuHoi] = JSON.parse(queryParams.get("maDatChoKhuHoi"));
-  const idChuyenBayDi = JSON.parse(queryParams.get("idChuyenBayDi"));
-  const idChuyenBayKhuHoi = JSON.parse(queryParams.get("idChuyenBayKhuHoi"));
-  const tiketType = JSON.parse(queryParams.get("tiketType"));
-  const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
-
-  //UseState Thông tin của chuyến bay được chọn
-  const [chuyenBay, setChuyenBay] = useState();
-  const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
-
-  //DucNH66 Lấy thông tin chuyến bay được chọn
-  useEffect(() => {
-    if (idChuyenBayDi) {
-      axios
-        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
-        .then((response) => {
-          setChuyenBay(response.data);
-          console.log(response.data, " RESPONSE 1 chiều");
-        });
-    }
-
-    if (idChuyenBayKhuHoi) {
-      axios
-        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
-        .then((response) => {
-          console.log(response.data, " RESPONSE khứ hồi");
-          setChuyenBayKhuHoi(response.data);
-        });
-    }
-  }, [idChuyenBayDi, idChuyenBayKhuHoi]);
+  const adultsInfo = JSON.parse(queryParams.get("adultsInfo"));
+  const childrenInfo = JSON.parse(queryParams.get("childrenInfo"));
+  const babyInfo = JSON.parse(queryParams.get("babyInfo"));
+  const tiketType = queryParams.get("tiketType");
+  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
+  const chuyenBay = JSON.parse(queryParams.get("chuyenBay"));
+  const chuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
+  const maDatCho = JSON.parse(queryParams.get("maDatCho"));
+  const maDatChoKhuHoi = JSON.parse(queryParams.get("maDatChoKhuHoi"));
 
   //lấy list hanhKhachDTO từ component nhập thông tin
-  const hanhKhachs = [...adultsInfo[0], ...childrenInfo[0], ...babyInfo[0]].map(
+  const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
     (hanhKhach) => {
       return {
         ...hanhKhach,
@@ -68,39 +41,31 @@ function HoaDon() {
   const getTotal = () => {
     let total = 0;
     if (chuyenBay != null) {
-      total +=
-        adultsInfo[0] != null ? adultsInfo[0].length * chuyenBay.giaVe : 0;
-      total +=
-        childrenInfo[0] != null ? childrenInfo[0].length * chuyenBay.giaVe : 0;
-      total += babyInfo[0] != null ? babyInfo[0].length * chuyenBay.giaVe : 0;
+      total += adultsInfo != null ? adultsInfo.length * chuyenBay.giaVe : 0;
+      total += childrenInfo != null ? childrenInfo.length * chuyenBay.giaVe : 0;
+      total += babyInfo != null ? babyInfo.length * chuyenBay.giaVe : 0;
     }
     if (chuyenBayKhuHoi != null) {
       total +=
-        adultsInfo[0] != null
-          ? adultsInfo[0].length * chuyenBayKhuHoi.giaVe
-          : 0;
+        adultsInfo != null ? adultsInfo.length * chuyenBayKhuHoi.giaVe : 0;
       total +=
-        childrenInfo[0] != null
-          ? childrenInfo[0].length * chuyenBayKhuHoi.giaVe
-          : 0;
-      total +=
-        babyInfo[0] != null ? babyInfo[0].length * chuyenBayKhuHoi.giaVe : 0;
+        childrenInfo != null ? childrenInfo.length * chuyenBayKhuHoi.giaVe : 0;
+      total += babyInfo != null ? babyInfo.length * chuyenBayKhuHoi.giaVe : 0;
     }
     return total;
   };
 
   const total = CurrencyFormat(getTotal());
+  //DucNH66 LOG
   console.log("chuyenbay di", chuyenBay);
   console.log("chuyenbay khu hoi", chuyenBayKhuHoi);
-  console.log(adultsInfo);
-  console.log(childrenInfo);
-  console.log(babyInfo);
-  console.log(idChuyenBayDi);
-  console.log(idChuyenBayKhuHoi);
-  console.log(tiketType);
-  console.log(tiketTypeKhuHoi);
-  console.log(maDatCho);
-  console.log(maDatChoKhuHoi);
+  console.log("thong tin nguoi lon: ", adultsInfo);
+  console.log("thong tin tre em: ", childrenInfo);
+  console.log("thong tin em be: ", babyInfo);
+  console.log("loai ve 1 chieu: ", tiketType);
+  console.log("loai ve khu hoi: ", tiketTypeKhuHoi);
+  console.log("ma dat cho 1 chieu: ", maDatCho);
+  console.log("ma dat cho khu hoi: ", maDatChoKhuHoi);
 
   //ngày tạo hóa đơn
   const [createDate, setCreateDate] = useState();
@@ -161,7 +126,6 @@ function HoaDon() {
   };
 
   return (
-
     <div className="container d-flex justify-content-center">
       <div className="order order-container mt-3">
         <div className="order-sidebar">
@@ -176,64 +140,66 @@ function HoaDon() {
             <h6>
               <strong>CHUYẾN BAY ĐI</strong>
             </h6>
-            {adultsInfo[0].length > 0 && (
+            {adultsInfo.length > 0 && (
               <div className="content">
                 <div>
                   {chuyenBay.hangBay.tenHangBay} (Người lớn x{" "}
-                  {adultsInfo[0].length}){" "}
+                  {adultsInfo.length}){" "}
                 </div>
-                <div>{chuyenBay.giaVe * adultsInfo[0].length}</div>
+                <div>{chuyenBay.giaVe * adultsInfo.length}</div>
               </div>
             )}
 
-            {childrenInfo[0].length > 0 && (
+            {childrenInfo.length > 0 && (
               <div className="content">
                 <div>
-                  {chuyenBay.hangBay.tenHangBay} (Trẻ em x{" "}
-                  {childrenInfo[0].length}){" "}
+                  {chuyenBay.hangBay.tenHangBay} (Trẻ em x {childrenInfo.length}
+                  ){" "}
                 </div>
-                <div>{chuyenBay.giaVe * childrenInfo[0].length}</div>
+                <div>{chuyenBay.giaVe * childrenInfo.length}</div>
               </div>
             )}
-            {babyInfo[0].length > 0 && (
+            {babyInfo.length > 0 && (
               <div className="content">
                 <div>
-                  {chuyenBay.hangBay.tenHangBay} (Em bé x {babyInfo[0].length}){" "}
+                  {chuyenBay.hangBay.tenHangBay} (Em bé x {babyInfo.length}){" "}
                 </div>
-                <div>{chuyenBay.giaVe * babyInfo[0].length}</div>
+                <div>{chuyenBay.giaVe * babyInfo.length}</div>
               </div>
             )}
-            {chuyenBayKhuHoi && (
+
+            {chuyenBayKhuHoi != null && (
               <div className="mt-5">
                 <h6>
                   <strong>CHUYẾN BAY VỀ</strong>
                 </h6>
 
-                {adultsInfo[0].length > 0 && (
+                {adultsInfo.length > 0 && (
                   <div className="content">
                     <div>
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Người lớn x{" "}
-                      {adultsInfo[0].length}){" "}
+                      {adultsInfo.length}){" "}
                     </div>
-                    <div>{chuyenBayKhuHoi.giaVe * adultsInfo[0].length}</div>
+                    <div>{chuyenBayKhuHoi.giaVe * adultsInfo.length}</div>
                   </div>
                 )}
-                {childrenInfo[0].length > 0 && (
+                {childrenInfo.length > 0 && (
                   <div className="content">
                     <div>
-                      {chuyenBayKhuHoi.hangBay.tenHangBay} (Trẻ em x{" "}
-                      {childrenInfo[0].length}){" "}
+                      {chuyenBayKhuHoi.hangBay.tenHangBay} (Trẻ em x
+                      {childrenInfo.length})
                     </div>
-                    <div>{chuyenBayKhuHoi.giaVe * childrenInfo[0].length}</div>
+                    <div>{chuyenBayKhuHoi.giaVe * childrenInfo.length}</div>
                   </div>
                 )}
-                {babyInfo[0].length > 0 && (
+                {babyInfo.length > 0 && (
                   <div className="content">
                     <div>
-                      {chuyenBayKhuHoi.hangBay.tenHangBay} (Em bé{" "}
-                      {babyInfo[0].length}){" "}
+                      {chuyenBayKhuHoi != null &&
+                        chuyenBayKhuHoi.hangBay.tenHangBay}
+                      (Em bé x {babyInfo.length})
                     </div>
-                    <div>{chuyenBayKhuHoi.giaVe * babyInfo[0].length}</div>
+                    <div>{chuyenBayKhuHoi.giaVe * babyInfo.length}</div>
                   </div>
                 )}
               </div>
@@ -259,14 +225,7 @@ function HoaDon() {
           <h5>MÃ ĐẶT CHỖ</h5>
           <h5>{orderCode}</h5>
           <hr></hr>
-          {/* <div className="trip">
-                        <div>
-                            CHUYẾN ĐI
-                        </div>
-                        <div>
-                            <a href="">Chi Tiết</a>
-                        </div>
-                    </div> */}
+
           <div className="flight">
             <h5>CHUYẾN BAY</h5>
           </div>
@@ -274,53 +233,46 @@ function HoaDon() {
             {chuyenBay.ngayKhoiHanh} -{" "}
             {chuyenBayKhuHoi != null ? chuyenBayKhuHoi.ngayKhoiHanh : ""}
           </h6>
-          <b>
+          <strong>
             {chuyenBay.diemDi} <i className="bx bx-transfer-alt"></i>{" "}
             {chuyenBayKhuHoi != null ? chuyenBayKhuHoi.diemDi : ""}
-          </b>
+          </strong>
           <hr></hr>
           <h5>HÀNH KHÁCH</h5>
           <table className="table table-striped">
             <tbody>
-              {adultsInfo.map((subArray, index) =>
-                subArray.map((item, subIndex) => (
-                  <tr key={subIndex}>
-                    <th scope="row">
-                      {item.gioiTinh === "Nam" ? "Ông." : "Bà."}
-                    </th>
-                    <td>{item.tenHanhKhach}</td>
-                    <td>{item.loaiHanhKhach}</td>
-                  </tr>
-                ))
-              )}
-              {childrenInfo.map((subArray, index) =>
-                subArray.map((item, subIndex) => (
-                  <tr key={subIndex}>
-                    <th scope="row">
-                      {item.gioiTinh === "Nam." ? "Ông" : "Bà."}
-                    </th>
-                    <td>{item.tenHanhKhach}</td>
-                    <td>{item.loaiHanhKhach}</td>
-                  </tr>
-                ))
-              )}
-              {babyInfo.map((subArray, index) =>
-                subArray.map((item, subIndex) => (
-                  <tr key={subIndex}>
-                    <th scope="row">
-                      {item.gioiTinh === "Nam" ? "Ông." : "Bà."}
-                    </th>
-                    <td>{item.tenHanhKhach}</td>
-                    <td>{item.loaiHanhKhach}</td>
-                  </tr>
-                ))
-              )}
+              {adultsInfo.map((item, index) => (
+                <tr key={index}>
+                  <th scope="row">
+                    {item.gioiTinh === "Nam" ? "Ông." : "Bà."}
+                  </th>
+                  <td>{item.tenHanhKhach}</td>
+                  <td>{item.loaiHanhKhach}</td>
+                </tr>
+              ))}
+              {childrenInfo.map((item, index) => (
+                <tr key={index}>
+                  <th scope="row">
+                    {item.gioiTinh === "Nam" ? "Ông." : "Bà."}
+                  </th>
+                  <td>{item.tenHanhKhach}</td>
+                  <td>{item.loaiHanhKhach}</td>
+                </tr>
+              ))}
+              {babyInfo.map((item, index) => (
+                <tr key={index}>
+                  <th scope="row">
+                    {item.gioiTinh === "Em Bé Nam" ? "Bé Nam." : "Bé Nữ."}
+                  </th>
+                  <td>{item.tenHanhKhach}</td>
+                  <td>{item.loaiHanhKhach}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    
   );
 }
 export default HoaDon;
