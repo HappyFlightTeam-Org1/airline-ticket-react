@@ -20,6 +20,14 @@ function HoaDon() {
   const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState(
     JSON.parse(queryParams.get("chuyenBayKhuHoi"))
   );
+  const tiketType = JSON.parse(queryParams.get("tiketType"));
+  const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
+  const [maDatCho, setMaDatCho] = useState(
+    JSON.parse(queryParams.get("maDatCho"))
+  );
+  const [maDatChoKhuHoi, setMaDatChoKhuHoi] = useState(
+    JSON.parse(queryParams.get("maDatChoKhuHoi"))
+  );
 
   //Hàm lưu hành khách
   const handleSubmit = async (event) => {
@@ -49,6 +57,10 @@ function HoaDon() {
   console.log(babyInfo);
   console.log(chuyenBay);
   console.log(chuyenBayKhuHoi);
+  console.log(tiketType);
+  console.log(tiketTypeKhuHoi);
+  console.log(maDatCho);
+  console.log(maDatChoKhuHoi);
 
   return (
     <div className="container d-flex justify-content-center">
