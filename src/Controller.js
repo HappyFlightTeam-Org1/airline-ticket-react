@@ -16,6 +16,8 @@ import BarChart from "./components/DashBoard/BarChart.js";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
+import Login from "./components/Authen/DangNhap/Login";
+// import DangNhap from "./components/Authen/DangNhap/Login.js";
 function Controller() {
   return (
     <div className="Controller">
@@ -51,6 +53,7 @@ function Controller() {
           {/* Quản lý người dùng và thống kê */}
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+            <Route path="Login" element={<Login />} />
             <Route path="BarChart" element={<BarChart />} />
           </Route>
           {/* Hóa Đơn */}
