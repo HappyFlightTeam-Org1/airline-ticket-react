@@ -4,6 +4,8 @@ import DSTimKiemCBCSS from "../../styles/ChuyenBayCSS/DSTimKiemCB.css";
 import axios from "axios";
 
 function DanhSachTimKiemChuyenBay() {
+  const [tiketType, setTiketType] = useState();
+  const [tiketTypeKhuHoi, setTiketTypeKhuHoi] = useState();
   const [idChuyenBayDi, setIdChuyenBayDi] = useState();
   const [idChuyenBayKhuHoi, setIdChuyenBayKhuHoi] = useState();
   const [chuyenBay, setChuyenBay] = useState();
@@ -97,6 +99,22 @@ function DanhSachTimKiemChuyenBay() {
     setSortDirection(event.target.value);
   };
 
+  const handleGetData = (chuyenBay, value) => {
+    console.log(value);
+    setTiketType(value);
+    setIdChuyenBayDi(chuyenBay.maChuyenBay);
+    console.log(chuyenBay.maChuyenBay + " Chuyến Bay Đi");
+  };
+  console.log(tiketType + " tiket type bay đi");
+
+  const handleGetDataKhuHoi = (chuyenBayKhuHoi, value) => {
+    console.log(value);
+    setTiketTypeKhuHoi(value);
+    setIdChuyenBayKhuHoi(chuyenBayKhuHoi.maChuyenBay);
+    console.log(chuyenBayKhuHoi.maChuyenBay + " Chuyến Bay Khứ Hồi");
+  };
+  console.log(tiketTypeKhuHoi + "  tiket type Khứ Hồi");
+
   const handleLinkClick = (event) => {
     event.preventDefault();
     navigate(
@@ -109,8 +127,16 @@ function DanhSachTimKiemChuyenBay() {
         "&idChuyenBayDi=" +
         idChuyenBayDi +
         "&idChuyenBayKhuHoi=" +
-        idChuyenBayKhuHoi
+        idChuyenBayKhuHoi +
+        "&tiketType=" +
+        tiketType +
+        "&tiketTypeKhuHoi=" +
+        tiketTypeKhuHoi
     );
+  };
+
+  const goBack = () => {
+    window.location.reload();
   };
 
   return (
@@ -192,6 +218,7 @@ function DanhSachTimKiemChuyenBay() {
               <div className="card my-2 hover-ds">
                 <div className="card-body card-bo">
                   <div className="row ">
+                    {/* Thông tin chuyến bay */}
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem" }}>Nơi đi:</strong>
@@ -205,7 +232,6 @@ function DanhSachTimKiemChuyenBay() {
                         {chuyenBay.hangBay.tenHangBay}
                       </p>
                     </div>
-
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem" }}>
@@ -221,10 +247,9 @@ function DanhSachTimKiemChuyenBay() {
                       </p>
                     </div>
 
+                    {/* Phổ Thông */}
                     <div className="col-md-3 ">
-                      <a
-                        onClick={() => setIdChuyenBayDi(chuyenBay.maChuyenBay)}
-                      >
+                      <a onClick={() => handleGetData(chuyenBay, "Phổ Thông")}>
                         <div
                           className="card my-1"
                           style={{
@@ -254,17 +279,15 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem", color: "orange" }}
                             >
-                              Còn 3 ghế
+                              Còn {chuyenBay.mayBay.slghePhoThong} ghế
                             </p>
                           </div>
                         </div>
                       </a>
                     </div>
-
+                    {/* Thương Gia */}
                     <div className="col-md-3 ">
-                      <a
-                        onClick={() => setIdChuyenBayDi(chuyenBay.maChuyenBay)}
-                      >
+                      <a onClick={() => handleGetData(chuyenBay, "Thương Gia")}>
                         <div
                           className="card my-1"
                           style={{
@@ -295,7 +318,7 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem" }}
                             >
-                              Còn 3 ghế
+                              Còn {chuyenBay.mayBay.slgheThuongGia} ghế
                             </p>
                           </div>
                         </div>
@@ -320,6 +343,7 @@ function DanhSachTimKiemChuyenBay() {
                 Thu gọn
               </button>
             ))}
+
           {/* Tiêu đề danh sách chuyến bay về */}
           {!hidden1 && chuyenBayKhuHois.length > 0 && (
             <h2 style={{ color: "#005f6e" }}>
@@ -332,43 +356,46 @@ function DanhSachTimKiemChuyenBay() {
           {/* Danh sách chuyến bay về */}
           {!hidden1 &&
             chuyenBayKhuHois.length > 0 &&
-            chuyenBayKhuHois.map((chuyenBay) => (
+            chuyenBayKhuHois.map((chuyenBayKhuHoi) => (
               <div className="card my-2 hover-ds">
                 <div className="card-body card-bo">
+                  {/* Thông tin chuyến bay */}
                   <div className="row ">
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem" }}>Nơi đi:</strong>
-                        {chuyenBay.diemDi}
+                        {chuyenBayKhuHoi.diemDi}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Giờ cất cánh :</strong> {chuyenBay.gioKhoiHanh}
+                        <strong>Giờ cất cánh :</strong>{" "}
+                        {chuyenBayKhuHoi.gioKhoiHanh}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong>Hãng bay:</strong>{" "}
-                        {chuyenBay.hangBay.tenHangBay}
+                        {chuyenBayKhuHoi.hangBay.tenHangBay}
                       </p>
                     </div>
-
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem" }}>
                           Sân bay đến:
                         </strong>
-                        {chuyenBay.diemDen}
+                        {chuyenBayKhuHoi.diemDen}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Giờ hạ cánh :</strong> {chuyenBay.gioHaCanh}
+                        <strong>Giờ hạ cánh :</strong>{" "}
+                        {chuyenBayKhuHoi.gioHaCanh}
                       </p>
                       <p style={{ fontSize: "0.8rem" }}>
-                        <strong>Thời gian bay :</strong> {chuyenBay.thoiGianBay}
+                        <strong>Thời gian bay :</strong>{" "}
+                        {chuyenBayKhuHoi.thoiGianBay}
                       </p>
                     </div>
-
+                    {/* Phổ Thông */}
                     <div className="col-md-3 ">
                       <a
                         onClick={() =>
-                          setIdChuyenBayKhuHoi(chuyenBay.maChuyenBay)
+                          handleGetDataKhuHoi(chuyenBayKhuHoi, "Phổ Thông")
                         }
                       >
                         <div
@@ -391,7 +418,7 @@ function DanhSachTimKiemChuyenBay() {
                                 color: "#005f6e",
                               }}
                             >
-                              {`${(chuyenBay.giaVe * 1).toLocaleString(
+                              {`${(chuyenBayKhuHoi.giaVe * 1).toLocaleString(
                                 "vi-VN"
                               )} `}{" "}
                               <sup>VND</sup>
@@ -400,17 +427,17 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem", color: "orange" }}
                             >
-                              Còn 3 ghế
+                              Còn {chuyenBayKhuHoi.mayBay.slghePhoThong} ghế
                             </p>
                           </div>
                         </div>
                       </a>
                     </div>
-
+                    {/* Thương Gia */}
                     <div className="col-md-3 ">
                       <a
                         onClick={() =>
-                          setIdChuyenBayKhuHoi(chuyenBay.maChuyenBay)
+                          handleGetDataKhuHoi(chuyenBayKhuHoi, "Thương Gia")
                         }
                       >
                         <div
@@ -433,7 +460,7 @@ function DanhSachTimKiemChuyenBay() {
                                 color: "#222",
                               }}
                             >
-                              {`${(chuyenBay.giaVe * 1.5).toLocaleString(
+                              {`${(chuyenBayKhuHoi.giaVe * 1.5).toLocaleString(
                                 "vi-VN"
                               )} `}
                               <sup>VND</sup>
@@ -443,7 +470,7 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem" }}
                             >
-                              Còn 3 ghế
+                              Còn {chuyenBayKhuHoi.mayBay.slgheThuongGia} ghế
                             </p>
                           </div>
                         </div>
@@ -453,7 +480,7 @@ function DanhSachTimKiemChuyenBay() {
                 </div>
               </div>
             ))}
-          {/* Hiển thị thêm danh sách */}
+          {/* Hiển thị thêm danh sách bay về */}
           {!hidden1 &&
             chuyenBayKhuHois.length > 0 &&
             (totalElement1 - size > 0 ? (
@@ -468,7 +495,8 @@ function DanhSachTimKiemChuyenBay() {
                 Thu gọn
               </button>
             ))}
-          {/* Chuyến bay đi */}
+
+          {/* Chuyến bay đi đã được chọn */}
           {chuyenBay != null && (
             <div className="m-3">
               <div className="row">
@@ -476,31 +504,53 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="card">
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
-                        <b>Chuyến bay đi • {chuyenBay.ngayKhoiHanh}</b>
+                        <strong>
+                          Chuyến bay đi • {chuyenBay.ngayKhoiHanh}
+                        </strong>{" "}
                         <div style={{ height: "10px" }}></div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <p>
                             <strong>Sân bay đi:</strong> {chuyenBay.diemDi}
+                          </p>{" "}
+                          <p>
+                            <strong>Giờ cất cạnh</strong>{" "}
+                            {chuyenBay.gioKhoiHanh}
                           </p>
                           <p>
                             <strong>Thời gian bay:</strong>{" "}
                             {chuyenBay.thoiGianBay}
                           </p>
-                          <p>
-                            <strong>Giờ cất cạnh</strong>{" "}
-                            {chuyenBay.gioKhoiHanh}
-                          </p>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <p>
                             <strong>Sân bay đến:</strong> {chuyenBay.diemDen}
+                          </p>{" "}
+                          <p>
+                            <strong>Giờ hạ cánh:</strong> {chuyenBay.gioHaCanh}
                           </p>
                           <p>
                             <strong>Khối lượng hành lý:</strong>{" "}
                             {chuyenBay.klhanhLy}
                           </p>
+                        </div>
+                        <div className="col-md-4">
                           <p>
-                            <strong>Giờ hạ cánh:</strong> {chuyenBay.gioHaCanh}
+                            <strong>Hạng vé: </strong> {tiketType}
+                          </p>
+                          <p>
+                            <strong>Giá vé: </strong>
+                            {tiketType === "Phổ Thông"
+                              ? `${(chuyenBay.giaVe * 1).toLocaleString(
+                                  "vi-VN"
+                                )} `
+                              : `${(chuyenBay.giaVe * 1.5).toLocaleString(
+                                  "vi-VN"
+                                )} `}
+                            <sup>VND</sup>
+                          </p>
+                          <p>
+                            <strong>Hãng bay: </strong>{" "}
+                            {chuyenBay.hangBay.tenHangBay}
                           </p>
                         </div>
                       </div>
@@ -510,7 +560,7 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             </div>
           )}
-          {/* chuyến bay về */}
+          {/* chuyến bay về đã được chọn */}
           {chuyenBayKhuHoi != null && (
             <div className="m-3">
               <div className="row">
@@ -518,34 +568,56 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="card">
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
-                        <b>Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}</b>
+                        <strong>
+                          Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}{" "}
+                        </strong>
                         <div style={{ height: "10px" }}></div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <p>
                             <strong>Sân bay đi:</strong>{" "}
                             {chuyenBayKhuHoi.diemDi}
                           </p>
                           <p>
-                            <strong>Thời gian bay:</strong>{" "}
-                            {chuyenBayKhuHoi.thoiGianBay}
-                          </p>
-                          <p>
                             <strong>Giờ cất cánh:</strong>{" "}
                             {chuyenBayKhuHoi.gioKhoiHanh}
                           </p>
+                          <p>
+                            <strong>Thời gian bay:</strong>{" "}
+                            {chuyenBayKhuHoi.thoiGianBay}
+                          </p>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <p>
                             <strong>Sân bay đến:</strong>{" "}
                             {chuyenBayKhuHoi.diemDen}
                           </p>
                           <p>
+                            <strong>Giờ hạ cánh:</strong>{" "}
+                            {chuyenBayKhuHoi.gioHaCanh}
+                          </p>
+                          <p>
                             <strong>Khối lượng hành lý:</strong>{" "}
                             {chuyenBayKhuHoi.klhanhLy}
                           </p>
+                        </div>
+                        <div className="col-md-4">
                           <p>
-                            <strong>Giờ hạ cánh:</strong>{" "}
-                            {chuyenBayKhuHoi.gioHaCanh}
+                            <strong>Hạng vé: </strong> {tiketTypeKhuHoi}
+                          </p>
+                          <p>
+                            <strong>Gía vé:</strong>
+                            {tiketTypeKhuHoi === "Phổ Thông"
+                              ? `${(chuyenBayKhuHoi.giaVe * 1).toLocaleString(
+                                  "vi-VN"
+                                )} `
+                              : `${(chuyenBayKhuHoi.giaVe * 1.5).toLocaleString(
+                                  "vi-VN"
+                                )} `}
+                            <sup>VND</sup>
+                          </p>
+                          <p>
+                            <strong>Hãng bay: </strong>{" "}
+                            {chuyenBayKhuHoi.hangBay.tenHangBay}
                           </p>
                         </div>
                       </div>
@@ -555,13 +627,18 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             </div>
           )}
+
           {/* ẨN HIỆN NÚT CHỌN LẠI  */}
           {loaiChuyenBay === "Một Chiều" && chuyenBay && (
-            <a className="btn btn-primary">Chọn lại</a>
+            <a className="btn btn-primary" onClick={goBack}>
+              Chọn lại
+            </a>
           )}
 
           {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
-            <a className="btn btn-primary">Chọn lại</a>
+            <a className="btn btn-primary" onClick={goBack}>
+              Chọn lại
+            </a>
           )}
 
           {/* ẨN HIỆN NÚT TIẾP TỤC  */}
