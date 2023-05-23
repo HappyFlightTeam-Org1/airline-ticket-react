@@ -22,6 +22,8 @@ const ThongTinKhachHangDatVe = () => {
   const soEmBe = queryParams.get("soEmBe");
   const idChuyenBayDi = queryParams.get("idChuyenBayDi");
   const idChuyenBayKhuHoi = queryParams.get("idChuyenBayKhuHoi");
+  const tiketType = queryParams.get("tiketType");
+  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -163,10 +165,12 @@ const ThongTinKhachHangDatVe = () => {
         queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
         queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
         queryParams.set("babyInfo", JSON.stringify(babyInfo));
-        queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
-        queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+        queryParams.set("chuyenBay", JSON.stringify(idChuyenBayDi));
+        queryParams.set("chuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
+        queryParams.set("tiketType", JSON.stringify(tiketType));
+        queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
         const queryString = queryParams.toString();
-        navigate(`/ThanhToan?${queryString}`);
+        navigate(`/DatCho?${queryString}`);
       })
       .catch((error) => {
         if (error instanceof Yup.ValidationError) {
