@@ -28,96 +28,109 @@ export default function Navbar() {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 menu">
                 <li className="nav-item">
-                  <a aria-current="page" href="#">
-                    <Link
-                      as={Link}
-                      to="/"
-                      className="text-white nav-link active"
-                    >
-                      Trang Chủ
-                    </Link>
-                  </a>
+
+                  <Link
+                    as={Link}
+                    to="/"
+                    className="text-white nav-link active"
+                  >
+                    Trang Chủ
+                  </Link>
+
                 </li>
                 <li className="nav-item">
-                  <a href="#">
-                    <Link
-                      as={Link}
-                      to="DanhSachChuyenBay"
-                      className="text-white nav-link active"
-                    >
-                      Chuyến bay
-                    </Link>
-                  </a>
+
+                  <Link
+                    as={Link}
+                    to="DanhSachChuyenBay"
+                    className="text-white nav-link active"
+                  >
+                    Chuyến bay
+                  </Link>
+
                 </li>
 
                 <li className="nav-item">
-                  <a href="#">
-                    <Link
-                      as={Link}
-                      to="DanhSachKhachHangDatVe"
-                      className="text-white nav-link active"
-                    >
-                      Hành khách
-                    </Link>
-                  </a>
+
+                  <Link
+                    as={Link}
+                    to="DanhSachKhachHangDatVe"
+                    className="text-white nav-link active"
+                  >
+                    Hành khách
+                  </Link>
+
                 </li>
 
                 <li className="nav-item">
-                  <a href="#">
-                    <Link
-                      as={Link}
-                      to="ThanhToan"
-                      className="text-white nav-link active"
-                    >
-                      Thanh Toán
-                    </Link>
-                  </a>
+
+                  <Link
+                    as={Link}
+                    to="LichSuDatVe"
+                    className="text-white nav-link active"
+                  >
+                    Lịch sử đặt vé
+                  </Link>
+
                 </li>
 
                 <li className="nav-item">
-                  <a href="#">
-                    <Link
-                      as={Link}
-                      to="DatCho"
-                      className="text-white nav-link active"
-                    >
-                      Đặt chỗ
-                    </Link>
-                  </a>
+
+                  <Link
+                    as={Link}
+                    to="TimKiemVe"
+                    className="text-white nav-link active"
+                  >
+                    Tìm Kiếm Vé
+                  </Link>
+
+                </li>
+
+                <li className="nav-item">
+
+                  <Link
+                    as={Link}
+                    to="NguoiDung"
+                    className="text-white nav-link active"
+                  >
+                    Người dùng
+                  </Link>
+
                 </li>
                 <li className="nav-item">
-                  <a href="#">
-                    <Link
-                      as={Link}
-                      to="TimKiemVe"
-                      className="text-white nav-link active"
-                    >
-                      Tìm Kiếm Vé
-                    </Link>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Liên Hệ
-                  </a>
+
+                  <Link
+                    as={Link}
+                    to="/"
+                    className="text-white nav-link active"
+                  >
+                    Liên hệ
+                  </Link>
+
                 </li>
               </ul>
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 login">
                 <li className="nav-item">
-                  <a  href="#">
+
                   <Link
-                      as={Link}
-                      to="Login"
-                      className="text-white nav-link active"
-                    >
-                      Đăng Nhập
-                    </Link>
-                  </a>
+                    as={Link}
+                    to="Login"
+                    className="text-white nav-link active"
+                  >
+                    Đăng Nhập
+                  </Link>
+
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link
+                    as={Link}
+                    to="Login"
+                    className="text-white nav-link active"
+                  >
                     Đăng ký
-                  </a>
+                  </Link>
+
+
                 </li>
               </ul>
             </div>
