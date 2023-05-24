@@ -1,18 +1,30 @@
 .dangky {
   height: 100vh;
-  padding: 50px;
+  padding: 3%;
   background: url("../../../Assets/plane2.jpg") center;
   background-size: cover;
 }
 .register{
-  background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+  background:linear-gradient(
+    to right,
+    hsl(187, 85%, 43%),
+    hsl(199, 100%, 33%)
+  );
   /* background-color: rgba(255, 255, 255, 0.5); */
   padding: 3%;
+  width: 80%;
 }
 .register-left{
   text-align: center;
   color: #fff;
 }
+.maxl .radio1 {
+  margin-left: 10px;
+}
+.maxl span {
+  margin-left: 5px;
+}
+
 .register-left input{
   border: none;
   border-radius: 1.5rem;
@@ -64,7 +76,11 @@
   border: none;
   border-radius: 1.5rem;
   padding: 2%;
-  background: #0062cc;
+  background:linear-gradient(
+    to right,
+    hsl(187, 85%, 43%),
+    hsl(199, 100%, 33%)
+  );
   color: #fff;
   font-weight: 600;
   width: 50%;

@@ -124,7 +124,7 @@ export default function Navbar() {
                 <li className="nav-item">
                   <Link
                     as={Link}
-                    to="Login"
+                    to="DangKy"
                     className="text-white nav-link active"
                   >
                     Đăng ký
