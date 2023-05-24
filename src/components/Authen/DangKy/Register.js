@@ -22,90 +22,59 @@ export default function Register() {
                                 <div className="row register-form">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="First Name *" value="" />
+                                            <input type="text" className="form-control" placeholder="Nhập địa chỉ email" value="" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Last Name *" value="" />
+                                            <input type="text" className="form-control" placeholder="Nhập tên tài khoản" value="" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" className="form-control" placeholder="Password *" value="" />
+                                            <input type="text" className="form-control" placeholder="Nhập số điện thoại" value="" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" className="form-control"  placeholder="Confirm Password *" value="" />
+                                            <input type="text" className="form-control"  placeholder="Nhập họ và tên" value="" />
+                                        </div>
+                                        <div className="form-group">
+                                            <input type="date" className="form-control"  placeholder="" value="" />
                                         </div>
                                         <div className="form-group">
                                             <div className="maxl">
                                                 <label className="radio inline">
                                                     <input type="radio" name="gender" value="male" checked/>
-                                                    <span> Male </span>
+                                                    <span>Nam </span>
                                                 </label>
-                                                <label className="radio inline">
+                                                <label className="radio1 inline">
                                                     <input type="radio" name="gender" value="female"/>
-                                                    <span>Female </span>
+                                                    <span>Nữ </span>
+                                                </label>
+                                                <label className="radio1 inline">
+                                                    <input type="radio" name="gender" value="female"/>
+                                                    <span>Khác</span>
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <input type="email" className="form-control" placeholder="Your Email *" value="" />
+                                            <input type="email" className="form-control" placeholder="Nhập số CMND/CCCD" value="" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" className="form-control" placeholder="Your Phone *" value="" />
+                                            <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" className="form-control" placeholder="Nhập địa chỉ" value="" />
                                         </div>
-                                        <div className="form-group">
-                                            <select className="form-control">
-                                                <option className="hidden"  selected disabled>Please select your Sequrity Question</option>
-                                                <option>What is your Birthdate?</option>
-                                                <option>What is Your old Phone Number</option>
-                                                <option>What is your Pet Name?</option>
+                                        <div className="form-group" >
+                                            <select className="form-select">
+                                                <option className="hidden"  selected disabled>Chọn quốc gia của bạn</option>
+                                                <option>Việt Nam</option>
+                                                <option>Thái Lan</option>
+                                                <option>Lào</option>
                                             </select>
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Enter Your Answer *" value="" />
-                                        </div>
-                                        <input type="submit" className="btnRegister"  value="Register"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <h3  className="register-heading">Apply as a Hirer</h3>
-                                <div className="row register-form">
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="First Name *" value="" />
+                                            <input type="text" className="form-control" placeholder="Nhập mật khẩu" value="" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Last Name *" value="" />
+                                            <input type="text" className="form-control" placeholder="Nhập lại mật khẩu" value="" />
                                         </div>
-                                        <div className="form-group">
-                                            <input type="email" className="form-control" placeholder="Email *" value="" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input type="text" maxlength="10" minlength="10" className="form-control" placeholder="Phone *" value="" />
-                                        </div>
-
-
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <input type="password" className="form-control" placeholder="Password *" value="" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input type="password" className="form-control" placeholder="Confirm Password *" value="" />
-                                        </div>
-                                        <div className="form-group">
-                                            <select className="form-control">
-                                                <option className="hidden"  selected disabled>Please select your Sequrity Question</option>
-                                                <option>What is your Birthdate?</option>
-                                                <option>What is Your old Phone Number</option>
-                                                <option>What is your Pet Name?</option>
-                                            </select>
-                                        </div>
-                                        <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="`Answer *" value="" />
-                                        </div>
-                                        <input type="submit" className="btnRegister"  value="Register"/>
+                                        <input type="submit" className="btnRegister"  value="Đăng Ký"/>
                                     </div>
                                 </div>
                             </div>
