@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import video from "../../../Assets/video.mp4";
+import video2 from "../../../Assets/video2.mp4";
 import "./Home.css";
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -13,7 +14,7 @@ const checkFormSearch = Yup.object().shape({
   ngayDi: Yup.date().required("Vui lòng chọn ngày đi"),
 });
 
-export default function Home() {
+export default function Home({on}) {
   //DucNh66 useState
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
   const [soNguoiLon, setSoNguoiLon] = useState(1);
@@ -109,17 +110,28 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className={`${on ? "start" : ""}`}>
       <section className="home">
         <div className="overlay"></div>
-        <video
-          className="video"
-          src={video}
-          muted
-          autoPlay
-          loop
-          type="video/mp4"
-        ></video>
+        {on ? (
+      <video
+        className="video"
+        src={video2}
+        muted
+        autoPlay
+        loop
+        type="video/mp4"
+      />
+    ) : (
+      <video
+        className="video"
+        src={video}
+        muted
+        autoPlay
+        loop
+        type="video/mp4"
+      />
+    )}
         <div className="homeContent">
           <div className="textDiv">
             <h1 data-aos="fade-up" className="homeTitle font-weight-bold">
@@ -271,7 +283,7 @@ export default function Home() {
       </section>
       <section className="main container section">
         <div className="secTitle">
-          <h3 data-aos="fade-right" className="title">
+          <h3 data-aos="fade-right" className={`title ${on ? "white" : ""}`}>
             Bán vé máy bay với giá rẻ hàng đầu Việt Nam
           </h3>
         </div>
@@ -350,7 +362,7 @@ export default function Home() {
           </div>
         </div>
         <div className="secTitle">
-          <h3 data-aos="fade-right" className="title">
+          <h3 data-aos="fade-right" className={`title ${on ? "white" : ""}`}>
             Dịch vụ của chúng tôi
           </h3>
         </div>
@@ -429,7 +441,7 @@ export default function Home() {
           </div>
         </div>
         <div className="secTitle">
-          <h3 data-aos="fade-right" className="title">
+          <h3 data-aos="fade-right" className={`title ${on ? "white" : ""}`}>
             Các chuyến bay phổ biến
           </h3>
         </div>
@@ -509,7 +521,7 @@ export default function Home() {
         </div>
       </section>
       <section data-aos="fade-up" className="bottom">
-        <h3 data-aos="fade-right">CÂU HỎI THƯỜNG GẶP</h3>
+        <h3 data-aos="fade-right" className={`${on ? "white" : ""}`}>CÂU HỎI THƯỜNG GẶP</h3>
         <div className="question">
           <div className="textbox">
             <i class="bx bxs-plane-alt"></i>
