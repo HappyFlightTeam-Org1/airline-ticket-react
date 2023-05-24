@@ -6,6 +6,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
 import * as Yup from "yup";
+import ChatBox from "../../Chat/Chat";
+import RoundButton from "../../Chat/RoundButton";
 
 const checkFormSearch = Yup.object().shape({
   diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
@@ -21,6 +23,27 @@ export default function Home() {
   const [sanBays, setSanBays] = useState([]);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("");
+  // const [chatBoxKey, setChatBoxKey] = useState(0);
+
+  // function handleReloadChatBox() {
+  //   setChatBoxKey(chatBoxKey + 1);
+  //   alert(chatBoxKey);
+  // }
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setUser(value);
+  };
 
   const navigate = useNavigate();
 
@@ -558,6 +581,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <input type="text"  onChange={handleInputChange}></input>
+      <RoundButton className="btn-modal" onOpen={handleOpenModal} isOpen={isOpen}
+        onClose={handleCloseModal} >Open Modal</RoundButton>
+      <ChatBox
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        user={user}
+      ></ChatBox>
     </div>
   );
 }
