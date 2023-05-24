@@ -17,6 +17,9 @@ import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 import Login from "./components/Authen/DangNhap/Login";
+import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhToanThanhCong";
+import VeMayBay from "./components/VeMayBay/InVeMayBay/VeMayBay";
+import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
 // import DangNhap from "./components/Authen/DangNhap/Login.js";
 function Controller() {
   return (
@@ -45,6 +48,7 @@ function Controller() {
             />
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
+            <Route path="InVe" element={<VeMayBay />} />
           </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>
@@ -59,6 +63,7 @@ function Controller() {
           {/* Hóa Đơn */}
           <Route>
             <Route path="ThanhToan" element={<HoaDon />} />
+            <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
           </Route>
         </Routes>
         <Footer />

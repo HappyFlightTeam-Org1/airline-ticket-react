@@ -28,7 +28,7 @@ function HanhKhach() {
         setListKH(data.content);
       })
       .catch((error) => console.error);
-  }, [currentPage, pageSize,isStatus]);
+  }, [currentPage, pageSize, isStatus]);
 
   function handleNextPageClick() {
     if (currentPage < totalPage - 1) {
@@ -50,113 +50,111 @@ function HanhKhach() {
     event.preventDefault();
     setName(event.target.elements.adults.value);
     setIsSearching(true);
-    isStatus===true?setIsStatus(false):setIsStatus(true);
+    isStatus === true ? setIsStatus(false) : setIsStatus(true);
   };
 
   return (
 
-    <div className="container hanhkhach ">
-      <div className="tablehk">
-      <h1 className="pt-3 mb-0">QUẢN LÝ HÀNH KHÁCH</h1>
-      <form className="row justify-content-center search" onSubmit={handleSearch}>
-        <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-          <h5>Tìm Kiếm</h5>
-        </div>
-        <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-          <input
-            id="adults"
-            type="text"
-            name="adults"
-            className="form-control"
-            placeholder="Tên hành khách"
-          ></input>
-        </div>
+    <div className="container hanhkhach">
+      <div className="tablehk mt-3">
+        <h1 className="pt-3 mb-0 text-center">QUẢN LÝ HÀNH KHÁCH</h1>
+        <form className="row justify-content-center search" onSubmit={handleSearch}>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <h5>Tìm Kiếm</h5>
+          </div>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <input
+              id="adults"
+              type="text"
+              name="adults"
+              className="form-control"
+              placeholder="Tên hành khách"
+            ></input>
+          </div>
 
-        <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-          <button type="submit" className="btn btn-success">
-            Tìm Kiếm
-          </button>
-        </div>
-      </form>
-      <table className="table table-striped table-shadow">
-        <thead>
-          <tr>
-            <th scope="col">Stt</th>
-            <th scope="col">Loại hành khách</th>
-            <th scope="col">Họ Tên</th>
-            <th scope="col">Ngày sinh</th>
-            <th scope="col">Giới tính</th>
-            <th scope="col">Mã Vé</th>
-            <th scope="col">Mã Chuyến bay</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listKH.length > 0 &&
-            listKH.map((item, index) => (
-              <tr key={item.maHanhKhach}>
-                <td>{index + 1}</td>
-                <td>{item.loaiHanhKhach}</td>
-                <td>{item.tenHanhKhach}</td>
-                <td>{item.ngaySinh}</td>
-                <td>{item.gioiTinh}</td>
-                <td>V001</td>
-                <td>CB002</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <button type="submit" className="btn btn-success">
+              Tìm Kiếm
+            </button>
+          </div>
+        </form>
+        <table className="table table-striped table-shadow">
+          <thead>
+            <tr>
+              <th scope="col">Stt</th>
+              <th scope="col">Loại hành khách</th>
+              <th scope="col">Họ Tên</th>
+              <th scope="col">Ngày sinh</th>
+              <th scope="col">Giới tính</th>
+              <th scope="col">Mã Vé</th>
+              <th scope="col">Mã Chuyến bay</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listKH.length > 0 &&
+              listKH.map((item, index) => (
+                <tr key={item.maHanhKhach}>
+                  <td>{index + 1}</td>
+                  <td>{item.loaiHanhKhach}</td>
+                  <td>{item.tenHanhKhach}</td>
+                  <td>{item.ngaySinh}</td>
+                  <td>{item.gioiTinh}</td>
+                  <td>V001</td>
+                  <td>CB002</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
 
-      {listKH.length === 0 && (
-        <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-      )}
+        {listKH.length === 0 && (
+          <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+        )}
       </div>
       <div>
-      {listKH.length > 0 && (
-        <div className="pagination justify-content-center">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li
-                className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
-              >
-                <button className="page-link" onClick={handlePreviousPageClick}>
-                  Previous
-                </button>
-              </li>
-              {pageNumbers
-                .slice(currentPage, currentPage + 3)
-                .map((pageNumber) => (
-                  <li
-                    key={pageNumber}
-                    className={`page-item ${
-                      currentPage === pageNumber ? "active" : ""
-                    }`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => handlePageNumberClick(pageNumber)}
-                    >
-                      {pageNumber + 1}
-                    </button>
-                  </li>
-                ))}
-              {currentPage + 3 < totalPage && (
-                <li className="page-item disabled">
-                  <span className="page-link">...</span>
+        {listKH.length > 0 && (
+          <div className="pagination justify-content-center">
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                <li
+                  className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
+                >
+                  <button className="page-link" onClick={handlePreviousPageClick}>
+                    Previous
+                  </button>
                 </li>
-              )}
-              <li
-                className={`page-item ${
-                  currentPage === totalPage - 1 ? "disabled" : ""
-                }`}
-              >
-                <button className="page-link" onClick={handleNextPageClick}>
-                  Next
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      )}
+                {pageNumbers
+                  .slice(currentPage, currentPage + 3)
+                  .map((pageNumber) => (
+                    <li
+                      key={pageNumber}
+                      className={`page-item ${currentPage === pageNumber ? "active" : ""
+                        }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageNumberClick(pageNumber)}
+                      >
+                        {pageNumber + 1}
+                      </button>
+                    </li>
+                  ))}
+                {currentPage + 3 < totalPage && (
+                  <li className="page-item disabled">
+                    <span className="page-link">...</span>
+                  </li>
+                )}
+                <li
+                  className={`page-item ${currentPage === totalPage - 1 ? "disabled" : ""
+                    }`}
+                >
+                  <button className="page-link" onClick={handleNextPageClick}>
+                    Next
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
       </div>
     </div>
 

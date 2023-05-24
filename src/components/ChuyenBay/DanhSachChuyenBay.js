@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import css from "./DanhSachChuyenBay.css";
 function DanhSachChuyenBay() {
   const [listCB, setListCB] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
@@ -108,8 +107,8 @@ function DanhSachChuyenBay() {
   };
 
   return (
-    <div className="container chuyenbay">
-      <h1>DANH SÁCH CHUYẾN BAY</h1>
+    <div className="container chuyenbay mt-3">
+      <h1 className="text-center">DANH SÁCH CHUYẾN BAY</h1>
       <hr />
       {/* Form tìm kiếm  DucNH66*/}
       <form class="row justify-content-center search" onSubmit={handleSearch}>
@@ -188,64 +187,64 @@ function DanhSachChuyenBay() {
           {/* Danh sách tìm kiếm  DucNH66 */}
           {isSearching
             ? searchResult.map((item, index) => (
-                <tr key={item.maChuyenBay}>
-                  <td> {index + 1 + page * size}</td>
-                  <td>{item.maChuyenBay}</td>
-                  <td>{item.diemDi}</td>
-                  <td>{item.diemDen}</td>
-                  <td>{item.ngayKhoiHanh}</td>
-                  <td>{item.gioKhoiHanh}</td>
-                  <td>{item.gioHaCanh}</td>
-                  <td>{item.hangBay.tenHangBay}</td>
+              <tr key={item.maChuyenBay}>
+                <td> {index + 1 + page * size}</td>
+                <td>{item.maChuyenBay}</td>
+                <td>{item.diemDi}</td>
+                <td>{item.diemDen}</td>
+                <td>{item.ngayKhoiHanh}</td>
+                <td>{item.gioKhoiHanh}</td>
+                <td>{item.gioHaCanh}</td>
+                <td>{item.hangBay.tenHangBay}</td>
 
-                  <td>{item.giaVe}</td>
-                  <td>{item.trangThaiVanHanh}</td>
-                  <td>
-                    <Link
-                      as={Link}
-                      to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
-                      className="text-white"
-                    >
-                      <button className="btn btn-success ">Sửa</button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
+                <td>{item.giaVe}</td>
+                <td>{item.trangThaiVanHanh}</td>
+                <td>
+                  <Link
+                    as={Link}
+                    to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
+                    className="text-white"
+                  >
+                    <button className="btn btn-success ">Sửa</button>
+                  </Link>
+                </td>
+              </tr>
+            ))
             : //   Danh sách tất cả  DucNH66
-              listCB.map((item, index) => (
-                <tr key={item.maChuyenBay}>
-                  <td> {index + 1 + page * size}</td>
-                  <td>{item.maChuyenBay}</td>
-                  <td>{item.diemDi}</td>
-                  <td>{item.diemDen}</td>
-                  <td>{item.ngayKhoiHanh}</td>
-                  <td>{item.gioKhoiHanh}</td>
-                  <td>{item.gioHaCanh}</td>
-                  <td>{item.hangBay.tenHangBay}</td>
-                  <td>{item.giaVe}</td>
-                  <td>{item.trangThaiVanHanh}</td>
-                  <td>
-                    <Link
-                      as={Link}
-                      to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
-                      className="text-white"
-                    >
-                      <button className="btn btn-success ">Sửa</button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+            listCB.map((item, index) => (
+              <tr key={item.maChuyenBay}>
+                <td> {index + 1 + page * size}</td>
+                <td>{item.maChuyenBay}</td>
+                <td>{item.diemDi}</td>
+                <td>{item.diemDen}</td>
+                <td>{item.ngayKhoiHanh}</td>
+                <td>{item.gioKhoiHanh}</td>
+                <td>{item.gioHaCanh}</td>
+                <td>{item.hangBay.tenHangBay}</td>
+                <td>{item.giaVe}</td>
+                <td>{item.trangThaiVanHanh}</td>
+                <td>
+                  <Link
+                    as={Link}
+                    to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
+                    className="text-white"
+                  >
+                    <button className="btn btn-success ">Sửa</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
       {/* Hiển thị thông báo khi không có dữ liệu  DucNH66 */}
       {!isSearching
         ? listCB.length === 0 && (
-            <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-          )
+          <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+        )
         : searchResult.length === 0 && (
-            <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-          )}
+          <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+        )}
 
       {/* Phân trang DucNH66  */}
       {(listCB.length > 0 || searchResult.length > 0) && (
@@ -275,15 +274,13 @@ function DanhSachChuyenBay() {
               {renderPageNumbers()}
 
               <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
+                className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
+                  }`}
               >
                 <button
                   type="button"
-                  className={`page-link  bg-success text-white none   ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
+                  className={`page-link  bg-success text-white none   ${page === totalPages - 1 ? "disabled" : ""
+                    }`}
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages - 1}
                 >
@@ -291,14 +288,12 @@ function DanhSachChuyenBay() {
                 </button>
               </li>
               <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
+                className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
+                  }`}
               >
                 <button
-                  className={`page-link bg-danger text-white  ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
+                  className={`page-link bg-danger text-white  ${page === totalPages - 1 ? "disabled" : ""
+                    }`}
                   onClick={() => setPage(totalPages - 1)}
                   disabled={page === totalPages - 1}
                 >
