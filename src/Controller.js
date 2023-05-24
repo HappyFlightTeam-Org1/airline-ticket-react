@@ -17,6 +17,7 @@ import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 import Login from "./components/Authen/DangNhap/Login";
+import DangKy from "./components/Authen/DangKy/Register.js";
 // import DangNhap from "./components/Authen/DangNhap/Login.js";
 function Controller() {
   return (
@@ -54,6 +55,7 @@ function Controller() {
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
             <Route path="Login" element={<Login />} />
+            <Route path="DangKy" element={<DangKy />} />
             <Route path="BarChart" element={<BarChart />} />
           </Route>
           {/* Hóa Đơn */}
