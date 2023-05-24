@@ -6,7 +6,6 @@ import css from "./DatCho.css";
 import plane from "../../../Assets/planeDC.png";
 import plane1 from "../../../Assets/plane1.png";
 
-
 //Ducnh66 Chọn ghế cho hành khách
 
 const DatCho = () => {
@@ -15,13 +14,12 @@ const DatCho = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const adultsInfo = JSON.parse(queryParams.get("adultsInfo"));
-  const childrenInfo =
-    JSON.parse(queryParams.get("childrenInfo"));
+  const childrenInfo = JSON.parse(queryParams.get("childrenInfo"));
   const babyInfo = JSON.parse(queryParams.get("babyInfo"));
-  const tiketType = JSON.parse(queryParams.get("tiketType"));
-  const tiketTypeKhuHoi = JSON.parse(queryParams.get("tiketTypeKhuHoi"));
-  const idChuyenBayDi = JSON.parse(queryParams.get("idChuyenBayDi"));
-  const idChuyenBayKhuHoi = JSON.parse(queryParams.get("idChuyenBayKhuHoi"));
+  const tiketType = queryParams.get("tiketType");
+  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
+  const chuyenBay = JSON.parse(queryParams.get("chuyenBay"));
+  const chuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
   const [seatList1Chieu, setSeatList1Chieu] = useState([]);
   const [seatListKhuHoi, setSeatListKhuHoi] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -33,9 +31,16 @@ const DatCho = () => {
   const [hiddens, setHiddens] = useState(true);
   const [hiddensKhuHoi, setHiddensKhuHoi] = useState(false);
   const maxSeat = adultsInfo.length + childrenInfo.length;
-
   var gheDaChon = 0;
   var gheDaChonKhuHoi = 0;
+  var idChuyenBayDi;
+  var idChuyenBayKhuHoi;
+  if (chuyenBay) {
+    idChuyenBayDi = chuyenBay.maChuyenBay;
+  }
+  if (chuyenBayKhuHoi) {
+    idChuyenBayKhuHoi = chuyenBayKhuHoi.maChuyenBay;
+  }
 
   //DucNH66 Lấy danh sách ghế của chuyến bay và số lượng các loại ghế
   useEffect(() => {
@@ -67,6 +72,8 @@ const DatCho = () => {
         .catch((err) => console.error);
     }
   }, [idChuyenBayDi, idChuyenBayKhuHoi]);
+  console.log("list ghe 1 chieu: ", seatList1Chieu);
+  console.log("list ghe khu hoi: ", seatListKhuHoi);
 
   //DucNH66 số lượng  ghế đã được chọn 1 chiều
   seatList1Chieu &&
@@ -90,6 +97,7 @@ const DatCho = () => {
   const handleSeatClick = (seat) => {
     const index = selectedSeats.indexOf(seat.maDatCho);
     const seatType = seat.ghe.loaiGhe.tenLoaiGhe;
+    console.log(seatType);
     if (index === -1 && selectedSeats.length < maxSeat) {
       if (
         (seatType === "Thương Gia" && tiketType === "Thương Gia") ||
@@ -142,10 +150,10 @@ const DatCho = () => {
       queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
       queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
       queryParams.set("babyInfo", JSON.stringify(babyInfo));
-      queryParams.set("idChuyenBayDi", JSON.stringify(idChuyenBayDi));
-      queryParams.set("idChuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
-      queryParams.set("tiketType", JSON.stringify(tiketType));
-      queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
+      queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+      queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+      queryParams.set("tiketType", tiketType);
+      queryParams.set("tiketTypeKhuHoi", tiketTypeKhuHoi);
       queryParams.set("maDatCho", JSON.stringify(selectedSeats));
       queryParams.set("maDatChoKhuHoi", JSON.stringify(selectedSeatsKhuHoi));
       const queryString = queryParams.toString();
@@ -162,8 +170,8 @@ const DatCho = () => {
       queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
       queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
       queryParams.set("babyInfo", JSON.stringify(babyInfo));
-      queryParams.set("idChuyenBayDi", JSON.stringify(idChuyenBayDi));
-      queryParams.set("idChuyenBayKhuHoi", JSON.stringify(idChuyenBayKhuHoi));
+      queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+      queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
       queryParams.set("tiketType", JSON.stringify(tiketType));
       queryParams.set("tiketTypeKhuHoi", JSON.stringify(tiketTypeKhuHoi));
       queryParams.set("maDatCho", JSON.stringify(selectedSeats));
@@ -198,8 +206,8 @@ const DatCho = () => {
   console.log("loai ve 2: ", tiketTypeKhuHoi);
   console.log("ma dat cho 1: ", selectedSeats);
   console.log("ma dat cho 2: ", selectedSeatsKhuHoi);
-  console.log("id Chuyen Bay Di: ", idChuyenBayDi);
-  console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
+  console.log("Chuyen Bay Di: ", chuyenBay);
+  console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
 
   return (
     <div className="container mt-3">
@@ -217,18 +225,10 @@ const DatCho = () => {
           </div>
           <div data-aos="fade-up" className="col-4 maybay  ">
             <div className="row p-3 ">
-              <div className="col-3 khoan d-flex justify-content-center">
-                A
-              </div>
-              <div className="col-3 khoan d-flex justify-content-center">
-                B
-              </div>
-              <div className="col-3 khoan d-flex justify-content-center">
-                C
-              </div>
-              <div className="col-3 khoan d-flex justify-content-center">
-                D
-              </div>
+              <div className="col-3 khoan d-flex justify-content-center">A</div>
+              <div className="col-3 khoan d-flex justify-content-center">B</div>
+              <div className="col-3 khoan d-flex justify-content-center">C</div>
+              <div className="col-3 khoan d-flex justify-content-center">D</div>
               {seatList1Chieu &&
                 seatList1Chieu.map((seat) => (
                   <div
@@ -236,11 +236,14 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${
+                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${
+                          seat.trangThai === "selected" ? "selected-seat" : ""
+                        }
 
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
 
@@ -292,12 +295,12 @@ const DatCho = () => {
                 </h4>
               </div>
               <div className="ghichu5 ">
-                {setSeatList1Chieu && !seatListKhuHoi && (
+                {setSeatList1Chieu && seatListKhuHoi.length === 0 && (
                   <button className="btn  btn-success" onClick={handleClick}>
                     Thanh Toán
                   </button>
                 )}
-                {seatListKhuHoi && seatList1Chieu && (
+                {seatListKhuHoi.length > 0 && seatList1Chieu && (
                   <button
                     className="btn  btn-success"
                     onClick={handleClickNext}
@@ -308,7 +311,6 @@ const DatCho = () => {
               </div>
               <img src={plane}></img>
             </div>
-
           </div>
         </div>
       )}
@@ -330,11 +332,14 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                      className={` fa-solid fa-couch  ${
+                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
                           ? "thuong-gia"
                           : "pho-thong"
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                        } ${
+                          seat.trangThai === "selected" ? "selected-seat" : ""
+                        }
 
 
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
