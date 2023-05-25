@@ -3,8 +3,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
-
+const checkId = Yup.object().shape({
+  maChuyenBay: Yup.string().required(" bắt buộc nhập"),
+});
 function ThemMoiChuyenBay() {
   //DucNH66 lấy  data
   const navigate = useNavigate();
