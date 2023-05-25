@@ -55,6 +55,8 @@
   border-radius: 50px;
   outline: none;
   background: transparent;
+  background: blue;
+  color:white;
 }
 
 .dangnhap .form-input span {
