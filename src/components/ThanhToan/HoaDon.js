@@ -24,6 +24,7 @@ function HoaDon() {
       };
     }
   );
+
   //hàm format tiền
   const CurrencyFormat = (money) => {
     const formattedValue = new Intl.NumberFormat("vi-VN", {
@@ -107,9 +108,11 @@ function HoaDon() {
   const veMayBayDTO = {
     hoaDonDTO: hoaDonDTO,
     hanhKhachDTOs: hanhKhachs,
-    maDatChos: maDatCho,
-    maDatChoKhuHoi: maDatChoKhuHoi,
+    maDatChoDis: maDatCho,
+    maDatChoKhuHois: maDatChoKhuHoi
   };
+
+  console.log("veMayBayDTO", veMayBayDTO);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -216,6 +219,15 @@ function HoaDon() {
               <strong>{total}</strong>
             </div>
           </div>
+          <div className="mt-2">
+            <strong>
+              <small>Bằng việc nhấn Thanh toán, bạn đồng ý với </small>
+              <small className="text-primary"><a href="#">Điều khoản & Điều kiện</a></small>
+              <small> và </small>
+              <small className="text-primary"><a href="#">Chính sách và quyền riêng tư</a></small>
+              <small>.</small>
+            </strong>
+          </div>
           <div className="button">
             <button onClick={handleSubmit} className="shadow">
               Thanh Toán
@@ -231,13 +243,14 @@ function HoaDon() {
             <h5>CHUYẾN BAY</h5>
           </div>
           <h6 className="mb-0">
-            {chuyenBay.ngayKhoiHanh} -{" "}
-            {chuyenBayKhuHoi != null ? chuyenBayKhuHoi.ngayKhoiHanh : ""}
+            {chuyenBay.ngayKhoiHanh}
+            {chuyenBayKhuHoi != null ? " - " + chuyenBayKhuHoi.ngayKhoiHanh : ""}
           </h6>
-          <strong>
-            {chuyenBay.diemDi} <i className="bx bx-transfer-alt"></i>{" "}
-            {chuyenBayKhuHoi != null ? chuyenBayKhuHoi.diemDi : ""}
-          </strong>
+          <div className="d-flex align-items-center">
+            <strong>{chuyenBay.diemDi}</strong>
+            <strong><small>{chuyenBayKhuHoi != null ? <i className='bx bx-transfer-alt'></i> : <i className='bx bx-transfer-alt'></i>}</small></strong>
+            <strong>{chuyenBayKhuHoi != null ? chuyenBayKhuHoi.diemDi : chuyenBay.diemDen}</strong>
+          </div>
           <hr></hr>
           <h5>HÀNH KHÁCH</h5>
           <table className="table table-striped">

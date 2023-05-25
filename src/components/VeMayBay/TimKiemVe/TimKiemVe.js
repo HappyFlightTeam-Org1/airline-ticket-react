@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import './TimKiemVe.css'
 import axios from "axios";
 function TimKiemVe() {
@@ -14,15 +14,19 @@ function TimKiemVe() {
             // Xử lý dữ liệu phản hồi từ API
             if (response.data.length > 0) {
                 setTickets(response.data);
+            } else {
+                setTickets([])
             }
         } catch (error) {
             console.error(error);
         }
     };
 
+    console.log("tickets", tickets);
+
 
     return (
-        <div className='container bg-body table-shadow mt-3'>
+        <div className='container ticket-search-container bg-body shadow mt-3 mb-5'>
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>TÌM KIẾM VÉ</h1>
@@ -41,7 +45,7 @@ function TimKiemVe() {
                 </form>
             </div>
 
-            <table className="table table-striped border">
+            {tickets.length > 0 && (<table className="table table-striped border">
                 <thead>
                     <tr>
                         <th scope="col">Mã Vé</th>
@@ -69,30 +73,39 @@ function TimKiemVe() {
                                 <td>{item.giaVe}</td>
                                 <td>
                                     <button className="btn btn-primary" type="submit">In</button>
-                                    <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
                                 </td>
                             </tr>
                         )
                     })}
                 </tbody>
-            </table>
-            <div className="justify-content-center pagination">
+            </table>)}
+            {tickets.length === 0 && (<div class="row justify-content-center">
+                <div class="col-6">
+                    <img
+                        src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" />
+                    <div class="text-center">
+                        <p class="text-white">No result!</p>
+                    </div>
+                </div>
+            </div>)}
+            {tickets.length > 0 && (<div className="justify-content-center pagination">
                 <nav aria-label="...">
                     <ul className="pagination">
                         <li className="page-item disabled">
                             <span className="page-link">Previous</span>
                         </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                        <li className="page-item">1</li>
                         <li className="page-item active" aria-current="page">
                             <span className="page-link">2</span>
                         </li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
+                        <li className="page-item">3</li>
                         <li className="page-item">
-                            <a className="page-link" href="#">Next</a>
+                            Next
                         </li>
                     </ul>
                 </nav>
             </div>
+            )}
         </div>
     );
 }
