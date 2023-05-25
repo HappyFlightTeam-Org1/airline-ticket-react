@@ -23,18 +23,23 @@ export default function Register() {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập địa chỉ email" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập tên tài khoản" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập số điện thoại" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control"  placeholder="Nhập họ và tên" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group">
                                             <input type="date" className="form-control"  placeholder="" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group">
                                             <div className="maxl">
@@ -56,9 +61,11 @@ export default function Register() {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <input type="email" className="form-control" placeholder="Nhập số CMND/CCCD" value="" />
+
                                         </div>
                                         <div className="form-group">
                                             <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" className="form-control" placeholder="Nhập địa chỉ" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group" >
                                             <select className="form-select">
@@ -67,12 +74,15 @@ export default function Register() {
                                                 <option>Thái Lan</option>
                                                 <option>Lào</option>
                                             </select>
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập mật khẩu" value="" />
+                                            
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập lại mật khẩu" value="" />
+                                            <p>Bạn đã nhập sai</p>
                                         </div>
                                         <input type="submit" className="btnRegister"  value="Đăng Ký"/>
                                     </div>

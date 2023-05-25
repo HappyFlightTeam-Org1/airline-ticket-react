@@ -4,13 +4,19 @@ header {
 
 }
 .nav-link {
-  color: white;
+  color:#d8860b;
+        &:hover{
+            color: rgb(255, 34, 0) !important;
+       }
 }
 .menu {
   width: 85%;
 }
 .navbar {
   box-shadow: 0 2px 10px rgba(2, 15, 29, 0.5);
+}
+.navbar-toggler {
+  border: 1px solid #ccc;
 }
 .logoDiv img {
   width: 10rem;
@@ -159,4 +165,10 @@ header {
 }
 .toggle-switch:checked ~ .background{
   background: #242424;
+}
+/* media */
+@media screen and (max-width : 1372){
+ .menu {
+   font-size: .3rem;
+ }
 }

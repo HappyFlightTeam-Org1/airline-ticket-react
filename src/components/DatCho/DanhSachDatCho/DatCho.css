@@ -8,9 +8,11 @@
     hsl(199, 100%, 33%)
   );
 }
-/* hr{
-    margin-bottom: 50px;
-} */
+
+hr {
+  margin-bottom: 50px;
+}
+
 .thuong-gia {
   color: rgb(0, 255, 157);
   cursor: pointer;
@@ -65,9 +67,11 @@
 .ghichu4 i {
   color: rgb(255, 213, 3);
 }
+
 .datcholeft {
   margin-left: 20px;
 }
+
 .datcholeft img {
   height: 350px;
 }
@@ -93,9 +97,11 @@
 .span {
   color: red;
 }
+
 .khoan {
   color: white;
 }
+
 sub {
   color: white;
 }

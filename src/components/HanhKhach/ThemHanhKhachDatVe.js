@@ -406,53 +406,33 @@ const ThongTinKhachHangDatVe = () => {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="card">
-                      <div
-                        className="card-body box-shadow-tt-ve "
-                        style={{
-                          background:
-                            "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
-                        }}
-                      >
+                      <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
                           {chuyenBay && !chuyenBayKhuHoi ? (
                             <b>Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}</b>
                           ) : (
-                            <b>Chuyến bay đi • {chuyenBay.ngayKhoiHanh}</b>
+                            <strong>
+                              Chuyến bay đi • {chuyenBay.ngayKhoiHanh}
+                            </strong>
                           )}
 
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đi:</strong> {chuyenBay.diemDi}
+                              <strong>Sân bay đi </strong> {chuyenBay.diemDi}
                             </p>
                             <p>
                               <strong>Giờ cất cạnh</strong>{" "}
                               {chuyenBay.gioKhoiHanh}
                             </p>
-                            <p>
-                              <strong>Thời gian bay:</strong>
-                              {chuyenBay.thoiGianBay}
-                            </p>
-                            <p>
-                              <strong>Hãng Bay:</strong>
-                              {chuyenBay.hangBay.tenHangBay}
-                            </p>
                           </div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đến:</strong> {chuyenBay.diemDen}
+                              <strong>Sân bay đến </strong> {chuyenBay.diemDen}
                             </p>
                             <p>
-                              <strong>Giờ hạ cánh:</strong>
+                              <strong>Giờ hạ cánh </strong>
                               {chuyenBay.gioHaCanh}
-                            </p>
-                            <p>
-                              <strong>Khối lượng hành lý:</strong>
-                              {chuyenBay.klhanhLy}
-                            </p>
-                            <p>
-                              <strong>Máy bay:</strong>
-                              {chuyenBay.mayBay.tenMayBay}
                             </p>
                           </div>
                         </div>
@@ -469,50 +449,30 @@ const ThongTinKhachHangDatVe = () => {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="card">
-                      <div
-                        className="card-body box-shadow-tt-ve "
-                        style={{
-                          background:
-                            "linear-gradient( to left,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
-                        }}
-                      >
+                      <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
-                          <b>Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}</b>
+                          <strong>
+                            Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
+                          </strong>
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đi:</strong>
+                              <strong>Sân bay đi </strong>
                               {chuyenBayKhuHoi.diemDi}
                             </p>
                             <p>
-                              <strong>Giờ cất cánh:</strong>
+                              <strong>Giờ cất cánh </strong>
                               {chuyenBayKhuHoi.gioKhoiHanh}
-                            </p>
-                            <p>
-                              <strong>Thời gian bay:</strong>
-                              {chuyenBayKhuHoi.thoiGianBay}
-                            </p>
-                            <p>
-                              <strong> Hãng bay:</strong>
-                              {chuyenBayKhuHoi.hangBay.tenHangBay}
                             </p>
                           </div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đến:</strong>
+                              <strong>Sân bay đến </strong>
                               {chuyenBayKhuHoi.diemDen}
                             </p>
                             <p>
-                              <strong>Giờ hạ cánh:</strong>
+                              <strong>Giờ hạ cánh </strong>
                               {chuyenBayKhuHoi.gioHaCanh}
-                            </p>
-                            <p>
-                              <strong>Khối lượng hành lý:</strong>
-                              {chuyenBayKhuHoi.klhanhLy}
-                            </p>
-                            <p>
-                              <strong>Máy bay:</strong>
-                              {chuyenBayKhuHoi.mayBay.tenMayBay}
                             </p>
                           </div>
                         </div>

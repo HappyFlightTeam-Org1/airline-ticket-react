@@ -17,7 +17,7 @@ export default function ComponentToPrint() {
         axios.get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
             .then((response) => {
                 setVeMayBay(response.data);
-                setTicketTitle(response.data.datCho.chuyenBay.hangBay.tenHangBay + " - " + response.data.maVe);
+                setTicketTitle(response.data.datCho.chuyenBay.hangBay.tenHangBay + " - " + response.data.maVe + " - " + response.data.hanhKhach.tenHanhKhach);
             })
             .catch((err) => console.error);
     }, []);
@@ -75,7 +75,7 @@ export default function ComponentToPrint() {
                                 <strong>{veMayBay !== null && veMayBay.maVe}</strong>
                             </div>
                             <div style={{ paddingLeft: '1rem' }}>
-                                <img style={{ height: "25px" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Logo_h%C3%A3ng_Pacific_Airlines.svg/1200px-Logo_h%C3%A3ng_Pacific_Airlines.svg.png" />
+                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL} />
 
                             </div>
                         </div>
@@ -138,7 +138,7 @@ export default function ComponentToPrint() {
                                         <small>CLASS: </small>
                                     </div>
                                     <div className='col-md-3'>
-                                        <strong>{veMayBay !== null && veMayBay.datCho.ghe.loaiGhe.tenLoaiGhe}</strong>
+                                        <strong>{veMayBay !== null && (veMayBay.datCho.ghe.loaiGhe.tenLoaiGhe === 'Phổ Thông') ? "ECONOMY" : "BUSINESS"}</strong>
                                     </div>
                                 </div>
 
@@ -184,7 +184,7 @@ export default function ComponentToPrint() {
                                         <small>CLASS:</small>
                                     </div>
                                     <div className='col-8'>
-                                        <strong>{veMayBay !== null && veMayBay.datCho.ghe.loaiGhe.tenLoaiGhe}</strong>
+                                        <strong>{veMayBay !== null && (veMayBay.datCho.ghe.loaiGhe.tenLoaiGhe === 'Phổ Thông') ? "ECONOMY" : "BUSINESS"}</strong>
                                     </div>
                                 </div>
                             </div>

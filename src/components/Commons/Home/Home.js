@@ -8,10 +8,16 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import * as Yup from "yup";
 
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+
 const checkFormSearch = Yup.object().shape({
   diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
   diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
-  ngayDi: Yup.date().required("Vui lòng chọn ngày đi"),
+  ngayDi: Yup.date()
+    .nullable()
+    .required("Vui lòng chọn ngày đi")
+    .min(yesterday, "Ngày đi phải lớn hơn hoặc bằng ngày hiện tại"),
 });
 
 export default function Home({on}) {
@@ -297,9 +303,9 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Dịch Vụ Trên Không</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+              <i class="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -316,21 +322,19 @@ export default function Home({on}) {
             <div className="imageDiv">
               <img
                 className="img"
-                src="https://img.freepik.com/premium-photo/airplane-taking-off-from-airport_37416-74.jpg?w=1800"
+                src="https://img.freepik.com/free-photo/airplane-seats_1308-5011.jpg?w=1800&t=st=1684979099~exp=1684979699~hmac=cc7fb4d31f4c852a1ceb1c217268cc79165ebfc32709ddb5909cb054a1b812c1"
                 alt="Giá rẻ"
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hạng Thương Gia</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+              <i class="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Trải nghiệm dịch vụ và công nghệ tân tiến khi bay hạng Thương Gia cùng Vietnam Airlines. Giờ đây hành khách có thể tận hưởng một chuyến bay đầy cảm hứng trên mọi khía cạnh.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -340,21 +344,19 @@ export default function Home({on}) {
             <div className="imageDiv">
               <img
                 className="img"
-                src="https://img.freepik.com/premium-photo/airplane-taking-off-from-airport_37416-65.jpg?w=2000"
+                src="https://img.freepik.com/premium-photo/aircraft-cabin-interior_1417-4133.jpg?size=626&ext=jpg"
                 alt="Giá rẻ"
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hạng Phổ Thông Đặt Biệt</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+              <i class="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Lý tưởng cho những ai mong muốn có sự linh hoạt và tiện lợi tối đa, hạng Phổ thông đặc biệt sẽ mang lại cho hành khách nhiều tiện nghi và các điều kiện đặc biệt để giúp hành trình trở nên thật thoải mái.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -376,7 +378,7 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Đặt Vé Trực Tuyến</h4>
               <span className="continent flex">
                 <i class="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
@@ -400,16 +402,14 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Chăm sóc khách hàng</h4>
               <span className="continent flex">
                 <i class="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Đội ngũ chăm sóc khách hàng của chúng tôi sẽ luôn sẵn sàng giải đáp mọi thắc mắc và hỗ trợ khách hàng trong quá trình sử dụng dịch vụ của chúng tôi.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -424,16 +424,14 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Đổi vé và hoàn tiền</h4>
               <span className="continent flex">
                 <i class="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Chúng tôi cung cấp dịch vụ đổi vé và hoàn tiền linh hoạt để đảm bảo khách hàng sẽ không gặp phải rủi ro khi thay đổi kế hoạch của mình.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -455,16 +453,14 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hà Nội - Hồ Chí Minh</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+              <i class="fa-solid fa-plane"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Chuyến bay từ Hà Nội đến Hồ Chí Minh với giá vé hấp dẫn và thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -479,16 +475,14 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hà Nội - Đà Nẵng</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
-                <span className="name">B53-X1976</span>
+              <i class="fa-solid fa-plane"></i>
+                <span className="name">B52-Y1576</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Chuyến bay từ Hà Nội đến Đà Nẵng với giá vé hấp dẫn và thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -503,16 +497,14 @@ export default function Home({on}) {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hồ Chí Minh - Đà Nẵng</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
-                <span className="name">B53-X1976</span>
+              <i class="fa-solid fa-plane"></i>
+                <span className="name">B51-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                Chuyến bay từ Hồ Chí Minh đến Đà Nẵng với giá vé hấp dẫn và thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
