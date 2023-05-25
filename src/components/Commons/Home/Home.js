@@ -7,10 +7,16 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import * as Yup from "yup";
 
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+
 const checkFormSearch = Yup.object().shape({
   diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
   diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
-  ngayDi: Yup.date().required("Vui lòng chọn ngày đi"),
+  ngayDi: Yup.date()
+    .nullable()
+    .required("Vui lòng chọn ngày đi")
+    .min(yesterday, "Ngày đi phải lớn hơn hoặc bằng ngày hiện tại"),
 });
 
 export default function Home() {
