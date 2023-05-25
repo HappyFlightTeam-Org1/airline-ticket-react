@@ -61,7 +61,7 @@ export default function Register() {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <input type="email" className="form-control" placeholder="Nhập số CMND/CCCD" value="" />
-                                            <p>Bạn đã nhập sai</p>
+
                                         </div>
                                         <div className="form-group">
                                             <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" className="form-control" placeholder="Nhập địa chỉ" value="" />
@@ -78,7 +78,7 @@ export default function Register() {
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập mật khẩu" value="" />
-                                            <p>Bạn đã nhập sai</p>
+                                            
                                         </div>
                                         <div className="form-group">
                                             <input type="text" className="form-control" placeholder="Nhập lại mật khẩu" value="" />
