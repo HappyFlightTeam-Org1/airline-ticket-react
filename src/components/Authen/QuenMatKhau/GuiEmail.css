@@ -14,3 +14,11 @@
       background: var(--gradientColor1);
     }
 }
+.form-wrapper .form-group {
+    position: relative;
+}
+.form-wrapper p {
+    position: absolute;
+    color: red;
+    left: 3%;
+}

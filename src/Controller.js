@@ -22,6 +22,7 @@ import GuiEmail from "./components/Authen/QuenMatKhau/GuiEmail.js";
 import React,{useState} from "react";
 import ThietLapMatKhauMoi from "./components/Authen/QuenMatKhau/ThietLapMatKhauMoi";
 import SuaThongTinCaNhan from "./components/Authen/SuaThongTinCaNhan/SuaThongTinCaNhan";
+import  ThayDoiMatKhau from "./components/Authen/ThayDoiMatKhau/ThayDoiMatKhau.js";
 function Controller() {
   const [on,setOn] = useState(false);
 
@@ -69,6 +70,7 @@ function Controller() {
             <Route path="GuiEmail" element={< GuiEmail />} />
             <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
             <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
+            <Route path="ThayDoiMatKhau" element={< ThayDoiMatKhau />} />
           </Route>
           {/* Hóa Đơn */}
           <Route>
