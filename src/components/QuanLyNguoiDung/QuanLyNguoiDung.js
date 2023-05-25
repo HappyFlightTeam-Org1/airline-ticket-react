@@ -130,7 +130,7 @@ export default function QuanLyNguoiDung() {
                         <td>{data.diaChi}</td>
                         <td>{data.quocTich.tenQuocTich}</td>
                         <td>
-                            <button className="btn btn-danger" type="submit">Khoá</button>
+                            {/* <button className="btn btn-danger" type="submit">Khoá</button> */}
                             <button className="btn btn-info" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
                         </td>
                     </tr>

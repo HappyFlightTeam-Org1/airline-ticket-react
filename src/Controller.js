@@ -17,14 +17,22 @@ import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 import Login from "./components/Authen/DangNhap/Login";
+import DangKy from "./components/Authen/DangKy/Register.js";
+import React,{useState} from "react";
 // import DangNhap from "./components/Authen/DangNhap/Login.js";
 function Controller() {
+  const [on,setOn] = useState(false);
+
+  const handleTogger = () => {
+       setOn(!on);
+       console.log(on);
+  }
   return (
     <div className="Controller">
       <BrowserRouter>
-        <Navbar />
+        <Navbar handleTogger={handleTogger} on={on}/>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home on={on} />} />
           {/* Thêm mới chuyến bay */}
           <Route>
             <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
@@ -54,6 +62,7 @@ function Controller() {
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
             <Route path="Login" element={<Login />} />
+            <Route path="DangKy" element={<DangKy />} />
             <Route path="BarChart" element={<BarChart />} />
           </Route>
           {/* Hóa Đơn */}
@@ -61,7 +70,7 @@ function Controller() {
             <Route path="ThanhToan" element={<HoaDon />} />
           </Route>
         </Routes>
-        <Footer />
+        <Footer on={on} />
       </BrowserRouter>
     </div>
   );

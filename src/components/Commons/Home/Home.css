@@ -271,10 +271,17 @@
 }
 .bottom {
    text-align: center;
-   margin-bottom: 50px;
+   padding-bottom: 50px;
 }
 .cardDiv p{
   margin: 0;
   text-align: center;
   color: red;
+}
+.start{
+  background: url("../../../Assets/main.jpg") center;
+  background-size: cover;
+}
+ .white {
+  color: white;
 }
