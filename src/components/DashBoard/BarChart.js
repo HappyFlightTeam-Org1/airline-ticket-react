@@ -179,8 +179,6 @@ function BarChart() {
             </div>
           </div>
        </div>
-
-
         <div className="col-xl-3 col-md-6 col-12">
           <div className="info-box bg-warning shadow">
             <div className='icon'><i class="fa-solid fa-users"></i></div>

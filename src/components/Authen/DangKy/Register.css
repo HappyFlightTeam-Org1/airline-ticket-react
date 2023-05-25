@@ -43,7 +43,7 @@
   border-bottom-left-radius: 10% 50%;
 }
 .register-right .form-group {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 .register-left p img {
   width: 100%;
@@ -117,4 +117,9 @@
   margin-top: 8%;
   margin-bottom: -15%;
   color: #495057;
+}
+.register p {
+  margin-bottom: 0;
+  text-align: center;
+  color: red;
 }
