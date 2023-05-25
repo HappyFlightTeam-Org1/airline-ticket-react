@@ -1,4 +1,3 @@
-import './SuaThongTinCaNhan.css';
 import plane from "../../../Assets/planeDC.png";
 import logo from "../../../Assets/logo.png";
 export default function SuaThongTinCaNhan() {
