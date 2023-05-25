@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import * as Yup from "yup";
 const hanhKhachSchema = Yup.object().shape({
   tenHanhKhach: Yup.string().required("Vui lòng nhập tên hành khách"),
@@ -28,7 +28,6 @@ const ThongTinKhachHangDatVe = () => {
     queryParams.get("chuyenBayKhuHoi") === "undefined"
       ? null
       : JSON.parse(queryParams.get("chuyenBayKhuHoi"));
-
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
@@ -345,7 +344,10 @@ const ThongTinKhachHangDatVe = () => {
                       ))}
                     </div>
                     <div className="form-group text-center mt-2">
-                      <a className="btn btn-success" onClick={handleSendData}>
+                      <a
+                        className="btn btn-success bg"
+                        onClick={handleSendData}
+                      >
                         Tiếp Tục
                       </a>
                     </div>
@@ -409,7 +411,9 @@ const ThongTinKhachHangDatVe = () => {
                       <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
                           {chuyenBay && !chuyenBayKhuHoi ? (
-                            <b>Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}</b>
+                            <strong>
+                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}
+                            </strong>
                           ) : (
                             <strong>
                               Chuyến bay đi • {chuyenBay.ngayKhoiHanh}

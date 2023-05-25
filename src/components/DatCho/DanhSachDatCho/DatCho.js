@@ -256,7 +256,7 @@ const DatCho = () => {
                       onClick={() => handleSeatClick(seat)}
                     ></i>
                     <div>
-                      <sub>{seat.ghe.tenGhe}</sub>
+                      <sub>{seat.ghe.maGhe}</sub>
                     </div>
                   </div>
                 ))}
@@ -298,13 +298,13 @@ const DatCho = () => {
 
               <div className="ghichu5 ">
                 {setSeatList1Chieu && seatListKhuHoi.length === 0 && (
-                  <button className="btn  btn-success" onClick={handleClick}>
+                  <button className="btn  btn-success bg" onClick={handleClick}>
                     Thanh Toán
                   </button>
                 )}
                 {seatListKhuHoi.length > 0 && seatList1Chieu && (
                   <button
-                    className="btn  btn-success"
+                    className="btn  btn-success bg"
                     onClick={handleClickNext}
                   >
                     Tiếp Tục
@@ -357,7 +357,8 @@ const DatCho = () => {
                       onClick={() => handleSeatClickKhuHoi(seat)}
                     ></i>
                     <div>
-                      <sub>{seat.ghe.tenGhe}</sub>
+                      <sub>{seat.ghe.maGhe}</sub>
+                      {/* <sub>{seat.ghe.tenGhe}</sub> */}
                     </div>
                   </div>
                 ))}
@@ -397,11 +398,11 @@ const DatCho = () => {
                 </h4>
               </div>
               <div className="ghichu5 ">
-                <button className="btn  btn-success" onClick={goBack}>
+                <button className="btn  btn-success bg" onClick={goBack}>
                   Chọn Lại Ghế
                 </button>{" "}
                 <button
-                  className="btn  btn-success"
+                  className="btn  btn-success bg"
                   onClick={handleClickKhuHoi}
                 >
                   Thanh Toán
