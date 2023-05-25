@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,8 @@ function ThemMoiChuyenBay() {
   const [sanBays, setSanBays] = useState([]);
   const [hangBays, setHangBays] = useState([]);
   const [formData, setFormData] = useState({});
+  const [valid, setValid] = useState({});
+  const red = { color: "red" };
 
   //DucNH66 Lấy data liên quan của chuyến bay
   useEffect(() => {
@@ -25,10 +28,26 @@ function ThemMoiChuyenBay() {
       .catch((err) => console.error);
   }, []);
 
-  //DucNH66 Nhận dữ liệu được nhập từ formData
+  // DucNH66 Nhận dữ liệu được nhập từ formData
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
+
+  //DucNH66 tính thời gian bay
+  useEffect(() => {
+    if (formData.gioHaCanh && formData.gioKhoiHanh) {
+      const gioKhoiHanh = new Date(`2000-01-01T${formData.gioKhoiHanh}`);
+      const gioHaCanh = new Date(`2000-01-01T${formData.gioHaCanh}`);
+      let thoiGianBay = gioHaCanh - gioKhoiHanh;
+      //Nếu âm thì nhân thành dương để loại bỏ dấu -
+      if (thoiGianBay < 0) {
+        thoiGianBay *= -1;
+      }
+      const gio = Math.floor(thoiGianBay / 3600000);
+      const phut = Math.floor((thoiGianBay % 3600000) / 60000);
+      setFormData({ ...formData, thoiGianBay: `${gio} Giờ ${phut} Phút` });
+    }
+  }, [formData.gioHaCanh, formData.gioKhoiHanh]);
 
   //DucNH66 lưu vào db
   const handleSubmit = (event) => {
@@ -44,8 +63,17 @@ function ThemMoiChuyenBay() {
         navigate("/DanhSachChuyenBay");
       })
       .catch((err) => {
-        toast.warning("THÊM THẤT BẠI");
+        console.log(err.response.data);
+        if (err.response && err.response.data) {
+          setValid(err.response.data);
+          toast.warning("THÊM THẤT BẠI");
+        }
       });
+  };
+
+  //DucNH66 trở lại trang danh sách
+  const handleSubmitBack = (event) => {
+    navigate("/DanhSachChuyenBay");
   };
 
   return (
@@ -64,7 +92,12 @@ function ThemMoiChuyenBay() {
               <form onSubmit={handleSubmit}>
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label>Mã chuyến bay</label>
+                    <label>
+                      Mã chuyến bay
+                      {valid.maChuyenBay && (
+                        <span style={red}> {valid.maChuyenBay}</span>
+                      )}
+                    </label>
                     <input
                       className="form-control"
                       type="text"
@@ -75,10 +108,13 @@ function ThemMoiChuyenBay() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label>Giá vé</label>
+                    <label>
+                      Giá vé{" "}
+                      {valid.giaVe && <span style={red}> {valid.giaVe}</span>}
+                    </label>
                     <input
                       className="form-control"
-                      type="text"
+                      type="number"
                       name="giaVe"
                       id="giaVe"
                       value={formData.giaVe}
@@ -89,7 +125,10 @@ function ThemMoiChuyenBay() {
 
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label>Sân bay đi</label>
+                    <label>
+                      Sân bay đi{" "}
+                      {valid.diemDi && <span style={red}>{valid.diemDi}</span>}
+                    </label>
                     <select
                       name="diemDi"
                       id="diemDi"
@@ -106,7 +145,12 @@ function ThemMoiChuyenBay() {
                     </select>
                   </div>
                   <div className="col-md-6">
-                    <label>Sân bay hạ cánh</label>
+                    <label>
+                      Sân bay hạ cánh{" "}
+                      {valid.diemDen && (
+                        <span style={red}> {valid.diemDen}</span>
+                      )}
+                    </label>
                     <select
                       name="diemDen"
                       id="diemDen"
@@ -126,7 +170,12 @@ function ThemMoiChuyenBay() {
 
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label>Ngày khởi hành</label>
+                    <label>
+                      Ngày khởi hành{" "}
+                      {valid.ngayKhoiHanh && (
+                        <span style={red}> {valid.ngayKhoiHanh}</span>
+                      )}
+                    </label>
                     <input
                       id="ngayKhoiHanh"
                       type="date"
@@ -137,7 +186,12 @@ function ThemMoiChuyenBay() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label>Giờ khởi hành</label>
+                    <label>
+                      Giờ khởi hành{" "}
+                      {valid.gioKhoiHanh && (
+                        <span style={red}> {valid.gioKhoiHanh}</span>
+                      )}
+                    </label>
                     <input
                       type="time"
                       className="form-control"
@@ -151,7 +205,12 @@ function ThemMoiChuyenBay() {
 
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label>Giờ hạ cánh</label>
+                    <label>
+                      Giờ hạ cánh{" "}
+                      {valid.gioHaCanh && (
+                        <span style={red}> {valid.gioHaCanh}</span>
+                      )}
+                    </label>
                     <input
                       id="gioHaCanh"
                       type="time"
@@ -162,21 +221,25 @@ function ThemMoiChuyenBay() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label>Thời gian bay</label>
+                    <label>Thời gian bay </label>
                     <input
                       type="text"
                       className="form-control"
                       name="thoiGianBay"
                       id="thoiGianBay"
                       value={formData.thoiGianBay}
-                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label>Tên máy bay</label>
+                    <label>
+                      Tên máy bay{" "}
+                      {valid.maMayBay && (
+                        <span style={red}> {valid.maMayBay}</span>
+                      )}
+                    </label>
 
                     <select
                       name="maMayBay"
@@ -194,7 +257,12 @@ function ThemMoiChuyenBay() {
                     </select>
                   </div>
                   <div className="col-md-6">
-                    <label>Tên hãng bay</label>
+                    <label>
+                      Tên hãng bay{" "}
+                      {valid.maHangBay && (
+                        <span style={red}> {valid.maHangBay}</span>
+                      )}
+                    </label>
                     <select
                       name="maHangBay"
                       id="maHangBay"
@@ -217,7 +285,12 @@ function ThemMoiChuyenBay() {
 
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label>Khối lượng hành lý</label>
+                    <label>
+                      Khối lượng hành lý{" "}
+                      {valid.kLHanhLy && (
+                        <span style={red}> {valid.kLHanhLy}</span>
+                      )}
+                    </label>
                     <input
                       id="kLHanhLy"
                       type="text"
@@ -228,7 +301,12 @@ function ThemMoiChuyenBay() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label>Trạng thái</label>
+                    <label>
+                      Trạng thái{" "}
+                      {valid.trangThaiVanHanh && (
+                        <span style={red}> {valid.trangThaiVanHanh}</span>
+                      )}
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -241,6 +319,13 @@ function ThemMoiChuyenBay() {
                 </div>
 
                 <div className="form-group text-center mt-2">
+                  <button
+                    type="submit"
+                    className="btn btn-success"
+                    onClick={handleSubmitBack}
+                  >
+                    Trở Về
+                  </button>
                   <button type="submit" className="btn btn-success">
                     Lưu
                   </button>
