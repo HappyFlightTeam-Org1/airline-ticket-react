@@ -21,9 +21,13 @@ import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhT
 import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
 
 import DangKy from "./components/Authen/DangKy/Register.js";
-import React, { useState } from "react";
 
-// import DangNhap from "./components/Authen/DangNhap/Login.js";
+import React, { useState } from "react";
+import GuiEmail from "./components/Authen/QuenMatKhau/GuiEmail.js";
+import ThietLapMatKhauMoi from "./components/Authen/QuenMatKhau/ThietLapMatKhauMoi";
+import SuaThongTinCaNhan from "./components/Authen/SuaThongTinCaNhan/SuaThongTinCaNhan";
+import ThayDoiMatKhau from "./components/Authen/ThayDoiMatKhau/ThayDoiMatKhau.js";
+
 function Controller() {
   const [on, setOn] = useState(false);
 
@@ -69,6 +73,10 @@ function Controller() {
             <Route path="Login" element={<Login />} />
             <Route path="DangKy" element={<DangKy />} />
             <Route path="BarChart" element={<BarChart />} />
+            <Route path="GuiEmail" element={< GuiEmail />} />
+            <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
+            <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
+            <Route path="ThayDoiMatKhau" element={< ThayDoiMatKhau />} />
           </Route>
           {/* Hóa Đơn */}
           <Route>
