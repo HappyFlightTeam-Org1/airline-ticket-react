@@ -160,3 +160,9 @@ header {
 .toggle-switch:checked ~ .background{
   background: #242424;
 }
+/* media */
+@media screen and (max-width : 1372){
+ .menu {
+  width: 80%;
+ }
+}

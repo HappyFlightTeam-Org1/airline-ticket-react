@@ -18,10 +18,12 @@ export default function Login() {
               <span><i class="fa-solid fa-user"></i></span>
               <input type="email" name="" placeholder="Tên Tài Khoản" tabindex="10" required/>
             </div>
+            <p>Tên Tài Khoảng Bị Sai</p>
             <div className="form-input">
               <span><i className="fa fa-key"></i></span>
               <input type="password" name="" placeholder="Mật Khẩu" required/>
             </div>
+            <p>Mật Khẩu Sai</p>
             <div className="form-input">
               <button type="submit" className="btn btn-block text-uppercase">
                 Login
