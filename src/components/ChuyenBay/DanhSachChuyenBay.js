@@ -121,7 +121,7 @@ function DanhSachChuyenBay() {
   };
 
   return (
-    <div className="container chuyenbay">
+    <div className="container chuyenbay ">
       <h1>DANH SÁCH CHUYẾN BAY</h1>
       <hr />
       {/* Form tìm kiếm  DucNH66*/}
@@ -173,14 +173,14 @@ function DanhSachChuyenBay() {
           />
         </div>
         <div class="form-group col">
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success bg">
             Tìm Kiếm
           </button>
         </div>
       </form>
       {/* Nút thêm mới */}
       <Link as={Link} to="/ThemChuyenBay" className="text-white">
-        <button className="btn btn-success">Thêm mới</button>
+        <button className="btn btn-success bg">Thêm mới</button>
       </Link>
       {/* Table dánh sách */}
       <table className="table table-striped shadow">
@@ -221,7 +221,7 @@ function DanhSachChuyenBay() {
                     to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
                     className="text-white"
                   >
-                    <button className="btn btn-success ">view</button>
+                    <button className="btn btn-success bg">Xem</button>
                   </Link>
                 </td>
               </tr>
@@ -245,7 +245,7 @@ function DanhSachChuyenBay() {
                     to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
                     className="text-white"
                   >
-                    <button className="btn btn-success ">view</button>
+                    <button className="btn btn-success bg ">Xem</button>
                   </Link>
                 </td>
               </tr>
@@ -270,7 +270,7 @@ function DanhSachChuyenBay() {
               <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                 <button
                   type="button"
-                  className="page-link bg-warning text-white"
+                  className="page-link bg-warning text-white bg"
                   onClick={() => setPage(0)}
                   disabled={page === 0}
                 >
@@ -296,7 +296,7 @@ function DanhSachChuyenBay() {
               <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                 <button
                   type="button"
-                  className="page-link bg-success text-white"
+                  className="page-link bg-success text-white bg"
                   disabled={page === 0}
                   onClick={() => handlePageChange(page - 1)}
                 >
@@ -323,7 +323,7 @@ function DanhSachChuyenBay() {
               >
                 <button
                   type="button"
-                  className={`page-link  bg-success text-white none   ${page === totalPages - 1 ? "disabled" : ""
+                  className={`page-link  bg-success text-white none bg   ${page === totalPages - 1 ? "disabled" : ""
                     }`}
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages - 1}
@@ -348,7 +348,7 @@ function DanhSachChuyenBay() {
                   }`}
               >
                 <button
-                  className={`page-link bg-danger text-white  ${page === totalPages - 1 ? "disabled" : ""
+                  className={`page-link bg-danger text-white bg ${page === totalPages - 1 ? "disabled" : ""
                     }`}
                   onClick={() => setPage(totalPages - 1)}
                   disabled={page === totalPages - 1}

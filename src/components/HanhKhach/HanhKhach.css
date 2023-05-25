@@ -13,11 +13,11 @@ hanhkhach {
 .table-shadow {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
-/* anh Duy block vì ảnh hưởng component khác, nên dùng bootstrap như "text-center mt-3" */
-/* h1 {
+
+h1 {
   text-align: center;
   margin-top: 50px;
-} */
+}
 
 h5 {
   margin-top: 6px;
@@ -31,7 +31,7 @@ h5 {
   width: 90%;
   margin-left: 5%;
   margin-bottom: 20px;
-  /* margin-top: 30px; */
+  margin-top: 30px;
 }
 
 .pagination {
@@ -73,4 +73,13 @@ b {
 
 .error-message {
   color: red;
+}
+
+.bg {
+  color: white;
+  background: var(--gradientColor);
+
+  &:hover {
+    background: var(--gradientColor1);
+  }
 }

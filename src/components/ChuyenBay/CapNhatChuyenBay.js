@@ -36,14 +36,11 @@ function CapNhatChuyenBay() {
   };
 
   return (
-    <div className="container">
+    <div className="container mb-5">
       <div className="row justify-content-center mt-5">
         <div className="col-md-8">
           <div className="card">
-            <div
-              className="card-header  text-white"
-              style={{ backgroundColor: "#FFA500" }}
-            >
+            <div className="card-header  text-white bg">
               <h3 autoFocus>Xem chi tiết</h3>
             </div>
             <div className="card-body">
@@ -207,7 +204,7 @@ function CapNhatChuyenBay() {
                   </div>
                 </div>
                 <div className="form-group text-center mt-2">
-                  <button type="submit" className="btn btn-success">
+                  <button type="submit" className="btn btn-success bg">
                     Trở về
                   </button>
                 </div>
