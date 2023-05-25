@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../../Assets/logo.png";
-export default function Navbar() {
+export default function Navbar({ handleTogger, on }) {
+
   return (
-    <div>
-      <header>
+    <div >
+      <header className={`${on ? "night" : ""}`}>
         <nav className="navbar navbar-expand-lg ">
           <div className="container-fluid">
             <div className="logoDiv">
@@ -27,6 +28,15 @@ export default function Navbar() {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 menu">
+                <li className="nav-item">
+                  <label className="toggle-wrap" >
+                    <input type="checkbox" className="toggle-switch"></input>
+                    <span className="toggle" onClick={handleTogger}>
+                      <i className="fa-solid fa-sun"></i>
+                      <i className="fa-solid fa-moon"></i>
+                    </span>
+                  </label>
+                </li>
                 <li className="nav-item">
 
                   <Link
@@ -101,7 +111,7 @@ export default function Navbar() {
 
                   <Link
                     as={Link}
-                    to="/"
+                    to="/InVe"
                     className="text-white nav-link active"
                   >
                     Liên hệ
@@ -124,13 +134,11 @@ export default function Navbar() {
                 <li className="nav-item">
                   <Link
                     as={Link}
-                    to="Login"
+                    to="DangKy"
                     className="text-white nav-link active"
                   >
                     Đăng ký
                   </Link>
-
-
                 </li>
               </ul>
             </div>

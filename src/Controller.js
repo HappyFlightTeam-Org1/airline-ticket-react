@@ -18,16 +18,25 @@ import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 import Login from "./components/Authen/DangNhap/Login";
 import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhToanThanhCong";
-import VeMayBay from "./components/VeMayBay/InVeMayBay/VeMayBay";
 import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
+
+import DangKy from "./components/Authen/DangKy/Register.js";
+import React, { useState } from "react";
+
 // import DangNhap from "./components/Authen/DangNhap/Login.js";
 function Controller() {
+  const [on, setOn] = useState(false);
+
+  const handleTogger = () => {
+    setOn(!on);
+    console.log(on);
+  }
   return (
     <div className="Controller">
       <BrowserRouter>
-        <Navbar />
+        <Navbar handleTogger={handleTogger} on={on} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home on={on} />} />
           {/* Thêm mới chuyến bay */}
           <Route>
             <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
@@ -48,7 +57,7 @@ function Controller() {
             />
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
-            <Route path="InVe" element={<VeMayBay />} />
+            <Route path="InVe" element={<InVeMayBay />} />
           </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>
@@ -58,6 +67,7 @@ function Controller() {
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
             <Route path="Login" element={<Login />} />
+            <Route path="DangKy" element={<DangKy />} />
             <Route path="BarChart" element={<BarChart />} />
           </Route>
           {/* Hóa Đơn */}
@@ -66,7 +76,7 @@ function Controller() {
             <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
           </Route>
         </Routes>
-        <Footer />
+        <Footer on={on} />
       </BrowserRouter>
     </div>
   );

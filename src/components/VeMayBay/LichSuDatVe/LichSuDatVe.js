@@ -2,23 +2,12 @@ import React, { useState, useEffect } from "react";
 import './LichSuDatVe.css'
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
+import { Link } from "react-router-dom";
 function LichSuDatVe() {
 
     const [pageNumber, setPageNumber] = useState(0);
     const ticketPerPages = 5;
     const pagesVisited = pageNumber * ticketPerPages;
-
-    const getTicketList = async () => {
-        const response = await axios.get(`http://localhost:8080/VeMayBay/list?page=${pageNumber}&size=${ticketPerPages}`)
-            .then((response) => {
-                setTickets(response.data);
-                console.log("VE MAY BAY");
-                console.log(response.data);
-            })
-            .catch((err) => console.error);
-
-        return response;
-    };
 
     const [tickets, setTickets] = useState([]);
 
@@ -100,7 +89,15 @@ function LichSuDatVe() {
                                 <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
                                 <td>{item.giaVe}</td>
                                 <td>
-                                    <button className="btn btn-primary" type="submit">In</button>
+                                    <Link
+                                        as={Link}
+                                        to={`/InVe?maVe=${item.maVe.toString()}`}
+                                        className="text-white"
+                                    >
+                                        <button className="btn btn-primary" type="submit">
+
+                                            In</button>
+                                    </Link>
                                     <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
                                 </td>
                             </tr>
