@@ -74,3 +74,12 @@ b {
 .error-message {
   color: red;
 }
+
+.bg {
+  color: white;
+  background: var(--gradientColor);
+
+  &:hover {
+    background: var(--gradientColor1);
+  }
+}

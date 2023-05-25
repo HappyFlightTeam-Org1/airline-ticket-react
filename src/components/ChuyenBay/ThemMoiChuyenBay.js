@@ -77,14 +77,11 @@ function ThemMoiChuyenBay() {
   };
 
   return (
-    <div className="container">
+    <div className="container mb-5">
       <div className="row justify-content-center mt-5">
         <div className="col-md-8">
           <div className="card">
-            <div
-              className="card-header  text-white"
-              style={{ backgroundColor: "#FFA500" }}
-            >
+            <div className="card-header  text-white bg">
               <h3> Thêm Mới Chuyến Bay</h3>
             </div>
             <div className="card-body">
@@ -321,12 +318,12 @@ function ThemMoiChuyenBay() {
                 <div className="form-group text-center mt-2">
                   <button
                     type="submit"
-                    className="btn btn-success"
+                    className="btn btn-success bg"
                     onClick={handleSubmitBack}
                   >
                     Trở Về
                   </button>
-                  <button type="submit" className="btn btn-success">
+                  <button type="submit" className="btn btn-success bg">
                     Lưu
                   </button>
                 </div>

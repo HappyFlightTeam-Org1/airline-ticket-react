@@ -10,17 +10,16 @@ import * as Yup from "yup";
 
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
-
 const checkFormSearch = Yup.object().shape({
-  diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
-  diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
-  ngayDi: Yup.date()
-    .nullable()
-    .required("Vui lòng chọn ngày đi")
-    .min(yesterday, "Ngày đi phải lớn hơn hoặc bằng ngày hiện tại"),
+  // diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
+  // diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
+  // ngayDi: Yup.date()
+  //   .nullable()
+  //   .required("Vui lòng chọn ngày đi")
+  //   .min(yesterday, "Ngày đi phải lớn hơn hoặc bằng ngày hiện tại"),
 });
 
-export default function Home({on}) {
+export default function Home({ on }) {
   //DucNh66 useState
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
   const [soNguoiLon, setSoNguoiLon] = useState(1);
@@ -120,24 +119,24 @@ export default function Home({on}) {
       <section className="home">
         <div className="overlay"></div>
         {on ? (
-      <video
-        className="video"
-        src={video2}
-        muted
-        autoPlay
-        loop
-        type="video/mp4"
-      />
-    ) : (
-      <video
-        className="video"
-        src={video}
-        muted
-        autoPlay
-        loop
-        type="video/mp4"
-      />
-    )}
+          <video
+            className="video"
+            src={video2}
+            muted
+            autoPlay
+            loop
+            type="video/mp4"
+          />
+        ) : (
+          <video
+            className="video"
+            src={video}
+            muted
+            autoPlay
+            loop
+            type="video/mp4"
+          />
+        )}
         <div className="homeContent">
           <div className="textDiv">
             <h1 data-aos="fade-up" className="homeTitle font-weight-bold">
@@ -221,7 +220,8 @@ export default function Home({on}) {
               </div>
               <div className="dateInput">
                 <label id="label-NgayVe" className="label" htmlFor="city">
-                  Ngày Về
+                  Ngày Về{" "}
+                  {errors.ngayDiKh && <strong>{errors.ngayDiKh}</strong>}
                 </label>
                 <div className="input flex" id="div-NgayVe">
                   <input
@@ -233,7 +233,6 @@ export default function Home({on}) {
                     value={formData.ngayDiKh}
                     onChange={handleChangeInput}
                   ></input>
-                  {errors.ngayDiKh && <strong>{errors.ngayDiKh}</strong>}
                 </div>
               </div>
               <div className="destinationInput">
@@ -527,7 +526,9 @@ export default function Home({on}) {
         </div>
       </section>
       <section data-aos="fade-up" className="bottom">
-        <h3 data-aos="fade-right" className={`${on ? "white" : ""}`}>CÂU HỎI THƯỜNG GẶP</h3>
+        <h3 data-aos="fade-right" className={`${on ? "white" : ""}`}>
+          CÂU HỎI THƯỜNG GẶP
+        </h3>
         <div className="question">
           <div className="textbox">
             <i class="bx bxs-plane-alt"></i>
