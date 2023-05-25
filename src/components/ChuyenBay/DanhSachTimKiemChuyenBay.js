@@ -154,66 +154,115 @@ function DanhSachTimKiemChuyenBay() {
 
   return (
     <div className="container my-4 xxx  ">
-      {/* Chọn mục để sắp xếp */}
-      <nav
-        class="navbar navbar-expand-lg navbar-dark"
-        style={{
-          background:
-            "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
-        }}
-      >
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            Lọc
-          </a>
-          <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item dropdown">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="sortBySelect">
-                      Sắp xếp theo
-                    </label>
-                  </div>
-                  <select
-                    class="custom-select"
-                    id="sortBySelect"
-                    value={sortBy}
-                    onChange={handleSortChange}
-                  >
-                    <optgroup label="Lựa chọn">
-                      <option value="giaVe">Giá vé</option>
-                      <option value="gioKhoiHanh">Giờ khởi hành</option>
-                    </optgroup>
-                  </select>
-                  <select
-                    class="custom-select"
-                    value={sortDirection}
-                    onChange={handleSortFieldChange}
-                  >
-                    <option value="ASC">Tăng dần</option>
-                    <option value="DESC">Giảm dần</option>
-                  </select>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
       {/* Danh sách chuyến bay tìm kiếm được */}
       <div className="row my-4 ">
         {/* Div trang trí */}
-        <div
-          className="col-md-2 shadow "
-          style={{
-            background:
-              "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
-          }}
-        ></div>
+        <div className="col-md-2 shadow order-sidebar ">
+          <img src="https://www.onlygfx.com/wp-content/uploads/2021/07/paper-plane-1.png" />
+        </div>
 
         {/* Div tổng của danh sách chuyến bay đi và về */}
         <div className="col-md-10 pd-5">
+          {/* Chọn mục để sắp xếp */}
+          <nav
+            class="navbar navbar-expand-lg navbar-dark mb-3 pd-5 "
+            style={{
+              background:
+                "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+              paddingRight: "10px",
+              paddingLeft: "10px",
+            }}
+          >
+            <div className="row collapse navbar-collapse">
+              <div className="col-6">
+                <ul className="navbar-nav">
+                  <a className="navbar-brand" href="#">
+                    Lọc
+                  </a>
+                  <li className="nav-item dropdown">
+                    <div className="input-group">
+                      <select
+                        className="custom-select form-control"
+                        id="sortBySelect"
+                        value={sortBy}
+                        onChange={handleSortChange}
+                      >
+                        <optgroup label="Lựa chọn">
+                          <option value="giaVe">Giá vé</option>
+                          <option value="gioKhoiHanh">Giờ khởi hành</option>
+                        </optgroup>
+                      </select>
+                      <select
+                        className="custom-select form-control"
+                        value={sortDirection}
+                        onChange={handleSortFieldChange}
+                      >
+                        <option value="ASC">Tăng dần</option>
+                        <option value="DESC">Giảm dần</option>
+                      </select>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              {/* Phổ Thông*/}
+              <div className="col-md-3 ml-1">
+                <div
+                  className="card"
+                  style={{
+                    backgroundColor: "#f4f9f5",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <div
+                    className="card-body  "
+                    style={{ padding: "0.5rem" }}
+                  >
+                    <p
+                      className="card-text "
+                      style={{
+                        textAlign: "center",
+                        marginBottom: "0rem",
+                        fontSize: "1.25rem",
+                        color: "#222",
+                      }}
+                    >
+                      Hạng Phổ Thông
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Thương Gia */}
+              <div className="col-md-3 ">
+                <div
+                  className="card"
+                  style={{
+                    backgroundColor: "#fbf9e4",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <div
+                    className="card-body    "
+                    style={{ padding: "0.5rem" }}
+                  >
+                    <p
+                      className="card-text "
+                      style={{
+                        textAlign: "center",
+                        marginBottom: "0rem",
+                        fontSize: "1.25rem",
+                        color: "#222",
+                      }}
+                    >
+                      Hạng Thương Gia
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </nav>
+
           {/*Tiêu đề Danh sách chuyến bay đi */}
           {hidden && chuyenBays.length > 0 && (
             <h2 style={{ color: "#005f6e" }}>
@@ -228,7 +277,7 @@ function DanhSachTimKiemChuyenBay() {
           {hidden &&
             chuyenBays.length > 0 &&
             chuyenBays.map((chuyenBay) => (
-              <div className="card my-2 hover-ds">
+              <div data-aos="fade-up" className="card my-2 hover-ds">
                 <div className="card-body card-bo">
                   <div className="row ">
                     {/* Thông tin chuyến bay */}
@@ -370,7 +419,7 @@ function DanhSachTimKiemChuyenBay() {
           {!hidden1 &&
             chuyenBayKhuHois.length > 0 &&
             chuyenBayKhuHois.map((chuyenBayKhuHoi) => (
-              <div className="card my-2 hover-ds">
+              <div data-aos="fade-up" className="card my-2 hover-ds">
                 <div className="card-body card-bo">
                   {/* Thông tin chuyến bay */}
                   <div className="row ">

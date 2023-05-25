@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -212,7 +213,6 @@ const DatCho = () => {
   return (
     <div className="container mt-3">
       {/* DucNH66 Ghế chuyến bay đi */}
-
       {hiddens && (
         <div className="row">
           <h1>
@@ -256,13 +256,14 @@ const DatCho = () => {
                       onClick={() => handleSeatClick(seat)}
                     ></i>
                     <div>
-                      {/* <sub>{seat.ghe.tenGhe}</sub> */}
-                      <sub>{seat.maDatCho}</sub>
+                      <sub>{seat.ghe.tenGhe}</sub>
                     </div>
                   </div>
                 ))}
             </div>
           </div>
+
+          {/* Ghi chú chuyến bay 1 chiều */}
           <div className="col-4">
             <div data-aos="fade-up" className="datcholeft">
               <div className="ghichu1">
@@ -294,6 +295,7 @@ const DatCho = () => {
                   <span className="span"> *{selectedSeats.length}</span>
                 </h4>
               </div>
+
               <div className="ghichu5 ">
                 {setSeatList1Chieu && seatListKhuHoi.length === 0 && (
                   <button className="btn  btn-success" onClick={handleClick}>
@@ -314,6 +316,7 @@ const DatCho = () => {
           </div>
         </div>
       )}
+
       {/* DucNH66 Ghế chuyến bay khứ hồi */}
       {hiddensKhuHoi && (
         <div className="row">
@@ -322,9 +325,15 @@ const DatCho = () => {
             {tiketTypeKhuHoi}
           </h1>
           <hr />
-          <div className="col-3"></div>
-          <div className="col-6 maybay  ">
+          <div data-aos="fade-up" className="col-4">
+            <img src={plane1}></img>
+          </div>
+          <div data-aos="fade-up" className="col-4 maybay  ">
             <div className="row p-3 ">
+              <div className="col-3 khoan d-flex justify-content-center">A</div>
+              <div className="col-3 khoan d-flex justify-content-center">B</div>
+              <div className="col-3 khoan d-flex justify-content-center">C</div>
+              <div className="col-3 khoan d-flex justify-content-center">D</div>
               {seatListKhuHoi &&
                 seatListKhuHoi.map((seat) => (
                   <div
@@ -340,10 +349,7 @@ const DatCho = () => {
                         } ${
                           seat.trangThai === "selected" ? "selected-seat" : ""
                         }
-
-
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
-
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""
@@ -351,15 +357,15 @@ const DatCho = () => {
                       onClick={() => handleSeatClickKhuHoi(seat)}
                     ></i>
                     <div>
-                      {/* <sub>{seat.ghe.tenGhe}</sub> */}
-                      <sub>{seat.maDatCho}</sub>
+                      <sub>{seat.ghe.tenGhe}</sub>
                     </div>
                   </div>
                 ))}
             </div>
           </div>
-          <div className="col-3">
-            <div className="datcholeft">
+          {/* Ghi chú chuyến bay khứ hồi */}
+          <div className="col-4">
+            <div data-aos="fade-up" className="datcholeft">
               <div className="ghichu1">
                 <i class="fa-solid fa-couch"></i>{" "}
                 <h4>
@@ -401,6 +407,7 @@ const DatCho = () => {
                   Thanh Toán
                 </button>{" "}
               </div>
+              <img src={plane}></img>
             </div>
           </div>
         </div>
