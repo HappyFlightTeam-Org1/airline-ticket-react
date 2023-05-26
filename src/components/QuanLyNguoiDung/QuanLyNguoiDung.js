@@ -25,6 +25,7 @@ export default function QuanLyNguoiDung() {
       .then((response) => {
         const data = response.data;
         setTotalPage(data.totalPages);
+        console.log(totalPage);
         setPageNumbers(Array.from(Array(data.totalPages).keys()));
         setDataNguoiDung(data.content);
         console.log(dataNguoiDung);
