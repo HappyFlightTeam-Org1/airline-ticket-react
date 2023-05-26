@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 import './GuiEmail.css';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function GuiEmail() {
+    const navigate = useNavigate();
     const [emailInput, setEmailInput] = useState({
         inputValue: '',
         errorMessage: '',
@@ -17,7 +20,8 @@ export default function GuiEmail() {
             axios
                 .post('http://localhost:8080/nguoi-dung/email-dat-lai-mat-khau', formData)
                 .then(response => {
-
+                    navigate('/');
+                    toast.success('Email reset mật khẩu đã được gửi đến hòm thư của bạn');
                 })
                 .catch(err => {
                     if (err.response.status === 400) {
@@ -26,6 +30,9 @@ export default function GuiEmail() {
                             errorMessage: 'Email không tồn tại',
                         });
                     }
+                    else {
+                        toast.error('Có lỗi đã xảy ra');
+                      }
                 });
         }
     }

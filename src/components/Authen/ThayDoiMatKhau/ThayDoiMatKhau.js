@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import './ThayDoiMatKhau.css';
+import { toast } from 'react-toastify';
 
 export default function ThayDoiMatKhau() {
     const [matKhauHienTaiInput, setMatkhauHienTaiInput] = useState({
@@ -29,7 +30,7 @@ export default function ThayDoiMatKhau() {
                     withCredentials: true
                 })
                 .then(response => {
-
+                    toast.success('Thay đổi mật khẩu thành công');
                 })
                 .catch(err => {
                     if (err.response.status === 400) {
@@ -37,6 +38,9 @@ export default function ThayDoiMatKhau() {
                             ...matKhauHienTaiInput,
                             errorMessage: 'Mật khẩu hiện tại không trùng khớp',
                         });
+                    }
+                    else {
+                        toast.error('Có lỗi đã xảy ra');
                     }
                 });
         }

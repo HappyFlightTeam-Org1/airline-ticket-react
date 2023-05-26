@@ -139,6 +139,10 @@ function BarChart() {
 
   const searchChuyenBay = async () => {
     try {
+      if (new Date(lastDay) < new Date(firstDay)) {
+        alert("Ngày cuối phải sau ngày đầu");
+        return;
+      }
       const response = await axios.get(`http://localhost:8080/dashboard/listchuyenbay?firstDay=${firstDay}&lastDay=${lastDay}`);
       const data = await response.data;
       setChuyenBays(data);
@@ -174,7 +178,6 @@ function BarChart() {
   const phanTramTien = tongTienThang/100000*100;
   // Tổng số vé máy bay
   const sumVeMayBay = dataVeMayBay.reduce((total, item) => total + item.so_luong_ve, 0);
-  console.log(sumVeMayBay);
   const soVeThang = dataVeMayBay.find(data => data.thang === currentMonth)?.so_luong_ve;
   return (
 
@@ -248,7 +251,7 @@ function BarChart() {
     <div className='chart'>
     <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage2}>Download Line</button>
-        <Line data={getChuyenBayThongKe()} ref={lineRef} style={{ display: "inline" }}></Line>
+        <Line data={getChuyenBayThongKe()} ref={lineRef} style={{ display: "inline"}}></Line>
         <h6>Biểu Đồ 1.A: Thể Hiện Số Lượng Chuyến Bay Mỗi Tháng</h6>
       </div>
       <div  data-aos="fade-up" className='bar'>
