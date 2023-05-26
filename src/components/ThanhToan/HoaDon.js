@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./HoaDon.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 function HoaDon() {
 
   //LẤY DỮ LIỆU TỪ COMPONENT TRƯỚC ĐÓ CHUYỂN SANG
@@ -124,22 +125,29 @@ function HoaDon() {
         "http://localhost:8080/VeMayBay/prePayment",
         veMayBayDTO
       ).then((respone) => {
-        const hoaDonDTO = {
-          maHoaDon: respone.data.maHoaDon,
-          ngayTao: respone.data.ngayTao,
-          tongTien: respone.data.tongTien,
-          trangThaiThanhToan: respone.data.trangThaiThanhToan,
-          trangThaiXoa: respone.data.trangThaiXoa
+        if (respone.data.maHoaDon) {
+          const hoaDonDTO = {
+            maHoaDon: respone.data.maHoaDon,
+            ngayTao: respone.data.ngayTao,
+            tongTien: respone.data.tongTien,
+            trangThaiThanhToan: respone.data.trangThaiThanhToan,
+            trangThaiXoa: respone.data.trangThaiXoa
+          }
+          axios.post(
+            "http://localhost:8080/thanh-toan/vnpay/make-order",
+            hoaDonDTO)
+            .then((urlPayment) => {
+              window.location.href = urlPayment.data;
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } else {
+          toast.error(respone.data)
         }
-        axios.post(
-          "http://localhost:8080/thanh-toan/vnpay/make-order",
-          hoaDonDTO)
-          .then((urlPayment) => {
-            window.location.href = urlPayment.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
+
+
+
       })
 
 

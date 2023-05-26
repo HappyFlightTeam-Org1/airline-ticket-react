@@ -18,6 +18,7 @@ function ThanhToanThanhCong() {
         axios
             .post(apiURLUpdate)
             .then((response) => {
+                console.log("response.data", response.data);
                 toast.success(response.data);
                 axios
                     .get(apiURLQuery)
