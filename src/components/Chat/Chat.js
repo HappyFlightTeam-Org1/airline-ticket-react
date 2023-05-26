@@ -7,16 +7,9 @@ import axios from "axios";
 
 var stompClient = null;
 const ChatBox = ({ isOpen, onClose, children, user }) => {
-  const [IsNewMessage, setIsnewMessage] = useState(false);
-  const [userData2, setUserData2] = useState({
-    sender: user,
-    reciptient: "",
-    content: "",
-    time: "",
-  });
-  const [listUserSendNew, setListUserSendNew] = useState([]);
+  
+ 
   const [listUserNew, setListUserNew] = useState([]);
-  const [listMessageN, setListMessageN] = useState([]);
   const chatMessagesRef = useRef(null);
   const [listUser, setListUser] = useState([]);
   const [listAllUser, setListALLUser] = useState([]);
@@ -54,7 +47,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   };
   const handleComponentOpen = () => {
     setComponentOpened(true);
-    setIsnewMessage(false);
+    
   };
   const handleComponentClose = () => {
     setComponentOpened(false);
@@ -65,67 +58,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     stompClient = over(Sock);
     stompClient.connect({}, onConnected);
   };
-  // const handleListMessage = () => {
-  //   console.log("loi64");
-  //   if (listMessageN !== null) {
-  //     console.log("loi66");
-  //     if (user === "admin") {
-  //       console.log("loi68");
-  //       console.log("reciptientnamecurrent", reciptientnamecurrent);
-  //       if (reciptientnamecurrent !== "") {
-  //         console.log("loi70");
-  //         if (listMessageN !== null && listMessageN.length > 0) {
-  //           console.log("loi72");
-  //           const lastMessage = listMessageN[listMessageN.length - 1];
-  //           console.log("loi74, day la lastmeassage ben admin", lastMessage);
-  //           if (lastMessage.sender !== undefined) {
-  //             console.log("loi76");
-  //             if (lastMessage && reciptientnamecurrent === lastMessage.sender) {
-  //               console.log("loi78");
-  //               setListMessage((listMessage) => [...listMessage, lastMessage]);
-  //               console.log("loi80, day la listmessage ben admin", listMessage);
-  //               // Truy cập thuộc tính "sender" của lastMessage ở đây
-  //             }
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       console.log("loi86");
-  //       if (user !== "") {
-  //         console.log("loi88");
-  //         console.log("listMessageN", listMessageN);
-  //         if (listMessageN !== null && listMessageN.length > 0) {
-  //           console.log("loi90");
-  //           const lastMessage = listMessageN[listMessageN.length - 1];
-  //           console.log("92 day la lastmessage ben user", lastMessage);
-  //           setListMessage((listMessage) => [...listMessage, lastMessage]);
-  //           console.log("loi94, day la listmessage ben user", listMessage);
-  //           // Truy cập thuộc tính "sender" của lastMessage ở đây
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
-  //  else {
-  //   const lastMessage = listMessageN[listMessageN.length - 1];
-
-  //   setListMessage((listMessage) => [...listMessage, lastMessage]);
-  //    Truy cập thuộc tính "sender" của lastMessage ở đây
-  // }
-
-  // useEffect(()=>{
-  //   if (listMessageN[0] !== null) {
-  //     if (user === "admin") {
-  //       if (reciptientnamecurrent !== "") {
-  //         if (reciptientnamecurrent === listMessageN[listMessageN.length - 1].sender) {
-  //     setListMessage((listMessage) => [...listMessage, listMessageN[listMessageN.length - 1]]);
-  //   }
-  //       }
-  //     } else {
-  //       setListMessage((listMessage) => [...listMessage, listMessageN[0]]);
-  //     }
-  //   }
-  // },[]);
 
   const onConnected = () => {
     stompClient.subscribe("/user/" + user + "/queue/messages", (message) => {
@@ -134,25 +66,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         ...listMessage,
         JSON.parse(message.body),
       ]);
-      // handleListMessage();
-      // setUserData2(JSON.parse(message.body));
-      // if(reciptientnamecurrent!==""&&reciptientnamecurrent===userData2.sender){
-      //   setListMessage((listMessage) => [
-      //     ...listMessage,
-      //     JSON.parse(message.body),
-      //   ]);
-      // }
-      //}
-      //  (JSON.parse(message.body.sender)) !== "admin"
-      //     ? setListUserSendNew(JSON.parse(message.body.sender))
-      //     : setIsnewMessage(true);
-      // axios
-      //     .get(`http://localhost:8080/chat-box/user`)
-      //     .then((response) => {
-      //       const data = response.data;
-      //       setListUser(data);
-      //     })
-      //     .catch((error) => console.error);
 
       console.log(listMessage, "Day la list message sau khi nhan dc message");
     });
@@ -202,9 +115,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     }
     handleClick(name);
     handleButtonClick();
-    setListUserSendNew((prevList) =>
-      prevList.filter((item) => item.content !== name)
-    );
+    
     setReciptientNamecurrent(name);
 
     axios
@@ -286,12 +197,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     }
   }, [listMessage]);
 
-  // useEffect(() => {
-  //   const adminIndex = listUser.indexOf(reciptientnamecurrent);
-  //   const newListUser = listUser.slice(0, adminIndex);
-  //   //const mergedListUser = listUserSendNew.concat(newListUser);
-  //   setListUserSendNew((listUserSendNew) => [...listUserSendNew, newListUser]);
-  // }, [listUser]);
 
   useEffect(() => {
     if (componentOpened && chatMessagesRef.current) {
@@ -306,16 +211,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
       };
       requestAnimationFrame(callback);
     }
-
-    //  const latestMessage = listMessage.slice(-1)[0];
-    //  if (latestMessage && latestMessage.sender && latestMessage.sender !== "admin") {
-    //   setListUserSendNew((listUserSendNew) => [
-    //     ...listUserSendNew,
-    //     latestMessage.sender
-    //   ]);
-    // } else if (latestMessage && latestMessage.sender && latestMessage.sender === "admin") {
-    //   setIsnewMessage(true);
-    // }
   }, [componentOpened, listMessage]);
 
   useEffect(() => {
@@ -341,7 +236,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         .then((response) => {
           const data = response.data;
           setListMessage(data);
-          setListMessageN(data);
           setReciptientName("admin");
         })
         .catch((error) => console.error);
