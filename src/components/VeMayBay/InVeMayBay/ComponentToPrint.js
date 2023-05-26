@@ -63,8 +63,8 @@ export default function ComponentToPrint() {
 
     return (
         <div className='container'>
-            <div className='d-flex justify-content-end mt-3' style={{ width: '90%' }}>
-                <button className='btn btn-primary' onClick={handlePrint}>IN VÉ</button>
+            <div className='d-flex justify-content-end mt-3'>
+                <button className='btn bg' onClick={handlePrint}>IN VÉ</button>
             </div>
             <div ref={componentRef} className='d-flex justify-content-center mt-3' style={{ width: '100%' }}>
                 <div className='height container-ticket-to-print' style={divStyle}>
