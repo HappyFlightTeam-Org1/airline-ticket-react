@@ -174,7 +174,7 @@ function HoaDon() {
   };
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className="container d-flex justify-content-center mb-3">
       <div className="order order-container mt-3">
         <div className="order-sidebar">
           <img
@@ -339,7 +339,7 @@ function HoaDon() {
           </div>
           <hr></hr>
           <h5>HÀNH KHÁCH</h5>
-          <table className="table table-striped">
+          <table className="table table-striped text-nowrap">
             <tbody>
               {adultsInfo.map((item, index) => (
                 <tr key={index}>
