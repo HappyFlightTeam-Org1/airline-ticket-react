@@ -46,7 +46,7 @@ export default function Register() {
         errorMessage: '',
     });
     const [quocTichInput, setQuocTichInput] = useState({
-        inputValue: 0,
+        inputValue: '0',
         errorMessage: '',
     });
     const [matKhauInput, setMatKhauInput] = useState({
@@ -233,7 +233,7 @@ export default function Register() {
     }
 
     function validateQuocTich(quocTich) {
-        return quocTich !== 0;
+        return quocTich !== '0';
     }
 
     function validateMatKhau(matKhau) {

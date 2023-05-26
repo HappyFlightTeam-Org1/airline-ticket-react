@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './ThanhToanThanhCong.css'
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 function ThanhToanThanhCong() {
     const location = useLocation();
@@ -11,30 +12,29 @@ function ThanhToanThanhCong() {
     const apiURLUpdate = "http://localhost:8080/hoa-don/update/" + orderCode;
     const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
 
+
+
     useEffect(() => {
         axios
             .post(apiURLUpdate)
             .then((response) => {
-                console.log("THANH CONG!! HAY KHONG");
-                console.log(response.data);
+                console.log("response.data", response.data);
+                toast.success(response.data);
                 axios
                     .get(apiURLQuery)
                     .then((response) => {
                         setTickets(response.data);
-                        console.log("VE MAY BAY");
-                        console.log(response.data);
                     })
                     .catch((err) => console.error);
             })
             .catch((err) => console.error);
-        console.log("orderCode1", orderCode);
+    }, []);
 
-    }, [null]);
     return (
-        <div className='container bg-body table-shadow mt-3'>
+        <div className='container ticket-container bg-body table-shadow'>
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
-                    <h1>VÉ VỪA ĐẶT</h1>
+                    <h2>VÉ VỪA ĐẶT</h2>
                 </div>
             </div>
 
@@ -64,18 +64,25 @@ function ThanhToanThanhCong() {
                                 <td>{item.datCho.chuyenBay.diemDi}</td>
                                 <td>{item.datCho.chuyenBay.diemDen}</td>
                                 <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                <td>{item.giaVe}</td>
-                                {/* <td>{item.hoaDon.trangThaiThanhToan == 0 ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'}</td> */}
-                                <td>
-                                    <button className="btn btn-primary" type="submit">In</button>
+                                <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
 
+                                <td>
+                                    <Link
+                                        as={Link}
+                                        to={`/InVe?maVe=${item.maVe.toString()}`}
+                                        className="text-white"
+                                    >
+                                        <button className="btn bg" type="submit">
+
+                                            In</button>
+                                    </Link>
                                 </td>
                             </tr>
                         )
                     })}
                 </tbody>
             </table>
-            <div className="justify-content-center pagination">
+            {/* <div className="justify-content-center pagination">
                 <nav aria-label="...">
                     <ul className="pagination">
                         <li className="page-item disabled">
@@ -91,7 +98,7 @@ function ThanhToanThanhCong() {
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> */}
         </div>
     );
 }
