@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import "./Footer.css";
-import video1 from "../../../Assets/video1.mp4";
 import Aos from "aos";
 import "aos/dist/aos.css";
 

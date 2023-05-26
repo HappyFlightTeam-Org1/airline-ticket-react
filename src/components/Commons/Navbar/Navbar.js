@@ -100,7 +100,7 @@ export default function Navbar({ handleTogger, on }) {
 
                   <Link
                     as={Link}
-                    to="NguoiDung"
+                    to="QuanLyNguoiDung"
                     className="text-white nav-link active"
                   >
                     Người dùng
@@ -111,10 +111,10 @@ export default function Navbar({ handleTogger, on }) {
 
                   <Link
                     as={Link}
-                    to="/InVe"
+                    to="BarChart"
                     className="text-white nav-link active"
                   >
-                    Liên hệ
+                    Thống Kê
                   </Link>
 
                 </li>
