@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import "./Register.css";
 import plane from "../../../Assets/planeDC.png";
 import logo from "../../../Assets/logo.png";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 export default function Register() {
     const [quocTichList, setQuocTichList] = useState([]);
     useEffect(() => {
@@ -76,7 +78,8 @@ export default function Register() {
             axios
                 .post('http://localhost:8080/nguoi-dung/dang-ky', formData)
                 .then(response => {
-                    navigate('/');
+                    toast.success(`Đăng ký thành công! Giờ bạn có thể đăng nhập bằng tên tài khoản ${tenTaiKhoanInput.inputValue}`);
+                    navigate('/Login');
                 })
                 .catch(err => {
                     if (err.response.status === 400) {
@@ -85,6 +88,9 @@ export default function Register() {
                             errorMessage: 'Email đã tồn tại'
                         });
                     }
+                    else {
+                        toast.error('Có lỗi đã xảy ra');
+                      }
                 });
         }
     }
@@ -258,7 +264,7 @@ export default function Register() {
                       </div>
                         <h3>Welcome</h3>
                         <p><img src={logo} alt=""/></p>
-                        <input type="submit" name="" value="Đăng Nhập"/><br/>
+                        <Link to="/Login" className='btn btn-light'>Đăng nhập</Link><br/>
                     </div>
                     <div className="col-md-9 register-right">
                         <div className="tab-content" id="myTabContent">

@@ -2,6 +2,8 @@ import plane from "../../../Assets/planeDC.png";
 import logo from "../../../Assets/logo.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 export default function SuaThongTinCaNhan() {
     const [quocTichList, setQuocTichList] = useState([]);
     useEffect(() => {
@@ -101,7 +103,7 @@ export default function SuaThongTinCaNhan() {
                     withCredentials: true,
                 })
                 .then(response => {
-
+                    toast.success('Lưu thay đổi thông tin người dùng thành công');
                 })
                 .catch(err => {
                     if (err.response.status === 400) {
@@ -109,6 +111,9 @@ export default function SuaThongTinCaNhan() {
                             ...emailInput,
                             errorMessage: 'Email đã tồn tại',
                         });
+                    }
+                    else {
+                        toast.error('Có lỗi đã xảy ra');
                     }
                 });
         }
