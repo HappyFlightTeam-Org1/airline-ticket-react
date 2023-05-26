@@ -11,12 +11,21 @@ import * as Yup from "yup";
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 const checkFormSearch = Yup.object().shape({
-  // diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
-  // diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
-  // ngayDi: Yup.date()
-  //   .nullable()
-  //   .required("Vui lòng chọn ngày đi")
-  //   .min(yesterday, "Ngày đi phải lớn hơn hoặc bằng ngày hiện tại"),
+  diemDi: Yup.string().required(" Bắt buộc nhập!"),
+  diemDen: Yup.string()
+    .required(" Bắt buộc nhập!")
+    .test(
+      "differentFromDiemDi",
+      " Điểm đến phải khác điểm đi!",
+      function (value) {
+        const { diemDi } = this.parent; // Lấy giá trị của trường "diemDi"
+        return value !== diemDi;
+      }
+    ),
+  ngayDi: Yup.date()
+    .nullable()
+    .required(" Bắt buộc nhập!")
+    .min(yesterday, " Phải lớn hơn hoặc bằng ngày hiện tại!"),
 });
 
 export default function Home({ on }) {
@@ -163,7 +172,12 @@ export default function Home({ on }) {
               </div>
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
-                  Điểm Đi
+                  Điểm Đi{" "}
+                  {errors.diemDi && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.diemDi}
+                    </span>
+                  )}
                 </label>
                 <select
                   name="diemDi"
@@ -179,13 +193,15 @@ export default function Home({ on }) {
                     </option>
                   ))}
                 </select>
-                {errors.diemDi && (
-                  <p style={{ color: "red" }}>{errors.diemDi}</p>
-                )}
               </div>
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
-                  Điểm Đến
+                  Điểm Đến{" "}
+                  {errors.diemDen && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.diemDen}
+                    </span>
+                  )}
                 </label>
                 <select
                   name="diemDen"
@@ -201,11 +217,15 @@ export default function Home({ on }) {
                     </option>
                   ))}
                 </select>
-                {errors.diemDen && <p>{errors.diemDen}</p>}
               </div>
               <div className="dateInput">
                 <label className="label" htmlFor="city">
-                  Ngày Đi
+                  Ngày Đi{" "}
+                  {errors.ngayDi && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.ngayDi}
+                    </span>
+                  )}
                 </label>
                 <div className="input flex">
                   <input
@@ -216,7 +236,6 @@ export default function Home({ on }) {
                     onChange={handleChangeInput}
                   ></input>
                 </div>
-                {errors.ngayDi && <p>{errors.ngayDi}</p>}
               </div>
               <div className="dateInput">
                 <label id="label-NgayVe" className="label" htmlFor="city">
@@ -304,7 +323,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Dịch Vụ Trên Không</h4>
               <span className="continent flex">
-              <i class="fa-solid fa-plane-up"></i>
+                <i class="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -328,12 +347,14 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hạng Thương Gia</h4>
               <span className="continent flex">
-              <i class="fa-solid fa-plane-up"></i>
+                <i class="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                Trải nghiệm dịch vụ và công nghệ tân tiến khi bay hạng Thương Gia cùng Vietnam Airlines. Giờ đây hành khách có thể tận hưởng một chuyến bay đầy cảm hứng trên mọi khía cạnh.
+                  Trải nghiệm dịch vụ và công nghệ tân tiến khi bay hạng Thương
+                  Gia cùng Vietnam Airlines. Giờ đây hành khách có thể tận hưởng
+                  một chuyến bay đầy cảm hứng trên mọi khía cạnh.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -350,12 +371,15 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hạng Phổ Thông Đặt Biệt</h4>
               <span className="continent flex">
-              <i class="fa-solid fa-plane-up"></i>
+                <i class="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                Lý tưởng cho những ai mong muốn có sự linh hoạt và tiện lợi tối đa, hạng Phổ thông đặc biệt sẽ mang lại cho hành khách nhiều tiện nghi và các điều kiện đặc biệt để giúp hành trình trở nên thật thoải mái.
+                  Lý tưởng cho những ai mong muốn có sự linh hoạt và tiện lợi
+                  tối đa, hạng Phổ thông đặc biệt sẽ mang lại cho hành khách
+                  nhiều tiện nghi và các điều kiện đặc biệt để giúp hành trình
+                  trở nên thật thoải mái.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -408,7 +432,9 @@ export default function Home({ on }) {
               </span>
               <div className="desc">
                 <p>
-                Đội ngũ chăm sóc khách hàng của chúng tôi sẽ luôn sẵn sàng giải đáp mọi thắc mắc và hỗ trợ khách hàng trong quá trình sử dụng dịch vụ của chúng tôi.
+                  Đội ngũ chăm sóc khách hàng của chúng tôi sẽ luôn sẵn sàng
+                  giải đáp mọi thắc mắc và hỗ trợ khách hàng trong quá trình sử
+                  dụng dịch vụ của chúng tôi.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -430,7 +456,9 @@ export default function Home({ on }) {
               </span>
               <div className="desc">
                 <p>
-                Chúng tôi cung cấp dịch vụ đổi vé và hoàn tiền linh hoạt để đảm bảo khách hàng sẽ không gặp phải rủi ro khi thay đổi kế hoạch của mình.
+                  Chúng tôi cung cấp dịch vụ đổi vé và hoàn tiền linh hoạt để
+                  đảm bảo khách hàng sẽ không gặp phải rủi ro khi thay đổi kế
+                  hoạch của mình.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -454,12 +482,13 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hà Nội - Hồ Chí Minh</h4>
               <span className="continent flex">
-              <i class="fa-solid fa-plane"></i>
+                <i class="fa-solid fa-plane"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                Chuyến bay từ Hà Nội đến Hồ Chí Minh với giá vé hấp dẫn và thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
+                  Chuyến bay từ Hà Nội đến Hồ Chí Minh với giá vé hấp dẫn và
+                  thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -476,12 +505,13 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hà Nội - Đà Nẵng</h4>
               <span className="continent flex">
-              <i class="fa-solid fa-plane"></i>
+                <i class="fa-solid fa-plane"></i>
                 <span className="name">B52-Y1576</span>
               </span>
               <div className="desc">
                 <p>
-                Chuyến bay từ Hà Nội đến Đà Nẵng với giá vé hấp dẫn và thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
+                  Chuyến bay từ Hà Nội đến Đà Nẵng với giá vé hấp dẫn và thời
+                  gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -498,12 +528,13 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hồ Chí Minh - Đà Nẵng</h4>
               <span className="continent flex">
-              <i class="fa-solid fa-plane"></i>
+                <i class="fa-solid fa-plane"></i>
                 <span className="name">B51-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                Chuyến bay từ Hồ Chí Minh đến Đà Nẵng với giá vé hấp dẫn và thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
+                  Chuyến bay từ Hồ Chí Minh đến Đà Nẵng với giá vé hấp dẫn và
+                  thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>

@@ -241,19 +241,18 @@ const DatCho = () => {
                           ? "thuong-gia"
                           : "pho-thong"
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-                        } ${
-                          seat.trangThai === "selected" ? "selected-seat" : ""
-                        }
-
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""
                       }
-                      onClick={() => handleSeatClick(seat)}
+                      disabled={seat.trangThai === "selected"}
+                      onClick={
+                        seat.trangThai !== "selected"
+                          ? () => handleSeatClick(seat)
+                          : null
+                      }
                     ></i>
                     <div>
                       <sub>{seat.ghe.maGhe}</sub>
@@ -346,19 +345,20 @@ const DatCho = () => {
                           ? "thuong-gia"
                           : "pho-thong"
                       } ${seat.trangThai === "selected" ? "selected-seat" : ""}
-                        } ${
-                          seat.trangThai === "selected" ? "selected-seat" : ""
-                        }
+                        } 
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
                   `}
                       title={
                         seat.trangThai === "selected" ? "Ghế đã được đặt" : ""
                       }
-                      onClick={() => handleSeatClickKhuHoi(seat)}
+                      onClick={
+                        seat.trangThai !== "selected"
+                          ? () => handleSeatClickKhuHoi(seat)
+                          : null
+                      }
                     ></i>
                     <div>
-                      <sub>{seat.ghe.maGhe}</sub>
-                      {/* <sub>{seat.ghe.tenGhe}</sub> */}
+                      <sub>{seat.ghe.tenGhe}</sub>
                     </div>
                   </div>
                 ))}

@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import * as Yup from "yup";
+
 const hanhKhachSchema = Yup.object().shape({
-  tenHanhKhach: Yup.string().required("Vui lòng nhập tên hành khách"),
+  tenHanhKhach: Yup.string()
+    .required("Vui lòng nhập tên hành khách")
+    .matches(/^[A-Za-z\s]+$/, "Tên hành khách chỉ được nhập chữ cái không dấu"),
   ngaySinh: Yup.string().required("Vui lòng nhập trường này"),
   gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
 });
