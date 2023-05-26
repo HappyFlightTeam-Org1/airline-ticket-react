@@ -5,3 +5,20 @@
 h5 {
   margin-top: 6px;
 }
+.export {
+   padding: 10px;
+   position: absolute;
+   right: 0;
+}
+.export button{
+    height: 100%;
+}
+.export i {
+  font-size: 1rem;
+}
+.bg {
+  background: var(--gradientColor);
+            &:hover{
+              background: var(--gradientColor1);
+            }
+}

@@ -1,5 +1,5 @@
 .state-overview{
-     margin-top: 50px;
+    padding-top: 50px;
      color: white;
       .info-box{
            width: 100%;
@@ -44,6 +44,7 @@
 }
 .chart h6 {
    margin-top: 20px;
+   color: white;
 }
 .bay{
    position: absolute;
@@ -103,3 +104,11 @@
     font-size: .8rem;
     margin: none;
 }
+.barchart {
+   background: url("../../Assets/12990.jpg") center;
+   background-size: cover;
+}
+/* .barchart {
+   background: url("https://img.freepik.com/premium-photo/using-generative-ai-airplane-flies-city-dusk_28914-15034.jpg?w=2000") center;
+   background-size: cover;
+} */

@@ -16,14 +16,31 @@ import BarChart from "./components/DashBoard/BarChart.js";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
+import Login from "./components/Authen/DangNhap/Login";
+import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhToanThanhCong";
+import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
+
+import DangKy from "./components/Authen/DangKy/Register.js";
+
+import React, { useState } from "react";
+import GuiEmail from "./components/Authen/QuenMatKhau/GuiEmail.js";
+import ThietLapMatKhauMoi from "./components/Authen/QuenMatKhau/ThietLapMatKhauMoi";
+import SuaThongTinCaNhan from "./components/Authen/SuaThongTinCaNhan/SuaThongTinCaNhan";
+import ThayDoiMatKhau from "./components/Authen/ThayDoiMatKhau/ThayDoiMatKhau.js";
 
 function Controller() {
+  const [on, setOn] = useState(false);
+
+  const handleTogger = () => {
+    setOn(!on);
+    console.log(on);
+  };
   return (
     <div className="Controller">
       <BrowserRouter>
-        <Navbar />
+        <Navbar handleTogger={handleTogger} on={on} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home on={on} />} />
           {/* Thêm mới chuyến bay */}
           <Route>
             <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
@@ -44,12 +61,7 @@ function Controller() {
             />
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
-          </Route>
-          {/* Quản lý người dùng và thống kê */}
-          <Route>
-            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
-
-            <Route path="BarChart" element={<BarChart />} />
+            <Route path="InVe" element={<InVeMayBay />} />
           </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>
@@ -58,14 +70,21 @@ function Controller() {
           {/* Quản lý người dùng và thống kê */}
           <Route>
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+            <Route path="Login" element={<Login />} />
+            <Route path="DangKy" element={<DangKy />} />
             <Route path="BarChart" element={<BarChart />} />
+            <Route path="GuiEmail" element={<GuiEmail />} />
+            <Route path="ThietLapMatKhauMoi" element={<ThietLapMatKhauMoi />} />
+            <Route path="SuaThongTinCaNhan" element={<SuaThongTinCaNhan />} />
+            <Route path="ThayDoiMatKhau" element={<ThayDoiMatKhau />} />
           </Route>
           {/* Hóa Đơn */}
           <Route>
             <Route path="ThanhToan" element={<HoaDon />} />
+            <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
           </Route>
         </Routes>
-        <Footer />
+        <Footer on={on} />
       </BrowserRouter>
     </div>
   );

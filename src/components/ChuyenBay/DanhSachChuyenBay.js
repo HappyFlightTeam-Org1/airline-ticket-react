@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -13,10 +16,9 @@ function DanhSachChuyenBay() {
   const [diemDi, setDiemDi] = useState();
   const [diemDen, setDiemDen] = useState();
   const [ngayKhoiHanh, setNgayDi] = useState();
-  // const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState();
 
-  // Lấy danh sách sân bay  DucNH66
+  //DucNH66 Lấy danh sách sân bay  DucNH66
   useEffect(() => {
     axios
       .get("http://localhost:8080/chuyen-bay/listSelectOption")
@@ -27,10 +29,12 @@ function DanhSachChuyenBay() {
       .catch((err) => console.error);
   }, []);
 
+  //DucNH66 load lại danh sách chuyến bay khi có thay đổi
   useEffect(() => {
     fetchChuyenBays();
   }, [page, size, diemDi, diemDen, ngayKhoiHanh]);
 
+  //DucNH66 Lấy danh sách chuyến bay
   const fetchChuyenBays = async () => {
     try {
       const response = await axios.get(
@@ -46,7 +50,6 @@ function DanhSachChuyenBay() {
         }
       );
       setTotalPages(response.data.totalPages);
-      // setTotalElements(response.data.totalElements);
       if (diemDi || diemDen || ngayKhoiHanh) {
         setIsSearching(true);
         setSearchResult(response.data.content);
@@ -59,10 +62,12 @@ function DanhSachChuyenBay() {
     }
   };
 
+  //Ducnh66 nhập thông tin tìm kiếm
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  //Ducnh66 gởi thông tin search/ nếu không nhập gì lấy tìm tất cả
   const handleSearch = (event) => {
     event.preventDefault();
     setPage(0);
@@ -71,24 +76,32 @@ function DanhSachChuyenBay() {
     setNgayDi(formData.ngayKhoiHanh);
     if (!diemDi && !diemDen && !ngayKhoiHanh) {
       setIsSearching(false);
-      setListCB([]);
       fetchChuyenBays();
     }
   };
 
+  //Ducnh66 chọn trang muốn hiển thị
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
+  console.log(totalPages);
+  console.log(page);
+
+  //Ducnh66 tính toán trang được hiển thị trên màn hình
   const calculatePageNumbers = () => {
-    const totalVisiblePages = 4;
-    const startPage = Math.max(0, page - Math.floor(totalVisiblePages / 2));
-    const endPage = Math.min(totalPages - 1, startPage + totalVisiblePages - 1);
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
+    const soTrangToiDa = 3;
+    const trangDau = Math.max(0, page - Math.floor(soTrangToiDa / 2));
+    const trangCuoi = Math.min(totalPages - 1, trangDau + soTrangToiDa - 1);
+    const pageNumbers = [];
+    for (let i = trangDau; i <= trangCuoi; i++) {
+      pageNumbers.push(i);
+    }
+    console.log(pageNumbers);
+    return pageNumbers;
   };
+
+  //Ducnh66 hiển thị giao diện số trang
   const renderPageNumbers = () => {
     const pageNumbers = calculatePageNumbers();
     return pageNumbers.map((pageNumber) => (
@@ -101,6 +114,7 @@ function DanhSachChuyenBay() {
           href="#"
           onClick={() => handlePageChange(pageNumber)}
         >
+          {console.log(pageNumber + 1)}
           {pageNumber + 1}
         </a>
       </li>
@@ -108,15 +122,15 @@ function DanhSachChuyenBay() {
   };
 
   return (
-    <div className="container chuyenbay">
-      <h1>DANH SÁCH CHUYẾN BAY</h1>
+    <div className="container chuyenbay ">
+      <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
       <hr />
       {/* Form tìm kiếm  DucNH66*/}
       <form class="row justify-content-center search" onSubmit={handleSearch}>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <h5>Tìm Kiếm Theo</h5>
         </div>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <select
             name="diemDi"
             id="diemDi"
@@ -132,7 +146,7 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <select
             name="diemDen"
             id="diemDen"
@@ -148,7 +162,7 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div class="form-group col -md-2">
+        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
           <input
             id="ngayKhoiHanh"
             type="date"
@@ -160,15 +174,17 @@ function DanhSachChuyenBay() {
           />
         </div>
         <div class="form-group col">
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success bg">
             Tìm Kiếm
           </button>
         </div>
       </form>
+      {/* Nút thêm mới */}
       <Link as={Link} to="/ThemChuyenBay" className="text-white">
-        <button className="btn btn-success">Thêm mới</button>
+        <button className="btn btn-success bg">Thêm mới</button>
       </Link>
-      <table className="table table-hover table-shadow">
+      {/* Table dánh sách */}
+      <table className="table table-striped shadow">
         <thead className="thead-dark">
           <tr>
             <th scope="col">Stt</th>
@@ -181,7 +197,7 @@ function DanhSachChuyenBay() {
             <th scope="col">Tên hãng bay</th>
             <th scope="col">Giá vé</th>
             <th scope="col">Trạng thái</th>
-            <th scope="col">Sửa</th>
+            <th scope="col">Chi tiết</th>
           </tr>
         </thead>
         <tbody>
@@ -206,7 +222,7 @@ function DanhSachChuyenBay() {
                       to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
                       className="text-white"
                     >
-                      <button className="btn btn-success ">Sửa</button>
+                      <button className="btn btn-success bg">Xem</button>
                     </Link>
                   </td>
                 </tr>
@@ -230,7 +246,7 @@ function DanhSachChuyenBay() {
                       to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
                       className="text-white"
                     >
-                      <button className="btn btn-success ">Sửa</button>
+                      <button className="btn btn-success bg ">Xem</button>
                     </Link>
                   </td>
                 </tr>
@@ -240,12 +256,8 @@ function DanhSachChuyenBay() {
 
       {/* Hiển thị thông báo khi không có dữ liệu  DucNH66 */}
       {!isSearching
-        ? listCB.length === 0 && (
-            <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-          )
-        : searchResult.length === 0 && (
-            <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-          )}
+        ? listCB.length === 0 && <h1 className="h1">Không có dữ liệu</h1>
+        : searchResult.length === 0 && <h1 className="h1">Không có dữ liệu</h1>}
 
       {/* Phân trang DucNH66  */}
       {(listCB.length > 0 || searchResult.length > 0) && (
@@ -255,21 +267,49 @@ function DanhSachChuyenBay() {
               <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                 <button
                   type="button"
-                  className="page-link bg-warning text-white"
+                  className="page-link bg-warning text-white bg"
                   onClick={() => setPage(0)}
                   disabled={page === 0}
                 >
-                  Start
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-double-left"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                    />
+                  </svg>
                 </button>
               </li>
               <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                 <button
                   type="button"
-                  className="page-link bg-success text-white"
+                  className="page-link bg-success text-white bg"
                   disabled={page === 0}
                   onClick={() => handlePageChange(page - 1)}
                 >
-                  Previous
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-left"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                    />
+                  </svg>
                 </button>
               </li>
               {renderPageNumbers()}
@@ -281,13 +321,25 @@ function DanhSachChuyenBay() {
               >
                 <button
                   type="button"
-                  className={`page-link  bg-success text-white none   ${
+                  className={`page-link  bg-success text-white none bg   ${
                     page === totalPages - 1 ? "disabled" : ""
                   }`}
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages - 1}
                 >
-                  Next
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg>
                 </button>
               </li>
               <li
@@ -296,13 +348,29 @@ function DanhSachChuyenBay() {
                 }`}
               >
                 <button
-                  className={`page-link bg-danger text-white  ${
+                  className={`page-link bg-danger text-white bg ${
                     page === totalPages - 1 ? "disabled" : ""
                   }`}
                   onClick={() => setPage(totalPages - 1)}
                   disabled={page === totalPages - 1}
                 >
-                  End
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-double-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg>
                 </button>
               </li>
             </ul>

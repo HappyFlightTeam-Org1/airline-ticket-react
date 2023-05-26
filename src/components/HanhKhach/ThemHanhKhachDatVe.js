@@ -1,48 +1,41 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import * as Yup from "yup";
+
 const hanhKhachSchema = Yup.object().shape({
-  tenHanhKhach: Yup.string().required("Vui lòng nhập tên hành khách"),
+  tenHanhKhach: Yup.string()
+    .required("Vui lòng nhập tên hành khách")
+    .matches(/^[A-Za-z\s]+$/, "Tên hành khách chỉ được nhập chữ cái không dấu"),
   ngaySinh: Yup.string().required("Vui lòng nhập trường này"),
   gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
 });
 
 const ThongTinKhachHangDatVe = () => {
+  //DucNH66 lấy data
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const soNguoiLon = queryParams.get("soNguoiLon") ?? "null";
+  const soTreEm = queryParams.get("soTreEm") ?? "null";
+  const soEmBe = queryParams.get("soEmBe") ?? "null";
+  const tiketType = queryParams.get("tiketType") ?? "null";
+  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi") ?? "null";
+  const chuyenBay =
+    queryParams.get("chuyenBay") === "undefined"
+      ? null
+      : JSON.parse(queryParams.get("chuyenBay"));
+  const chuyenBayKhuHoi =
+    queryParams.get("chuyenBayKhuHoi") === "undefined"
+      ? null
+      : JSON.parse(queryParams.get("chuyenBayKhuHoi"));
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
-  const [chuyenBay, setChuyenBay] = useState();
-  const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const soNguoiLon = queryParams.get("soNguoiLon");
-  const soTreEm = queryParams.get("soTreEm");
-  const soEmBe = queryParams.get("soEmBe");
-  const idChuyenBayDi = queryParams.get("idChuyenBayDi");
-  const idChuyenBayKhuHoi = queryParams.get("idChuyenBayKhuHoi");
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (idChuyenBayDi) {
-      axios
-        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayDi)
-        .then((response) => {
-          setChuyenBay(response.data);
-        });
-    }
-
-    if (idChuyenBayKhuHoi) {
-      axios
-        .get("http://localhost:8080/chuyen-bay/findById/" + idChuyenBayKhuHoi)
-        .then((response) => {
-          setChuyenBayKhuHoi(response.data);
-        });
-    }
-  }, [idChuyenBayDi, idChuyenBayKhuHoi]);
-
+  //Ducnh66 số người lớn
   useEffect(() => {
     const adults = [];
     for (let i = 0; i < soNguoiLon; i++) {
@@ -55,7 +48,7 @@ const ThongTinKhachHangDatVe = () => {
     }
     setAdultsInfo(adults);
   }, [soNguoiLon]);
-
+  //Ducnh66 số trẻ em
   useEffect(() => {
     const children = [];
     for (let i = 0; i < soTreEm; i++) {
@@ -68,7 +61,7 @@ const ThongTinKhachHangDatVe = () => {
     }
     setChildrenInfo(children);
   }, [soTreEm]);
-
+  //Ducnh66 số em bé
   useEffect(() => {
     const babies = [];
     for (let i = 0; i < soEmBe; i++) {
@@ -76,82 +69,33 @@ const ThongTinKhachHangDatVe = () => {
         tenHanhKhach: "",
         ngaySinh: "",
         gioiTinh: "",
-        loaiHanhKhach: "Em bé",
+        loaiHanhKhach: "Em Bé",
       });
     }
     setBabyInfo(babies);
   }, [soEmBe]);
 
+  //DucNH66 nhận dữ liệu từ form người lớn
   const handleAdultInfoChange = (event, index) => {
     const newAdultsInfo = [...adultsInfo];
     newAdultsInfo[index][event.target.name] = event.target.value;
     setAdultsInfo(newAdultsInfo);
   };
-
+  //DucNH66 nhận dữ liệu từ form trẻ em
   const handleChildrenInfoChange = (event, index) => {
     const newChildrenInfo = [...childrenInfo];
     newChildrenInfo[index][event.target.name] = event.target.value;
     setChildrenInfo(newChildrenInfo);
   };
-
+  //DucNH66 nhận dữ liệu từ form em bé
   const handleBabyInfoChange = (event, index) => {
     const newBabyInfo = [...babyInfo];
     newBabyInfo[index][event.target.name] = event.target.value;
     setBabyInfo(newBabyInfo);
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
-  //     (hanhKhach) => {
-  //       return {
-  //         ...hanhKhach,
-  //         // loaiHanhKhach: getCustomerType(hanhKhach),
-  //       };
-  //     }
-  //   );
-  //   try {
-  //     const validatedHanhKhachs = await Promise.all(
-  //       hanhKhachs.map((hanhKhach) =>
-  //         hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
-  //       )
-  //     );
-  //     await axios.post(
-  //       "http://localhost:8080/hanh-khach/save",
-  //       validatedHanhKhachs,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     alert("Thành công!");
-  //     navigate("/DanhSachKhachHangDatVe");
-  //   } catch (error) {
-  //     if (error instanceof Yup.ValidationError) {
-  //       const errorMessages = {};
-  //       error.inner.forEach((err) => {
-  //         errorMessages[err.path] = err.message;
-  //       });
-  //       setErrors(errorMessages);
-  //     } else {
-  //       console.error(error);
-  //       alert("Đặt vé thất bại!");
-  //     }
-  //   }
-  // };
-
-  // const getCustomerType = (hanhKhach) => {
-  //   if (adultsInfo.includes(hanhKhach)) {
-  //     return "Người Lớn";
-  //   } else if (childrenInfo.includes(hanhKhach)) {
-  //     return "Trẻ Em";
-  //   } else {
-  //     return "Em Bé";
-  //   }
-  // };
-
-  const handleClick = () => {
+  //DucNH66 gởi data sang trang đặt chỗ
+  const handleSendData = () => {
     const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo];
     Promise.all(
       hanhKhachs.map((hanhKhach) =>
@@ -165,8 +109,10 @@ const ThongTinKhachHangDatVe = () => {
         queryParams.set("babyInfo", JSON.stringify(babyInfo));
         queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
         queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+        queryParams.set("tiketType", tiketType);
+        queryParams.set("tiketTypeKhuHoi", tiketTypeKhuHoi);
         const queryString = queryParams.toString();
-        navigate(`/ThanhToan?${queryString}`);
+        navigate(`/DatCho?${queryString}`);
       })
       .catch((error) => {
         if (error instanceof Yup.ValidationError) {
@@ -181,11 +127,19 @@ const ThongTinKhachHangDatVe = () => {
       });
   };
 
+  //DucNH66 LOG
+  console.log("nguoi lon: ", adultsInfo);
+  console.log("tre em: ", childrenInfo);
+  console.log("em be: ", babyInfo);
+  console.log("loai ve 1: ", tiketType);
+  console.log("loai ve 2: ", tiketTypeKhuHoi);
+  console.log("Chuyen Bay Di hk: ", chuyenBay);
+  console.log("Chuyen Bay Khu Hoi hk: ", chuyenBayKhuHoi);
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-center mt-5">
         <div className="d-flex">
-          {/* form nhập thông tin khách hàng */}
           <div className="col-6 m-3">
             <div>
               <div className="card">
@@ -199,6 +153,7 @@ const ThongTinKhachHangDatVe = () => {
                   <h3> Thông Tin Hành Khách</h3>
                 </div>
                 <div className="card-body">
+                  {/* form nhập thông tin khách hàng */}
                   <form>
                     <div className="form-group row form-tong">
                       {adultsInfo.map((adult, index) => (
@@ -391,7 +346,10 @@ const ThongTinKhachHangDatVe = () => {
                       ))}
                     </div>
                     <div className="form-group text-center mt-2">
-                      <a className="btn btn-success" onClick={handleClick}>
+                      <a
+                        className="btn btn-success bg"
+                        onClick={handleSendData}
+                      >
                         Tiếp Tục
                       </a>
                     </div>
@@ -452,53 +410,35 @@ const ThongTinKhachHangDatVe = () => {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="card">
-                      <div
-                        className="card-body box-shadow-tt-ve "
-                        style={{
-                          background:
-                            "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
-                        }}
-                      >
+                      <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
                           {chuyenBay && !chuyenBayKhuHoi ? (
-                            <b>Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}</b>
+                            <strong>
+                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}
+                            </strong>
                           ) : (
-                            <b>Chuyến bay đi • {chuyenBay.ngayKhoiHanh}</b>
+                            <strong>
+                              Chuyến bay đi • {chuyenBay.ngayKhoiHanh}
+                            </strong>
                           )}
 
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đi:</strong> {chuyenBay.diemDi}
+                              <strong>Sân bay đi </strong> {chuyenBay.diemDi}
                             </p>
                             <p>
                               <strong>Giờ cất cạnh</strong>{" "}
                               {chuyenBay.gioKhoiHanh}
                             </p>
-                            <p>
-                              <strong>Thời gian bay:</strong>
-                              {chuyenBay.thoiGianBay}
-                            </p>
-                            <p>
-                              <strong>Hãng Bay:</strong>
-                              {chuyenBay.hangBay.tenHangBay}
-                            </p>
                           </div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đến:</strong> {chuyenBay.diemDen}
+                              <strong>Sân bay đến </strong> {chuyenBay.diemDen}
                             </p>
                             <p>
-                              <strong>Giờ hạ cánh:</strong>
+                              <strong>Giờ hạ cánh </strong>
                               {chuyenBay.gioHaCanh}
-                            </p>
-                            <p>
-                              <strong>Khối lượng hành lý:</strong>
-                              {chuyenBay.klhanhLy}
-                            </p>
-                            <p>
-                              <strong>Máy bay:</strong>
-                              {chuyenBay.mayBay.tenMayBay}
                             </p>
                           </div>
                         </div>
@@ -515,50 +455,30 @@ const ThongTinKhachHangDatVe = () => {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="card">
-                      <div
-                        className="card-body box-shadow-tt-ve "
-                        style={{
-                          background:
-                            "linear-gradient( to left,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
-                        }}
-                      >
+                      <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
-                          <b>Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}</b>
+                          <strong>
+                            Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
+                          </strong>
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đi:</strong>
+                              <strong>Sân bay đi </strong>
                               {chuyenBayKhuHoi.diemDi}
                             </p>
                             <p>
-                              <strong>Giờ cất cánh:</strong>
+                              <strong>Giờ cất cánh </strong>
                               {chuyenBayKhuHoi.gioKhoiHanh}
-                            </p>
-                            <p>
-                              <strong>Thời gian bay:</strong>
-                              {chuyenBayKhuHoi.thoiGianBay}
-                            </p>
-                            <p>
-                              <strong> Hãng bay:</strong>
-                              {chuyenBayKhuHoi.hangBay.tenHangBay}
                             </p>
                           </div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đến:</strong>
+                              <strong>Sân bay đến </strong>
                               {chuyenBayKhuHoi.diemDen}
                             </p>
                             <p>
-                              <strong>Giờ hạ cánh:</strong>
+                              <strong>Giờ hạ cánh </strong>
                               {chuyenBayKhuHoi.gioHaCanh}
-                            </p>
-                            <p>
-                              <strong>Khối lượng hành lý:</strong>
-                              {chuyenBayKhuHoi.klhanhLy}
-                            </p>
-                            <p>
-                              <strong>Máy bay:</strong>
-                              {chuyenBayKhuHoi.mayBay.tenMayBay}
                             </p>
                           </div>
                         </div>
