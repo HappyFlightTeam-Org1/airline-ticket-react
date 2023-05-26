@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import ReactModal from "react-modal";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
@@ -7,7 +7,6 @@ import axios from "axios";
 
 var stompClient = null;
 const ChatBox = ({ isOpen, onClose, children, user }) => {
-  const [listUserSendNew, setListUserSendNew] = useState([]);
   const [IsNewMessage, setIsnewMessage] = useState(false);
   const [userData2, setUserData2] = useState({
     sender: user,
@@ -15,9 +14,12 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     content: "",
     time: "",
   });
+  const [listUserSendNew, setListUserSendNew] = useState([]);
+  const [listUserNew, setListUserNew] = useState([]);
   const [listMessageN, setListMessageN] = useState([]);
   const chatMessagesRef = useRef(null);
   const [listUser, setListUser] = useState([]);
+  const [listAllUser, setListALLUser] = useState([]);
   const [listMessage, setListMessage] = useState([]);
   const [reciptientname, setReciptientName] = useState("");
   const [reciptientnamecurrent, setReciptientNamecurrent] = useState("");
@@ -63,47 +65,47 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     stompClient = over(Sock);
     stompClient.connect({}, onConnected);
   };
-  const handleListMessage = () => {
-    console.log("loi64");
-    if (listMessageN !== null) {
-      console.log("loi66");
-      if (user === "admin") {
-        console.log("loi68");
-        console.log("reciptientnamecurrent", reciptientnamecurrent);
-        if (reciptientnamecurrent !== "") {
-          console.log("loi70");
-          if (listMessageN !== null && listMessageN.length > 0) {
-            console.log("loi72");
-            const lastMessage = listMessageN[listMessageN.length - 1];
-            console.log("loi74, day la lastmeassage ben admin", lastMessage);
-            if (lastMessage.sender !== undefined) {
-              console.log("loi76");
-              if (lastMessage && reciptientnamecurrent === lastMessage.sender) {
-                console.log("loi78");
-                setListMessage((listMessage) => [...listMessage, lastMessage]);
-                console.log("loi80, day la listmessage ben admin", listMessage);
-                // Truy cập thuộc tính "sender" của lastMessage ở đây
-              }
-            }
-          }
-        }
-      } else {
-        console.log("loi86");
-        if (user !== "") {
-          console.log("loi88");
-          console.log("listMessageN", listMessageN);
-          if (listMessageN !== null && listMessageN.length > 0) {
-            console.log("loi90");
-            const lastMessage = listMessageN[listMessageN.length - 1];
-            console.log("92 day la lastmessage ben user", lastMessage);
-            setListMessage((listMessage) => [...listMessage, lastMessage]);
-            console.log("loi94, day la listmessage ben user", listMessage);
-            // Truy cập thuộc tính "sender" của lastMessage ở đây
-          }
-        }
-      }
-    }
-  };
+  // const handleListMessage = () => {
+  //   console.log("loi64");
+  //   if (listMessageN !== null) {
+  //     console.log("loi66");
+  //     if (user === "admin") {
+  //       console.log("loi68");
+  //       console.log("reciptientnamecurrent", reciptientnamecurrent);
+  //       if (reciptientnamecurrent !== "") {
+  //         console.log("loi70");
+  //         if (listMessageN !== null && listMessageN.length > 0) {
+  //           console.log("loi72");
+  //           const lastMessage = listMessageN[listMessageN.length - 1];
+  //           console.log("loi74, day la lastmeassage ben admin", lastMessage);
+  //           if (lastMessage.sender !== undefined) {
+  //             console.log("loi76");
+  //             if (lastMessage && reciptientnamecurrent === lastMessage.sender) {
+  //               console.log("loi78");
+  //               setListMessage((listMessage) => [...listMessage, lastMessage]);
+  //               console.log("loi80, day la listmessage ben admin", listMessage);
+  //               // Truy cập thuộc tính "sender" của lastMessage ở đây
+  //             }
+  //           }
+  //         }
+  //       }
+  //     } else {
+  //       console.log("loi86");
+  //       if (user !== "") {
+  //         console.log("loi88");
+  //         console.log("listMessageN", listMessageN);
+  //         if (listMessageN !== null && listMessageN.length > 0) {
+  //           console.log("loi90");
+  //           const lastMessage = listMessageN[listMessageN.length - 1];
+  //           console.log("92 day la lastmessage ben user", lastMessage);
+  //           setListMessage((listMessage) => [...listMessage, lastMessage]);
+  //           console.log("loi94, day la listmessage ben user", listMessage);
+  //           // Truy cập thuộc tính "sender" của lastMessage ở đây
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
   //  else {
   //   const lastMessage = listMessageN[listMessageN.length - 1];
 
@@ -183,7 +185,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
 
   function getChat(name) {
     console.log("name", name);
-    
     axios
       .get(`http://localhost:8080/chat-box/getchat?user=${name}`)
       .then((response) => {
@@ -205,12 +206,16 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
       prevList.filter((item) => item.content !== name)
     );
     setReciptientNamecurrent(name);
-    const newItems = listUserSendNew.filter((i) => i !== name);
-    setListUserSendNew(newItems);
+
+    axios
+      .delete(`http://localhost:8080/chat-box/delete-new-message/${name}`)
+      .catch((error) => console.error);
+
+      updateListUserNew();
   }
   useEffect(() => {
     if (searchText !== "") {
-      const filteredUsers = listUser.filter((user) =>
+      const filteredUsers = listAllUser.filter((user) =>
         user.includes(searchText)
       );
       setListUser(filteredUsers);
@@ -223,26 +228,70 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         })
         .catch((error) => console.error);
     }
-  }, [searchText]);
+  }, [searchText, listUserNew]);
+  const updateListUserNew = () => {
+    axios
+      .get(`http://localhost:8080/chat-box/new-message`)
+      .then((response) => {
+        const data = response.data;
+        setListUserNew(data);
+      })
+      .catch((error) => console.error);
+  };
+  // const updateListUserNew = () => {
+  //   axios
+  //     .get(`http://localhost:8080/chat-box/new-message`)
+  //     .then((response) => {
+  //       const data = response.data;
+  //       setTimeout(() => {
+  //         setListUserNew((prevListUserNew) => {
+  //           // update the relevant quantity in the listUserNew array
+  //           const newListUserNew = [...prevListUserNew];
+  //           data.forEach((newUser) => {
+  //             const index = newListUserNew.findIndex((user) => user.user === newUser.user);
+  //             if (index !== -1) {
+  //               newListUserNew[index].quantity = newUser.quantity;
+  //             }
+  //           });
+  //           return newListUserNew;
+  //         });
+  //       }, 1000); // add a delay of 1 second before updating the state
+  //     })
+  //     .catch((error) => console.error);
+  // };
   useEffect(() => {
-    if(searchText ===""){
+    if (searchText === "") {
+      if (user === "admin") {
+        axios
+          .get(`http://localhost:8080/chat-box/user`)
+          .then((response) => {
+            const data = response.data;
+            setListUser(data);
+          })
+          .catch((error) => console.error);
+      }
+    }
     if (user === "admin") {
-      axios
-        .get(`http://localhost:8080/chat-box/user`)
-        .then((response) => {
-          const data = response.data;
-          setListUser(data);
-        })
-        .catch((error) => console.error);
-    }}
+      if (Array.isArray(listMessage) && listMessage.length > 0) {
+        const lastms = listMessage[listMessage.length - 1]?.sender;
+        if (lastms && lastms !== reciptientnamecurrent && lastms !== "admin") {
+          console.log("Day la last message", lastms);
+          console.log("Day la reciptientnamecurrent", reciptientnamecurrent);
+          axios
+            .get(`http://localhost:8080/chat-box/save-new-message/${lastms}`)
+            .catch((error) => console.error);
+            updateListUserNew();
+        }
+      }
+    }
   }, [listMessage]);
 
-  useEffect(() => {
-    const adminIndex = listUser.indexOf(reciptientnamecurrent);
-    const newListUser = listUser.slice(0, adminIndex);
-    //const mergedListUser = listUserSendNew.concat(newListUser);
-    setListUserSendNew((listUserSendNew) => [...listUserSendNew, newListUser]);
-  }, [listUser]);
+  // useEffect(() => {
+  //   const adminIndex = listUser.indexOf(reciptientnamecurrent);
+  //   const newListUser = listUser.slice(0, adminIndex);
+  //   //const mergedListUser = listUserSendNew.concat(newListUser);
+  //   setListUserSendNew((listUserSendNew) => [...listUserSendNew, newListUser]);
+  // }, [listUser]);
 
   useEffect(() => {
     if (componentOpened && chatMessagesRef.current) {
@@ -276,6 +325,14 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         .then((response) => {
           const data = response.data;
           setListUser(data);
+          setListALLUser(data);
+        })
+        .catch((error) => console.error);
+      axios
+        .get(`http://localhost:8080/chat-box/new-message`)
+        .then((response) => {
+          const data = response.data;
+          setListUserNew(data);
         })
         .catch((error) => console.error);
     } else {
@@ -386,7 +443,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
           <div className="chat-box">
             <div className="member-list">
               <input
-              className="btn-search"
+                className="btn-search"
                 type="text"
                 value={searchText}
                 onChange={handleSearch}
@@ -399,14 +456,22 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                       item !== "admin" && (
                         <li key={index}>
                           <button
-                            className={activeIndex === item ? "active" : ""}
+                            className={activeIndex === item ? "active btn-li" : "btn-li" }
                             onClick={() => getChat(item)}
                           >
                             {item}
                           </button>
-                          {listMessageN.includes(item) && (
-                            <input type="radio"></input>
-                          )}
+                          {listUserNew.find(
+                            (newUser) => newUser.user === item
+                          ) &&
+                            (() => {
+                              let newUserFound = listUserNew.find(
+                                (newUser) => newUser.user === item
+                              );
+                              return (
+                                <div className="btn-new">{`${newUserFound.quatity}`}</div>
+                              );
+                            })()}
                         </li>
                       )
                   )}
