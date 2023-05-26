@@ -18,17 +18,16 @@ function LichSuDatVe() {
   const [diemDen, setDiemDen] = useState();
   const [maVe, setMaVe] = useState();
   const [totalPages, setTotalPages] = useState();
+  const [sanBay, setSanBay] = useState([]);
 
-  // useEffect(() => {
-  //     axios
-  //         .get("http://localhost:8080/VeMayBay/list")
-  //         .then((response) => {
-  //             setTickets(response.data);
-  //             console.log("VE MAY BAY");
-  //             console.log(response.data);
-  //         })
-  //         .catch((err) => console.error);
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/VeMayBay/listSanBay")
+      .then((response) => {
+        setSanBay(response.data);
+      })
+      .catch((err) => console.error);
+  }, []);
 
   //DuyNT58 load lại danh sách vé máy bay khi có thay đổi
   useEffect(() => {
@@ -38,7 +37,7 @@ function LichSuDatVe() {
   //DuyNT58 lấy danh sách vé máy bay
   const fetchTicketList = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/test/list", {
+      const response = await axios.get("http://localhost:8080/VeMayBay/page", {
         params: {
           page,
           size,
@@ -79,15 +78,10 @@ function LichSuDatVe() {
       fetchTicketList();
     }
   };
-
-  console.log(maVe);
-  console.log(tenHanhKhach);
-  console.log(diemDi);
-  console.log(diemDen);
-
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
-  };
+  console.log(formData.maVe);
+  console.log(formData.tenHanhKhach);
+  console.log(formData.diemDi);
+  console.log(formData.diemDen);
 
   //DuyNT58 chọn trang muốn hiển thị
   const handlePageChange = (newPage) => {
@@ -103,7 +97,6 @@ function LichSuDatVe() {
     for (let i = trangDau; i <= trangCuoi; i++) {
       pageNumbers.push(i);
     }
-    console.log(pageNumbers);
     return pageNumbers;
   };
 
@@ -120,7 +113,6 @@ function LichSuDatVe() {
           href="#"
           onClick={() => handlePageChange(pageNumber)}
         >
-          {console.log(pageNumber + 1)}
           {pageNumber + 1}
         </a>
       </li>
@@ -129,7 +121,7 @@ function LichSuDatVe() {
 
   // console.log("tickets", tickets);
   return (
-    <div className="container ticket-container bg-body table-shadow mt-3 mb-5">
+    <div className="container ticket-container bg-body table-shadow">
       <div className="pt-5 pb-2">
         <div className="text-center pb-2">
           <h1>LỊCH SỬ ĐẶT VÉ</h1>
@@ -163,26 +155,36 @@ function LichSuDatVe() {
             />
           </div>
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-            <input
+            <select
+              name="diemDi"
               id="diemDi"
               value={formData.diemDi}
-              type="text"
-              name="diemDi"
-              className="form-control"
-              placeholder="Nơi Đi"
               onChange={handleInputChange}
-            />
+              className="form-control "
+            >
+              <option value="">-- Chọn điểm đi --</option>
+              {sanBay.map((sanBay) => (
+                <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                  {sanBay.thanhPho}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-            <input
+            <select
+              name="diemDen"
               id="diemDen"
               value={formData.diemDen}
-              type="text"
-              name="diemDen"
-              className="form-control"
-              placeholder="Nơi đến"
               onChange={handleInputChange}
-            />
+              className="form-control "
+            >
+              <option value="">-- Chọn điểm đi --</option>
+              {sanBay.map((sanBay) => (
+                <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                  {sanBay.thanhPho}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
             <button type="submit" className="btn bg">
@@ -208,7 +210,7 @@ function LichSuDatVe() {
         </thead>
         <tbody>
           {isSearching
-            ? searchResult.map((item, index) => {
+            ? searchResult.map((item) => {
                 return (
                   <tr className="align-middle" key={item.maVe}>
                     <th scope="row">{item.maVe}</th>
@@ -251,7 +253,11 @@ function LichSuDatVe() {
                     <td>{item.datCho.chuyenBay.diemDi}</td>
                     <td>{item.datCho.chuyenBay.diemDen}</td>
                     <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                    <td>{item.giaVe}</td>
+                    <td>
+                      {item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông"
+                        ? item.giaVe
+                        : item.giaVe * 1.5}
+                    </td>
                     <td>
                       <Link
                         as={Link}

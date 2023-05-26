@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import './TimKiemVe.css'
 import axios from "axios";
 function TimKiemVe() {
@@ -26,10 +27,10 @@ function TimKiemVe() {
 
 
     return (
-        <div className='container ticket-search-container bg-body shadow mt-3 mb-5'>
+        <div className='container ticket-container bg-body shadow'>
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
-                    <h1>TÌM KIẾM VÉ</h1>
+                    <h2>TÌM KIẾM VÉ</h2>
                 </div>
                 <form onSubmit={handleSubmit} className="row justify-content-center">
                     <div className="form-group d-flex justify-content-center align-items-center">
@@ -39,7 +40,7 @@ function TimKiemVe() {
                         </div>
 
                         <div className="form-group col-md-2 d-flex justify-content-center">
-                            <button type="submit" className="btn btn-success"> Tìm Kiếm</button>
+                            <button type="submit" className="btn bg"> Tìm Kiếm</button>
                         </div>
                     </div>
                 </form>
@@ -70,9 +71,17 @@ function TimKiemVe() {
                                 <td>{item.datCho.chuyenBay.diemDi}</td>
                                 <td>{item.datCho.chuyenBay.diemDen}</td>
                                 <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                <td>{item.giaVe}</td>
+                                <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
                                 <td>
-                                    <button className="btn btn-primary" type="submit">In</button>
+                                    <Link
+                                        as={Link}
+                                        to={`/InVe?maVe=${item.maVe.toString()}`}
+                                        className="text-white"
+                                    >
+                                        <button className="btn bg" type="submit">
+
+                                            In</button>
+                                    </Link>
                                 </td>
                             </tr>
                         )

@@ -98,7 +98,7 @@ export default function QuanLyNguoiDung() {
                         <input id="adults" type="text" name="email" className="form-control" placeholder="Địa Chỉ Email" />
                     </div>
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <button type="submit" className="btn btn-success"> Tìm Kiếm</button>
+                        <button type="submit" className="btn btn-success bg"> Tìm Kiếm</button>
                     </div>
                 </form>
             </div>
@@ -131,13 +131,16 @@ export default function QuanLyNguoiDung() {
                         <td>{data.quocTich.tenQuocTich}</td>
                         <td>
                             {/* <button className="btn btn-danger" type="submit">Khoá</button> */}
-                            <button className="btn btn-info" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
+                            <button className="btn btn-info bg" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
                         </td>
                     </tr>
                     )
                     )}
                 </tbody>
             </table>
+            {dataNguoiDung.length === 0 && (
+        <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+      )}
             {dataNguoiDung.length > 0 && (
         <div className="pagination justify-content-center">
           <nav aria-label="Page navigation example">
@@ -145,7 +148,7 @@ export default function QuanLyNguoiDung() {
               <li
                 className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
               >
-                <button className="page-link" onClick={handlePreviousPageClick}>
+                <button className="page-link bg" onClick={handlePreviousPageClick}>
                   Previous
                 </button>
               </li>
@@ -176,14 +179,14 @@ export default function QuanLyNguoiDung() {
                   currentPage === totalPage - 1 ? "disabled" : ""
                 }`}
               >
-                <button className="page-link" onClick={handleNextPageClick}>
+                <button className="page-link bg" onClick={handleNextPageClick}>
                   Next
                 </button>
               </li>
             </ul>
           </nav>
                     <div className="form-group col-md-2 export d-flex justify-content-center align-items-center">
-                          <button onClick={handleOnExport} className="btn btn-success">Excel <i class="fa-sharp fa-regular fa-file-excel"></i></button>
+                          <button onClick={handleOnExport} className="btn btn-success bg">Excel <i class="fa-sharp fa-regular fa-file-excel"></i></button>
 
                     </div>
         </div>

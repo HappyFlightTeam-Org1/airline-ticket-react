@@ -1,7 +1,6 @@
 
 import React, { useState, useCallback, useRef,useEffect, Suspense} from 'react';
 import { Bar, Chart, Line, Pie } from "react-chartjs-2";
-import { UserData } from "./Data";
 import { Chart as ChartJS } from "chart.js/auto";
 import "./BarChart.css";
 import axios from "axios";
@@ -12,11 +11,12 @@ function BarChart() {
   const [total, setTotal] = useState([]);
   const [totalHD, setTotalHD] = useState();
   const [totalHK, setTotalHK] = useState([]);
-  const [totalND, setTotalND] = useState([]);
   const [userDataChuyenBay,setUserDataChuyenBay] = useState([]);
   const [dataChuyenBayMonthNow,setDataChuyenBayMonthNow] = useState([]);
+  const [dataVeMayBay,setDataVeMayBay] = useState([]);
   const [hoaDonThongKe,setHoaDonThongKe] = useState([]);
   const [tongTien, setTongTien] = useState(0.0);
+  const [soLuongHanhKhachmonthnow, setSoLuongHanhKhachmonthnow] = useState(0);
   // Tìm kiếm chuyến bay
   const [chuyenBays, setChuyenBays] = useState([]);
   const [firstDay, setFirstDay] = useState('');
@@ -53,6 +53,20 @@ function BarChart() {
       .catch((err) => console.error);
 
       axios
+      .get("http://localhost:8080/dashboard/so-luong-hanh-khach-thang-nay")
+      .then((response) => {
+        setSoLuongHanhKhachmonthnow(response.data);
+      })
+      .catch((err) => console.error);
+
+      axios
+      .get("http://localhost:8080/dashboard/list-ve-may-bay-thong-ke")
+      .then((response) => {
+        setDataVeMayBay(response.data);
+      })
+      .catch((err) => console.error);
+
+      axios
       .get("http://localhost:8080/dashboard/list-chuyen-bay-month-now")
       .then((response) => {
         setDataChuyenBayMonthNow(response.data);
@@ -63,7 +77,6 @@ function BarChart() {
       .get("http://localhost:8080/dashboard/chuyenbaythongke")
       .then((response) => {
         setUserDataChuyenBay(response.data);
-         console.log(userDataChuyenBay);
       })
       .catch((err) => console.error);
 
@@ -71,7 +84,6 @@ function BarChart() {
       .get("http://localhost:8080/dashboard/hoadonthongke")
       .then((response) => {
         setHoaDonThongKe(response.data);
-        console.log(hoaDonThongKe);
       })
       .catch((err) => console.error);
 
@@ -79,15 +91,6 @@ function BarChart() {
       .get("http://localhost:8080/dashboard/total")
       .then((response) => {
         setTotal(response.data);
-         console.log(total.length);
-      })
-      .catch((err) => console.error);
-
-    axios
-      .get("http://localhost:8080/dashboard/totalND")
-      .then((response) => {
-        setTotalND(response.data);
-         console.log(totalND.length);
       })
       .catch((err) => console.error);
 
@@ -95,21 +98,20 @@ function BarChart() {
     .get("http://localhost:8080/dashboard/totalHK")
     .then((response) => {
       setTotalHK(response.data);
-      console.log(totalHK.length);
     })
     .catch((err) => console.error);
 
   }, []);
-
-  const [userData,setUserData] = useState({
-  labels: UserData.map((data) => data.month),
-  datasets: [{
-    label: "price",
-    data: UserData.map((data) => data.price),
-    backgroundColor: ["red","orange","yellow","green","blue","purple","pink","orange","brown","black","gray","lavender"]
-  }]
-});
-
+  const getVeMayBayThongKe =() => {
+    return {
+      labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      datasets: [{
+        label: "total",
+        data: dataVeMayBay.map((data) => data.so_luong_ve),
+        backgroundColor: ["red","orange","yellow","green","blue","purple","pink","orange","brown","black","gray","lavender"]
+      }]
+    }
+  }
   const getChuyenBayThongKe =() => {
     return {
       labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
@@ -140,7 +142,6 @@ function BarChart() {
       const response = await axios.get(`http://localhost:8080/dashboard/listchuyenbay?firstDay=${firstDay}&lastDay=${lastDay}`);
       const data = await response.data;
       setChuyenBays(data);
-      console.log(chuyenBays.data+ "chuyen bay");
     } catch (error) {
       console.error(error);
     }
@@ -169,7 +170,12 @@ function BarChart() {
   //  lấy tháng hiện tại
       let currentDate = new Date();
       let currentMonth = currentDate.getMonth() + 1;
-  const tongTienThang4 = hoaDonThongKe.find(data => data.thang === currentMonth)?.tong_tien_thang;
+  const tongTienThang = hoaDonThongKe.find(data => data.thang === currentMonth)?.tong_tien_thang;
+  const phanTramTien = tongTienThang/100000*100;
+  // Tổng số vé máy bay
+  const sumVeMayBay = dataVeMayBay.reduce((total, item) => total + item.so_luong_ve, 0);
+  console.log(sumVeMayBay);
+  const soVeThang = dataVeMayBay.find(data => data.thang === currentMonth)?.so_luong_ve;
   return (
 
    <div className='barchart'>
@@ -177,15 +183,15 @@ function BarChart() {
       <div className="row">
         <div className="col-xl-3 col-md-6 col-12">
           <div className="info-box bg-primary shadow">
-            <div className='icon'><i className='bx bxs-user'></i></div>
+            <div className='icon'><i class="fa-regular fa-paper-plane"></i></div>
             <div className="info-box-content">
-              <span className="info-box-text">Số Lượng Người Dùng</span><br></br>
-              <span className="info-box-number">{totalND.length}</span>
+              <span className="info-box-text">Số Lượng Vé Máy Bay</span><br></br>
+              <span className="info-box-number">{sumVeMayBay}</span>
               <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${totalND.length}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${soVeThang}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-              {totalND.length}% Increase in 28 Days
+                 {soVeThang} Vé Đạt {soVeThang}% Tháng Này
               </span>
             </div>
           </div>
@@ -197,10 +203,10 @@ function BarChart() {
               <span className="info-box-text">Số Lượng Hành Khách</span><br></br>
               <span className="info-box-number">{totalHK.length}</span>
               <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${totalHK.length}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${soLuongHanhKhachmonthnow}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-               12% Hành Khách Tháng Này
+               {soLuongHanhKhachmonthnow} Hành Khách Đạt {soLuongHanhKhachmonthnow}% Tháng Này
               </span>
               </div>
             </div>
@@ -216,7 +222,7 @@ function BarChart() {
                 <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${dataChuyenBayMonthNow.length}%` }}  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-              {dataChuyenBayMonthNow.length}% Chuyến Bay Tháng Này
+              {dataChuyenBayMonthNow.length} Chuyến Bay Đạt {dataChuyenBayMonthNow.length}% Tháng Này
               </span>
             </div>
           </div>
@@ -229,10 +235,10 @@ function BarChart() {
               <span className="info-box-text">Tổng Tiền Thanh Toán</span><br></br>
               <span className="info-box-number">{tongTien}</span><span>$</span>
               <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: "80%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${phanTramTien}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-                ${tongTienThang4}
+                {tongTienThang}$ Đạt {phanTramTien}% Tháng Này
               </span>
               </div>
             </div>
@@ -252,7 +258,7 @@ function BarChart() {
       </div>
       <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage1}>Download Pie</button>
-        <Pie data={userData} ref={pieRef}></Pie>
+        <Pie data={getVeMayBayThongKe()} ref={pieRef}></Pie>
         <h6>Biểu Đồ 1.C: Thể Hiện Số Lượng vé Mỗi Tháng</h6>
       </div>
        <div  data-aos="fade-up" className='bar1'>

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./HoaDon.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 function HoaDon() {
-  //DucNH66 Lấy dữ liệu từ đặt chỗ gởi qua
+  //LẤY DỮ LIỆU TỪ COMPONENT TRƯỚC ĐÓ CHUYỂN SANG
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const adultsInfo = JSON.parse(queryParams.get("adultsInfo"));
   const childrenInfo = JSON.parse(queryParams.get("childrenInfo"));
   const babyInfo = JSON.parse(queryParams.get("babyInfo"));
-  const tiketType = queryParams.get("tiketType");
-  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
+  const ticketType = queryParams.get("tiketType");
+  const ticketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
   const chuyenBay = JSON.parse(queryParams.get("chuyenBay"));
   const chuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
   const maDatCho = JSON.parse(queryParams.get("maDatCho"));
@@ -39,29 +40,64 @@ function HoaDon() {
   const getTotal = () => {
     let total = 0;
     if (chuyenBay != null) {
-      total += adultsInfo != null ? adultsInfo.length * chuyenBay.giaVe : 0;
-      total += childrenInfo != null ? childrenInfo.length * chuyenBay.giaVe : 0;
-      total += babyInfo != null ? babyInfo.length * chuyenBay.giaVe : 0;
+      total +=
+        adultsInfo != null
+          ? adultsInfo.length *
+            (ticketType === "Phổ Thông"
+              ? chuyenBay.giaVe
+              : chuyenBay.giaVe * 1.5)
+          : 0;
+      total +=
+        childrenInfo != null
+          ? childrenInfo.length *
+            (ticketType === "Phổ Thông"
+              ? chuyenBay.giaVe
+              : chuyenBay.giaVe * 1.5)
+          : 0;
+      total +=
+        babyInfo != null
+          ? babyInfo.length *
+            (ticketType === "Phổ Thông"
+              ? chuyenBay.giaVe
+              : chuyenBay.giaVe * 1.5)
+          : 0;
     }
     if (chuyenBayKhuHoi != null) {
       total +=
-        adultsInfo != null ? adultsInfo.length * chuyenBayKhuHoi.giaVe : 0;
+        adultsInfo != null
+          ? adultsInfo.length *
+            (ticketTypeKhuHoi === "Phổ Thông"
+              ? chuyenBayKhuHoi.giaVe
+              : chuyenBayKhuHoi.giaVe * 1.5)
+          : 0;
       total +=
-        childrenInfo != null ? childrenInfo.length * chuyenBayKhuHoi.giaVe : 0;
-      total += babyInfo != null ? babyInfo.length * chuyenBayKhuHoi.giaVe : 0;
+        childrenInfo != null
+          ? childrenInfo.length *
+            (ticketTypeKhuHoi === "Phổ Thông"
+              ? chuyenBayKhuHoi.giaVe
+              : chuyenBayKhuHoi.giaVe * 1.5)
+          : 0;
+      total +=
+        babyInfo != null
+          ? babyInfo.length *
+            (ticketTypeKhuHoi === "Phổ Thông"
+              ? chuyenBayKhuHoi.giaVe
+              : chuyenBayKhuHoi.giaVe * 1.5)
+          : 0;
     }
     return total;
   };
 
   const total = CurrencyFormat(getTotal());
-  //DucNH66 LOG
+
+  //LOG THONG TIN
   console.log("chuyenbay di", chuyenBay);
   console.log("chuyenbay khu hoi", chuyenBayKhuHoi);
   console.log("thong tin nguoi lon: ", adultsInfo);
   console.log("thong tin tre em: ", childrenInfo);
   console.log("thong tin em be: ", babyInfo);
-  console.log("loai ve 1 chieu: ", tiketType);
-  console.log("loai ve khu hoi: ", tiketTypeKhuHoi);
+  console.log("loai ve 1 chieu: ", ticketType);
+  console.log("loai ve khu hoi: ", ticketTypeKhuHoi);
   console.log("ma dat cho 1 chieu: ", maDatCho);
   console.log("ma dat cho khu hoi: ", maDatChoKhuHoi);
 
@@ -108,23 +144,44 @@ function HoaDon() {
   const veMayBayDTO = {
     hoaDonDTO: hoaDonDTO,
     hanhKhachDTOs: hanhKhachs,
-    maDatChoDis: maDatCho,
-    maDatChoKhuHois: maDatChoKhuHoi,
+    maDatChoDis: maDatCho.length > 0 ? maDatCho : [],
+    maDatChoKhuHois: maDatChoKhuHoi.length > 0 ? maDatChoKhuHoi : [],
   };
 
   console.log("veMayBayDTO", veMayBayDTO);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8080/thanh-toan/vnpay/make-order",
-        veMayBayDTO
-      );
-      console.log("response.data", response.data); // Xử lý dữ liệu phản hồi từ API
-      window.location.href = response.data;
+      //lưu hóa đơn, list vé máy bay và list hành khách đi kèm theo vé
+      axios
+        .post("http://localhost:8080/VeMayBay/prePayment", veMayBayDTO)
+        .then((respone) => {
+          if (respone.data.maHoaDon) {
+            const hoaDonDTO = {
+              maHoaDon: respone.data.maHoaDon,
+              ngayTao: respone.data.ngayTao,
+              tongTien: respone.data.tongTien,
+              trangThaiThanhToan: respone.data.trangThaiThanhToan,
+              trangThaiXoa: respone.data.trangThaiXoa,
+            };
+            axios
+              .post(
+                "http://localhost:8080/thanh-toan/vnpay/make-order",
+                hoaDonDTO
+              )
+              .then((urlPayment) => {
+                window.location.href = urlPayment.data;
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          } else {
+            toast.error(respone.data);
+          }
+        });
     } catch (error) {
-      console.error(error);
+      console.error("error", error);
     }
   };
 
@@ -132,7 +189,11 @@ function HoaDon() {
     <div className="container d-flex justify-content-center">
       <div className="order order-container mt-3">
         <div className="order-sidebar">
-          <img src="https://www.onlygfx.com/wp-content/uploads/2021/07/paper-plane-1.png" />
+          <img
+            style={{ width: "100%" }}
+            src="https://www.onlygfx.com/wp-content/uploads/2021/07/paper-plane-1.png"
+            alt="imageSrc"
+          />
         </div>
         <div className="order-content">
           <div>
@@ -149,7 +210,11 @@ function HoaDon() {
                   {chuyenBay.hangBay.tenHangBay} (Người lớn x{" "}
                   {adultsInfo.length}){" "}
                 </div>
-                <div>{chuyenBay.giaVe * adultsInfo.length}</div>
+                <div>
+                  {ticketType === "Phổ Thông"
+                    ? chuyenBay.giaVe * adultsInfo.length
+                    : chuyenBay.giaVe * 1.5 * adultsInfo.length}
+                </div>
               </div>
             )}
 
@@ -159,7 +224,11 @@ function HoaDon() {
                   {chuyenBay.hangBay.tenHangBay} (Trẻ em x {childrenInfo.length}
                   ){" "}
                 </div>
-                <div>{chuyenBay.giaVe * childrenInfo.length}</div>
+                <div>
+                  {ticketType === "Phổ Thông"
+                    ? chuyenBay.giaVe * childrenInfo.length
+                    : chuyenBay.giaVe * 1.5 * childrenInfo.length}
+                </div>
               </div>
             )}
             {babyInfo.length > 0 && (
@@ -167,7 +236,11 @@ function HoaDon() {
                 <div>
                   {chuyenBay.hangBay.tenHangBay} (Em bé x {babyInfo.length}){" "}
                 </div>
-                <div>{chuyenBay.giaVe * babyInfo.length}</div>
+                <div>
+                  {ticketType === "Phổ Thông"
+                    ? chuyenBay.giaVe * babyInfo.length
+                    : chuyenBay.giaVe * 1.5 * babyInfo.length}
+                </div>
               </div>
             )}
 
@@ -183,7 +256,11 @@ function HoaDon() {
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Người lớn x{" "}
                       {adultsInfo.length}){" "}
                     </div>
-                    <div>{chuyenBayKhuHoi.giaVe * adultsInfo.length}</div>
+                    <div>
+                      {ticketTypeKhuHoi === "Phổ Thông"
+                        ? chuyenBayKhuHoi.giaVe
+                        : chuyenBayKhuHoi.giaVe * 1.5 * adultsInfo.length}
+                    </div>
                   </div>
                 )}
                 {childrenInfo.length > 0 && (
@@ -192,7 +269,11 @@ function HoaDon() {
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Trẻ em x
                       {childrenInfo.length})
                     </div>
-                    <div>{chuyenBayKhuHoi.giaVe * childrenInfo.length}</div>
+                    <div>
+                      {ticketTypeKhuHoi === "Phổ Thông"
+                        ? chuyenBayKhuHoi.giaVe
+                        : chuyenBayKhuHoi.giaVe * 1.5 * childrenInfo.length}
+                    </div>
                   </div>
                 )}
                 {babyInfo.length > 0 && (
@@ -202,7 +283,11 @@ function HoaDon() {
                         chuyenBayKhuHoi.hangBay.tenHangBay}
                       (Em bé x {babyInfo.length})
                     </div>
-                    <div>{chuyenBayKhuHoi.giaVe * babyInfo.length}</div>
+                    <div>
+                      {ticketTypeKhuHoi === "Phổ Thông"
+                        ? chuyenBayKhuHoi.giaVe
+                        : chuyenBayKhuHoi.giaVe * 1.5 * babyInfo.length}
+                    </div>
                   </div>
                 )}
               </div>
@@ -222,11 +307,11 @@ function HoaDon() {
             <strong>
               <small>Bằng việc nhấn Thanh toán, bạn đồng ý với </small>
               <small className="text-primary">
-                <a href="#">Điều khoản & Điều kiện</a>
+                <Link>Điều khoản & Điều kiện</Link>
               </small>
               <small> và </small>
               <small className="text-primary">
-                <a href="#">Chính sách và quyền riêng tư</a>
+                <Link>Chính sách và quyền riêng tư</Link>
               </small>
               <small>.</small>
             </strong>

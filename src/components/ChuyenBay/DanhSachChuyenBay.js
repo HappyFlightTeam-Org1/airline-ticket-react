@@ -28,6 +28,7 @@ function DanhSachChuyenBay() {
       })
       .catch((err) => console.error);
   }, []);
+  
   //DucNH66 load lại danh sách chuyến bay khi có thay đổi
   useEffect(() => {
     fetchChuyenBays();
