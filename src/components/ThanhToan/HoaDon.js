@@ -16,6 +16,8 @@ function HoaDon() {
   const chuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
   const maDatCho = JSON.parse(queryParams.get("maDatCho"));
   const maDatChoKhuHoi = JSON.parse(queryParams.get("maDatChoKhuHoi"));
+  const emailNguoiDung = localStorage.getItem("email");
+  const giaVeEmBe = 100000;
 
   //lấy list hanhKhachDTO từ component nhập thông tin
   const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
@@ -43,63 +45,48 @@ function HoaDon() {
       total +=
         adultsInfo != null
           ? adultsInfo.length *
-            (ticketType === "Phổ Thông"
-              ? chuyenBay.giaVe
-              : chuyenBay.giaVe * 1.5)
+          (ticketType === "Phổ Thông"
+            ? chuyenBay.giaVe
+            : chuyenBay.giaVe * 1.5)
           : 0;
       total +=
         childrenInfo != null
           ? childrenInfo.length *
-            (ticketType === "Phổ Thông"
-              ? chuyenBay.giaVe
-              : chuyenBay.giaVe * 1.5)
+          (ticketType === "Phổ Thông"
+            ? chuyenBay.giaVe
+            : chuyenBay.giaVe * 1.5)
           : 0;
       total +=
         babyInfo != null
-          ? babyInfo.length *
-            (ticketType === "Phổ Thông"
-              ? chuyenBay.giaVe
-              : chuyenBay.giaVe * 1.5)
-          : 0;
+          ? giaVeEmBe * babyInfo.length : 0;
     }
     if (chuyenBayKhuHoi != null) {
       total +=
         adultsInfo != null
           ? adultsInfo.length *
-            (ticketTypeKhuHoi === "Phổ Thông"
-              ? chuyenBayKhuHoi.giaVe
-              : chuyenBayKhuHoi.giaVe * 1.5)
+          (ticketTypeKhuHoi === "Phổ Thông"
+            ? chuyenBayKhuHoi.giaVe
+            : chuyenBayKhuHoi.giaVe * 1.5)
           : 0;
       total +=
         childrenInfo != null
           ? childrenInfo.length *
-            (ticketTypeKhuHoi === "Phổ Thông"
-              ? chuyenBayKhuHoi.giaVe
-              : chuyenBayKhuHoi.giaVe * 1.5)
+          (ticketTypeKhuHoi === "Phổ Thông"
+            ? chuyenBayKhuHoi.giaVe
+            : chuyenBayKhuHoi.giaVe * 1.5)
           : 0;
       total +=
         babyInfo != null
           ? babyInfo.length *
-            (ticketTypeKhuHoi === "Phổ Thông"
-              ? chuyenBayKhuHoi.giaVe
-              : chuyenBayKhuHoi.giaVe * 1.5)
+          (ticketTypeKhuHoi === "Phổ Thông"
+            ? chuyenBayKhuHoi.giaVe
+            : chuyenBayKhuHoi.giaVe * 1.5)
           : 0;
     }
     return total;
   };
 
   const total = CurrencyFormat(getTotal());
-
-  //LOG THONG TIN
-  console.log("chuyenbay di", chuyenBay);
-  console.log("chuyenbay khu hoi", chuyenBayKhuHoi);
-  console.log("thong tin nguoi lon: ", adultsInfo);
-  console.log("thong tin tre em: ", childrenInfo);
-  console.log("thong tin em be: ", babyInfo);
-  console.log("loai ve 1 chieu: ", ticketType);
-  console.log("loai ve khu hoi: ", ticketTypeKhuHoi);
-  console.log("ma dat cho 1 chieu: ", maDatCho);
-  console.log("ma dat cho khu hoi: ", maDatChoKhuHoi);
 
   //ngày tạo hóa đơn
   const [createDate, setCreateDate] = useState();
@@ -114,6 +101,7 @@ function HoaDon() {
     const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
     const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
     const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+    // const orderCode = `OD${year}${month}${day}`;
     const createOrderDate = year + "-" + month + "-" + day;
     setCreateDate(createOrderDate);
     return orderCode;
@@ -137,7 +125,7 @@ function HoaDon() {
     tongTien: amount,
     trangThaiThanhToan: 0,
     trangThaiXoa: 0,
-    emailNguoiDung: "user@example.com",
+    emailNguoiDung: emailNguoiDung,
   };
 
   //veMayBayDTO
@@ -148,7 +136,7 @@ function HoaDon() {
     maDatChoKhuHois: maDatChoKhuHoi.length > 0 ? maDatChoKhuHoi : [],
   };
 
-  console.log("veMayBayDTO", veMayBayDTO);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -186,7 +174,7 @@ function HoaDon() {
   };
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className="container d-flex justify-content-center mb-3">
       <div className="order order-container mt-3">
         <div className="order-sidebar">
           <img
@@ -237,9 +225,7 @@ function HoaDon() {
                   {chuyenBay.hangBay.tenHangBay} (Em bé x {babyInfo.length}){" "}
                 </div>
                 <div>
-                  {ticketType === "Phổ Thông"
-                    ? chuyenBay.giaVe * babyInfo.length
-                    : chuyenBay.giaVe * 1.5 * babyInfo.length}
+                  {giaVeEmBe * babyInfo.length}
                 </div>
               </div>
             )}
@@ -284,9 +270,7 @@ function HoaDon() {
                       (Em bé x {babyInfo.length})
                     </div>
                     <div>
-                      {ticketTypeKhuHoi === "Phổ Thông"
-                        ? chuyenBayKhuHoi.giaVe
-                        : chuyenBayKhuHoi.giaVe * 1.5 * babyInfo.length}
+                      {giaVeEmBe * babyInfo.length}
                     </div>
                   </div>
                 )}
@@ -355,7 +339,7 @@ function HoaDon() {
           </div>
           <hr></hr>
           <h5>HÀNH KHÁCH</h5>
-          <table className="table table-striped">
+          <table className="table table-striped text-nowrap">
             <tbody>
               {adultsInfo.map((item, index) => (
                 <tr key={index}>
