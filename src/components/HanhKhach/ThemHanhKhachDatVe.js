@@ -69,7 +69,7 @@ const ThongTinKhachHangDatVe = () => {
         tenHanhKhach: "",
         ngaySinh: "",
         gioiTinh: "",
-        loaiHanhKhach: "Em bé",
+        loaiHanhKhach: "Em Bé",
       });
     }
     setBabyInfo(babies);

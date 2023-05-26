@@ -28,7 +28,7 @@ function DanhSachChuyenBay() {
       })
       .catch((err) => console.error);
   }, []);
-  
+
   //DucNH66 load lại danh sách chuyến bay khi có thay đổi
   useEffect(() => {
     fetchChuyenBays();
@@ -90,7 +90,7 @@ function DanhSachChuyenBay() {
 
   //Ducnh66 tính toán trang được hiển thị trên màn hình
   const calculatePageNumbers = () => {
-    const soTrangToiDa = 4;
+    const soTrangToiDa = 3;
     const trangDau = Math.max(0, page - Math.floor(soTrangToiDa / 2));
     const trangCuoi = Math.min(totalPages - 1, trangDau + soTrangToiDa - 1);
     const pageNumbers = [];
@@ -123,7 +123,7 @@ function DanhSachChuyenBay() {
 
   return (
     <div className="container chuyenbay ">
-      <h1>DANH SÁCH CHUYẾN BAY</h1>
+      <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
       <hr />
       {/* Form tìm kiếm  DucNH66*/}
       <form class="row justify-content-center search" onSubmit={handleSearch}>
@@ -256,12 +256,8 @@ function DanhSachChuyenBay() {
 
       {/* Hiển thị thông báo khi không có dữ liệu  DucNH66 */}
       {!isSearching
-        ? listCB.length === 0 && (
-            <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-          )
-        : searchResult.length === 0 && (
-            <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
-          )}
+        ? listCB.length === 0 && <h1 className="h1">Không có dữ liệu</h1>
+        : searchResult.length === 0 && <h1 className="h1">Không có dữ liệu</h1>}
 
       {/* Phân trang DucNH66  */}
       {(listCB.length > 0 || searchResult.length > 0) && (

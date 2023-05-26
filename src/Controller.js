@@ -34,7 +34,7 @@ function Controller() {
   const handleTogger = () => {
     setOn(!on);
     console.log(on);
-  }
+  };
   return (
     <div className="Controller">
       <BrowserRouter>
@@ -73,10 +73,10 @@ function Controller() {
             <Route path="Login" element={<Login />} />
             <Route path="DangKy" element={<DangKy />} />
             <Route path="BarChart" element={<BarChart />} />
-            <Route path="GuiEmail" element={< GuiEmail />} />
-            <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
-            <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
-            <Route path="ThayDoiMatKhau" element={< ThayDoiMatKhau />} />
+            <Route path="GuiEmail" element={<GuiEmail />} />
+            <Route path="ThietLapMatKhauMoi" element={<ThietLapMatKhauMoi />} />
+            <Route path="SuaThongTinCaNhan" element={<SuaThongTinCaNhan />} />
+            <Route path="ThayDoiMatKhau" element={<ThayDoiMatKhau />} />
           </Route>
           {/* Hóa Đơn */}
           <Route>

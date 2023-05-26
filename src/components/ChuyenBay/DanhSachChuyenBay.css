@@ -16,3 +16,8 @@ button[disabled] {
         background: var(--gradientColor1);
     }
 }
+
+.h1 {
+    text-align: center;
+    margin-top: 30px;
+}
