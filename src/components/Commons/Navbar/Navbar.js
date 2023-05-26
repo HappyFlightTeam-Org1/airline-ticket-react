@@ -1,8 +1,8 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../../Assets/logo.png";
-export default function Navbar({handleTogger, on}) {
+export default function Navbar({ handleTogger, on }) {
 
   return (
     <div >
@@ -28,15 +28,15 @@ export default function Navbar({handleTogger, on}) {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 menu">
-               <li className="nav-item">
+                <li className="nav-item">
                   <label className="toggle-wrap" >
-                      <input type="checkbox" className="toggle-switch"></input>
-                      <span className="toggle" onClick={handleTogger}>
-                      <i class="fa-solid fa-sun"></i>
-                      <i class="fa-solid fa-moon"></i>
-                      </span>
+                    <input type="checkbox" className="toggle-switch"></input>
+                    <span className="toggle" onClick={handleTogger}>
+                      <i className="fa-solid fa-sun"></i>
+                      <i className="fa-solid fa-moon"></i>
+                    </span>
                   </label>
-               </li>
+                </li>
                 <li className="nav-item">
 
                   <Link
@@ -100,7 +100,7 @@ export default function Navbar({handleTogger, on}) {
 
                   <Link
                     as={Link}
-                    to="NguoiDung"
+                    to="QuanLyNguoiDung"
                     className="text-white nav-link active"
                   >
                     Người dùng
@@ -111,10 +111,10 @@ export default function Navbar({handleTogger, on}) {
 
                   <Link
                     as={Link}
-                    to="/"
+                    to="BarChart"
                     className="text-white nav-link active"
                   >
-                    Liên hệ
+                    Thống Kê
                   </Link>
 
                 </li>

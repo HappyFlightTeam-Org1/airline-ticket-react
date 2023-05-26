@@ -10,6 +10,7 @@ function ThanhToanThanhCong() {
     const [tickets, setTickets] = useState([]);
     const apiURLUpdate = "http://localhost:8080/hoa-don/update/" + orderCode;
     const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
+
     useEffect(() => {
         axios
             .post(apiURLUpdate)
@@ -26,9 +27,9 @@ function ThanhToanThanhCong() {
                     .catch((err) => console.error);
             })
             .catch((err) => console.error);
-        console.log("orderCode", orderCode);
+        console.log("orderCode1", orderCode);
 
-    }, []);
+    }, [null]);
     return (
         <div className='container bg-body table-shadow mt-3'>
             <div className="pt-5 pb-2">
