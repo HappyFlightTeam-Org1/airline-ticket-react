@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import "./HoaDon.css";
-import axios from "axios";
-import { toast } from "react-toastify";
+import './HoaDon.css';
+
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 function HoaDon() {
 
   //LẤY DỮ LIỆU TỪ COMPONENT TRƯỚC ĐÓ CHUYỂN SANG
@@ -80,7 +82,8 @@ function HoaDon() {
     const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
     const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
     const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
-    const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+    // const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+    const orderCode = `OD${year}${month}${day}`;
     const createOrderDate = year + "-" + month + "-" + day;
     setCreateDate(createOrderDate);
     return orderCode;
@@ -143,12 +146,17 @@ function HoaDon() {
               console.error(error);
             });
         } else {
+          console.log("respone.data", respone.data);
           toast.error(respone.data)
         }
 
 
 
       })
+        .catch((error2) => {
+          console.error("error22", error2);
+          toast.warning(error2.respone)
+        });
 
 
     } catch (error) {
