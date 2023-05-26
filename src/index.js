@@ -10,8 +10,8 @@ const toastConfig = {
   autoClose: 3000,
 };
 root.render(
-  <React.StrictMode>
+  <>
     <Controller />
     <ToastContainer {...toastConfig} />
-  </React.StrictMode>
+  </>
 );
