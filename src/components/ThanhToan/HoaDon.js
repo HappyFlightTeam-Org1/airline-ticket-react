@@ -1,12 +1,9 @@
-import './HoaDon.css';
-
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
-
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./HoaDon.css";
+import axios from "axios";
+import { toast } from "react-toastify";
 function HoaDon() {
-
   //LẤY DỮ LIỆU TỪ COMPONENT TRƯỚC ĐÓ CHUYỂN SANG
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -19,6 +16,8 @@ function HoaDon() {
   const chuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
   const maDatCho = JSON.parse(queryParams.get("maDatCho"));
   const maDatChoKhuHoi = JSON.parse(queryParams.get("maDatChoKhuHoi"));
+  const emailNguoiDung = localStorage.getItem("email");
+  const giaVeEmBe = 100000;
 
   //lấy list hanhKhachDTO từ component nhập thông tin
   const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
@@ -43,32 +42,51 @@ function HoaDon() {
   const getTotal = () => {
     let total = 0;
     if (chuyenBay != null) {
-      total += adultsInfo != null ? adultsInfo.length * ((ticketType === 'Phổ Thông') ? (chuyenBay.giaVe) : (chuyenBay.giaVe * 1.5)) : 0;
-      total += childrenInfo != null ? childrenInfo.length * ((ticketType === 'Phổ Thông') ? (chuyenBay.giaVe) : (chuyenBay.giaVe * 1.5)) : 0;
-      total += babyInfo != null ? babyInfo.length * ((ticketType === 'Phổ Thông') ? (chuyenBay.giaVe) : (chuyenBay.giaVe * 1.5)) : 0;
+      total +=
+        adultsInfo != null
+          ? adultsInfo.length *
+          (ticketType === "Phổ Thông"
+            ? chuyenBay.giaVe
+            : chuyenBay.giaVe * 1.5)
+          : 0;
+      total +=
+        childrenInfo != null
+          ? childrenInfo.length *
+          (ticketType === "Phổ Thông"
+            ? chuyenBay.giaVe
+            : chuyenBay.giaVe * 1.5)
+          : 0;
+      total +=
+        babyInfo != null
+          ? giaVeEmBe * babyInfo.length : 0;
     }
     if (chuyenBayKhuHoi != null) {
       total +=
-        adultsInfo != null ? adultsInfo.length * ((ticketTypeKhuHoi === 'Phổ Thông') ? (chuyenBayKhuHoi.giaVe) : (chuyenBayKhuHoi.giaVe * 1.5)) : 0;
+        adultsInfo != null
+          ? adultsInfo.length *
+          (ticketTypeKhuHoi === "Phổ Thông"
+            ? chuyenBayKhuHoi.giaVe
+            : chuyenBayKhuHoi.giaVe * 1.5)
+          : 0;
       total +=
-        childrenInfo != null ? childrenInfo.length * ((ticketTypeKhuHoi === 'Phổ Thông') ? (chuyenBayKhuHoi.giaVe) : (chuyenBayKhuHoi.giaVe * 1.5)) : 0;
-      total += babyInfo != null ? babyInfo.length * ((ticketTypeKhuHoi === 'Phổ Thông') ? (chuyenBayKhuHoi.giaVe) : (chuyenBayKhuHoi.giaVe * 1.5)) : 0;
+        childrenInfo != null
+          ? childrenInfo.length *
+          (ticketTypeKhuHoi === "Phổ Thông"
+            ? chuyenBayKhuHoi.giaVe
+            : chuyenBayKhuHoi.giaVe * 1.5)
+          : 0;
+      total +=
+        babyInfo != null
+          ? babyInfo.length *
+          (ticketTypeKhuHoi === "Phổ Thông"
+            ? chuyenBayKhuHoi.giaVe
+            : chuyenBayKhuHoi.giaVe * 1.5)
+          : 0;
     }
     return total;
   };
 
   const total = CurrencyFormat(getTotal());
-
-  //LOG THONG TIN
-  console.log("chuyenbay di", chuyenBay);
-  console.log("chuyenbay khu hoi", chuyenBayKhuHoi);
-  console.log("thong tin nguoi lon: ", adultsInfo);
-  console.log("thong tin tre em: ", childrenInfo);
-  console.log("thong tin em be: ", babyInfo);
-  console.log("loai ve 1 chieu: ", ticketType);
-  console.log("loai ve khu hoi: ", ticketTypeKhuHoi);
-  console.log("ma dat cho 1 chieu: ", maDatCho);
-  console.log("ma dat cho khu hoi: ", maDatChoKhuHoi);
 
   //ngày tạo hóa đơn
   const [createDate, setCreateDate] = useState();
@@ -82,8 +100,8 @@ function HoaDon() {
     const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
     const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
     const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
-    // const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
-    const orderCode = `OD${year}${month}${day}`;
+    const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+    // const orderCode = `OD${year}${month}${day}`;
     const createOrderDate = year + "-" + month + "-" + day;
     setCreateDate(createOrderDate);
     return orderCode;
@@ -107,58 +125,49 @@ function HoaDon() {
     tongTien: amount,
     trangThaiThanhToan: 0,
     trangThaiXoa: 0,
-    emailNguoiDung: "user@example.com",
+    emailNguoiDung: emailNguoiDung,
   };
 
   //veMayBayDTO
   const veMayBayDTO = {
     hoaDonDTO: hoaDonDTO,
     hanhKhachDTOs: hanhKhachs,
-    maDatChoDis: (maDatCho.length > 0) ? maDatCho : [],
-    maDatChoKhuHois: (maDatChoKhuHoi.length > 0) ? maDatChoKhuHoi : [],
+    maDatChoDis: maDatCho.length > 0 ? maDatCho : [],
+    maDatChoKhuHois: maDatChoKhuHoi.length > 0 ? maDatChoKhuHoi : [],
   };
 
-  console.log("veMayBayDTO", veMayBayDTO);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
     try {
       //lưu hóa đơn, list vé máy bay và list hành khách đi kèm theo vé
-      axios.post(
-        "http://localhost:8080/VeMayBay/prePayment",
-        veMayBayDTO
-      ).then((respone) => {
-        if (respone.data.maHoaDon) {
-          const hoaDonDTO = {
-            maHoaDon: respone.data.maHoaDon,
-            ngayTao: respone.data.ngayTao,
-            tongTien: respone.data.tongTien,
-            trangThaiThanhToan: respone.data.trangThaiThanhToan,
-            trangThaiXoa: respone.data.trangThaiXoa
+      axios
+        .post("http://localhost:8080/VeMayBay/prePayment", veMayBayDTO)
+        .then((respone) => {
+          if (respone.data.maHoaDon) {
+            const hoaDonDTO = {
+              maHoaDon: respone.data.maHoaDon,
+              ngayTao: respone.data.ngayTao,
+              tongTien: respone.data.tongTien,
+              trangThaiThanhToan: respone.data.trangThaiThanhToan,
+              trangThaiXoa: respone.data.trangThaiXoa,
+            };
+            axios
+              .post(
+                "http://localhost:8080/thanh-toan/vnpay/make-order",
+                hoaDonDTO
+              )
+              .then((urlPayment) => {
+                window.location.href = urlPayment.data;
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          } else {
+            toast.error(respone.data);
           }
-          axios.post(
-            "http://localhost:8080/thanh-toan/vnpay/make-order",
-            hoaDonDTO)
-            .then((urlPayment) => {
-              window.location.href = urlPayment.data;
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        } else {
-          console.log("respone.data", respone.data);
-          toast.error(respone.data)
-        }
-
-
-
-      })
-        .catch((error2) => {
-          console.error("error22", error2);
-          toast.warning(error2.respone)
         });
-
-
     } catch (error) {
       console.error("error", error);
     }
@@ -168,7 +177,11 @@ function HoaDon() {
     <div className="container d-flex justify-content-center">
       <div className="order order-container mt-3">
         <div className="order-sidebar">
-          <img style={{ width: '100%' }} src="https://www.onlygfx.com/wp-content/uploads/2021/07/paper-plane-1.png" alt="imageSrc" />
+          <img
+            style={{ width: "100%" }}
+            src="https://www.onlygfx.com/wp-content/uploads/2021/07/paper-plane-1.png"
+            alt="imageSrc"
+          />
         </div>
         <div className="order-content">
           <div>
@@ -185,7 +198,11 @@ function HoaDon() {
                   {chuyenBay.hangBay.tenHangBay} (Người lớn x{" "}
                   {adultsInfo.length}){" "}
                 </div>
-                <div>{(ticketType === 'Phổ Thông') ? (chuyenBay.giaVe) * adultsInfo.length : (chuyenBay.giaVe * 1.5) * adultsInfo.length}</div>
+                <div>
+                  {ticketType === "Phổ Thông"
+                    ? chuyenBay.giaVe * adultsInfo.length
+                    : chuyenBay.giaVe * 1.5 * adultsInfo.length}
+                </div>
               </div>
             )}
 
@@ -195,7 +212,11 @@ function HoaDon() {
                   {chuyenBay.hangBay.tenHangBay} (Trẻ em x {childrenInfo.length}
                   ){" "}
                 </div>
-                <div>{(ticketType === 'Phổ Thông') ? (chuyenBay.giaVe) * childrenInfo.length : (chuyenBay.giaVe * 1.5) * childrenInfo.length}</div>
+                <div>
+                  {ticketType === "Phổ Thông"
+                    ? chuyenBay.giaVe * childrenInfo.length
+                    : chuyenBay.giaVe * 1.5 * childrenInfo.length}
+                </div>
               </div>
             )}
             {babyInfo.length > 0 && (
@@ -203,7 +224,9 @@ function HoaDon() {
                 <div>
                   {chuyenBay.hangBay.tenHangBay} (Em bé x {babyInfo.length}){" "}
                 </div>
-                <div>{(ticketType === 'Phổ Thông') ? (chuyenBay.giaVe) * babyInfo.length : (chuyenBay.giaVe * 1.5) * babyInfo.length}</div>
+                <div>
+                  {giaVeEmBe * babyInfo.length}
+                </div>
               </div>
             )}
 
@@ -219,7 +242,11 @@ function HoaDon() {
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Người lớn x{" "}
                       {adultsInfo.length}){" "}
                     </div>
-                    <div>{(ticketTypeKhuHoi === 'Phổ Thông') ? (chuyenBayKhuHoi.giaVe) : (chuyenBayKhuHoi.giaVe * 1.5) * adultsInfo.length}</div>
+                    <div>
+                      {ticketTypeKhuHoi === "Phổ Thông"
+                        ? chuyenBayKhuHoi.giaVe
+                        : chuyenBayKhuHoi.giaVe * 1.5 * adultsInfo.length}
+                    </div>
                   </div>
                 )}
                 {childrenInfo.length > 0 && (
@@ -228,7 +255,11 @@ function HoaDon() {
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Trẻ em x
                       {childrenInfo.length})
                     </div>
-                    <div>{(ticketTypeKhuHoi === 'Phổ Thông') ? (chuyenBayKhuHoi.giaVe) : (chuyenBayKhuHoi.giaVe * 1.5) * childrenInfo.length}</div>
+                    <div>
+                      {ticketTypeKhuHoi === "Phổ Thông"
+                        ? chuyenBayKhuHoi.giaVe
+                        : chuyenBayKhuHoi.giaVe * 1.5 * childrenInfo.length}
+                    </div>
                   </div>
                 )}
                 {babyInfo.length > 0 && (
@@ -238,7 +269,9 @@ function HoaDon() {
                         chuyenBayKhuHoi.hangBay.tenHangBay}
                       (Em bé x {babyInfo.length})
                     </div>
-                    <div>{(ticketTypeKhuHoi === 'Phổ Thông') ? (chuyenBayKhuHoi.giaVe) : (chuyenBayKhuHoi.giaVe * 1.5) * babyInfo.length}</div>
+                    <div>
+                      {giaVeEmBe * babyInfo.length}
+                    </div>
                   </div>
                 )}
               </div>
@@ -257,9 +290,13 @@ function HoaDon() {
           <div className="mt-2">
             <strong>
               <small>Bằng việc nhấn Thanh toán, bạn đồng ý với </small>
-              <small className="text-primary"><Link>Điều khoản & Điều kiện</Link></small>
+              <small className="text-primary">
+                <Link>Điều khoản & Điều kiện</Link>
+              </small>
               <small> và </small>
-              <small className="text-primary"><Link>Chính sách và quyền riêng tư</Link></small>
+              <small className="text-primary">
+                <Link>Chính sách và quyền riêng tư</Link>
+              </small>
               <small>.</small>
             </strong>
           </div>
@@ -279,12 +316,26 @@ function HoaDon() {
           </div>
           <h6 className="mb-0">
             {chuyenBay.ngayKhoiHanh}
-            {chuyenBayKhuHoi != null ? " - " + chuyenBayKhuHoi.ngayKhoiHanh : ""}
+            {chuyenBayKhuHoi != null
+              ? " - " + chuyenBayKhuHoi.ngayKhoiHanh
+              : ""}
           </h6>
           <div className="d-flex align-items-center">
             <strong>{chuyenBay.diemDi}</strong>
-            <strong><small>{chuyenBayKhuHoi != null ? <i className='bx bx-transfer-alt'></i> : <i className='bx bx-transfer-alt'></i>}</small></strong>
-            <strong>{chuyenBayKhuHoi != null ? chuyenBayKhuHoi.diemDi : chuyenBay.diemDen}</strong>
+            <strong>
+              <small>
+                {chuyenBayKhuHoi != null ? (
+                  <i className="bx bx-transfer-alt"></i>
+                ) : (
+                  <i className="bx bx-transfer-alt"></i>
+                )}
+              </small>
+            </strong>
+            <strong>
+              {chuyenBayKhuHoi != null
+                ? chuyenBayKhuHoi.diemDi
+                : chuyenBay.diemDen}
+            </strong>
           </div>
           <hr></hr>
           <h5>HÀNH KHÁCH</h5>

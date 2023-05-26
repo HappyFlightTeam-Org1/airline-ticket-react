@@ -3,8 +3,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
-
+//DucNH66 check validate client
+const checkForm = Yup.object().shape({
+  maChuyenBay: Yup.string().required("Vui lòng nhập mã chuyến bay"),
+  giaVe: Yup.number().required("Vui lòng nhập giá vé"),
+  diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
+  diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
+  ngayKhoiHanh: Yup.date().required("Vui lòng chọn ngày khởi hành"),
+  gioKhoiHanh: Yup.string().required("Vui lòng nhập giờ khởi hành"),
+  gioHaCanh: Yup.string().required("Vui lòng nhập giờ hạ cánh"),
+  maMayBay: Yup.string().required("Vui lòng chọn tên máy bay"),
+  maHangBay: Yup.string().required("Vui lòng chọn tên hãng bay"),
+  kLHanhLy: Yup.string().required("Vui lòng chọn khối lượng hành lý"),
+  trangThaiVanHanh: Yup.string().required("Vui lòng chọn trạng thái vận hành"),
+});
 function ThemMoiChuyenBay() {
   //DucNH66 lấy  data
   const navigate = useNavigate();
@@ -52,22 +66,34 @@ function ThemMoiChuyenBay() {
   //DucNH66 lưu vào db
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:8080/chuyen-bay/save", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    checkForm
+      .validate(formData, { abortEarly: false })
+      .then(() => {
+        axios
+          .post("http://localhost:8080/chuyen-bay/save", formData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            toast.success("THÊM THÀNH CÔNG");
+            navigate("/DanhSachChuyenBay");
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            if (err.response && err.response.data) {
+              setValid(err.response.data);
+              toast.warning("VUI LÒNG KIỂM TRA LẠI THEO YÊU CẦU!");
+            }
+          });
       })
-      .then((response) => {
-        toast.success("THÊM THÀNH CÔNG");
-        navigate("/DanhSachChuyenBay");
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        if (err.response && err.response.data) {
-          setValid(err.response.data);
-          toast.warning("THÊM THẤT BẠI");
-        }
+      .catch((validationErrors) => {
+        const errors = {};
+        validationErrors.inner.forEach((error) => {
+          errors[error.path] = error.message;
+        });
+        setValid(errors);
+        toast.warning("VUI LÒNG KHÔNG ĐỂ TRỐNG BẤT KỲ TRƯỜNG NÀO!");
       });
   };
 
@@ -288,14 +314,19 @@ function ThemMoiChuyenBay() {
                         <span style={red}> {valid.kLHanhLy}</span>
                       )}
                     </label>
-                    <input
+                    <select
                       id="kLHanhLy"
                       type="text"
                       className="form-control"
                       name="kLHanhLy"
                       value={formData.kLHanhLy}
                       onChange={handleInputChange}
-                    />
+                    >
+                      <option value="">-- Chọn hành lý --</option>
+                      <option value="20kg"> 20 kg</option>
+                      <option value="25kg"> 25 kg</option>
+                      <option value="30kg"> 30 kg</option>
+                    </select>
                   </div>
                   <div className="col-md-6">
                     <label>
@@ -304,14 +335,17 @@ function ThemMoiChuyenBay() {
                         <span style={red}> {valid.trangThaiVanHanh}</span>
                       )}
                     </label>
-                    <input
+                    <select
                       type="text"
                       className="form-control"
                       name="trangThaiVanHanh"
                       id="trangThaiVanHanh"
                       value={formData.trangThaiVanHanh}
                       onChange={handleInputChange}
-                    />
+                    >
+                      <option value={""}>Chọn</option>
+                      <option value={"Sẵn Sàng"}>Sẵn Sàng</option>
+                    </select>
                   </div>
                 </div>
 

@@ -3,11 +3,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import './LichSuDatVe.css'
+import "./LichSuDatVe.css";
 import axios from "axios";
 function LichSuDatVe() {
-
-
     const [tickets, setTickets] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
@@ -20,18 +18,16 @@ function LichSuDatVe() {
     const [diemDen, setDiemDen] = useState();
     const [maVe, setMaVe] = useState();
     const [totalPages, setTotalPages] = useState();
+    const [sanBay, setSanBay] = useState([]);
 
-
-    // useEffect(() => {
-    //     axios
-    //         .get("http://localhost:8080/VeMayBay/list")
-    //         .then((response) => {
-    //             setTickets(response.data);
-    //             console.log("VE MAY BAY");
-    //             console.log(response.data);
-    //         })
-    //         .catch((err) => console.error);
-    // }, []);
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/VeMayBay/listSanBay")
+            .then((response) => {
+                setSanBay(response.data);
+            })
+            .catch((err) => console.error);
+    }, []);
 
     //DuyNT58 load lại danh sách vé máy bay khi có thay đổi
     useEffect(() => {
@@ -41,19 +37,16 @@ function LichSuDatVe() {
     //DuyNT58 lấy danh sách vé máy bay
     const fetchTicketList = async () => {
         try {
-            const response = await axios.get(
-                "http://localhost:8080/VeMayBay/list",
-                {
-                    params: {
-                        page,
-                        size,
-                        maVe,
-                        tenHanhKhach,
-                        diemDi,
-                        diemDen,
-                    },
-                }
-            );
+            const response = await axios.get("http://localhost:8080/VeMayBay/page", {
+                params: {
+                    page,
+                    size,
+                    maVe,
+                    tenHanhKhach,
+                    diemDi,
+                    diemDen,
+                },
+            });
             setTotalPages(response.data.totalPages);
             if (maVe || tenHanhKhach || diemDi || diemDen) {
                 setIsSearching(true);
@@ -86,10 +79,6 @@ function LichSuDatVe() {
         }
     };
 
-    const changePage = ({ selected }) => {
-        setPageNumber(selected);
-    };
-
     //DuyNT58 chọn trang muốn hiển thị
     const handlePageChange = (newPage) => {
         setPage(newPage);
@@ -97,14 +86,13 @@ function LichSuDatVe() {
 
     //DuyNT58 tính toán trang được hiển thị trên màn hình
     const calculatePageNumbers = () => {
-        const soTrangToiDa = 4;
+        const soTrangToiDa = 3;
         const trangDau = Math.max(0, page - Math.floor(soTrangToiDa / 2));
         const trangCuoi = Math.min(totalPages - 1, trangDau + soTrangToiDa - 1);
         const pageNumbers = [];
         for (let i = trangDau; i <= trangCuoi; i++) {
             pageNumbers.push(i);
         }
-        console.log(pageNumbers);
         return pageNumbers;
     };
 
@@ -121,17 +109,14 @@ function LichSuDatVe() {
                     href="#"
                     onClick={() => handlePageChange(pageNumber)}
                 >
-                    {console.log(pageNumber + 1)}
                     {pageNumber + 1}
                 </a>
             </li>
         ));
     };
 
-
-    // console.log("tickets", tickets);
     return (
-        <div className='container ticket-container bg-body table-shadow'>
+        <div className="container ticket-container bg-body table-shadow">
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
@@ -143,7 +128,8 @@ function LichSuDatVe() {
                         <h5>Tìm Kiếm Theo</h5>
                     </div>
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="maVe"
+                        <input
+                            id="maVe"
                             value={formData.maVe}
                             type="text"
                             name="maVe"
@@ -153,7 +139,8 @@ function LichSuDatVe() {
                         />
                     </div>
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="tenHanhKhach"
+                        <input
+                            id="tenHanhKhach"
                             value={formData.tenHanhKhach}
                             type="text"
                             name="tenHanhKhach"
@@ -163,31 +150,46 @@ function LichSuDatVe() {
                         />
                     </div>
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="diemDi"
+                        <select
+                            name="diemDi"
+                            id="diemDi"
                             value={formData.diemDi}
-                            type="text"
-                            name="noiDi"
-                            className="form-control"
-                            placeholder="Nơi Đi"
                             onChange={handleInputChange}
-                        />
+                            className="form-control "
+                        >
+                            <option value="">-- Chọn điểm đi --</option>
+                            {sanBay.map((sanBay) => (
+                                <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                                    {sanBay.thanhPho}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="diemDen"
-                            value={formData.diemDen}
-                            type="text"
+                        <select
                             name="diemDen"
-                            className="form-control"
-                            placeholder="Nơi đến"
+                            id="diemDen"
+                            value={formData.diemDen}
                             onChange={handleInputChange}
-                        />
+                            className="form-control"
+                        >
+                            <option value="">-- Chọn điểm đến --</option>
+                            {sanBay.map((sanBay) => (
+                                <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                                    {sanBay.thanhPho}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <button type="submit" className="btn bg"> Tìm Kiếm</button>
+                        <button type="submit" className="btn bg">
+                            {" "}
+                            Tìm Kiếm
+                        </button>
                     </div>
                 </form>
             </div>
-            <table className="table table-striped border">
+            <table className="table table-striped border text-nowrap" >
                 <thead>
                     <tr>
                         <th scope="col">Mã Vé</th>
@@ -202,34 +204,41 @@ function LichSuDatVe() {
                     </tr>
                 </thead>
                 <tbody>
-                    {isSearching ? searchResult.map((item, index) => {
-                        return (
-                            <tr className="align-middle" key={item.maVe}>
-                                <th scope="row">{item.maVe}</th>
-                                <td>{item.hanhKhach.tenHanhKhach}</td>
-                                <td>{item.hoaDon.ngayTao}</td>
-                                <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
-                                <td>{item.datCho.chuyenBay.diemDi}</td>
-                                <td>{item.datCho.chuyenBay.diemDen}</td>
-                                <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                <td>{item.giaVe}</td>
-                                <td>
-                                    <Link
-                                        as={Link}
-                                        to={`/InVe?maVe=${item.maVe.toString()}`}
-                                        className="text-white"
-                                    >
-                                        <button className="btn bg" type="submit">
-
-                                            In</button>
-                                    </Link>
-                                    <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
-                                </td>
-                            </tr>
-                        )
-                    }) :
-
-                        tickets.map((item, index) => {
+                    {isSearching
+                        ? searchResult.map((item) => {
+                            return (
+                                <tr className="align-middle text-nowrap" key={item.maVe}>
+                                    <th scope="row">{item.maVe}</th>
+                                    <td>{item.hanhKhach.tenHanhKhach}</td>
+                                    <td>{item.hoaDon.ngayTao}</td>
+                                    <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
+                                    <td>{item.datCho.chuyenBay.diemDi}</td>
+                                    <td>{item.datCho.chuyenBay.diemDen}</td>
+                                    <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                                    <td>{item.giaVe}</td>
+                                    <td>
+                                        <Link
+                                            as={Link}
+                                            to={`/InVe?maVe=${item.maVe.toString()}`}
+                                            className="text-white"
+                                        >
+                                            <button className="btn bg" type="submit">
+                                                In
+                                            </button>
+                                        </Link>
+                                        <button
+                                            className="btn btn-danger"
+                                            type="submit"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop"
+                                        >
+                                            Huỷ
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                        : tickets.map((item, index) => {
                             return (
                                 <tr className="align-middle" key={item.maVe}>
                                     <th scope="row">{item.maVe}</th>
@@ -239,7 +248,11 @@ function LichSuDatVe() {
                                     <td>{item.datCho.chuyenBay.diemDi}</td>
                                     <td>{item.datCho.chuyenBay.diemDen}</td>
                                     <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                    <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
+                                    <td>
+                                        {item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông"
+                                            ? item.giaVe
+                                            : item.giaVe * 1.5}
+                                    </td>
                                     <td>
                                         <Link
                                             as={Link}
@@ -247,19 +260,22 @@ function LichSuDatVe() {
                                             className="text-white"
                                         >
                                             <button className="btn bg" type="submit">
-
-                                                In</button>
+                                                In
+                                            </button>
                                         </Link>
-                                        <button className="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Huỷ</button>
+                                        <button
+                                            className="btn btn-danger"
+                                            type="submit"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop"
+                                        >
+                                            Huỷ
+                                        </button>
                                     </td>
                                 </tr>
-                            )
-                        })
-
-
-                    }
+                            );
+                        })}
                 </tbody>
-
             </table>
 
             {(tickets.length > 0 || searchResult.length > 0) && (
@@ -376,30 +392,27 @@ function LichSuDatVe() {
                 </div>
             )}
 
-            {/* <div className="justify-content-center pagination">
-                <nav aria-label="...">
-                    <ul className="pagination">
-                        <li className="page-item disabled">
-                            <span className="page-link">Previous</span>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item active" aria-current="page">
-                            <span className="page-link">2</span>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item">
-                            <a className="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div> */}
-
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div
+                className="modal fade"
+                id="staticBackdrop"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabIndex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+            >
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header bg-danger">
-                            <h5 className="modal-title text-white" id="staticBackdropLabel">XÁC NHẬN</h5>
-                            <button type="button" className="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 className="modal-title text-white" id="staticBackdropLabel">
+                                XÁC NHẬN
+                            </h5>
+                            <button
+                                type="button"
+                                className="btn-close text-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
                         </div>
                         <div className="modal-body">
                             <div>
@@ -410,8 +423,16 @@ function LichSuDatVe() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
-                            <button type="button" className="btn btn-warning">Xác nhận</button>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Hủy bỏ
+                            </button>
+                            <button type="button" className="btn btn-warning">
+                                Xác nhận
+                            </button>
                         </div>
                     </div>
                 </div>

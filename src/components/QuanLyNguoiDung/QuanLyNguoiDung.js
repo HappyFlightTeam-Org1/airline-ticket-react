@@ -1,17 +1,17 @@
-import React, {useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import "./QuanLyNguoiDung.css"
 import axios from 'axios';
 import * as XLSX from 'xlsx/xlsx.mjs';
 export default function QuanLyNguoiDung() {
-  const  [dataNguoiDung,setDataNguoiDung] = useState([]);
+  const [dataNguoiDung, setDataNguoiDung] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [totalPage, setTotalPage] = useState(3);
   const [pageNumbers, setPageNumbers] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [name,setName] = useState("");
-  const [soDienThoai,setSoDienThoai] = useState("");
-  const [email,setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [soDienThoai, setSoDienThoai] = useState("");
+  const [email, setEmail] = useState("");
   const [isStatus, setIsStatus] = useState(false);
   const [dataExcel, setDataExcel] = useState({})
   useEffect(() => {
@@ -25,13 +25,14 @@ export default function QuanLyNguoiDung() {
       .then((response) => {
         const data = response.data;
         setTotalPage(data.totalPages);
+        console.log(totalPage);
         setPageNumbers(Array.from(Array(data.totalPages).keys()));
         setDataNguoiDung(data.content);
         console.log(dataNguoiDung);
       })
       .catch((error) => console.error);
 
-      axios
+    axios
       .get("http://localhost:8080/nguoi-dung/list")
       .then((response) => {
         const users = response.data.map((user) => ({
@@ -44,14 +45,14 @@ export default function QuanLyNguoiDung() {
       })
       .catch((err) => console.error);
 
-  }, [currentPage, pageSize,isStatus]);
+  }, [currentPage, pageSize, isStatus]);
 
   function handleNextPageClick() {
     if (currentPage < totalPage - 1) {
       setCurrentPage(currentPage + 1);
     }
   }
-    function handlePreviousPageClick() {
+  function handlePreviousPageClick() {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
@@ -66,12 +67,12 @@ export default function QuanLyNguoiDung() {
     setSoDienThoai(event.target.elements.soDienThoai.value);
     setEmail(event.target.elements.email.value);
     setIsSearching(true);
-    isStatus===true?setIsStatus(false):setIsStatus(true);
+    isStatus === true ? setIsStatus(false) : setIsStatus(true);
   };
 
   const handleOnExport = () => {
     var wb = XLSX.utils.book_new(),
-    ws = XLSX.utils.json_to_sheet(dataExcel);
+      ws = XLSX.utils.json_to_sheet(dataExcel);
 
     XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
 
@@ -79,69 +80,69 @@ export default function QuanLyNguoiDung() {
   }
   return (
     <div className='container bg-body table-shadow'>
-            <div className="pt-5 pb-3">
-               {/* <button onClick={hanldeOnExport} >Excel</button> */}
-                <div className="text-center pb-3">
-                    <h1>DANH SÁCH NGƯỜI DÙNG</h1>
-                </div>
-                <form className="row justify-content-center search" onSubmit={handleSearch}>
-                    <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <h5>Tìm Kiếm Theo</h5>
-                    </div>
-                    <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="adults" type="text" name="name" className="form-control" placeholder="Tên Người Dùng" />
-                    </div>
-                    <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="adults" type="text" name="soDienThoai" className="form-control" placeholder="Số Điện Thoại" />
-                    </div>
-                    <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <input id="adults" type="text" name="email" className="form-control" placeholder="Địa Chỉ Email" />
-                    </div>
-                    <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-                        <button type="submit" className="btn btn-success bg"> Tìm Kiếm</button>
-                    </div>
-                </form>
-            </div>
-            <table className="table table-striped shadow">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Họ Và Tên</th>
-                    <th scope="col">Địa chỉ email</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Giới tính</th>
-                    <th scope="col">Ngày sinh</th>
-                    <th scope="col">Hộ Chiếu</th>
-                    <th scope="col">Địa chỉ</th>
-                    <th scope="col">Quốc tịch</th>
-                    <th scope="col">Thao Tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {dataNguoiDung.map((data, index) => (
-                    <tr className="align-middle">
-                    <th scope="row">{index +1}</th>
-                        <td>{data.hoVaTen}</td>
-                        <td>{data.email}</td>
-                        <td>{data.soDienThoai}</td>
-                        <td>{data.gioiTinh}</td>
-                        <td>{data.ngaySinh}</td>
-                        <td>{data.hoChieu}</td>
-                        <td>{data.diaChi}</td>
-                        <td>{data.quocTich.tenQuocTich}</td>
-                        <td>
-                            {/* <button className="btn btn-danger" type="submit">Khoá</button> */}
-                            <button className="btn btn-info bg" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
-                        </td>
-                    </tr>
-                    )
-                    )}
-                </tbody>
-            </table>
-            {dataNguoiDung.length === 0 && (
+      <div className="pt-5 pb-3">
+        {/* <button onClick={hanldeOnExport} >Excel</button> */}
+        <div className="text-center pb-3">
+          <h1>DANH SÁCH NGƯỜI DÙNG</h1>
+        </div>
+        <form className="row justify-content-center search" onSubmit={handleSearch}>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <h5>Tìm Kiếm Theo</h5>
+          </div>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <input id="adults" type="text" name="name" className="form-control" placeholder="Tên Người Dùng" />
+          </div>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <input id="adults" type="text" name="soDienThoai" className="form-control" placeholder="Số Điện Thoại" />
+          </div>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <input id="adults" type="text" name="email" className="form-control" placeholder="Địa Chỉ Email" />
+          </div>
+          <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
+            <button type="submit" className="btn btn-success bg"> Tìm Kiếm</button>
+          </div>
+        </form>
+      </div>
+      <table className="table table-striped shadow text-nowrap">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Họ Và Tên</th>
+            <th scope="col">Địa chỉ email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Giới tính</th>
+            <th scope="col">Ngày sinh</th>
+            <th scope="col">Hộ Chiếu</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Quốc tịch</th>
+            <th scope="col">Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataNguoiDung.map((data, index) => (
+            <tr className="align-middle">
+              <th scope="row">{index + 1}</th>
+              <td>{data.hoVaTen}</td>
+              <td>{data.email}</td>
+              <td>{data.soDienThoai}</td>
+              <td>{data.gioiTinh}</td>
+              <td>{data.ngaySinh}</td>
+              <td>{data.hoChieu}</td>
+              <td>{data.diaChi}</td>
+              <td>{data.quocTich.tenQuocTich}</td>
+              <td>
+                {/* <button className="btn btn-danger" type="submit">Khoá</button> */}
+                <button className="btn btn-info bg" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
+              </td>
+            </tr>
+          )
+          )}
+        </tbody>
+      </table>
+      {dataNguoiDung.length === 0 && (
         <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
       )}
-            {dataNguoiDung.length > 0 && (
+      {dataNguoiDung.length > 0 && (
         <div className="pagination justify-content-center">
           <nav aria-label="Page navigation example">
             <ul className="pagination">
@@ -157,9 +158,8 @@ export default function QuanLyNguoiDung() {
                 .map((pageNumber) => (
                   <li
                     key={pageNumber}
-                    className={`page-item ${
-                      currentPage === pageNumber ? "active" : ""
-                    }`}
+                    className={`page-item ${currentPage === pageNumber ? "active" : ""
+                      }`}
                   >
                     <button
                       className="page-link"
@@ -175,9 +175,8 @@ export default function QuanLyNguoiDung() {
                 </li>
               )}
               <li
-                className={`page-item ${
-                  currentPage === totalPage - 1 ? "disabled" : ""
-                }`}
+                className={`page-item ${currentPage === totalPage - 1 ? "disabled" : ""
+                  }`}
               >
                 <button className="page-link bg" onClick={handleNextPageClick}>
                   Next
@@ -185,12 +184,12 @@ export default function QuanLyNguoiDung() {
               </li>
             </ul>
           </nav>
-                    <div className="form-group col-md-2 export d-flex justify-content-center align-items-center">
-                          <button onClick={handleOnExport} className="btn btn-success bg">Excel <i class="fa-sharp fa-regular fa-file-excel"></i></button>
+          <div className="form-group col-md-2 export d-flex justify-content-center align-items-center">
+            <button onClick={handleOnExport} className="btn btn-success bg">Excel <i class="fa-sharp fa-regular fa-file-excel"></i></button>
 
-                    </div>
+          </div>
         </div>
       )}
-            </div>
+    </div>
   )
 }
