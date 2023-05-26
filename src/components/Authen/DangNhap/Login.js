@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Login.css";
@@ -24,6 +25,7 @@ export default function Login() {
       axios
         .post('http://localhost:8080/nguoi-dung/dang-nhap', formData)
         .then(response => {
+          Cookies.set('jwt', response.data.jwt, { expires: 30 });
           navigate('/');
         })
         .catch(err => {
