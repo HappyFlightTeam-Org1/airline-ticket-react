@@ -17,23 +17,28 @@ import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
 import HoaDon from "./components/ThanhToan/HoaDon.js";
 import Login from "./components/Authen/DangNhap/Login";
+import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhToanThanhCong";
+import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
+
 import DangKy from "./components/Authen/DangKy/Register.js";
+
+import React, { useState } from "react";
 import GuiEmail from "./components/Authen/QuenMatKhau/GuiEmail.js";
-import React,{useState} from "react";
 import ThietLapMatKhauMoi from "./components/Authen/QuenMatKhau/ThietLapMatKhauMoi";
 import SuaThongTinCaNhan from "./components/Authen/SuaThongTinCaNhan/SuaThongTinCaNhan";
-import  ThayDoiMatKhau from "./components/Authen/ThayDoiMatKhau/ThayDoiMatKhau.js";
+import ThayDoiMatKhau from "./components/Authen/ThayDoiMatKhau/ThayDoiMatKhau.js";
+
 function Controller() {
-  const [on,setOn] = useState(false);
+  const [on, setOn] = useState(false);
 
   const handleTogger = () => {
-       setOn(!on);
-       console.log(on);
+    setOn(!on);
+    console.log(on);
   }
   return (
     <div className="Controller">
       <BrowserRouter>
-        <Navbar handleTogger={handleTogger} on={on}/>
+        <Navbar handleTogger={handleTogger} on={on} />
         <Routes>
           <Route path="/" element={<Home on={on} />} />
           {/* Thêm mới chuyến bay */}
@@ -56,6 +61,7 @@ function Controller() {
             />
             <Route path="LichSuDatVe" element={<LichSuDatVe />} />
             <Route path="TimKiemVe" element={<TimKiemVe />} />
+            <Route path="InVe" element={<InVeMayBay />} />
           </Route>
           {/* Hiển thị danh sách đặt chỗ*/}
           <Route>
@@ -75,6 +81,7 @@ function Controller() {
           {/* Hóa Đơn */}
           <Route>
             <Route path="ThanhToan" element={<HoaDon />} />
+            <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
           </Route>
         </Routes>
         <Footer on={on} />

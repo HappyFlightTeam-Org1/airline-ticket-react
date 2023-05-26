@@ -1,86 +1,85 @@
 .maybay {
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin-bottom: 50px;
-    background: linear-gradient(to right,
-            hsl(187, 85%, 43%),
-            hsl(199, 100%, 33%));
-    ;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 50px;
+  background: linear-gradient(
+    to right,
+    hsl(187, 85%, 43%),
+    hsl(199, 100%, 33%)
+  );
 }
 
 hr {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 .thuong-gia {
-    color: rgb(0, 255, 157);
-    cursor: pointer;
-
+  color: rgb(0, 255, 157);
+  cursor: pointer;
 }
 
 .thuong-gia:hover {
-    color: yellow;
-    cursor: pointer;
-    border-bottom: 1px solid rgb(0, 255, 157);
+  color: yellow;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(0, 255, 157);
 }
 
 .pho-thong {
-    color: rgb(15, 220, 243);
-    cursor: pointer;
+  color: rgb(15, 220, 243);
+  cursor: pointer;
 }
 
 .pho-thong:hover {
-    color: yellow;
-    cursor: pointer;
-    border-bottom: 1px solid rgb(15, 220, 243);
+  color: yellow;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(15, 220, 243);
 }
 
 .selected-seat {
-    color: rgb(255, 0, 25);
-    cursor: not-allowed;
+  color: rgb(255, 0, 25);
+  cursor: not-allowed;
 }
 
 .selected-seat:hover {
-    color: rgb(255, 0, 25);
-    cursor: not-allowed;
-    opacity: 0.5;
-    border-bottom: 1px solid rgb(255, 0, 25);
+  color: rgb(255, 0, 25);
+  cursor: not-allowed;
+  opacity: 0.5;
+  border-bottom: 1px solid rgb(255, 0, 25);
 }
 
 .fa-couch {
-    cursor: pointer;
-    padding: 10px;
+  cursor: pointer;
+  padding: 10px;
 }
 
 .ghichu1 i {
-
-    color: rgb(0, 255, 157);
+  color: rgb(0, 255, 157);
 }
 
 .ghichu2 i {
-    color: rgb(15, 220, 243);
+  color: rgb(15, 220, 243);
 }
 
 .ghichu3 i {
-    color: red;
+  color: red;
 }
 
 .ghichu4 i {
-    color: rgb(255, 213, 3);
+  color: rgb(255, 213, 3);
 }
 
 .datcholeft {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .datcholeft img {
-    height: 350px;
+  height: 350px;
 }
 
 .datcholeft h4 {
-    margin-left: 20px;
-    font-size: 1rem;
-    margin-top: 15px;
+  margin-left: 20px;
+  font-size: 1rem;
+  margin-top: 15px;
 }
 
 .ghichu1,
@@ -88,30 +87,30 @@ hr {
 .ghichu3,
 .ghichu4,
 .ghichu5 {
-    display: flex;
+  display: flex;
 }
 
 .color {
-    color: rgb(255, 213, 3);
+  color: rgb(255, 213, 3);
 }
 
 .span {
-    color: red;
+  color: red;
 }
 
 .khoan {
-    color: white;
+  color: white;
 }
 
 sub {
-    color: white;
+  color: white;
 }
 
 .bg {
-    color: white;
-    background: var(--gradientColor);
+  color: white;
+  background: var(--gradientColor);
 
-    &:hover {
-        background: var(--gradientColor1);
-    }
+  &:hover {
+    background: var(--gradientColor1);
+  }
 }
