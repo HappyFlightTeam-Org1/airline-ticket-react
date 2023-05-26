@@ -131,7 +131,7 @@ function LichSuDatVe() {
 
     // console.log("tickets", tickets);
     return (
-        <div className='container ticket-container bg-body table-shadow mt-3 mb-5'>
+        <div className='container ticket-container bg-body table-shadow'>
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
@@ -239,7 +239,7 @@ function LichSuDatVe() {
                                     <td>{item.datCho.chuyenBay.diemDi}</td>
                                     <td>{item.datCho.chuyenBay.diemDen}</td>
                                     <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                    <td>{item.giaVe}</td>
+                                    <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
                                     <td>
                                         <Link
                                             as={Link}
