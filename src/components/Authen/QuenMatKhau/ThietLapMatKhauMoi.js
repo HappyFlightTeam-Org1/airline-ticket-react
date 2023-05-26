@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './ThietLapMatKhauMoi.css';
+import { toast } from 'react-toastify';
 
 export default function ThietLapMatKhauMoi() {
+    const navigate = useNavigate();
+
     const [searchParams] = useSearchParams();
 
     const [matKhauMoiInput, setMatKhauMoiInput] = useState({
@@ -26,10 +29,11 @@ export default function ThietLapMatKhauMoi() {
             axios
                 .post('http://localhost:8080/nguoi-dung/dat-lai-mat-khau', formData)
                 .then(response => {
-
+                    toast.success('Reset mật khẩu thành công');
+                    navigate('/');
                 })
                 .catch(err => {
-                    
+                    toast.error('Có lỗi đã xảy ra');
                 });
         }
     }
