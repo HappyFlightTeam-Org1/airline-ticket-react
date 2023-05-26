@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Login.css";
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function Login() {
         .post('http://localhost:8080/nguoi-dung/dang-nhap', formData)
         .then(response => {
           Cookies.set('jwt', response.data.jwt, { expires: 30 });
+          toast.success('Đăng nhập thành công');
           navigate('/');
         })
         .catch(err => {
@@ -38,6 +40,9 @@ export default function Login() {
               ...matKhauInput,
               errorMessage: 'Sai tên tài khoản hoặc mật khẩu',
             });
+          }
+          else {
+            toast.error('Có lỗi đã xảy ra');
           }
         });
     }
@@ -117,9 +122,9 @@ export default function Login() {
             </div>
 
             <div className="text-right d-flex justify-content-center align-items-center">
-              <a href="#" className="forget-link">
+              <Link to='/GuiEmail' className='forget-link'>
                 Quên mật khẩu?
-              </a>
+              </Link>
             </div>
             <div className="row mb-3">
               <div className="col-4 d-flex justify-content-center align-items-center">
@@ -144,7 +149,7 @@ export default function Login() {
             <hr className="my-4"/>
 
             <div className="text-center mb-2">
-              Bạn chưa có tài khoản? <a href="#" className="register-link">Đăng ký tại đây</a>
+              Bạn chưa có tài khoản? <Link to='/DangKy' className='register-link'>Đăng ký tại đây</Link>
             </div>
           </form>
         </div>
