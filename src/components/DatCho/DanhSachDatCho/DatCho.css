@@ -106,3 +106,12 @@ hr {
 sub {
     color: white;
 }
+
+.bg {
+    color: white;
+    background: var(--gradientColor);
+
+    &:hover {
+        background: var(--gradientColor1);
+    }
+}

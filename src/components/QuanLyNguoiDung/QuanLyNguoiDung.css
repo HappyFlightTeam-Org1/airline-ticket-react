@@ -16,3 +16,9 @@ h5 {
 .export i {
   font-size: 1rem;
 }
+.bg {
+  background: var(--gradientColor);
+            &:hover{
+              background: var(--gradientColor1);
+            }
+}

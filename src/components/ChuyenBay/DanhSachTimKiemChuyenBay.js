@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,8 +14,8 @@ function DanhSachTimKiemChuyenBay() {
   const [idChuyenBayKhuHoi, setIdChuyenBayKhuHoi] = useState();
   const [chuyenBay, setChuyenBay] = useState();
   const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
-  const [hidden, setHidden] = useState(false);
-  const [hidden1, setHidden1] = useState(false);
+  const [hidden1Chieu, setHidden] = useState(false);
+  const [hiddenKhuHoi, setHidden1] = useState(false);
   const [chuyenBays, setChuyenBays] = useState([]);
   const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
   const [page, setPage] = useState(0);
@@ -37,13 +38,13 @@ function DanhSachTimKiemChuyenBay() {
 
   //DucNH66 xử lý ẩn hiện danh sách chuyến bay 1 chiều
   useEffect(() => {
-    setHidden(!hidden);
-    setHidden1(!hidden1);
+    setHidden(!hiddenKhuHoi);
+    setHidden1(!hiddenKhuHoi);
   }, [idChuyenBayDi]);
 
   //DucNH66 xử lý ẩn hiện danh sách chuyến bay khừ hồi
   useEffect(() => {
-    setHidden1(!hidden1);
+    setHidden1(!hiddenKhuHoi);
   }, [idChuyenBayKhuHoi]);
 
   //DucNH66 thông tin chuyến bay vừa được chọn
@@ -122,7 +123,7 @@ function DanhSachTimKiemChuyenBay() {
   };
 
   //DucNH66 gởi dữ liệu đến trang thêm hành khách
-  const handleLinkClick = (event) => {
+  const handleNext = (event) => {
     event.preventDefault();
     const queryParams = new URLSearchParams();
     queryParams.set("soNguoiLon", soNguoiLon);
@@ -141,6 +142,11 @@ function DanhSachTimKiemChuyenBay() {
     window.location.reload();
   };
 
+  //DucNH66 Về lại trang home
+  const handleBackHome = () => {
+    navigate("/");
+  };
+
   //DucNH66 LOG
   console.log("sl nguoi lon: ", soNguoiLon);
   console.log("sl tre em: ", soTreEm);
@@ -151,6 +157,8 @@ function DanhSachTimKiemChuyenBay() {
   console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
   console.log("Chuyen Bay Di: ", chuyenBay);
   console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
+  console.log("ngay di: ", ngayDi);
+  console.log("ngay di kh: ", ngayDiKh);
 
   return (
     <div className="container my-4 xxx  ">
@@ -213,10 +221,7 @@ function DanhSachTimKiemChuyenBay() {
                     borderRadius: "10px",
                   }}
                 >
-                  <div
-                    className="card-body  "
-                    style={{ padding: "0.5rem" }}
-                  >
+                  <div className="card-body  " style={{ padding: "0.5rem" }}>
                     <p
                       className="card-text "
                       style={{
@@ -241,10 +246,7 @@ function DanhSachTimKiemChuyenBay() {
                     borderRadius: "10px",
                   }}
                 >
-                  <div
-                    className="card-body    "
-                    style={{ padding: "0.5rem" }}
-                  >
+                  <div className="card-body    " style={{ padding: "0.5rem" }}>
                     <p
                       className="card-text "
                       style={{
@@ -259,12 +261,11 @@ function DanhSachTimKiemChuyenBay() {
                   </div>
                 </div>
               </div>
-
             </div>
           </nav>
 
           {/*Tiêu đề Danh sách chuyến bay đi */}
-          {hidden && chuyenBays.length > 0 && (
+          {hidden1Chieu && chuyenBays.length > 0 && (
             <h2 style={{ color: "#005f6e" }}>
               Danh sách chuyến bay đi{" "}
               <span class="navbar-brand" style={{ color: "orange" }}>
@@ -274,7 +275,7 @@ function DanhSachTimKiemChuyenBay() {
           )}
           {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
           {/* Danh sách chuyến bay đi */}
-          {hidden &&
+          {hidden1Chieu &&
             chuyenBays.length > 0 &&
             chuyenBays.map((chuyenBay) => (
               <div data-aos="fade-up" className="card my-2 hover-ds">
@@ -391,23 +392,27 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             ))}
           {/* Hiển thị thêm dữ liệu của danh sách chuyến bay đi */}
-          {hidden &&
+          {hidden1Chieu &&
             chuyenBays.length > 0 &&
             (totalElement - size > 0 ? (
               <button
-                className="btn btn-primary"
+                className="btn btn-primary bg"
                 onClick={() => setSize(totalElement)}
               >
                 Xem thêm {totalElement - size} chuyến bay khác
               </button>
             ) : (
-              <button className="btn btn-primary" onClick={() => setSize(3)}>
+              <button
+                hidden={chuyenBays.length <= 3}
+                className="btn btn-primary  bg"
+                onClick={() => setSize(3)}
+              >
                 Thu gọn
               </button>
             ))}
 
           {/* Tiêu đề danh sách chuyến bay về */}
-          {!hidden1 && chuyenBayKhuHois.length > 0 && (
+          {!hiddenKhuHoi && chuyenBayKhuHois.length > 0 && (
             <h2 style={{ color: "#005f6e" }}>
               Danh sách chuyến bay về{" "}
               <span class="navbar-brand" style={{ color: "orange" }}>
@@ -416,7 +421,7 @@ function DanhSachTimKiemChuyenBay() {
             </h2>
           )}
           {/* Danh sách chuyến bay về */}
-          {!hidden1 &&
+          {!hiddenKhuHoi &&
             chuyenBayKhuHois.length > 0 &&
             chuyenBayKhuHois.map((chuyenBayKhuHoi) => (
               <div data-aos="fade-up" className="card my-2 hover-ds">
@@ -543,17 +548,21 @@ function DanhSachTimKiemChuyenBay() {
               </div>
             ))}
           {/* Hiển thị thêm danh sách bay về */}
-          {!hidden1 &&
+          {!hiddenKhuHoi &&
             chuyenBayKhuHois.length > 0 &&
             (totalElement1 - size > 0 ? (
               <button
-                className="btn btn-primary"
+                className="btn btn-primary bg"
                 onClick={() => setSize(totalElement1)}
               >
                 Xem thêm {totalElement1 - size} chuyến bay khác
               </button>
             ) : (
-              <button className="btn btn-primary" onClick={() => setSize(3)}>
+              <button
+                hidden={chuyenBayKhuHois.length <= 3}
+                className="btn btn-primary bg"
+                onClick={() => setSize(3)}
+              >
                 Thu gọn
               </button>
             ))}
@@ -692,26 +701,31 @@ function DanhSachTimKiemChuyenBay() {
 
           {/* ẨN HIỆN NÚT CHỌN LẠI  */}
           {loaiChuyenBay === "Một Chiều" && chuyenBay && (
-            <a className="btn btn-primary" onClick={goBack}>
+            <a className="btn btn-primary bg" onClick={goBack}>
               Chọn lại
             </a>
           )}
 
           {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
-            <a className="btn btn-primary" onClick={goBack}>
+            <a className="btn btn-primary bg" onClick={goBack}>
               Chọn lại
             </a>
           )}
 
+          {/* Back Home */}
+          <button className="btn btn-success bg" onClick={handleBackHome}>
+            Tìm chuyến bay khác
+          </button>
+
           {/* ẨN HIỆN NÚT TIẾP TỤC  */}
           {loaiChuyenBay === "Một Chiều" && chuyenBay && (
-            <button className="btn btn-primary" onClick={handleLinkClick}>
+            <button className="btn btn-primary bg" onClick={handleNext}>
               Tiếp tục{" "}
             </button>
           )}
 
           {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
-            <button className="btn btn-primary" onClick={handleLinkClick}>
+            <button className="btn btn-primary bg" onClick={handleNext}>
               Tiếp tục{" "}
             </button>
           )}
