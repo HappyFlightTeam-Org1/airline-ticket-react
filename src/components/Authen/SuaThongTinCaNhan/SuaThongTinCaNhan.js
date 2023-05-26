@@ -1,88 +1,83 @@
-import './SuaThongTinCaNhan.css';
-
+import plane from "../../../Assets/planeDC.png";
+import logo from "../../../Assets/logo.png";
 export default function SuaThongTinCaNhan() {
     return (
-        <div className="m-auto w-100 d-flex flex-column justify-content-center form-wrapper">
-            <form className='p-4 m-auto change-form'>
-                <h2 className="text-center mb-4">Chỉnh sửa tài khoản</h2>
-                <div className="row mb-3">
-                    <div className="col">
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Địa chỉ email <span className="text-danger" >*</span></label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nhập địa chỉ email"
-                            />
+        <div className='dangky'>
+        <div className="container register">
+                  <div className="row">
+                      <div className="col-md-3 register-left">
+                        <div className='plane'>
+                            <img src={plane} alt=""/>
                         </div>
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Số điện thoại <span className="text-danger" >*</span></label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nhập số điện thoại"
-                            />
-                        </div>
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Quốc tịch</label>
-                            <select className="form-select">
-                                <option>Việt Nam</option>
-                            </select>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Giới tính</label>
-                            <div className="d-flex flex-row">
-                                <div className="form-check me-3">
-                                    <input className="form-check-input" type="radio" />
-                                    <label>Nam</label>
-                                </div>
-                                <div className="form-check me-3">
-                                    <input className="form-check-input" type="radio" />
-                                    <label>Nữ</label>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" />
-                                    <label>Không</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Họ và tên <span className="text-danger" >*</span></label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nhập họ và tên"
-                            />
-                        </div>
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Ngày sinh <span className="text-danger" >*</span></label>
-                            <input
-                                type="date"
-                                className="form-control"
-                            />
-                        </div>
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Số CMND/CCCD <span className="text-danger" >*</span></label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nhập số CMND/CCCD"
-                            />
-                        </div>
-                        <div className="form-group mb-3">
-                            <label className="mb-2">Địa chỉ <span className="text-danger" >*</span></label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nhập địa chỉ"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <button className="btn btn-primary save-button">Lưu thay đổi</button>
-            </form>
-        </div>
+                          <h3>Welcome</h3>
+                          <p><img src={logo} alt=""/></p>
+                          <input type="submit" name="" value="Đăng Nhập"/><br/>
+                      </div>
+                      <div className="col-md-9 register-right">
+                          <div className="tab-content" id="myTabContent">
+                              <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                  <h3 className="register-heading">Đăng Ký</h3>
+                                  <div className="row register-form">
+                                      <div className="col-md-6">
+                                          <div className="form-group">
+                                              <input type="text" className="form-control" placeholder="Nhập địa chỉ email" value="" />
+                                              <p>Bạn đã nhập sai</p>
+                                          </div>
+                                          <div className="form-group">
+                                              <input type="text" className="form-control" placeholder="Nhập số điện thoại" value="" />
+                                              <p>Bạn đã nhập sai</p>
+                                          </div>
+                                          <div className="form-group">
+                                              <input type="text" className="form-control"  placeholder="Nhập họ và tên" value="" />
+                                              <p>Bạn đã nhập sai</p>
+                                          </div>
+                                          <div className="form-group">
+                                              <input type="date" className="form-control"  placeholder="" value="" />
+                                              <p>Bạn đã nhập sai</p>
+                                          </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                          <div className="form-group">
+                                              <input type="email" className="form-control" placeholder="Nhập số CMND/CCCD" value="" />
+
+                                          </div>
+                                          <div className="form-group">
+                                              <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" className="form-control" placeholder="Nhập địa chỉ" value="" />
+                                              <p>Bạn đã nhập sai</p>
+                                          </div>
+                                          <div className="form-group" >
+                                              <select className="form-select">
+                                                  <option className="hidden"  selected disabled>Chọn quốc gia của bạn</option>
+                                                  <option>Việt Nam</option>
+                                                  <option>Thái Lan</option>
+                                                  <option>Lào</option>
+                                              </select>
+                                              <p>Bạn đã nhập sai</p>
+                                          </div>
+                                          <div className="form-group">
+                                              <div className="maxl">
+                                                  <label className="radio inline">
+                                                      <input type="radio" name="gender" value="male" checked/>
+                                                      <span>Nam </span>
+                                                  </label>
+                                                  <label className="radio1 inline">
+                                                      <input type="radio" name="gender" value="female"/>
+                                                      <span>Nữ </span>
+                                                  </label>
+                                                  <label className="radio1 inline">
+                                                      <input type="radio" name="gender" value="female"/>
+                                                      <span>Khác</span>
+                                                  </label>
+                                              </div>
+                                          </div>
+                                          <input type="submit" className="btnRegister"  value="Đăng Ký"/>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+      </div>
     );
 }

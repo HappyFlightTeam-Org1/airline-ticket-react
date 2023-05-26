@@ -1,0 +1,29 @@
+.height {
+  min-height: 550px;
+}
+
+.w-700 {
+  width: 70%;
+}
+
+.w-300 {
+  width: 30%;
+}
+
+.w-800 {
+  width: 80%;
+}
+
+.w-300 {
+  width: 30%;
+}
+
+.first-body-content {
+  margin-left: 6rem;
+}
+
+.scale-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

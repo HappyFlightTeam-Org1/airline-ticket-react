@@ -11,12 +11,12 @@ import * as Yup from "yup";
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 const checkFormSearch = Yup.object().shape({
-  diemDi: Yup.string().required(" bắt buộc nhập"),
+  diemDi: Yup.string().required(" Bắt buộc nhập!"),
   diemDen: Yup.string()
-    .required(" bắt buộc nhập")
+    .required(" Bắt buộc nhập!")
     .test(
       "differentFromDiemDi",
-      " điểm đến phải khác điểm đi",
+      " Điểm đến phải khác điểm đi!",
       function (value) {
         const { diemDi } = this.parent; // Lấy giá trị của trường "diemDi"
         return value !== diemDi;
@@ -24,8 +24,8 @@ const checkFormSearch = Yup.object().shape({
     ),
   ngayDi: Yup.date()
     .nullable()
-    .required(" bắt buộc nhập")
-    .min(yesterday, " phải lớn hơn hoặc bằng ngày hiện tại"),
+    .required(" Bắt buộc nhập!")
+    .min(yesterday, " Phải lớn hơn hoặc bằng ngày hiện tại!"),
 });
 
 export default function Home({ on }) {
@@ -174,7 +174,9 @@ export default function Home({ on }) {
                 <label className="label" htmlFor="city">
                   Điểm Đi{" "}
                   {errors.diemDi && (
-                    <span style={{ color: "red" }}>{errors.diemDi}</span>
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.diemDi}
+                    </span>
                   )}
                 </label>
                 <select
@@ -196,7 +198,9 @@ export default function Home({ on }) {
                 <label className="label" htmlFor="city">
                   Điểm Đến{" "}
                   {errors.diemDen && (
-                    <span style={{ color: "red" }}>{errors.diemDen}</span>
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.diemDen}
+                    </span>
                   )}
                 </label>
                 <select
@@ -218,7 +222,9 @@ export default function Home({ on }) {
                 <label className="label" htmlFor="city">
                   Ngày Đi{" "}
                   {errors.ngayDi && (
-                    <span style={{ color: "red" }}>{errors.ngayDi}</span>
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.ngayDi}
+                    </span>
                   )}
                 </label>
                 <div className="input flex">

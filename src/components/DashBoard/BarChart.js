@@ -9,12 +9,12 @@ import { Canvas} from "@react-three/fiber";
 import Earth from './Earth';
 import Aos from "aos";
 function BarChart() {
-
   const [total, setTotal] = useState([]);
   const [totalHD, setTotalHD] = useState();
   const [totalHK, setTotalHK] = useState([]);
   const [totalND, setTotalND] = useState([]);
   const [userDataChuyenBay,setUserDataChuyenBay] = useState([]);
+  const [dataChuyenBayMonthNow,setDataChuyenBayMonthNow] = useState([]);
   const [hoaDonThongKe,setHoaDonThongKe] = useState([]);
   const [tongTien, setTongTien] = useState(0.0);
   // Tìm kiếm chuyến bay
@@ -49,6 +49,13 @@ function BarChart() {
       .then((response) => {
         setTongTien(response.data);
          console.log(tongTien);
+      })
+      .catch((err) => console.error);
+
+      axios
+      .get("http://localhost:8080/dashboard/list-chuyen-bay-month-now")
+      .then((response) => {
+        setDataChuyenBayMonthNow(response.data);
       })
       .catch((err) => console.error);
 
@@ -159,6 +166,10 @@ function BarChart() {
     link.href = lineRef.current.toBase64Image();
     link.click();
   }, []);
+  //  lấy tháng hiện tại
+      let currentDate = new Date();
+      let currentMonth = currentDate.getMonth() + 1;
+  const tongTienThang4 = hoaDonThongKe.find(data => data.thang === currentMonth)?.tong_tien_thang;
   return (
 
    <div className='barchart'>
@@ -189,7 +200,7 @@ function BarChart() {
                 <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${totalHK.length}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-               12 Hành Khách Tháng này đạt 30% CTT
+               12% Hành Khách Tháng Này
               </span>
               </div>
             </div>
@@ -202,10 +213,10 @@ function BarChart() {
               <span className="info-box-text">Số Lượng Chuyến Bay</span><br></br>
               <span className="info-box-number">{total.length}</span>
               <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${total.length}%` }}  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${dataChuyenBayMonthNow.length}%` }}  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-              {total.length}% Increase in 28 Days
+              {dataChuyenBayMonthNow.length}% Chuyến Bay Tháng Này
               </span>
             </div>
           </div>
@@ -221,7 +232,7 @@ function BarChart() {
                 <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: "80%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-                80% Increase in 28 Days
+                ${tongTienThang4}
               </span>
               </div>
             </div>
