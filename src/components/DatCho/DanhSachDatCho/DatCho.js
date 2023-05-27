@@ -255,7 +255,7 @@ const DatCho = () => {
                       }
                     ></i>
                     <div>
-                      <sub>{seat.ghe.maGhe}</sub>
+                      <sub>{seat.ghe.tenGhe}</sub>
                     </div>
                   </div>
                 ))}
