@@ -72,7 +72,7 @@ function Controller() {
             <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
             <Route path="Login" element={<Login />} />
             <Route path="DangKy" element={<DangKy />} />
-            <Route path="BarChart" element={<BarChart />} />
+            <Route path="BarChart" element={<BarChart on ={on} />} />
             <Route path="GuiEmail" element={< GuiEmail />} />
             <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
             <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
