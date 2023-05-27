@@ -36,7 +36,7 @@ export default function Home({ on }) {
   const [soEmBe, setSoEmBe] = useState(0);
   const [sanBays, setSanBays] = useState([]);
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ ngayDiKh: "" });
   const navigate = useNavigate();
 
   //DucNH66 Lấy danh sách sân bay
@@ -70,45 +70,39 @@ export default function Home({ on }) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  //DucNH66 Chọn số người lớn
-  const chonSoNguoiLon = (event) => {
-    setSoNguoiLon(event.target.value);
-  };
-
-  //DucNH66 Chọn số trẻ em
-  const chonSoTreEm = (event) => {
-    setSoTreEm(event.target.value);
-  };
-
-  //DucNH66 Chọn số em bé
-  const chonSoEmBe = (event) => {
-    setSoEmBe(event.target.value);
-  };
-
+  const [ngayDIKherr, setngayDIKherr] = useState();
   //DucNH66 Gởi dữ liệu đi để tìm kiếm chuyến bay
   const handleSubmit = (event) => {
     event.preventDefault();
     checkFormSearch
       .validate(formData, { abortEarly: false })
       .then(() => {
-        navigate(
-          "/TimKiemChuyenBay?soNguoiLon=" +
-            soNguoiLon +
-            "&soTreEm=" +
-            soTreEm +
-            "&soEmBe=" +
-            soEmBe +
-            "&diemDi=" +
-            formData.diemDi +
-            "&diemDen=" +
-            formData.diemDen +
-            "&ngayDi=" +
-            formData.ngayDi +
-            "&ngayDiKh=" +
-            formData.ngayDiKh +
-            "&loaiChuyenBay=" +
-            loaiChuyenBay
-        );
+        if (
+          (loaiChuyenBay === "Khứ Hồi" && formData.ngayDiKh === "") ||
+          (loaiChuyenBay === "Khứ Hồi" && formData.ngayDiKh < formData.ngayDi)
+        ) {
+          console.log(formData.ngayDiKh, "");
+          setngayDIKherr("Ngày khứ hồi phải bằng hoặc lớn hơn ngày đi đi!");
+        } else {
+          navigate(
+            "/TimKiemChuyenBay?soNguoiLon=" +
+              soNguoiLon +
+              "&soTreEm=" +
+              soTreEm +
+              "&soEmBe=" +
+              soEmBe +
+              "&diemDi=" +
+              formData.diemDi +
+              "&diemDen=" +
+              formData.diemDen +
+              "&ngayDi=" +
+              formData.ngayDi +
+              "&ngayDiKh=" +
+              formData.ngayDiKh +
+              "&loaiChuyenBay=" +
+              loaiChuyenBay
+          );
+        }
       })
       .catch((validationErrors) => {
         const errors = {};
@@ -118,7 +112,6 @@ export default function Home({ on }) {
         setErrors(errors);
       });
   };
-
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
@@ -152,6 +145,7 @@ export default function Home({ on }) {
               Tìm Kiếm Chuyến Bay
             </h1>
           </div>
+
           {/* Form nhập dữ liệu tìm kiếm */}
           <form onSubmit={handleSubmit}>
             <div data-aos="fade-up" className="cardDiv grid">
@@ -240,7 +234,11 @@ export default function Home({ on }) {
               <div className="dateInput">
                 <label id="label-NgayVe" className="label" htmlFor="city">
                   Ngày Về{" "}
-                  {errors.ngayDiKh && <strong>{errors.ngayDiKh}</strong>}
+                  {ngayDIKherr && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {ngayDIKherr}
+                    </span>
+                  )}
                 </label>
                 <div className="input flex" id="div-NgayVe">
                   <input
@@ -263,7 +261,7 @@ export default function Home({ on }) {
                     type="number"
                     min="1"
                     defaultValue={1}
-                    onChange={chonSoNguoiLon}
+                    onChange={(event) => setSoNguoiLon(event.target.value)}
                   ></input>
                 </div>
               </div>
@@ -272,7 +270,11 @@ export default function Home({ on }) {
                   Trẻ em (dưới 12 tuổi)
                 </label>
                 <div className="input flex">
-                  <input type="number" min="0" onChange={chonSoTreEm}></input>
+                  <input
+                    type="number"
+                    min="0"
+                    onChange={(event) => setSoTreEm(event.target.value)}
+                  ></input>
                 </div>
               </div>
               <div className="destinationInput">
@@ -280,7 +282,11 @@ export default function Home({ on }) {
                   Em bé (dưới 24 tháng)
                 </label>
                 <div className="input flex">
-                  <input type="number" min="0" onChange={chonSoEmBe}></input>
+                  <input
+                    type="number"
+                    min="0"
+                    onChange={(event) => setSoEmBe(event.target.value)}
+                  ></input>
                 </div>
               </div>
               <div className="searchOptions flex mt-3">
@@ -294,13 +300,13 @@ export default function Home({ on }) {
 
           <div data-aos="fade-up" className="homeFooterIcons flex">
             <div className="rightIcons">
-              <i class="bx bxl-facebook icon"></i>
-              <i class="bx bxl-instagram icon"></i>
-              <i class="bx bx-layout icon"></i>
+              <i className="bx bxl-facebook icon"></i>
+              <i className="bx bxl-instagram icon"></i>
+              <i className="bx bx-layout icon"></i>
             </div>
             <div className="leftIcons">
-              <i class="bx bxs-playlist icon"></i>
-              <i class="bx bx-qr icon"></i>
+              <i className="bx bxs-playlist icon"></i>
+              <i className="bx bx-qr icon"></i>
             </div>
           </div>
         </div>
@@ -323,7 +329,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Dịch Vụ Trên Không</h4>
               <span className="continent flex">
-                <i class="fa-solid fa-plane-up"></i>
+                <i className="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -347,7 +353,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hạng Thương Gia</h4>
               <span className="continent flex">
-                <i class="fa-solid fa-plane-up"></i>
+                <i className="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -371,7 +377,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hạng Phổ Thông Đặt Biệt</h4>
               <span className="continent flex">
-                <i class="fa-solid fa-plane-up"></i>
+                <i className="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -403,7 +409,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Đặt Vé Trực Tuyến</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -427,7 +433,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Chăm sóc khách hàng</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -451,7 +457,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Đổi vé và hoàn tiền</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -482,7 +488,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hà Nội - Hồ Chí Minh</h4>
               <span className="continent flex">
-                <i class="fa-solid fa-plane"></i>
+                <i className="fa-solid fa-plane"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -505,7 +511,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hà Nội - Đà Nẵng</h4>
               <span className="continent flex">
-                <i class="fa-solid fa-plane"></i>
+                <i className="fa-solid fa-plane"></i>
                 <span className="name">B52-Y1576</span>
               </span>
               <div className="desc">
@@ -528,7 +534,7 @@ export default function Home({ on }) {
             <div className="cardInfo">
               <h4 className="destTitle">Hồ Chí Minh - Đà Nẵng</h4>
               <span className="continent flex">
-                <i class="fa-solid fa-plane"></i>
+                <i className="fa-solid fa-plane"></i>
                 <span className="name">B51-X1976</span>
               </span>
               <div className="desc">
@@ -548,27 +554,27 @@ export default function Home({ on }) {
         </h3>
         <div className="question">
           <div className="textbox">
-            <i class="bx bxs-plane-alt"></i>
+            <i className="bx bxs-plane-alt"></i>
             <h3>Đặt Vé Trực Tuyến</h3>
           </div>
           <div className="textbox">
-            <i class="bx bx-handicap"></i>
+            <i className="bx bx-handicap"></i>
             <h3>Chỗ Ngồi</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-backpack"></i>
+            <i className="bx bxs-backpack"></i>
             <h3>Hành Lý</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-map"></i>
+            <i className="bx bxs-map"></i>
             <h3>Check-In</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-plane-take-off"></i>
+            <i className="bx bxs-plane-take-off"></i>
             <h3>Nối Chuyến</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-bowl-hot"></i>
+            <i className="bx bxs-bowl-hot"></i>
             <h3>Xuất Ăn</h3>
           </div>
         </div>

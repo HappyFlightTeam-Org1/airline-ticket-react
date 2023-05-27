@@ -36,6 +36,7 @@ const DatCho = () => {
   var gheDaChonKhuHoi = 0;
   var idChuyenBayDi;
   var idChuyenBayKhuHoi;
+
   if (chuyenBay) {
     idChuyenBayDi = chuyenBay.maChuyenBay;
   }
@@ -76,7 +77,7 @@ const DatCho = () => {
   console.log("list ghe 1 chieu: ", seatList1Chieu);
   console.log("list ghe khu hoi: ", seatListKhuHoi);
 
-  //DucNH66 số lượng  ghế đã được chọn 1 chiều
+  //DucNH66 số lượng  ghế đã được  1 chiều
   seatList1Chieu &&
     seatList1Chieu.map((item) => {
       if (item.trangThai === "selected") {
