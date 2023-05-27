@@ -67,7 +67,7 @@ function DanhSachChuyenBay() {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  //Ducnh66 gởi thông tin search/ nếu không nhập gì lấy tìm tất cả
+  //Ducnh66 gởi thông tin search/nếu không nhập gì lấy tìm tất cả
   const handleSearch = (event) => {
     event.preventDefault();
     setPage(0);
