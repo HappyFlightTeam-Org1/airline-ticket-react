@@ -157,7 +157,7 @@ header {
   transform: translateX(20px);
   background: linear-gradient(180deg,#777, #3a3a3a);
 }
-.toggle-switch:checked ~ .toggle i:first-child{
+.toggle:checked ~ .toggle i:first-child{
   color: #7e7e7e;
 }
 .toggle-switch:checked ~ .toggle i:last-child{

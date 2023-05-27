@@ -7,28 +7,30 @@ function ThanhToanThanhCong() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const orderCode = queryParams.get("vnp_TxnRef");
-
+    const [render, setRender] = useState(true)
     const [tickets, setTickets] = useState([]);
     const apiURLUpdate = "http://localhost:8080/hoa-don/update/" + orderCode;
     const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
-
-
 
     useEffect(() => {
         axios
             .post(apiURLUpdate)
             .then((response) => {
-                console.log("response.data", response.data);
-                toast.success(response.data);
-                axios
-                    .get(apiURLQuery)
-                    .then((response) => {
-                        setTickets(response.data);
-                    })
-                    .catch((err) => console.error);
+                if (response.data !== "PAID") {
+                    toast.success(response.data);
+                    axios
+                        .get(apiURLQuery)
+                        .then((response) => {
+                            setTickets(response.data);
+                            // setRender(render);
+                        })
+                        .catch((err) => console.error);
+                }
+
             })
             .catch((err) => console.error);
-    }, []);
+    }, [apiURLUpdate, apiURLQuery]);
+
 
     return (
         <div className='container ticket-container bg-body table-shadow'>
@@ -82,23 +84,7 @@ function ThanhToanThanhCong() {
                     })}
                 </tbody>
             </table>
-            {/* <div className="justify-content-center pagination">
-                <nav aria-label="...">
-                    <ul className="pagination">
-                        <li className="page-item disabled">
-                            <span className="page-link">Previous</span>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item active" aria-current="page">
-                            <span className="page-link">2</span>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item">
-                            <a className="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div> */}
+
         </div>
     );
 }

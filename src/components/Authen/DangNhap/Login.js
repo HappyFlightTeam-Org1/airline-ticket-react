@@ -27,6 +27,8 @@ export default function Login() {
         .post('http://localhost:8080/nguoi-dung/dang-nhap', formData)
         .then(response => {
           Cookies.set('jwt', response.data.jwt, { expires: 30 });
+          localStorage.setItem('email', response.data.email);
+          localStorage.setItem('account', tenDangNhapInput.inputValue);
           toast.success('Đăng nhập thành công');
           navigate('/');
         })
