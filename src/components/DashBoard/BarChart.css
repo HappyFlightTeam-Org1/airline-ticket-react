@@ -44,6 +44,8 @@
 }
 .chart h6 {
    margin-top: 20px;
+}
+.chart .color {
    color: white;
 }
 .bay{
@@ -108,7 +110,23 @@
    background: url("../../Assets/12990.jpg") center;
    background-size: cover;
 }
-/* .barchart {
+.tot{
    background: url("https://img.freepik.com/premium-photo/using-generative-ai-airplane-flies-city-dusk_28914-15034.jpg?w=2000") center;
    background-size: cover;
-} */
+}
+.iconsearch {
+   position: absolute;
+   z-index: 1000;
+   color: white;
+   left: 20%;
+   top:35%;
+}
+.iconsearch i {
+   font-size: 5rem;
+}
+.notdata {
+   position: absolute;
+   z-index: 1000;
+   color: white;
+   top: 35%;
+}
