@@ -32,6 +32,36 @@ function BarChart({on,}) {
     const chuyenBay = chuyenBays.find((chuyenBay) => chuyenBay.maChuyenBay === maChuyenBay);
     setFlightDetails(chuyenBay);
   };
+  //phân trang cho tìm kiếm chuyến bay
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(16);
+
+  // Tính chỉ số của bản ghi đầu tiên và bản ghi cuối cùng trên trang hiện tại
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = chuyenBays.slice(indexOfFirstRecord, indexOfLastRecord);
+
+  // Tạo một mảng chứa các số trang
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(chuyenBays.length / recordsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  // Chuyển đến trang mới
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Render các nút phân trang
+  const renderPageNumbers = pageNumbers.map((pageNumber) => (
+    <li
+      key={pageNumber}
+      onClick={() => handlePageChange(pageNumber)}
+      className={pageNumber === currentPage ? 'active' : ''}
+    >
+      {pageNumber}
+    </li>
+  ));
 
   const handleFlightLeave = () => {
     setFlightDetails(null);
@@ -302,7 +332,7 @@ function BarChart({on,}) {
                         src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" /></div>}
         {showSearchResult && (
         <div  data-aos="fade-up" className='bay'>
-          {chuyenBays.map((chuyenBay) => (
+          {currentRecords.map((chuyenBay) => (
             <div data-aos="fade-up" className='plane' key={chuyenBay.maChuyenBay}>
              <i class="fa-solid fa-plane icon"></i>
              <small key={chuyenBay.maChuyenBay} onMouseEnter={() => handleFlightHover(chuyenBay.maChuyenBay)}
@@ -319,6 +349,9 @@ function BarChart({on,}) {
           {/* Các trường thông tin khác */}
         </div>
       )}
+             <ul className="pagination">
+                {renderPageNumbers}
+              </ul>
           </div>
         )}
         <Canvas>
