@@ -29,9 +29,9 @@ export default function Navbar({ handleTogger, on }) {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 menu">
                 <li className="nav-item">
-                  <label className="toggle-wrap" >
-                    <input type="checkbox" className="toggle-switch"></input>
-                    <span className="toggle" onClick={handleTogger}>
+                  <label className="toggle-wrap">
+                    <input type="checkbox" className="toggle-switch" onClick={handleTogger}></input>
+                    <span className="toggle">
                       <i className="fa-solid fa-sun"></i>
                       <i className="fa-solid fa-moon"></i>
                     </span>

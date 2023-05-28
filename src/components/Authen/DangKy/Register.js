@@ -264,7 +264,7 @@ export default function Register() {
                       </div>
                         <h3>Welcome</h3>
                         <p><img src={logo} alt=""/></p>
-                        <Link to="/Login" className='btn btn-light'>Đăng nhập</Link><br/>
+                        <Link to="/Login" className='btn btn-light login'>Đăng nhập</Link><br/>
                     </div>
                     <div className="col-md-9 register-right">
                         <div className="tab-content" id="myTabContent">
