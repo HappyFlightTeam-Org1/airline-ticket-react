@@ -116,10 +116,8 @@ function DanhSachTimKiemChuyenBay() {
 
   //DucNH66 Lấy id và hạng ghế chuyến bay khứ hồi
   const handleGetDataKhuHoi = (chuyenBayKhuHoi, value) => {
-    console.log(value);
     setTiketTypeKhuHoi(value);
     setIdChuyenBayKhuHoi(chuyenBayKhuHoi.maChuyenBay);
-    console.log(chuyenBayKhuHoi.maChuyenBay + " Chuyến Bay Khứ Hồi");
   };
 
   //DucNH66 gởi dữ liệu đến trang thêm hành khách
@@ -273,7 +271,9 @@ function DanhSachTimKiemChuyenBay() {
               </span>{" "}
             </h2>
           )}
-          {chuyenBays.length === 0 && <h1> Không tìm thấy </h1>}
+          {loaiChuyenBay === "Một Chiều" && chuyenBays.length === 0 && (
+            <h1> Không tìm thấy </h1>
+          )}
           {/* Danh sách chuyến bay đi */}
           {hidden1Chieu &&
             chuyenBays.length > 0 &&
@@ -420,6 +420,7 @@ function DanhSachTimKiemChuyenBay() {
               </span>{" "}
             </h2>
           )}
+
           {/* Danh sách chuyến bay về */}
           {!hiddenKhuHoi &&
             chuyenBayKhuHois.length > 0 &&
@@ -713,10 +714,32 @@ function DanhSachTimKiemChuyenBay() {
           )}
 
           {/* Back Home */}
+
+          {hiddenKhuHoi &&
+            loaiChuyenBay === "Khứ Hồi" &&
+            chuyenBays.length === 0 &&
+            chuyenBayKhuHois.length > 0 && (
+              <h1>
+                Chỉ tìm thấy chuyến bay khứ hồi phù hợp{" "}
+                <a
+                  onClick={() => {
+                    setHidden1(!setHidden1);
+                  }}
+                  style={{ color: "Red" }}
+                >
+                  Click{" "}
+                </a>
+                để xem chi tiết
+              </h1>
+            )}
           <button className="btn btn-success bg" onClick={handleBackHome}>
             Tìm chuyến bay khác
           </button>
-
+          {loaiChuyenBay === "Khứ Hồi" &&
+            chuyenBays.length > 0 &&
+            chuyenBayKhuHois.length === 0 && (
+              <h1>Chỉ tìm thấy chuyến bay đi phù hợp</h1>
+            )}
           {/* ẨN HIỆN NÚT TIẾP TỤC  */}
           {loaiChuyenBay === "Một Chiều" && chuyenBay && (
             <button className="btn btn-primary bg" onClick={handleNext}>

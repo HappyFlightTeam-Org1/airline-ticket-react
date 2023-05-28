@@ -67,7 +67,7 @@ function DanhSachChuyenBay() {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  //Ducnh66 gởi thông tin search/ nếu không nhập gì lấy tìm tất cả
+  //Ducnh66 gởi thông tin search/nếu không nhập gì lấy tìm tất cả
   const handleSearch = (event) => {
     event.preventDefault();
     setPage(0);
@@ -90,7 +90,7 @@ function DanhSachChuyenBay() {
 
   //Ducnh66 tính toán trang được hiển thị trên màn hình
   const calculatePageNumbers = () => {
-    const soTrangToiDa = 3;
+    const soTrangToiDa = 4;
     const trangDau = Math.max(0, page - Math.floor(soTrangToiDa / 2));
     const trangCuoi = Math.min(totalPages - 1, trangDau + soTrangToiDa - 1);
     const pageNumbers = [];
@@ -184,7 +184,7 @@ function DanhSachChuyenBay() {
         <button className="btn btn-success bg">Thêm mới</button>
       </Link>
       {/* Table dánh sách */}
-      <table className="table table-striped shadow">
+      <table className="table table-striped shadow text-nowrap">
         <thead className="thead-dark">
           <tr>
             <th scope="col">Stt</th>

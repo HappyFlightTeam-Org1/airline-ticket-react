@@ -7,7 +7,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 // DucNh66 cấu hinhg toast
 const toastConfig = {
   position: toast.POSITION.TOP_CENTER,
-  autoClose: 1500,
+  autoClose: 3000,
 };
 root.render(
   <>

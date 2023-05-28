@@ -30,7 +30,7 @@ function CapNhatChuyenBay() {
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
-
+  //DucNH66 trở về
   const handleSubmit = (event) => {
     navigate("/DanhSachChuyenBay");
   };
