@@ -114,12 +114,12 @@ function TimKiemVe() {
           })}
         </tbody>
       </table>)}
-      {tickets.length === 0 && (<div class="row justify-content-center">
-        <div class="col-6">
+      {tickets.length === 0 && (<div className="row justify-content-center">
+        <div className="col-6">
           <img
             src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" />
-          <div class="text-center">
-            <p class="text-white">No result!</p>
+          <div className="text-center">
+            <p className="text-white">No result!</p>
           </div>
         </div>
       </div>)}
