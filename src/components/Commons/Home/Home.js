@@ -7,6 +7,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
 import * as Yup from "yup";
+import ChatBox from "../../Chat/Chat";
+import RoundButton from "../../Chat/RoundButton";
 
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
@@ -37,6 +39,39 @@ export default function Home({ on }) {
   const [sanBays, setSanBays] = useState([]);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({ ngayDiKh: "" });
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("");
+  const [guest, setGuest] = useState("");
+  const [listUserA, setListUserA] = useState([]);
+  // const [chatBoxKey, setChatBoxKey] = useState(0);
+
+  // function handleReloadChatBox() {
+  //   setChatBoxKey(chatBoxKey + 1);
+  //   alert(chatBoxKey);
+  // }
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setUser(value);
+  };
+  const randomGuest = () => {
+    const randomNum = Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, "0");
+    const str = `guest${randomNum}`;
+    console.log(str);
+    setGuest(str);
+  };
+
+
   const navigate = useNavigate();
 
   //DucNH66 Lấy danh sách sân bay
@@ -49,6 +84,42 @@ export default function Home({ on }) {
       })
       .catch((err) => console.error);
   }, []);
+  //lấy toàn bộ user
+  useEffect(()=>{
+    axios
+    .get(`http://localhost:8080/chat-box/user`)
+    .then((response) => {
+      const data = response.data;
+      setListUserA(data);
+    })
+    .catch((error) => console.error);
+  },[]);
+
+  useEffect(() => {
+  
+    const userLogin = localStorage.getItem("account");
+    if (userLogin) {
+      setUser(userLogin);
+    } else {
+      let guestFound = true;
+      for (let i = 0;guestFound; i++) {
+        const randomNum = Math.floor(Math.random() * 10000)
+          .toString()
+          .padStart(4, "0");
+        const randomLetters = Math.random().toString(36).substring(2, 5).toUpperCase();
+        const str = `guest${randomNum}${randomLetters}`;
+        console.log("day la ten khach: ",str)
+        if (!listUserA.includes(str)) {
+          setUser(str);
+          console.log("day la user sau khi random",user);
+          guestFound = false;
+        }
+      }
+      if (guestFound) {
+        console.log("Không tìm thấy tài khoản khách trùng");
+      }
+    }
+  }, [listUserA]);
 
   //DucNH66 Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
@@ -579,6 +650,16 @@ export default function Home({ on }) {
           </div>
         </div>
       </section>
+      <input type="text" onChange={handleInputChange}></input>
+      <RoundButton
+        className="btn-modal"
+        onOpen={handleOpenModal}
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+      >
+        Open Modal
+      </RoundButton>
+      <ChatBox isOpen={isOpen} onClose={handleCloseModal} user={user}></ChatBox>
     </div>
   );
 }
