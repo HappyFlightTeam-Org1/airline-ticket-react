@@ -19,9 +19,14 @@ function TimKiemVe() {
       axios
         .get(apiURLQuery)
         .then(response => {
-          setTotalPage(response.data.totalPages);
-          setPageNumbers(Array.from(Array(response.data.totalPages).keys()));
-          setTickets(response.data.content);
+          console.log("response.data.content", response);
+          if (response.data !== '') {
+            setTotalPage(response.data.totalPages);
+            setPageNumbers(Array.from(Array(response.data.totalPages).keys()));
+            setTickets(response.data.content);
+          } else {
+            setTickets([]);
+          }
         })
         .catch(err => console.error(err));
     }
@@ -67,7 +72,7 @@ function TimKiemVe() {
         </form>
       </div>
 
-      {tickets.length > 0 && (<table className="table table-striped border text-nowrap">
+      {tickets !== [] && (<table className="table table-striped border text-nowrap">
         <thead>
           <tr>
             <th scope="col">Mã Vé</th>
