@@ -73,12 +73,12 @@ function Controller() {
                   path="ThongTinKhachHangDatVe"
                   element={<ThemHanhKhachDatVe />}
                 />
-                <Route path="TimKiemVe" element={<TimKiemVe />} />
                 <Route path="InVe" element={<InVeMayBay />} />
               </>
               :
               <></>
               }
+              <Route path="TimKiemVe" element={<TimKiemVe />} />
 
               {state.login === 'ADMIN'
               ?
