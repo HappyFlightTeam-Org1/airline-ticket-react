@@ -5,7 +5,7 @@ import logo from "../../../Assets/logo.png";
 export default function Navbar({ handleTogger, on }) {
 
   return (
-    <div >
+    <div class="fixed-top">
       <header className={`${on ? "night" : ""}`}>
         <nav className="navbar navbar-expand-lg ">
           <div className="container-fluid">
