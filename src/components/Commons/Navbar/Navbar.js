@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../../Assets/logo.png";
 export default function Navbar({ handleTogger, on }) {
-
   return (
     <div class="fixed-top">
-      <header >
+      <header>
         <nav className={`navbar navbar-expand-lg ${on ? "night" : ""}`}>
-          <div className={`container-fluid navbar ${on ? "night" : ""}`}>
+          <div className={`container-fluid navbar-bg-ti ${on ? "night" : ""}`}>
             <div className="logoDiv">
               <img className="img" src={logo} alt="Giá rẻ" />
             </div>
@@ -21,7 +20,7 @@ export default function Navbar({ handleTogger, on }) {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <i className="fa-solid fa-bars" style={{color:"white"}}></i>
+              <i className="fa-solid fa-bars" style={{ color: "white" }}></i>
             </button>
             <div
               className="collapse navbar-collapse"
@@ -30,7 +29,11 @@ export default function Navbar({ handleTogger, on }) {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 menu">
                 <li className="nav-item">
                   <label className="toggle-wrap">
-                    <input type="checkbox" className="toggle-switch" onClick={handleTogger}></input>
+                    <input
+                      type="checkbox"
+                      className="toggle-switch"
+                      onClick={handleTogger}
+                    ></input>
                     <span className="toggle">
                       <i className="fa-solid fa-sun"></i>
                       <i className="fa-solid fa-moon"></i>
@@ -38,18 +41,11 @@ export default function Navbar({ handleTogger, on }) {
                   </label>
                 </li>
                 <li className="nav-item">
-
-                  <Link
-                    as={Link}
-                    to="/"
-                    className="text-white nav-link active"
-                  >
+                  <Link as={Link} to="/" className="text-white nav-link active">
                     Trang Chủ
                   </Link>
-
                 </li>
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="DanhSachChuyenBay"
@@ -57,11 +53,9 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Chuyến bay
                   </Link>
-
                 </li>
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="DanhSachKhachHangDatVe"
@@ -69,11 +63,9 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Hành khách
                   </Link>
-
                 </li>
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="LichSuDatVe"
@@ -81,11 +73,9 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Lịch sử đặt vé
                   </Link>
-
                 </li>
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="TimKiemVe"
@@ -93,11 +83,9 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Tìm Kiếm Vé
                   </Link>
-
                 </li>
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="QuanLyNguoiDung"
@@ -105,10 +93,8 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Người dùng
                   </Link>
-
                 </li>
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="BarChart"
@@ -116,12 +102,10 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Thống Kê
                   </Link>
-
                 </li>
               </ul>
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 login">
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="Login"
@@ -129,7 +113,6 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Đăng Nhập
                   </Link>
-
                 </li>
                 <li className="nav-item">
                   <Link

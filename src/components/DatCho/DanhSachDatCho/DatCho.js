@@ -212,11 +212,11 @@ const DatCho = () => {
   console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
 
   return (
-    <div className="container mt-3">
+    <div className="container d-c">
       {/* DucNH66 Ghế chuyến bay đi */}
       {hiddens && (
         <div className="row">
-          <h1>
+          <h1 className="h1">
             Chọn Ghế Bay Đi <span className="span"> *{maxSeat} Vé </span>
             {tiketType}
           </h1>
@@ -320,7 +320,7 @@ const DatCho = () => {
       {/* DucNH66 Ghế chuyến bay khứ hồi */}
       {hiddensKhuHoi && (
         <div className="row">
-          <h1>
+          <h1 className="h1">
             Chọn Ghế Bay Về <span className="span"> *{maxSeat} Vé </span>{" "}
             {tiketTypeKhuHoi}
           </h1>
