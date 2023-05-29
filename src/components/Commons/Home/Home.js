@@ -38,11 +38,9 @@ export default function Home({ on }) {
   const [soEmBe, setSoEmBe] = useState(0);
   const [sanBays, setSanBays] = useState([]);
   const [errors, setErrors] = useState({});
-  const [ngayDIKherr, setngayDIKherr] = useState();
   const [formData, setFormData] = useState({ ngayDiKh: "" });
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState("");
-  const [guest, setGuest] = useState("");
   const [listUserA, setListUserA] = useState([]);
   // const [chatBoxKey, setChatBoxKey] = useState(0);
 
@@ -64,15 +62,6 @@ export default function Home({ on }) {
     setUser(value);
   };
 
-  const randomGuest = () => {
-    const randomNum = Math.floor(Math.random() * 10000)
-      .toString()
-      .padStart(4, "0");
-    const str = `guest${randomNum}`;
-    console.log(str);
-    setGuest(str);
-  };
-
   const navigate = useNavigate();
 
   //DucNH66 Lấy danh sách sân bay
@@ -85,7 +74,6 @@ export default function Home({ on }) {
       })
       .catch((err) => console.error);
   }, []);
-
   //lấy toàn bộ user
   useEffect(() => {
     axios
@@ -106,7 +94,7 @@ export default function Home({ on }) {
       for (let i = 0; guestFound; i++) {
         const randomNum = Math.floor(Math.random() * 10000)
           .toString()
-          .padStart(4, "0");
+          .padStart(3, "0");
         const randomLetters = Math.random()
           .toString(36)
           .substring(2, 5)
@@ -123,7 +111,7 @@ export default function Home({ on }) {
         console.log("Không tìm thấy tài khoản khách trùng");
       }
     }
-  }, [listUserA]);
+  }, []);
 
   //DucNH66 Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
@@ -145,6 +133,7 @@ export default function Home({ on }) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  const [ngayDIKherr, setngayDIKherr] = useState();
   //DucNH66 Gởi dữ liệu đi để tìm kiếm chuyến bay
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -155,7 +144,8 @@ export default function Home({ on }) {
           (loaiChuyenBay === "Khứ Hồi" && formData.ngayDiKh === "") ||
           (loaiChuyenBay === "Khứ Hồi" && formData.ngayDiKh < formData.ngayDi)
         ) {
-          setngayDIKherr(" Ngày khứ hồi phải bằng hoặc lớn hơn ngày đi đi!");
+          console.log(formData.ngayDiKh, "");
+          setngayDIKherr("Ngày khứ hồi phải bằng hoặc lớn hơn ngày đi đi!");
         } else {
           navigate(
             "/TimKiemChuyenBay?soNguoiLon=" +
