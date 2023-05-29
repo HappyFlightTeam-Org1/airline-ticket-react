@@ -176,7 +176,7 @@ function HoaDon() {
   console.log("veMayBayDTO", veMayBayDTO);
 
   return (
-    <div className="container d-flex justify-content-center mb-3">
+    <div className="container d-flex justify-content-center mb-3 mg-top-60">
       <div className="order order-container mt-3">
         <div className="order-sidebar">
           <img
