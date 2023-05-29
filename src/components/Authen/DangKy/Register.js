@@ -401,7 +401,7 @@ export default function Register() {
                                         </div>
                                         <div className="form-group">
                                             <input
-                                                type="text"
+                                                type="password"
                                                 className="form-control"
                                                 placeholder="Nhập mật khẩu"
                                                 onChange={event => setMatKhauInput({
@@ -413,7 +413,7 @@ export default function Register() {
                                         </div>
                                         <div className="form-group">
                                             <input
-                                                type="text"
+                                                type="password"
                                                 className="form-control"
                                                 placeholder="Nhập lại mật khẩu"
                                                 onChange={event => setNhapLaiMatKhauInput({
