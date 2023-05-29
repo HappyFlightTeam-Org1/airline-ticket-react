@@ -113,3 +113,7 @@ sub {
     background: var(--gradientColor1);
   }
 }
+
+.d-c {
+  margin-top: 50px;
+}
