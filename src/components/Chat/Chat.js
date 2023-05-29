@@ -306,7 +306,8 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                   />
                   <button
                     type="button"
-                    className="send-button-chat"
+
+                    className="send-chat"
                     onClick={sendPrivateValue}
                     disabled={buttonDisabled}
                   >
@@ -421,7 +422,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                 />
                 <button
                   type="button"
-                  className="send-button-chat"
+                  className="send-chat"
                   onClick={sendPrivateValue}
                   disabled={buttonDisabled}
                 >

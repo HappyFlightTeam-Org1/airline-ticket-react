@@ -7,7 +7,7 @@ import axios from "axios";
 import { Canvas} from "@react-three/fiber";
 import Earth from './Earth';
 import Aos from "aos";
-function BarChart() {
+function BarChart({on,}) {
   const [total, setTotal] = useState([]);
   const [totalHD, setTotalHD] = useState();
   const [totalHK, setTotalHK] = useState([]);
@@ -17,17 +17,51 @@ function BarChart() {
   const [hoaDonThongKe,setHoaDonThongKe] = useState([]);
   const [tongTien, setTongTien] = useState(0.0);
   const [soLuongHanhKhachmonthnow, setSoLuongHanhKhachmonthnow] = useState(0);
+  // hiển thị icon tìm kiếm
+  const [showSearchingIcon, setShowSearchingIcon] = useState(false);
+  const [showSearchResult, setShowSearchResult] = useState(false);
   // Tìm kiếm chuyến bay
   const [chuyenBays, setChuyenBays] = useState([]);
   const [firstDay, setFirstDay] = useState('');
   const [lastDay, setLastDay] = useState('');
   const [flightDetails, setFlightDetails] = useState(null);
+  const [hasData, setHasData] = useState(true);
 
   const handleFlightHover = (maChuyenBay) => {
     // Tìm chuyến bay dựa trên ID
     const chuyenBay = chuyenBays.find((chuyenBay) => chuyenBay.maChuyenBay === maChuyenBay);
     setFlightDetails(chuyenBay);
   };
+  //phân trang cho tìm kiếm chuyến bay
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(16);
+
+  // Tính chỉ số của bản ghi đầu tiên và bản ghi cuối cùng trên trang hiện tại
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = chuyenBays.slice(indexOfFirstRecord, indexOfLastRecord);
+
+  // Tạo một mảng chứa các số trang
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(chuyenBays.length / recordsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  // Chuyển đến trang mới
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Render các nút phân trang
+  const renderPageNumbers = pageNumbers.map((pageNumber) => (
+    <li
+      key={pageNumber}
+      onClick={() => handlePageChange(pageNumber)}
+      className={pageNumber === currentPage ? 'active' : ''}
+    >
+      {pageNumber}
+    </li>
+  ));
 
   const handleFlightLeave = () => {
     setFlightDetails(null);
@@ -101,7 +135,9 @@ function BarChart() {
     })
     .catch((err) => console.error);
 
-  }, []);
+    setShowSearchResult(false);
+
+  }, [firstDay, lastDay]);
   const getVeMayBayThongKe =() => {
     return {
       labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
@@ -137,15 +173,29 @@ function BarChart() {
     }
   }
 
-  const searchChuyenBay = async () => {
+  const searchChuyenBay =  () => {
     try {
       if (new Date(lastDay) < new Date(firstDay)) {
         alert("Ngày cuối phải sau ngày đầu");
         return;
       }
-      const response = await axios.get(`http://localhost:8080/dashboard/listchuyenbay?firstDay=${firstDay}&lastDay=${lastDay}`);
-      const data = await response.data;
-      setChuyenBays(data);
+      if (!firstDay || !lastDay) {
+        alert("Vui lòng nhập ngày đầu và ngày cuối");
+        return;
+      }
+      setShowSearchingIcon(true); // Hiển thị icon tìm kiếm
+      setShowSearchResult(false);
+      setTimeout(() => {
+        const response =  axios
+        .get(`http://localhost:8080/dashboard/listchuyenbay?firstDay=${firstDay}&lastDay=${lastDay}`)
+        .then((response) =>{
+          const data = response.data;
+          setChuyenBays(data);
+          setShowSearchingIcon(false); // Ẩn icon tìm kiếm
+          setShowSearchResult(true); // Hiển thị kết quả tìm kiếm
+          setHasData(data.length > 0);
+        })
+      }, 2000);
     } catch (error) {
       console.error(error);
     }
@@ -181,7 +231,7 @@ function BarChart() {
   const soVeThang = dataVeMayBay.find(data => data.thang === currentMonth)?.so_luong_ve;
   return (
 
-   <div className='barchart'>
+   <div className={`barchart ${on ? "tot" : ""}`}>
     <div data-aos="fade-up" className="container state-overview ">
       <div className="row">
         <div className="col-xl-3 col-md-6 col-12">
@@ -252,17 +302,17 @@ function BarChart() {
     <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage2}>Download Line</button>
         <Line data={getChuyenBayThongKe()} ref={lineRef} style={{ display: "inline"}}></Line>
-        <h6>Biểu Đồ 1.A: Thể Hiện Số Lượng Chuyến Bay Mỗi Tháng</h6>
+        <h6 className={`${on ? "color" : ""}`}>Biểu Đồ 1.A: Thể Hiện Số Lượng Chuyến Bay Mỗi Tháng</h6>
       </div>
       <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage}>Download Bar</button>
         <Bar data={getHoaDonThongKe()} ref={ref} ></Bar>
-        <h6>Biểu Đồ 1.B: Thể Hiện Tổng Doanh Thu Mỗi Tháng</h6>
+        <h6 className={`${on ? "color" : ""}`}>Biểu Đồ 1.B: Thể Hiện Tổng Doanh Thu Mỗi Tháng</h6>
       </div>
       <div  data-aos="fade-up" className='bar'>
         <button type='button' onClick={downloadImage1}>Download Pie</button>
         <Pie data={getVeMayBayThongKe()} ref={pieRef}></Pie>
-        <h6>Biểu Đồ 1.C: Thể Hiện Số Lượng vé Mỗi Tháng</h6>
+        <h6 className={`${on ? "color" : ""}`}>Biểu Đồ 1.C: Thể Hiện Số Lượng vé Mỗi Tháng</h6>
       </div>
        <div  data-aos="fade-up" className='bar1'>
        <div className='searchCB'>
@@ -277,15 +327,19 @@ function BarChart() {
                 onChange={(e) => setLastDay(e.target.value)}
               />
               <button onClick={searchChuyenBay}>Tìm Chuyến Bay</button>
-            </div>
+        </div>
+        {showSearchingIcon && <div className='iconsearch'><img
+                        src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" /></div>}
+        {showSearchResult && (
         <div  data-aos="fade-up" className='bay'>
-          {chuyenBays.map((chuyenBay) => (
+          {currentRecords.map((chuyenBay) => (
             <div data-aos="fade-up" className='plane' key={chuyenBay.maChuyenBay}>
              <i class="fa-solid fa-plane icon"></i>
              <small key={chuyenBay.maChuyenBay} onMouseEnter={() => handleFlightHover(chuyenBay.maChuyenBay)}
             onMouseLeave={handleFlightLeave}>{chuyenBay.maChuyenBay}</small>
           </div>
           ))}
+              {!hasData && <h1 className='notdata'>Không có dữ liệu</h1>}
              {flightDetails && (
         <div className='detailCB'>
            <h2>Chuyến Bay : {flightDetails.maChuyenBay}</h2>
@@ -295,7 +349,11 @@ function BarChart() {
           {/* Các trường thông tin khác */}
         </div>
       )}
+             <ul className="pagination">
+                {renderPageNumbers}
+              </ul>
           </div>
+        )}
         <Canvas>
           <Suspense fallback={null}>
                  <Earth></Earth>

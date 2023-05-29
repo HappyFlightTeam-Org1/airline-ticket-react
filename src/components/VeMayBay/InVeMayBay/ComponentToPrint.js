@@ -12,7 +12,6 @@ export default function ComponentToPrint() {
     const [ticketTitle, setTicketTitle] = useState();
     console.log("maVe", maVe);
 
-
     useEffect(() => {
         axios.get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
             .then((response) => {
@@ -43,10 +42,12 @@ export default function ComponentToPrint() {
         return boardingTime;
     }
 
-    // const convertBoardingDate = (fullBoaringDate) => {
-    //     const boardingTime = fullBoaringDate.substr(0, 5);;
-    //     return boardingTime;
-    // }
+    const convertBoardingDate = (dateStr) => {
+        const date = new Date(dateStr);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
+        return formattedDate;
+    }
 
 
 
@@ -75,7 +76,7 @@ export default function ComponentToPrint() {
                                 <strong>{veMayBay !== null && veMayBay.maVe}</strong>
                             </div>
                             <div style={{ paddingLeft: '1rem' }}>
-                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL} />
+                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL} alt='logoHangBay' />
 
                             </div>
                         </div>
@@ -163,7 +164,7 @@ export default function ComponentToPrint() {
                                         <small>DATE: </small>
                                     </div>
                                     <div className='col-md-4'>
-                                        <strong>{veMayBay !== null && veMayBay.datCho.chuyenBay.ngayKhoiHanh}</strong>
+                                        <strong>{veMayBay !== null && convertBoardingDate(veMayBay.datCho.chuyenBay.ngayKhoiHanh)}</strong>
                                     </div>
 
                                 </div>
@@ -217,7 +218,7 @@ export default function ComponentToPrint() {
                                     <small>DATE: </small>
                                 </div>
                                 <div className='col-md-9 scale-center'>
-                                    <strong>{veMayBay !== null && veMayBay.datCho.chuyenBay.ngayKhoiHanh}</strong>
+                                    <strong>{veMayBay !== null && convertBoardingDate(veMayBay.datCho.chuyenBay.ngayKhoiHanh)}</strong>
                                 </div>
                             </div>
                         </div>

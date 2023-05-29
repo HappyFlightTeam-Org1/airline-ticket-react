@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./LichSuDatVe.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 function LichSuDatVe() {
     const [tickets, setTickets] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
@@ -12,6 +13,8 @@ function LichSuDatVe() {
     const [formData, setFormData] = useState({});
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(5);
+
+    //CHỨC NĂNG TÌM KIẾM
     const [pageNumber, setPageNumber] = useState(0);
     const [tenHanhKhach, setTenHanhKhach] = useState();
     const [diemDi, setDiemDi] = useState();
@@ -19,6 +22,32 @@ function LichSuDatVe() {
     const [maVe, setMaVe] = useState();
     const [totalPages, setTotalPages] = useState();
     const [sanBay, setSanBay] = useState([]);
+
+    //CHỨC NĂNG XÓA
+    const [selectedObject, setSelectedObject] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [maVeDelete, setMaVeDelete] = useState();
+    const [tenHanhKhachDelete, setTenHanhKhachDelete] = useState();
+    const handleDelete = (veMayBay) => {
+        console.log("vemaybaytostring", veMayBay);
+        setSelectedObject(veMayBay);
+        setMaVeDelete(veMayBay.maVe);
+        setTenHanhKhachDelete(veMayBay.hanhKhach.tenHanhKhach)
+        setIsModalOpen(true);
+    };
+
+    const confirmDelete = () => {
+        axios
+            .delete(`http://localhost:8080/VeMayBay/delete/${selectedObject.maVe}`) // Replace with your API endpoint
+            .then((response) => {
+                fetchTicketList();
+                setIsModalOpen(false);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     useEffect(() => {
         axios
@@ -189,96 +218,95 @@ function LichSuDatVe() {
                     </div>
                 </form>
             </div>
-            <table className="table table-striped border text-nowrap" >
-                <thead>
-                    <tr>
-                        <th scope="col">Mã Vé</th>
-                        <th scope="col">Tên Hành Khách</th>
-                        <th scope="col">Ngày Booking</th>
-                        <th scope="col">Ngày Bay</th>
-                        <th scope="col">Nơi Đi</th>
-                        <th scope="col">Nơi Đến</th>
-                        <th scope="col">Hạng Vé</th>
-                        <th scope="col">Giá Vé</th>
-                        <th scope="col">Thao Tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {isSearching
-                        ? searchResult.map((item) => {
-                            return (
-                                <tr className="align-middle text-nowrap" key={item.maVe}>
-                                    <th scope="row">{item.maVe}</th>
-                                    <td>{item.hanhKhach.tenHanhKhach}</td>
-                                    <td>{item.hoaDon.ngayTao}</td>
-                                    <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
-                                    <td>{item.datCho.chuyenBay.diemDi}</td>
-                                    <td>{item.datCho.chuyenBay.diemDen}</td>
-                                    <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                    <td>{item.giaVe}</td>
-                                    <td>
-                                        <Link
-                                            as={Link}
-                                            to={`/InVe?maVe=${item.maVe.toString()}`}
-                                            className="text-white"
-                                        >
-                                            <button className="btn bg" type="submit">
-                                                In
-                                            </button>
-                                        </Link>
-                                        <button
-                                            className="btn btn-danger"
-                                            type="submit"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop"
-                                        >
-                                            Huỷ
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })
-                        : tickets.map((item, index) => {
-                            return (
-                                <tr className="align-middle" key={item.maVe}>
-                                    <th scope="row">{item.maVe}</th>
-                                    <td>{item.hanhKhach.tenHanhKhach}</td>
-                                    <td>{item.hoaDon.ngayTao}</td>
-                                    <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
-                                    <td>{item.datCho.chuyenBay.diemDi}</td>
-                                    <td>{item.datCho.chuyenBay.diemDen}</td>
-                                    <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                                    <td>
-                                        {item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông"
-                                            ? item.giaVe
-                                            : item.giaVe * 1.5}
-                                    </td>
-                                    <td>
-                                        <Link
-                                            as={Link}
-                                            to={`/InVe?maVe=${item.maVe.toString()}`}
-                                            className="text-white"
-                                        >
-                                            <button className="btn bg" type="submit">
-                                                In
-                                            </button>
-                                        </Link>
-                                        <button
-                                            className="btn btn-danger"
-                                            type="submit"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop"
-                                        >
-                                            Huỷ
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                </tbody>
-            </table>
+            <div className="mh-300">
+                <table className="table table-striped border text-nowrap" >
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã Vé</th>
+                            <th scope="col">Tên Hành Khách</th>
+                            <th scope="col">Ngày Booking</th>
+                            <th scope="col">Ngày Bay</th>
+                            <th scope="col">Nơi Đi</th>
+                            <th scope="col">Nơi Đến</th>
+                            <th scope="col">Hạng Vé</th>
+                            <th scope="col">Giá Vé</th>
+                            <th scope="col">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {isSearching
+                            ? searchResult.map((item) => {
+                                return (
+                                    <tr className="align-middle text-nowrap" key={item.maVe}>
+                                        <th scope="row">{item.maVe}</th>
+                                        <td>{item.hanhKhach.tenHanhKhach}</td>
+                                        <td>{item.hoaDon.ngayTao}</td>
+                                        <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
+                                        <td>{item.datCho.chuyenBay.diemDi}</td>
+                                        <td>{item.datCho.chuyenBay.diemDen}</td>
+                                        <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                                        <td>{item.giaVe}</td>
+                                        <td>
+                                            <Link
+                                                as={Link}
+                                                to={`/InVe?maVe=${item.maVe.toString()}`}
+                                                className="text-white"
+                                            >
+                                                <button className="btn bg" type="submit">
+                                                    In
+                                                </button>
+                                            </Link>
 
-            {(tickets.length > 0 || searchResult.length > 0) && (
+                                            <button
+                                                className="btn btn-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop"
+                                                onClick={() => handleDelete(item)}>Hủy</button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                            : tickets.map((item, index) => {
+                                return (
+                                    <tr className="align-middle" key={item.maVe}>
+                                        <th scope="row">{item.maVe}</th>
+                                        <td>{item.hanhKhach.tenHanhKhach}</td>
+                                        <td>{item.hoaDon.ngayTao}</td>
+                                        <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
+                                        <td>{item.datCho.chuyenBay.diemDi}</td>
+                                        <td>{item.datCho.chuyenBay.diemDen}</td>
+                                        <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                                        <td>
+                                            {item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông"
+                                                ? item.giaVe
+                                                : item.giaVe * 1.5}
+                                        </td>
+                                        <td>
+                                            <Link
+                                                as={Link}
+                                                to={`/InVe?maVe=${item.maVe.toString()}`}
+                                                className="text-white"
+                                            >
+                                                <button className="btn bg" type="submit">
+                                                    In
+                                                </button>
+                                            </Link>
+
+                                            <button
+                                                className="btn btn-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop"
+                                                onClick={() => handleDelete(item)}>Hủy</button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                    </tbody>
+                </table>
+            </div>
+
+
+            {((tickets.length > 0 && isSearching === false) || searchResult.length > 0) && (
                 <div className="pagination">
                     <nav aria-label="...">
                         <ul className="pagination">
@@ -417,9 +445,9 @@ function LichSuDatVe() {
                         <div className="modal-body">
                             <div>
                                 <h5>Bạn thực sự muốn hủy vé mày?</h5>
-                                <span>- Mã vé: TK001</span>
+                                <span>- Mã vé: {maVeDelete}</span>
                                 <br></br>
-                                <span>- Hành khách: Nguyen Van A</span>
+                                <span>- Hành khách: {tenHanhKhachDelete}</span>
                             </div>
                         </div>
                         <div className="modal-footer">
@@ -430,7 +458,12 @@ function LichSuDatVe() {
                             >
                                 Hủy bỏ
                             </button>
-                            <button type="button" className="btn btn-warning">
+                            <button
+                                type="button"
+                                className="btn btn-warning"
+                                onClick={confirmDelete}
+                                data-bs-dismiss="modal"
+                            >
                                 Xác nhận
                             </button>
                         </div>

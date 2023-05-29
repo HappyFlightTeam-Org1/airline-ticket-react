@@ -73,7 +73,7 @@ function HanhKhach() {
           </div>
 
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-            <button type="submit" className="btn btn-success">
+            <button type="submit" className="btn btn-success bg">
               Tìm Kiếm
             </button>
           </div>
@@ -118,7 +118,7 @@ function HanhKhach() {
                 <li
                   className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
                 >
-                  <button className="page-link" onClick={handlePreviousPageClick}>
+                  <button className="page-link bg" onClick={handlePreviousPageClick}>
                     Previous
                   </button>
                 </li>
@@ -147,7 +147,7 @@ function HanhKhach() {
                   className={`page-item ${currentPage === totalPage - 1 ? "disabled" : ""
                     }`}
                 >
-                  <button className="page-link" onClick={handleNextPageClick}>
+                  <button className="page-link bg" onClick={handleNextPageClick}>
                     Next
                   </button>
                 </li>

@@ -7,13 +7,13 @@
 .ReactModal__Content {
     background-color: #5f0404;
     color: #000;
-    
+
 }
 
 .ReactModal__Content--after-open {
     opacity: 1;
     z-index: 3000;
-    
+
 }
 
 .my-modal {
@@ -90,65 +90,65 @@
     display: flex;
     flex-direction: row;
   }
-  
+
 .member-list{
     width: 20%;
     max-height: 500px;
     overflow: auto;
   }
-  
+
   .chat-content{
     width:80%;
     margin-left: 10px;
     height: 600px;
-    
+
   }
   .chat-wrap-ul{
     height: 400px;
     border: 1px solid #5aaeee;
     border-radius: 5px;
   }
-  
+
   .chat-messages{
     height: 100%;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    
+
   }
   .chat-messages li {
    /* đảo ngược thứ tự hiển thị của các tin nhắn */
   }
-  
+
 .send-message{
     width: 100%;
     display: flex;
     flex-direction: row;
     margin-top: 50px;
   }
-  
+
   .input-message{
     width:90%;
     border-radius: 5px;
     border: #5aaeee solid 1px;
-  }  
-  input:hover{
+  }
+  .chat input:hover{
     width:90%;
     border-radius: 5px;
     border: #5aaeee solid 1px;
   }
-input:active{
+.chat input:active{
     width:90%;
     border-radius: 5px;
     border: #5aaeee solid 1px;
 }
-  
-  ul {
+
+.chat  ul {
     padding: 0;
     list-style-type: none;
   }
-  
-.send-button-chat{
+
+.send-chat{
     width:10%;
     border-radius: 5px;
     margin-left: 5px;
@@ -171,7 +171,7 @@ input:active{
     background: grey;
     color:#fff;
   }
-  
+
   .avatar{
     background-color: cornflowerblue;
     padding: 3px 5px;
@@ -190,13 +190,13 @@ input:active{
     padding: 0;
     margin: 0;
   }
-  
+
   .member-list li {
     display: flex;
     width: 100%;
     margin-bottom: 10px;
   }
-  
+
   .member-list button {
     width: 95%;
     margin-left: 5%;
@@ -210,11 +210,11 @@ input:active{
     padding-left: 30px;
     box-shadow: -8px 8px 8px -4px lightblue, 0 8px 8px -4px lightblue;
   }
-  
+
   .member-list button:focus, .member-list button:hover {
     background-color: #cee8fb;
   }
-  
+
   .member-list button.active {
     font-weight: bold;
     color: #000;
@@ -243,7 +243,7 @@ input:active{
 margin-left: 30%;
   }
   .chat-messages .client{
-    
+
     margin-right: 30%;  }
 
 .chat-messages .self .message-data{
@@ -251,12 +251,12 @@ margin-left: 30%;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 
-} 
+}
 .chat-messages .client .message-data{
   background-color: #fafbfd;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-}     
+}
 
 .chat-box-user{
   box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
@@ -269,7 +269,7 @@ margin-left: 30%;
   height: 400px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   padding: 10px;
   width: 100%;
 }
@@ -277,21 +277,21 @@ margin-left: 30%;
   margin-left: 30%;
     }
     .chat-messages-user .client{
-      
+
       margin-right: 30%;  }
-  
+
   .chat-messages-user .self .message-data{
     background-color: #5aaeee;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  
-  } 
+
+  }
   .chat-messages-user .client .message-data{
     background-color: #fafbfd;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  }     
-    
+  }
+
 .send-message-user{
   width: 100%;
   display: flex;
@@ -302,7 +302,7 @@ margin-left: 30%;
   width:100%;
   margin-left: 10px;
   height: 600px;
-  
+
 }
 .send-button-chat i{
   color:  #5aaeee;
@@ -314,7 +314,7 @@ margin-left: 30%;
 .list-member{
   display: flex;
   flex-direction: column;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   padding: 10px;
   max-height: 500px;
 }
