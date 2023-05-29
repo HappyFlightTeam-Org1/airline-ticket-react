@@ -201,7 +201,6 @@ header {
     font-size: .3rem;
   }
 }
-
-.navbar-bg-ti {
+.navbar-bg{
   background: var(--gradientColor);
 }
