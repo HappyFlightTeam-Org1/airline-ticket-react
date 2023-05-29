@@ -62,7 +62,6 @@ export default function Home({ on }) {
     setUser(value);
   };
 
-
   const navigate = useNavigate();
 
   //DucNH66 Lấy danh sách sân bay
@@ -76,32 +75,35 @@ export default function Home({ on }) {
       .catch((err) => console.error);
   }, []);
   //lấy toàn bộ user
-  useEffect(()=>{
+  useEffect(() => {
     axios
-    .get(`http://localhost:8080/chat-box/user`)
-    .then((response) => {
-      const data = response.data;
-      setListUserA(data);
-    })
-    .catch((error) => console.error);
-  },[]);
+      .get(`http://localhost:8080/chat-box/user`)
+      .then((response) => {
+        const data = response.data;
+        setListUserA(data);
+      })
+      .catch((error) => console.error);
+  }, []);
 
-  useEffect(() => {  
+  useEffect(() => {
     const userLogin = localStorage.getItem("account");
     if (userLogin) {
       setUser(userLogin);
     } else {
       let guestFound = true;
-      for (let i = 0;guestFound; i++) {
+      for (let i = 0; guestFound; i++) {
         const randomNum = Math.floor(Math.random() * 10000)
           .toString()
           .padStart(3, "0");
-        const randomLetters = Math.random().toString(36).substring(2, 5).toUpperCase();
+        const randomLetters = Math.random()
+          .toString(36)
+          .substring(2, 5)
+          .toUpperCase();
         const str = `guest${randomNum}${randomLetters}`;
-        console.log("day la ten khach: ",str)
+        console.log("day la ten khach: ", str);
         if (!listUserA.includes(str)) {
           setUser(str);
-          console.log("day la user sau khi random",user);
+          console.log("day la user sau khi random", user);
           guestFound = false;
         }
       }
