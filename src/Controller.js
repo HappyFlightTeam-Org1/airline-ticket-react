@@ -22,7 +22,7 @@ import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
 
 import DangKy from "./components/Authen/DangKy/Register.js";
 
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import GuiEmail from "./components/Authen/QuenMatKhau/GuiEmail.js";
 import ThietLapMatKhauMoi from "./components/Authen/QuenMatKhau/ThietLapMatKhauMoi";
 import SuaThongTinCaNhan from "./components/Authen/SuaThongTinCaNhan/SuaThongTinCaNhan";
@@ -42,6 +42,16 @@ function Controller() {
 
   const loginInitialState = { login: '' };
   const [state, dispatch] = useReducer(LoginStateReducer, loginInitialState);
+
+  useEffect(() => {
+    if (localStorage.getItem('login') === 'user') {
+      dispatch({ type: 'USER' });
+    }
+    if (localStorage.getItem('login') === 'admin') {
+      dispatch({ type: 'ADMIN' });
+    }
+  }, []);
+
 
   return (
     <div className="Controller">
@@ -73,12 +83,12 @@ function Controller() {
                   path="ThongTinKhachHangDatVe"
                   element={<ThemHanhKhachDatVe />}
                 />
-                <Route path="TimKiemVe" element={<TimKiemVe />} />
                 <Route path="InVe" element={<InVeMayBay />} />
               </>
               :
               <></>
               }
+              <Route path="TimKiemVe" element={<TimKiemVe />} />
 
               {state.login === 'ADMIN'
               ?

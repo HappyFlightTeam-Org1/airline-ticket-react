@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import ChatBox from "../../Chat/Chat";
 import RoundButton from "../../Chat/RoundButton";
 import LoginContext from "../../../loginGlobalState/LoginContext";
+import { toast } from "react-toastify";
 
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
@@ -142,6 +143,7 @@ export default function Home({ on }) {
     event.preventDefault();
 
     if (state.login === '') {
+      toast.info('Bạn phải đăng nhập trước khi sử dụng tính năng này');
       navigate('/Login');
     }
 
