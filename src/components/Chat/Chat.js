@@ -7,8 +7,8 @@ import axios from "axios";
 
 var stompClient = null;
 const ChatBox = ({ isOpen, onClose, children, user }) => {
-  
- 
+
+
   const [listUserNew, setListUserNew] = useState([]);
   const chatMessagesRef = useRef(null);
   const [listUser, setListUser] = useState([]);
@@ -47,7 +47,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   };
   const handleComponentOpen = () => {
     setComponentOpened(true);
-    
+
   };
   const handleComponentClose = () => {
     setComponentOpened(false);
@@ -115,7 +115,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     }
     handleClick(name);
     handleButtonClick();
-    
+
     setReciptientNamecurrent(name);
 
     axios
@@ -298,7 +298,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                   />
                   <button
                     type="button"
-                    className="send-button"
+                    className="send-chat"
                     onClick={sendPrivateValue}
                     disabled={buttonDisabled}
                   >
@@ -411,7 +411,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                 />
                 <button
                   type="button"
-                  className="send-button"
+                  className="send-chat"
                   onClick={sendPrivateValue}
                   disabled={buttonDisabled}
                 >
