@@ -7,8 +7,6 @@ import axios from "axios";
 
 var stompClient = null;
 const ChatBox = ({ isOpen, onClose, children, user }) => {
-
-
   const [listUserNew, setListUserNew] = useState([]);
   const chatMessagesRef = useRef(null);
   const [listUser, setListUser] = useState([]);
@@ -47,7 +45,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   };
   const handleComponentOpen = () => {
     setComponentOpened(true);
-
   };
   const handleComponentClose = () => {
     setComponentOpened(false);
@@ -99,6 +96,10 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   function getChat(name) {
     console.log("name", name);
     axios
+      .delete(`http://localhost:8080/chat-box/delete-new-message/${name}`)
+      .catch((error) => console.error);
+    updateListUserNew();
+    axios
       .get(`http://localhost:8080/chat-box/getchat?user=${name}`)
       .then((response) => {
         const data = response.data;
@@ -115,14 +116,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
     }
     handleClick(name);
     handleButtonClick();
-
     setReciptientNamecurrent(name);
-
-    axios
-      .delete(`http://localhost:8080/chat-box/delete-new-message/${name}`)
-      .catch((error) => console.error);
-
-      updateListUserNew();
   }
   useEffect(() => {
     if (searchText !== "") {
@@ -171,6 +165,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   //     .catch((error) => console.error);
   // };
   useEffect(() => {
+    console.log("day la listmessage mới");
     if (searchText === "") {
       if (user === "admin") {
         axios
@@ -183,6 +178,8 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
       }
     }
     if (user === "admin") {
+      console.log("day la listmessage", listMessage);
+      console.log("day la listUserNew truoc khi them: ", listUserNew);
       if (Array.isArray(listMessage) && listMessage.length > 0) {
         const lastms = listMessage[listMessage.length - 1]?.sender;
         if (lastms && lastms !== reciptientnamecurrent && lastms !== "admin") {
@@ -191,12 +188,23 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
           axios
             .get(`http://localhost:8080/chat-box/save-new-message/${lastms}`)
             .catch((error) => console.error);
-            updateListUserNew();
+          //updateListUserNew();
+          // axios
+          //   .get(`http://localhost:8080/chat-box/new-message`)
+          //   .then((response) => {
+          //     const data = response.data;
+          //     setListUserNew(data);
+          //   })
+          //   .catch((error) => console.error);
+          getChat(reciptientnamecurrent);
         }
       }
     }
   }, [listMessage]);
 
+  useEffect(()=>{
+        updateListUserNew();
+  },[listMessage])
 
   useEffect(() => {
     if (componentOpened && chatMessagesRef.current) {
@@ -298,6 +306,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                   />
                   <button
                     type="button"
+
                     className="send-chat"
                     onClick={sendPrivateValue}
                     disabled={buttonDisabled}
@@ -350,7 +359,9 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                       item !== "admin" && (
                         <li key={index}>
                           <button
-                            className={activeIndex === item ? "active btn-li" : "btn-li" }
+                            className={
+                              activeIndex === item ? "active btn-li" : "btn-li"
+                            }
                             onClick={() => getChat(item)}
                           >
                             {item}
