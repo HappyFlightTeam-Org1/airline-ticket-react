@@ -159,7 +159,7 @@ function DanhSachTimKiemChuyenBay() {
   console.log("ngay di kh: ", ngayDiKh);
 
   return (
-    <div className="container my-4 xxx  ">
+    <div className="container duc mb-5 ">
       {/* Danh sách chuyến bay tìm kiếm được */}
       <div className="row my-4 ">
         {/* Div trang trí */}
@@ -735,7 +735,7 @@ function DanhSachTimKiemChuyenBay() {
           {loaiChuyenBay === "Khứ Hồi" &&
             chuyenBays.length === 0 &&
             chuyenBayKhuHois.length === 0 && <h1> Không tìm thấy </h1>}
-            
+
           <button className="btn btn-success bg" onClick={handleBackHome}>
             Tìm chuyến bay khác
           </button>

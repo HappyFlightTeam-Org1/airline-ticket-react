@@ -22,11 +22,15 @@ import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";
 
 import DangKy from "./components/Authen/DangKy/Register.js";
 
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import GuiEmail from "./components/Authen/QuenMatKhau/GuiEmail.js";
 import ThietLapMatKhauMoi from "./components/Authen/QuenMatKhau/ThietLapMatKhauMoi";
 import SuaThongTinCaNhan from "./components/Authen/SuaThongTinCaNhan/SuaThongTinCaNhan";
 import ThayDoiMatKhau from "./components/Authen/ThayDoiMatKhau/ThayDoiMatKhau.js";
+import LoginStateReducer from "./loginGlobalState/LoginStateReducer";
+import LoginContext from "./loginGlobalState/LoginContext";
+import Logout from "./components/Authen/DangXuat/Logout";
+import ErrorPage from "./components/Commons/ErrorPage/ErrorPage";
 
 function Controller() {
   const [on, setOn] = useState(false);
@@ -35,62 +39,117 @@ function Controller() {
     setOn(!on);
     console.log(on);
   };
+
+  const loginInitialState = { login: '' };
+  const [state, dispatch] = useReducer(LoginStateReducer, loginInitialState);
+
   return (
     <div className="Controller">
-      <BrowserRouter>
-        <Navbar handleTogger={handleTogger} on={on} />
-        <Routes>
-          <Route path="/" element={<Home on={on} />} />
-          {/* Thêm mới chuyến bay */}
-          <Route>
-            <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
-            <Route path="CapNhatChuyenBay" element={<CapNhatChuyenBay />} />
-            <Route path="DanhSachChuyenBay" element={<DanhSachChuyenBay />} />
-            <Route path="TimKiemChuyenBay" element={<TimKiemChuyenBay />} />
-            <Route path="HanhKhach" element={<HanhKhach />} />
-          </Route>
-          {/* Hành Khách */}
-          <Route>
-            <Route
-              path="ThongTinKhachHangDatVe"
-              element={<ThemHanhKhachDatVe />}
-            />
-            <Route
-              path="DanhSachKhachHangDatVe"
-              element={<DanhSachKhachHangDatVe />}
-            />
-            <Route path="LichSuDatVe" element={<LichSuDatVe />} />
-            <Route path="TimKiemVe" element={<TimKiemVe />} />
-            <Route path="InVe" element={<InVeMayBay />} />
-          </Route>
-          {/* Hiển thị danh sách đặt chỗ*/}
-          <Route>
-            <Route path="DatCho" element={<DatCho />} />
-          </Route>
-          {/* Quản lý người dùng và thống kê */}
-          <Route>
-            <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
-            <Route path="Login" element={<Login />} />
-            <Route path="DangKy" element={<DangKy />} />
-            <Route path="BarChart" element={<BarChart on ={on} />} />
-            <Route path="GuiEmail" element={< GuiEmail />} />
-            <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
-            <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
-            <Route path="ThayDoiMatKhau" element={< ThayDoiMatKhau />} />
-            <Route path="BarChart" element={<BarChart />} />
-            <Route path="GuiEmail" element={<GuiEmail />} />
-            <Route path="ThietLapMatKhauMoi" element={<ThietLapMatKhauMoi />} />
-            <Route path="SuaThongTinCaNhan" element={<SuaThongTinCaNhan />} />
-            <Route path="ThayDoiMatKhau" element={<ThayDoiMatKhau />} />
-          </Route>
-          {/* Hóa Đơn */}
-          <Route>
-            <Route path="ThanhToan" element={<HoaDon />} />
-            <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
-          </Route>
-        </Routes>
-        <Footer on={on} />
-      </BrowserRouter>
+      <LoginContext.Provider value={{ state, dispatch }}>
+        <BrowserRouter>
+          <Navbar handleTogger={handleTogger} on={on} />
+          <Routes>
+            <Route path="/" element={<Home on={on} />} />
+            {/* Thêm mới chuyến bay */}
+            <Route>
+              {state.login === 'ADMIN'
+              ?
+              <>
+                <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
+                <Route path="CapNhatChuyenBay" element={<CapNhatChuyenBay />} />
+                <Route path="DanhSachChuyenBay" element={<DanhSachChuyenBay />} />
+                <Route path="TimKiemChuyenBay" element={<TimKiemChuyenBay />} />
+                <Route path="HanhKhach" element={<HanhKhach />} />
+              </>
+              :
+              <></>}
+            </Route>
+            {/* Hành Khách */}
+            <Route>
+              {state.login !== ''
+              ?
+              <>
+                <Route
+                  path="ThongTinKhachHangDatVe"
+                  element={<ThemHanhKhachDatVe />}
+                />
+                <Route path="TimKiemVe" element={<TimKiemVe />} />
+                <Route path="InVe" element={<InVeMayBay />} />
+              </>
+              :
+              <></>
+              }
+
+              {state.login === 'ADMIN'
+              ?
+              <>
+                <Route
+                  path="DanhSachKhachHangDatVe"
+                  element={<DanhSachKhachHangDatVe />}
+                />
+                <Route path="LichSuDatVe" element={<LichSuDatVe />} />
+              </>
+              :
+              <></>
+              }
+            </Route>
+            {/* Hiển thị danh sách đặt chỗ*/}
+            <Route>
+              {state.login !== ''
+              ?
+              <>
+                <Route path="DatCho" element={<DatCho />} />
+              </>
+              :
+              <>
+              </>}
+            </Route>
+            {/* Quản lý người dùng và thống kê */}
+            <Route>
+              {state.login === 'ADMIN'
+              ?
+              <>
+                <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
+                <Route path="BarChart" element={<BarChart on ={on} />} />
+              </>
+              :
+              <>
+              </>
+              }
+
+              <Route path="Login" element={<Login />} />
+              <Route path="DangKy" element={<DangKy />} />
+              <Route path="GuiEmail" element={< GuiEmail />} />
+              <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
+
+              {state.login !== ''
+              ?
+              <>
+                <Route path="Logout" element={<Logout />} />
+                <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
+                <Route path="ThayDoiMatKhau" element={< ThayDoiMatKhau />} />
+              </>
+              :
+              <>
+              </>}
+            </Route>
+            {/* Hóa Đơn */}
+            <Route>
+              {state.login !== ''
+              ?
+              <>
+                <Route path="ThanhToan" element={<HoaDon />} />
+                <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
+              </>
+              :
+              <>
+              </>}
+            </Route>
+            <Route path="/*" element={<ErrorPage />} />
+          </Routes>
+          <Footer on={on} />
+        </BrowserRouter>
+      </LoginContext.Provider>
     </div>
   );
 }

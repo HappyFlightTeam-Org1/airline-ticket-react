@@ -119,7 +119,7 @@ function TimKiemVe() {
         </table>)}
 
         {tickets.length === 0 && (<div className="row justify-content-center">
-          <div className="col-6 d-flex justify-content-center">
+          <div className="col-6 d-flex justify-content-center mh-300">
             <img
               src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" style={{ width: '100%', height: 'auto', marginBottom: '10px' }} />
             <div className="text-center">

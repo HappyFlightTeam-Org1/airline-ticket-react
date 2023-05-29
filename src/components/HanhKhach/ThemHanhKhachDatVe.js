@@ -138,7 +138,7 @@ const ThongTinKhachHangDatVe = () => {
   console.log("Chuyen Bay Khu Hoi hk: ", chuyenBayKhuHoi);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mt-10 mb-5">
       <div className="row justify-content-center mt-5">
         <div className="d-flex">
           <div className="col-6 m-3">

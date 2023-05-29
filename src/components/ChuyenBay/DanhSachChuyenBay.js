@@ -124,7 +124,7 @@ function DanhSachChuyenBay() {
   return (
     <div className="container chuyenbay ">
       <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
-      <hr />
+      {/* <hr /> */}
       {/* Form tìm kiếm  DucNH66*/}
       <form class="row justify-content-center search" onSubmit={handleSearch}>
         <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
