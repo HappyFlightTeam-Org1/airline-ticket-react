@@ -145,7 +145,7 @@ function LichSuDatVe() {
     };
 
     return (
-        <div className="container ticket-container bg-body table-shadow">
+        <div className="container ticket-container bg-body table-shadow mg-top-60">
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>

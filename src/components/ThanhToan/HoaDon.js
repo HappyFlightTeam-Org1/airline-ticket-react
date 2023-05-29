@@ -173,6 +173,8 @@ function HoaDon() {
     }
   };
 
+  console.log("veMayBayDTO", veMayBayDTO);
+
   return (
     <div className="container d-flex justify-content-center mb-3">
       <div className="order order-container mt-3">
