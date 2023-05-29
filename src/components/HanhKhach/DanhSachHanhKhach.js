@@ -130,10 +130,10 @@ function HanhKhach() {
                   className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
                 >
                    <button className="page-link bg" onClick={handleBeginPageClick}>
-                    Begin
+                   <i class="fa-solid fa-angles-left"></i>
                   </button>
                   <button className="page-link bg" onClick={handlePreviousPageClick}>
-                    Previous
+                  <i class="fa-solid fa-angle-left"></i>
                   </button>
                 </li>
                 {pageNumbers
@@ -162,10 +162,10 @@ function HanhKhach() {
                     }`}
                 >
                   <button className="page-link bg" onClick={handleNextPageClick}>
-                    Next
+                  <i class="fa-solid fa-chevron-right"></i>
                   </button>
                   <button className="page-link bg" onClick={handleEndPageClick}>
-                    End
+                  <i class="fa-solid fa-angles-right"></i>
                   </button>
                 </li>
               </ul>
