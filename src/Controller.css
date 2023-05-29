@@ -47,8 +47,8 @@ i {
   align-items: center;
 }
 
-.mg-top-60{
-  margin-top: 60px;
+.mg-top-60 {
+  margin-top: 60px !important;
 }
 
 .grid {

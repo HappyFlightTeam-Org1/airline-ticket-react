@@ -732,6 +732,10 @@ function DanhSachTimKiemChuyenBay() {
                 để xem chi tiết
               </h1>
             )}
+          {loaiChuyenBay === "Khứ Hồi" &&
+            chuyenBays.length === 0 &&
+            chuyenBayKhuHois.length === 0 && <h1> Không tìm thấy </h1>}
+            
           <button className="btn btn-success bg" onClick={handleBackHome}>
             Tìm chuyến bay khác
           </button>

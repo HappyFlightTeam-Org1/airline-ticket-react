@@ -2,11 +2,26 @@
     0% {
         border-color: #33ffb1;
     }
-
-    50% {
-        border-color: rgb(0, 255, 217);
+    20% {
+        border-color: rgb(0, 255, 30);
 
     }
+
+    40% {
+        border-color: rgb(255, 0, 0);
+
+    }
+
+    60% {
+        border-color: rgb(238, 255, 0);
+
+    }
+
+    80% {
+        border-color: rgb(213, 117, 0);
+
+    }
+
 
     100% {
         border-color: #33ccff;

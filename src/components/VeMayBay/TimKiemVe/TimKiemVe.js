@@ -55,7 +55,7 @@ function TimKiemVe() {
   }
 
   return (
-    <div className='container ticket-container bg-body shadow'>
+    <div className='container ticket-container bg-body shadow mg-top-60'>
       <div className="pt-5 pb-2">
         <div className="text-center pb-2">
           <h1>TÌM KIẾM VÉ</h1>
@@ -119,9 +119,9 @@ function TimKiemVe() {
         </table>)}
 
         {tickets.length === 0 && (<div className="row justify-content-center">
-          <div className="col-6">
+          <div className="col-6 d-flex justify-content-center">
             <img
-              src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" />
+              src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" style={{ width: '100%', height: 'auto', marginBottom: '10px' }} />
             <div className="text-center">
               <p className="text-white">No result!</p>
             </div>
