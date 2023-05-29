@@ -1,6 +1,5 @@
 header {
   height: 60px;
-
 }
 
 .navbar-expand-lg {
@@ -36,18 +35,43 @@ header {
   background-color: black;
 
   /* Firefox */
-  background-image:
-    -moz-radial-gradient(circle, #FFFFFF 2px, rgba(248, 255, 128, .5) 4px, transparent 40px),
-    -moz-radial-gradient(circle, #FFFFFF 1px, rgba(255, 186, 170, .4) 3px, transparent 30px),
-    -moz-radial-gradient(ellipse, rgba(255, 255, 255, .9) 1px, rgba(251, 255, 186, .3) 2px, transparent 40px),
-    -moz-radial-gradient(ellipse, rgba(255, 255, 255, .4), rgba(253, 255, 219, .2) 1px, transparent 30px);
+  background-image: -moz-radial-gradient(
+      circle,
+      #ffffff 2px,
+      rgba(248, 255, 128, 0.5) 4px,
+      transparent 40px
+    ),
+    -moz-radial-gradient(circle, #ffffff 1px, rgba(255, 186, 170, 0.4) 3px, transparent
+          30px),
+    -moz-radial-gradient(ellipse, rgba(255, 255, 255, 0.9) 1px, rgba(
+            251,
+            255,
+            186,
+            0.3
+          )
+          2px, transparent 40px),
+    -moz-radial-gradient(ellipse, rgba(255, 255, 255, 0.4), rgba(
+            253,
+            255,
+            219,
+            0.2
+          )
+          1px, transparent 30px);
 
   /* Webkit */
-  background-image:
-    -webkit-gradient(radial, 50% 50%, 2, 50% 50%, 40, from(white), color-stop(0.1, rgba(248, 255, 128, .5)), to(transparent)),
-    -webkit-gradient(radial, 50% 50%, 1, 50% 50%, 30, from(white), color-stop(0.1, rgba(255, 186, 170, .4)), to(transparent)),
-    -webkit-gradient(radial, 50% 50%, 1, 50% 50%, 40, from(rgba(255, 255, 255, .9)), color-stop(0.05, rgba(251, 255, 186, .3)), to(transparent)),
-    -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 30, from(rgba(255, 255, 255, .4)), color-stop(0.03, rgba(253, 255, 219, .2)), to(transparent));
+  background-image: -webkit-gradient(
+      radial,
+      50% 50%,
+      2,
+      50% 50%,
+      40,
+      from(white),
+      color-stop(0.1, rgba(248, 255, 128, 0.5)),
+      to(transparent)
+    ),
+    -webkit-gradient(radial, 50% 50%, 1, 50% 50%, 30, from(white), color-stop(0.1, rgba(255, 186, 170, 0.4)), to(transparent)),
+    -webkit-gradient(radial, 50% 50%, 1, 50% 50%, 40, from(rgba(255, 255, 255, 0.9)), color-stop(0.05, rgba(251, 255, 186, 0.3)), to(transparent)),
+    -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 30, from(rgba(255, 255, 255, 0.4)), color-stop(0.03, rgba(253, 255, 219, 0.2)), to(transparent));
 
   /* Background Attributes */
   background-size: 550px 550px, 350px 350px, 250px 270px, 220px 200px;
@@ -170,38 +194,37 @@ header {
 }
 
 /* input:checked */
-.toggle-switch:checked~.text {
+.toggle-switch:checked ~ .text {
   color: #fff;
 }
 
-.toggle-switch:checked~.toggle {
+.toggle-switch:checked ~ .toggle {
   background: #242424;
 }
 
-.toggle-switch:checked~.toggle::after {
+.toggle-switch:checked ~ .toggle::after {
   transform: translateX(20px);
   background: linear-gradient(180deg, #777, #3a3a3a);
 }
 
-.toggle:checked~.toggle i:first-child {
+.toggle:checked ~ .toggle i:first-child {
   color: #7e7e7e;
 }
 
-.toggle-switch:checked~.toggle i:last-child {
+.toggle-switch:checked ~ .toggle i:last-child {
   color: #fff;
 }
 
-.toggle-switch:checked~.background {
+.toggle-switch:checked ~ .background {
   background: #242424;
 }
 
 /* media */
-@media screen and (max-width : 1372) {
+@media screen and (max-width: 1372) {
   .menu {
-    font-size: .3rem;
+    font-size: 0.3rem;
   }
 }
-
-.navbar-bg-ti {
+.navbar-bg{
   background: var(--gradientColor);
 }
