@@ -1,8 +1,11 @@
 
 header {
-  background: var(--gradientColor);
   height: 60px;
 
+}
+.navbar-expand-lg{
+  background: var(--gradientColor);
+  height: 60px;
 }
 .nav-link {
   color:#d8860b;
@@ -172,4 +175,7 @@ header {
  .menu {
    font-size: .3rem;
  }
+}
+.container-fluid  {
+  background: var(--gradientColor);
 }

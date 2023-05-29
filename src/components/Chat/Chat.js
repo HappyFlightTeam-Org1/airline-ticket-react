@@ -414,7 +414,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                 <input
                   type="text"
                   className="input-message"
-                  placeholder="enter the message"
+                  placeholder="Enter the message"
                   value={userData.content}
                   onChange={handleMessage}
                   onKeyDown={handleKeyDown}
