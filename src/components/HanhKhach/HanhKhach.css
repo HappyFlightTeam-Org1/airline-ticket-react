@@ -62,7 +62,6 @@ h5 {
 }
 
 .pagination .page-item.active {
-  background-color: #069a69;
   color: #fff;
 }
 
@@ -81,4 +80,7 @@ b {
   &:hover {
     background: var(--gradientColor1);
   }
+}
+.page-link i{
+font-size: 1rem;
 }
