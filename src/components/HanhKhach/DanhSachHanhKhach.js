@@ -66,7 +66,7 @@ function HanhKhach() {
 
   return (
 
-    <div className="container hanhkhach">
+    <div className='container bg-body table-shadow'>
       <div className="tablehk mt-3">
         <h1 className="pt-3 mb-0 text-center">QUẢN LÝ HÀNH KHÁCH</h1>
         <form className="row justify-content-center search" onSubmit={handleSearch}>
