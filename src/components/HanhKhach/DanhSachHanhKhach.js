@@ -42,6 +42,17 @@ function HanhKhach() {
       setCurrentPage(currentPage - 1);
     }
   }
+  
+  function handleBeginPageClick() {
+    if (currentPage > 0) {
+      setCurrentPage(0);
+    }
+  }
+  function handleEndPageClick() {
+    if (currentPage < totalPage-1) {
+      setCurrentPage(totalPage-1);
+    }
+  }
 
   function handlePageNumberClick(pageNumber) {
     setCurrentPage(pageNumber);
@@ -118,6 +129,9 @@ function HanhKhach() {
                 <li
                   className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
                 >
+                   <button className="page-link bg" onClick={handleBeginPageClick}>
+                    Begin
+                  </button>
                   <button className="page-link bg" onClick={handlePreviousPageClick}>
                     Previous
                   </button>
@@ -149,6 +163,9 @@ function HanhKhach() {
                 >
                   <button className="page-link bg" onClick={handleNextPageClick}>
                     Next
+                  </button>
+                  <button className="page-link bg" onClick={handleEndPageClick}>
+                    End
                   </button>
                 </li>
               </ul>
