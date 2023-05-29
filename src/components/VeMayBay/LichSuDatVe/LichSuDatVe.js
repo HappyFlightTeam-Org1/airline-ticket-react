@@ -13,6 +13,7 @@ function LichSuDatVe() {
     const [formData, setFormData] = useState({});
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(5);
+    const emailNguoiDung = localStorage.getItem("email");
 
     //CHỨC NĂNG TÌM KIẾM
     const [pageNumber, setPageNumber] = useState(0);
@@ -74,6 +75,7 @@ function LichSuDatVe() {
                     tenHanhKhach,
                     diemDi,
                     diemDen,
+                    emailNguoiDung
                 },
             });
             setTotalPages(response.data.totalPages);
@@ -145,7 +147,8 @@ function LichSuDatVe() {
     };
 
     return (
-        <div className="container ticket-container bg-body table-shadow history">
+        <div className="container ticket-container bg-body shadow mg-top-60">
+
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
