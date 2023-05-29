@@ -10,7 +10,7 @@ export default function Navbar({ handleTogger, on }) {
     <div class="fixed-top">
       <header>
         <nav className={`navbar navbar-expand-lg ${on ? "night" : ""}`}>
-          <div className={`container-fluid navbar ${on ? "night" : ""}`}>
+          <div className={`container-fluid navbar-bg ${on ? "night" : ""}`}>
             <div className="logoDiv">
               <img className="img" src={logo} alt="Giá rẻ" />
             </div>
