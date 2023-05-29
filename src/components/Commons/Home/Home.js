@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import video from "../../../Assets/video.mp4";
 import video2 from "../../../Assets/video2.mp4";
@@ -9,6 +9,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import ChatBox from "../../Chat/Chat";
 import RoundButton from "../../Chat/RoundButton";
+import LoginContext from "../../../loginGlobalState/LoginContext";
 
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
@@ -31,6 +32,8 @@ const checkFormSearch = Yup.object().shape({
 });
 
 export default function Home({ on }) {
+  const {state, dispatch} = useContext(LoginContext);
+
   //DucNh66 useState
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
   const [soNguoiLon, setSoNguoiLon] = useState(1);
@@ -145,6 +148,11 @@ export default function Home({ on }) {
   //DucNH66 Gởi dữ liệu đi để tìm kiếm chuyến bay
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (state.login === '') {
+      navigate('/Login');
+    }
+
     checkFormSearch
       .validate(formData, { abortEarly: false })
       .then(() => {

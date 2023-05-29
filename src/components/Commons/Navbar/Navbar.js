@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../../Assets/logo.png";
+import LoginContext from "../../../loginGlobalState/LoginContext";
 export default function Navbar({ handleTogger, on }) {
+  const {state, dispatch} = useContext(LoginContext);
 
   return (
     <div >
@@ -38,7 +40,6 @@ export default function Navbar({ handleTogger, on }) {
                   </label>
                 </li>
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="/"
@@ -46,10 +47,12 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Trang Chủ
                   </Link>
-
                 </li>
-                <li className="nav-item">
 
+                {state.login === 'ADMIN'
+                ?
+                <>
+                <li className="nav-item">
                   <Link
                     as={Link}
                     to="DanhSachChuyenBay"
@@ -57,11 +60,9 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Chuyến bay
                   </Link>
-
                 </li>
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="DanhSachKhachHangDatVe"
@@ -69,11 +70,9 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Hành khách
                   </Link>
-
                 </li>
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="LichSuDatVe"
@@ -81,11 +80,14 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Lịch sử đặt vé
                   </Link>
-
                 </li>
+                </>
+                :
+                <>
+                </>
+                }
 
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="TimKiemVe"
@@ -93,11 +95,12 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Tìm Kiếm Vé
                   </Link>
-
                 </li>
 
+                {state.login === 'ADMIN'
+                ?
+                <>
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="QuanLyNguoiDung"
@@ -105,10 +108,8 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Người dùng
                   </Link>
-
                 </li>
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="BarChart"
@@ -116,12 +117,18 @@ export default function Navbar({ handleTogger, on }) {
                   >
                     Thống Kê
                   </Link>
-
                 </li>
+                </>
+                :
+                <>
+                </>
+                }
               </ul>
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 login">
+                {state.login === ''
+                ?
+                <>
                 <li className="nav-item">
-
                   <Link
                     as={Link}
                     to="Login"
@@ -140,6 +147,20 @@ export default function Navbar({ handleTogger, on }) {
                     Đăng ký
                   </Link>
                 </li>
+                </>
+                :
+                <>
+                <li className="nav-item">
+                  <Link
+                    as={Link}
+                    to='Logout'
+                    className="text-white nav-link active"
+                  >
+                    Đăng xuất
+                  </Link>
+                </li>
+                </>
+                }
               </ul>
             </div>
           </div>
