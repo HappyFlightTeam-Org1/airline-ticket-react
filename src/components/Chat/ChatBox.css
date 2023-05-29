@@ -148,7 +148,7 @@ input:active{
     list-style-type: none;
   }
   
-.send-button{
+.send-button-chat{
     width:10%;
     border-radius: 5px;
     margin-left: 5px;
@@ -304,7 +304,7 @@ margin-left: 30%;
   height: 600px;
   
 }
-.send-button i{
+.send-button-chat i{
   color:  #5aaeee;
 }
 .red {
