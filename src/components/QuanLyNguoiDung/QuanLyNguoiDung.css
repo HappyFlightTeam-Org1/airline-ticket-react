@@ -22,3 +22,7 @@ h5 {
               background: var(--gradientColor1);
             }
 }
+.table-shadow{
+  margin-bottom: 20px;
+  margin-top: 60px;
+}
