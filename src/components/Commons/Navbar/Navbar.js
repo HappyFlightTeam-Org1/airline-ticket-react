@@ -7,10 +7,10 @@ export default function Navbar({ handleTogger, on }) {
   const {state, dispatch} = useContext(LoginContext);
 
   return (
-    <div >
-      <header className={`${on ? "night" : ""}`}>
-        <nav className="navbar navbar-expand-lg ">
-          <div className="container-fluid">
+    <div class="fixed-top">
+      <header >
+        <nav className={`navbar navbar-expand-lg ${on ? "night" : ""}`}>
+          <div className={`container-fluid navbar ${on ? "night" : ""}`}>
             <div className="logoDiv">
               <img className="img" src={logo} alt="Giá rẻ" />
             </div>

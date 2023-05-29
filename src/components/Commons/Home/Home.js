@@ -44,7 +44,6 @@ export default function Home({ on }) {
   const [formData, setFormData] = useState({ ngayDiKh: "" });
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState("");
-  const [guest, setGuest] = useState("");
   const [listUserA, setListUserA] = useState([]);
   // const [chatBoxKey, setChatBoxKey] = useState(0);
 
@@ -65,15 +64,6 @@ export default function Home({ on }) {
     const { value } = event.target;
     setUser(value);
   };
-  const randomGuest = () => {
-    const randomNum = Math.floor(Math.random() * 10000)
-      .toString()
-      .padStart(4, "0");
-    const str = `guest${randomNum}`;
-    console.log(str);
-    setGuest(str);
-  };
-
 
   const navigate = useNavigate();
 
@@ -88,33 +78,35 @@ export default function Home({ on }) {
       .catch((err) => console.error);
   }, []);
   //lấy toàn bộ user
-  useEffect(()=>{
+  useEffect(() => {
     axios
-    .get(`http://localhost:8080/chat-box/user`)
-    .then((response) => {
-      const data = response.data;
-      setListUserA(data);
-    })
-    .catch((error) => console.error);
-  },[]);
+      .get(`http://localhost:8080/chat-box/user`)
+      .then((response) => {
+        const data = response.data;
+        setListUserA(data);
+      })
+      .catch((error) => console.error);
+  }, []);
 
   useEffect(() => {
-  
     const userLogin = localStorage.getItem("account");
     if (userLogin) {
       setUser(userLogin);
     } else {
       let guestFound = true;
-      for (let i = 0;guestFound; i++) {
+      for (let i = 0; guestFound; i++) {
         const randomNum = Math.floor(Math.random() * 10000)
           .toString()
-          .padStart(4, "0");
-        const randomLetters = Math.random().toString(36).substring(2, 5).toUpperCase();
+          .padStart(3, "0");
+        const randomLetters = Math.random()
+          .toString(36)
+          .substring(2, 5)
+          .toUpperCase();
         const str = `guest${randomNum}${randomLetters}`;
-        console.log("day la ten khach: ",str)
+        console.log("day la ten khach: ", str);
         if (!listUserA.includes(str)) {
           setUser(str);
-          console.log("day la user sau khi random",user);
+          console.log("day la user sau khi random", user);
           guestFound = false;
         }
       }
@@ -122,7 +114,7 @@ export default function Home({ on }) {
         console.log("Không tìm thấy tài khoản khách trùng");
       }
     }
-  }, [listUserA]);
+  }, []);
 
   //DucNH66 Chọn chuyến bay 1chiều/khứ hồi
   useEffect(() => {
