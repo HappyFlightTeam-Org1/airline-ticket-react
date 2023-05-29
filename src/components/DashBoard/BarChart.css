@@ -130,3 +130,12 @@
    color: white;
    top: 35%;
 }
+.bay li {
+   background: white;
+   border: 1px solid;
+   padding: 5px;
+      &:hover{
+         background-color: rgb(37, 26, 194);
+         color: white;
+      }
+}

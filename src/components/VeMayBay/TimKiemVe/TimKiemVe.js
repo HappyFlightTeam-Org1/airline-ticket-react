@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './TimKiemVe.css'
 import axios from "axios";
+import { toast } from "react-toastify";
 function TimKiemVe() {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(3);
@@ -26,6 +27,7 @@ function TimKiemVe() {
             setTickets(response.data.content);
           } else {
             setTickets([]);
+            toast.error("KHÔNG TÌM THẤY VÉ!")
           }
         })
         .catch(err => console.error(err));
@@ -72,57 +74,60 @@ function TimKiemVe() {
         </form>
       </div>
 
-      {tickets !== [] && (<table className="table table-striped border text-nowrap">
-        <thead>
-          <tr>
-            <th scope="col">Mã Vé</th>
-            <th scope="col">Tên Hành Khách</th>
-            <th scope="col">Ngày Booking</th>
-            <th scope="col">Ngày Bay</th>
-            <th scope="col">Nơi Đi</th>
-            <th scope="col">Nơi Đến</th>
-            <th scope="col">Hạng Vé</th>
-            <th scope="col">Giá Vé</th>
-            <th scope="col">Thao Tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tickets.map((item, index) => {
-            return (
-              <tr className="align-middle" key={item.maVe}>
-                <th scope="row">{item.maVe}</th>
-                <td>{item.hanhKhach.tenHanhKhach}</td>
-                <td>{item.hoaDon.ngayTao}</td>
-                <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
-                <td>{item.datCho.chuyenBay.diemDi}</td>
-                <td>{item.datCho.chuyenBay.diemDen}</td>
-                <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
-                <td>
-                  <Link
-                    as={Link}
-                    to={`/InVe?maVe=${item.maVe.toString()}`}
-                    className="text-white"
-                  >
-                    <button className="btn bg" type="submit">
+      <div className="mh-300">
+        {tickets !== [] && (<table className="table table-striped border text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col">Mã Vé</th>
+              <th scope="col">Tên Hành Khách</th>
+              <th scope="col">Ngày Booking</th>
+              <th scope="col">Ngày Bay</th>
+              <th scope="col">Nơi Đi</th>
+              <th scope="col">Nơi Đến</th>
+              <th scope="col">Hạng Vé</th>
+              <th scope="col">Giá Vé</th>
+              <th scope="col">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tickets.map((item, index) => {
+              return (
+                <tr className="align-middle" key={item.maVe}>
+                  <th scope="row">{item.maVe}</th>
+                  <td>{item.hanhKhach.tenHanhKhach}</td>
+                  <td>{item.hoaDon.ngayTao}</td>
+                  <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
+                  <td>{item.datCho.chuyenBay.diemDi}</td>
+                  <td>{item.datCho.chuyenBay.diemDen}</td>
+                  <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                  <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
+                  <td>
+                    <Link
+                      as={Link}
+                      to={`/InVe?maVe=${item.maVe.toString()}`}
+                      className="text-white"
+                    >
+                      <button className="btn bg" type="submit">
 
-                      In</button>
-                  </Link>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>)}
-      {tickets.length === 0 && (<div className="row justify-content-center">
-        <div className="col-6">
-          <img
-            src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" />
-          <div className="text-center">
-            <p className="text-white">No result!</p>
+                        In</button>
+                    </Link>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>)}
+
+        {tickets.length === 0 && (<div className="row justify-content-center">
+          <div className="col-6">
+            <img
+              src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" />
+            <div className="text-center">
+              <p className="text-white">No result!</p>
+            </div>
           </div>
-        </div>
-      </div>)}
+        </div>)}
+      </div>
       {tickets.length > 0 && (
         <div className="pagination justify-content-center">
           <nav aria-label="Page navigation example">
