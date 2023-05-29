@@ -1,9 +1,10 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./Login.css";
 import { toast } from 'react-toastify';
+import LoginContext from '../../../loginGlobalState/LoginContext';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function Login() {
     inputValue: '',
     errorMessage: '',
   });
+  const {state, dispatch} = useContext(LoginContext);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -29,6 +31,14 @@ export default function Login() {
           Cookies.set('jwt', response.data.jwt, { expires: 30 });
           localStorage.setItem('email', response.data.email);
           localStorage.setItem('account', tenDangNhapInput.inputValue);
+          if (response.data.role === 'ROLE_USER') {
+            localStorage.setItem('login', 'user');
+            dispatch({ type: 'USER' });
+          }
+          else {
+            dispatch({ type: 'ADMIN' });
+            localStorage.setItem('login', 'admin');
+          }
           toast.success('Đăng nhập thành công');
           navigate('/');
         })
