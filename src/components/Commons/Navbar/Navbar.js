@@ -8,9 +8,9 @@ export default function Navbar({ handleTogger, on }) {
 
   return (
     <div class="fixed-top">
-      <header>
+      <header className="shadow">
         <nav className={`navbar navbar-expand-lg ${on ? "night" : ""}`}>
-          <div className={`container-fluid navbar ${on ? "night" : ""}`}>
+          <div className={`container-fluid navbar-container ${on ? "night" : ""}`}>
             <div className="logoDiv">
               <img className="img" src={logo} alt="Giá rẻ" />
             </div>
