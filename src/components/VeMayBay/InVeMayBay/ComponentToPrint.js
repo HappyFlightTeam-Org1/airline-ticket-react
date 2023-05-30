@@ -10,7 +10,6 @@ export default function ComponentToPrint() {
     const maVe = queryParams.get("maVe");
     const [veMayBay, setVeMayBay] = useState(null);
     const [ticketTitle, setTicketTitle] = useState();
-    console.log("maVe", maVe);
 
     useEffect(() => {
         axios.get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
@@ -19,7 +18,7 @@ export default function ComponentToPrint() {
                 setTicketTitle(response.data.datCho.chuyenBay.hangBay.tenHangBay + " - " + response.data.maVe + " - " + response.data.hanhKhach.tenHanhKhach);
             })
             .catch((err) => console.error);
-    }, []);
+    }, [maVe]);
 
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -49,9 +48,6 @@ export default function ComponentToPrint() {
         return formattedDate;
     }
 
-
-
-
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -60,14 +56,12 @@ export default function ComponentToPrint() {
         // onAfterPrint: () => alert('print success')
     })
 
-    console.log("TICKET", veMayBay);
-
     return (
         <div className='container'>
-            <div className='d-flex justify-content-end mt-3'>
+            <div className='d-flex justify-content-end pt-3'>
                 <button className='btn bg' onClick={handlePrint}>IN VÉ</button>
             </div>
-            <div ref={componentRef} className='d-flex justify-content-center mt-3' style={{ width: '100%' }}>
+            <div ref={componentRef} className='d-flex justify-content-center mt-2' style={{ width: '100%' }}>
                 <div className='height container-ticket-to-print' style={divStyle}>
                     <div className='ticket-header row d-flex align-items-center p-2'>
                         <div className='first-header w-700 d-flex justify-content-between'>
