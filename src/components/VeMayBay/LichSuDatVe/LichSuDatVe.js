@@ -151,7 +151,6 @@ function LichSuDatVe() {
 
     return (
         <div className="container ticket-container bg-body shadow mg-top-60">
-
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
@@ -329,7 +328,7 @@ function LichSuDatVe() {
             </div>
 
 
-            {((tickets.length > 0 && isSearching === false) || searchResult.length > 0) && (
+            {((tickets.length > 5 && isSearching === false) || searchResult.length > 0) && (
                 <div className="pagination">
                     <nav aria-label="...">
                         <ul className="pagination">
