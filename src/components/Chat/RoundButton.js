@@ -8,7 +8,7 @@ function RoundButton({ onOpen, isOpen, onClose, onClick }) {
       className="round-button"
       style={{ bottom: "40px", right: "30px" }}
     >
-      Click me
+      <i class="fa-brands fa-rocketchat"></i>
     </button>
   );
 }

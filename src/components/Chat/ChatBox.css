@@ -43,14 +43,7 @@
   .message.self{
     justify-content: end;
   }
-  .btn-x{
-    height: 35px;
-    width: 35px;
-    margin-left: 94%;
-    margin-bottom: 5px;
-    border: none;
-    box-shadow: 0 2px 4px rgba(140, 140, 141, 0.549);
-  }
+  
   .my-modal-admin{
     position: fixed;
     top: 50%;
@@ -339,4 +332,28 @@ margin-left: 30%;
 }
 .send-chat i {
   color: #5aaeee;
+}
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-x{
+  height: 35px;
+  width: 35px;
+  margin-bottom: 5px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(140, 140, 141, 0.549);
+  cursor: pointer;
+}
+
+.user-name {
+  font-weight: bold;
+  margin-right: 10px;
+  margin-left: 15px;
+  color: #0d92f8;
+}
+.user{
+  color: #b72f2f;
 }
