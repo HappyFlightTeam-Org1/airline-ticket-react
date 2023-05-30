@@ -48,7 +48,11 @@ export default function Navbar({ handleTogger, on }) {
                     Trang Chủ
                   </Link>
                 </li>
-
+                <li className="nav-item">
+                  <Link as={Link} to="/" className="text-white nav-link active">
+                   Tin Tức
+                  </Link>
+                </li>
                 {state.login === "ADMIN" ? (
                   <>
                     <li className="nav-item">
