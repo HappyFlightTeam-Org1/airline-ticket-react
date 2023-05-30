@@ -9,7 +9,7 @@
     }
 
     40% {
-        border-color: rgb(255, 0, 0);
+        border-color: rgb(0, 238, 255);
 
     }
 
@@ -73,5 +73,5 @@ strong {
 
 .duc {
     margin-top: 120px;
-    
+
 }
