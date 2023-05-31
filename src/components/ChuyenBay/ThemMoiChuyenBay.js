@@ -11,7 +11,7 @@ const checkForm = Yup.object().shape({
   giaVe: Yup.number().required("Không được để trống!"),
   diemDi: Yup.string().required("Không được để trống!"),
   diemDen: Yup.string().required("Không được để trống!"),
-  ngayKhoiHanh: Yup.date().required("Không được để trống!"),
+  ngayKhoiHanh: Yup.string().required("Không được để trống!"),
   gioKhoiHanh: Yup.string().required("Không được để trống!"),
   gioHaCanh: Yup.string().required("Không được để trống!"),
   maMayBay: Yup.string().required("Không được để trống!"),
