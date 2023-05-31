@@ -205,6 +205,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   useEffect(()=>{
         updateListUserNew();
   },[listMessage])
+ 
   useEffect(()=>{
     updateListUserNew();
 },[])
