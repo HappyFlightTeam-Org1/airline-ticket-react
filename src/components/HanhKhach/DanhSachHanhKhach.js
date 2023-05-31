@@ -118,7 +118,7 @@ function HanhKhach() {
         </table>
 
         {listKH.length === 0 && (
-          <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+          <h1 style={{ textAlign: "center" }}>Không tìm thấy hành khách!</h1>
         )}
       </div>
       <div>
