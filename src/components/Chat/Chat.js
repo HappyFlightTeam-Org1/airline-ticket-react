@@ -272,10 +272,12 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
           onAfterClose={handleComponentClose}
         >
           {children}
+          <div className="user-info">
+          <div className="user-name">Chào mừng <span className="user">{user}</span> đến với Happy-Flight!</div>
           <button onClick={onClose} className="btn-x">
             X
           </button>
-
+          </div>
           <div className="container">
             <div className="chat-box-user">
               <div className="chat-content-user">

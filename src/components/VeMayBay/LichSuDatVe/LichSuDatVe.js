@@ -62,6 +62,7 @@ function LichSuDatVe() {
     //DuyNT58 load lại danh sách vé máy bay khi có thay đổi
     useEffect(() => {
         fetchTicketList();
+        console.log("tickets", tickets);
     }, [page, size, maVe, tenHanhKhach, diemDi, diemDen]);
 
     //DuyNT58 lấy danh sách vé máy bay
@@ -82,6 +83,7 @@ function LichSuDatVe() {
             if (maVe || tenHanhKhach || diemDi || diemDen) {
                 setIsSearching(true);
                 setSearchResult(response.data.content);
+                console.log("searchResult", response.data.content);
             } else {
                 setIsSearching(false);
                 setTickets(response.data.content);
@@ -99,6 +101,7 @@ function LichSuDatVe() {
     //DuyNT58 gởi thông tin search/ nếu không nhập gì lấy tìm tất cả
     const handleSearch = (event) => {
         event.preventDefault();
+        setIsSearching(true);
         setPage(0);
         setMaVe(formData.maVe);
         setTenHanhKhach(formData.tenHanhKhach);
@@ -148,7 +151,6 @@ function LichSuDatVe() {
 
     return (
         <div className="container ticket-container bg-body shadow mg-top-60">
-
             <div className="pt-5 pb-2">
                 <div className="text-center pb-2">
                     <h1>LỊCH SỬ ĐẶT VÉ</h1>
@@ -225,9 +227,9 @@ function LichSuDatVe() {
                 <table className="table table-striped border text-nowrap" >
                     <thead>
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Mã Vé</th>
-                            <th scope="col">Tên Hành Khách</th>
-                            <th scope="col">Ngày Booking</th>
+                            <th scope="col">Hành Khách</th>
                             <th scope="col">Ngày Bay</th>
                             <th scope="col">Nơi Đi</th>
                             <th scope="col">Nơi Đến</th>
@@ -238,12 +240,12 @@ function LichSuDatVe() {
                     </thead>
                     <tbody>
                         {isSearching
-                            ? searchResult.map((item) => {
+                            ? searchResult.map((item, index) => {
                                 return (
                                     <tr className="align-middle text-nowrap" key={item.maVe}>
+                                        <th scope="row">{index + 1}</th>
                                         <th scope="row">{item.maVe}</th>
                                         <td>{item.hanhKhach.tenHanhKhach}</td>
-                                        <td>{item.hoaDon.ngayTao}</td>
                                         <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
                                         <td>{item.datCho.chuyenBay.diemDi}</td>
                                         <td>{item.datCho.chuyenBay.diemDen}</td>
@@ -272,9 +274,9 @@ function LichSuDatVe() {
                             : tickets.map((item, index) => {
                                 return (
                                     <tr className="align-middle" key={item.maVe}>
+                                        <th scope="row">{index + 1}</th>
                                         <th scope="row">{item.maVe}</th>
                                         <td>{item.hanhKhach.tenHanhKhach}</td>
-                                        <td>{item.hoaDon.ngayTao}</td>
                                         <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
                                         <td>{item.datCho.chuyenBay.diemDi}</td>
                                         <td>{item.datCho.chuyenBay.diemDen}</td>
@@ -306,10 +308,27 @@ function LichSuDatVe() {
                             })}
                     </tbody>
                 </table>
+
+                {tickets.length === 0 && (<div className="row justify-content-center">
+                    <div className="col-6 d-flex justify-content-center" style={{ minHeight: '328px' }}>
+                        <img
+                            src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" style={{ width: '100%', height: 'auto', marginBottom: '10px' }} />
+                        <div className="text-center">
+                            <p className="text-white">KHÔNG TÌM THẤY VÉ!</p>
+                        </div>
+                    </div>
+                </div>)}
+                {searchResult.length === 0 && isSearching === true && (<div className="row justify-content-center">
+                    <div className="col-6 d-flex justify-content-center" style={{ minHeight: '328px' }}>
+                        <div className="text-center">
+                            <p className="text-white">KHÔNG TÌM THẤY VÉ!</p>
+                        </div>
+                    </div>
+                </div>)}
             </div>
 
 
-            {((tickets.length > 0 && isSearching === false) || searchResult.length > 0) && (
+            {((tickets.length > 5 && isSearching === false) || searchResult.length > 0) && (
                 <div className="pagination">
                     <nav aria-label="...">
                         <ul className="pagination">
