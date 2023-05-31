@@ -217,7 +217,6 @@ function DanhSachChuyenBay() {
               listCB.map((item, index) => (
                 <tr key={item.maChuyenBay}>
                   <td> {index + 1 + page * size}</td>
-                  <td>{item.maChuyenBay}</td>
                   <td>{item.diemDi}</td>
                   <td>{item.diemDen}</td>
                   <td>{item.ngayKhoiHanh}</td>
@@ -230,7 +229,6 @@ function DanhSachChuyenBay() {
                       currency: "VND",
                     })}
                   </td>{" "}
-                  <td>{item.trangThaiVanHanh}</td>
                   <td>
                     <Link
                       as={Link}
