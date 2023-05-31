@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import css from "./DatCho.css";
-import plane from "../../../Assets/planeDC.png";
 import plane1 from "../../../Assets/plane1.png";
 
 //Ducnh66 Chọn ghế cho hành khách
@@ -211,7 +210,7 @@ const DatCho = () => {
   console.log("Chuyen Bay Di: ", chuyenBay);
   console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
 
-  console.log(seatList1Chieu," ghe 1 chieu");
+  console.log(seatList1Chieu, " ghe 1 chieu");
 
   return (
     <div className="container d-c">
@@ -239,11 +238,10 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
-                          ? "thuong-gia"
-                          : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                        ? "thuong-gia"
+                        : "pho-thong"
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                   ${isSeatSelected(seat) ? "color" : ""}
 
                   `}
@@ -313,7 +311,7 @@ const DatCho = () => {
                   </button>
                 )}
               </div>
-              <img src={plane}></img>
+
             </div>
           </div>
         </div>
@@ -343,11 +341,10 @@ const DatCho = () => {
                     className="col-3 d-flex justify-content-center"
                   >
                     <i
-                      className={` fa-solid fa-couch  ${
-                        seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
-                          ? "thuong-gia"
-                          : "pho-thong"
-                      } ${seat.trangThai === "selected" ? "selected-seat" : ""}
+                      className={` fa-solid fa-couch  ${seat.ghe.loaiGhe.tenLoaiGhe === "Thương Gia"
+                        ? "thuong-gia"
+                        : "pho-thong"
+                        } ${seat.trangThai === "selected" ? "selected-seat" : ""}
                         } 
                   ${isSeatSelectedKhuHoi(seat) ? "color" : ""}
                   `}
@@ -411,7 +408,6 @@ const DatCho = () => {
                   Thanh Toán
                 </button>{" "}
               </div>
-              <img src={plane}></img>
             </div>
           </div>
         </div>
