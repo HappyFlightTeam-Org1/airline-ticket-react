@@ -105,7 +105,7 @@ function HanhKhach() {
             {listKH.length > 0 &&
               listKH.map((item, index) => (
                 <tr key={item.maHanhKhach}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1 +currentPage*pageSize}</td>
                   <td>{item.loaiHanhKhach}</td>
                   <td>{item.tenHanhKhach}</td>
                   <td>{item.ngaySinh}</td>
