@@ -7,7 +7,7 @@ export default function Navbar({ handleTogger, on }) {
   const { state, dispatch } = useContext(LoginContext);
 
   return (
-    <div class="fixed-top">
+    <div className="fixed-top">
       <header>
         <nav className={`navbar navbar-expand-lg ${on ? "night" : ""}`}>
           <div className={`container-fluid navbar-bg ${on ? "night" : ""}`}>
@@ -48,7 +48,21 @@ export default function Navbar({ handleTogger, on }) {
                     Trang Chủ
                   </Link>
                 </li>
-
+                <li className="nav-item">
+                  <Link as={Link} to="TinTuc" className="text-white nav-link active">
+                   Tin Tức
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link as={Link} to="ChinhSach" className="text-white nav-link active">
+                   Chính Sách
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link as={Link} to="DieuKhoan" className="text-white nav-link active">
+                   Điều Khoản
+                  </Link>
+                </li>
                 {state.login === "ADMIN" ? (
                   <>
                     <li className="nav-item">

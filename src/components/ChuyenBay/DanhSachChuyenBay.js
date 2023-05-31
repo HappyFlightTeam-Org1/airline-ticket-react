@@ -17,6 +17,9 @@ function DanhSachChuyenBay() {
   const [diemDen, setDiemDen] = useState();
   const [ngayKhoiHanh, setNgayDi] = useState();
   const [totalPages, setTotalPages] = useState();
+  console.log("diemDi: ", diemDi);
+  console.log("diemDen: ", diemDen);
+  console.log("ngayKhoiHanh: ", ngayKhoiHanh);
 
   //DucNH66 Lấy danh sách sân bay  DucNH66
   useEffect(() => {
@@ -57,11 +60,10 @@ function DanhSachChuyenBay() {
         setIsSearching(false);
         setListCB(response.data.content);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
-
+  console.log("listCB_2 : ", listCB);
+  console.log("searchResult: ", searchResult);
   //Ducnh66 nhập thông tin tìm kiếm
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -85,19 +87,15 @@ function DanhSachChuyenBay() {
     setPage(newPage);
   };
 
-  console.log(totalPages);
-  console.log(page);
-
   //Ducnh66 tính toán trang được hiển thị trên màn hình
   const calculatePageNumbers = () => {
-    const soTrangToiDa = 4;
+    const soTrangToiDa = 3;
     const trangDau = Math.max(0, page - Math.floor(soTrangToiDa / 2));
     const trangCuoi = Math.min(totalPages - 1, trangDau + soTrangToiDa - 1);
     const pageNumbers = [];
     for (let i = trangDau; i <= trangCuoi; i++) {
       pageNumbers.push(i);
     }
-    console.log(pageNumbers);
     return pageNumbers;
   };
 
@@ -114,7 +112,6 @@ function DanhSachChuyenBay() {
           href="#"
           onClick={() => handlePageChange(pageNumber)}
         >
-          {console.log(pageNumber + 1)}
           {pageNumber + 1}
         </a>
       </li>
@@ -124,13 +121,15 @@ function DanhSachChuyenBay() {
   return (
     <div className="container chuyenbay ">
       <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
-      {/* <hr /> */}
       {/* Form tìm kiếm  DucNH66*/}
-      <form class="row justify-content-center search" onSubmit={handleSearch}>
-        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
+      <form
+        className="row justify-content-center search"
+        onSubmit={handleSearch}
+      >
+        <div className="form-group col -md-2 d-flex justify-content-center align-items-center">
           <h5>Tìm Kiếm Theo</h5>
         </div>
-        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
+        <div className="form-group col -md-2 d-flex justify-content-center align-items-center">
           <select
             name="diemDi"
             id="diemDi"
@@ -146,7 +145,7 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
+        <div className="form-group col -md-2 d-flex justify-content-center align-items-center">
           <select
             name="diemDen"
             id="diemDen"
@@ -162,19 +161,19 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div class="form-group col -md-2 d-flex justify-content-center align-items-center">
+        <div className="form-group col -md-2 d-flex justify-content-center align-items-center">
           <input
             id="ngayKhoiHanh"
             type="date"
             name="ngayKhoiHanh"
             value={formData.ngayKhoiHanh}
-            class="form-control"
+            className="form-control"
             placeholder="Ngày Khởi Hành"
             onChange={handleInputChange}
           />
         </div>
-        <div class="form-group col">
-          <button type="submit" class="btn btn-success bg">
+        <div className="form-group col">
+          <button type="submit" className="btn btn-success bg">
             Tìm Kiếm
           </button>
         </div>
@@ -204,53 +203,53 @@ function DanhSachChuyenBay() {
           {/* Danh sách tìm kiếm  DucNH66 */}
           {isSearching
             ? searchResult.map((item, index) => (
-                <tr key={item.maChuyenBay}>
-                  <td> {index + 1 + page * size}</td>
-                  <td>{item.maChuyenBay}</td>
-                  <td>{item.diemDi}</td>
-                  <td>{item.diemDen}</td>
-                  <td>{item.ngayKhoiHanh}</td>
-                  <td>{item.gioKhoiHanh}</td>
-                  <td>{item.gioHaCanh}</td>
-                  <td>{item.hangBay.tenHangBay}</td>
+              <tr key={item.maChuyenBay}>
+                <td> {index + 1 + page * size}</td>
+                <td>{item.maChuyenBay}</td>
+                <td>{item.diemDi}</td>
+                <td>{item.diemDen}</td>
+                <td>{item.ngayKhoiHanh}</td>
+                <td>{item.gioKhoiHanh}</td>
+                <td>{item.gioHaCanh}</td>
+                <td>{item.hangBay.tenHangBay}</td>
 
-                  <td>{item.giaVe}</td>
-                  <td>{item.trangThaiVanHanh}</td>
-                  <td>
-                    <Link
-                      as={Link}
-                      to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
-                      className="text-white"
-                    >
-                      <button className="btn btn-success bg">Xem</button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
+                <td>{item.giaVe}</td>
+                <td>{item.trangThaiVanHanh}</td>
+                <td>
+                  <Link
+                    as={Link}
+                    to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
+                    className="text-white"
+                  >
+                    <button className="btn btn-success bg">Xem</button>
+                  </Link>
+                </td>
+              </tr>
+            ))
             : //   Danh sách tất cả  DucNH66
-              listCB.map((item, index) => (
-                <tr key={item.maChuyenBay}>
-                  <td> {index + 1 + page * size}</td>
-                  <td>{item.maChuyenBay}</td>
-                  <td>{item.diemDi}</td>
-                  <td>{item.diemDen}</td>
-                  <td>{item.ngayKhoiHanh}</td>
-                  <td>{item.gioKhoiHanh}</td>
-                  <td>{item.gioHaCanh}</td>
-                  <td>{item.hangBay.tenHangBay}</td>
-                  <td>{item.giaVe}</td>
-                  <td>{item.trangThaiVanHanh}</td>
-                  <td>
-                    <Link
-                      as={Link}
-                      to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
-                      className="text-white"
-                    >
-                      <button className="btn btn-success bg ">Xem</button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+            listCB.map((item, index) => (
+              <tr key={item.maChuyenBay}>
+                <td> {index + 1 + page * size}</td>
+                <td>{item.maChuyenBay}</td>
+                <td>{item.diemDi}</td>
+                <td>{item.diemDen}</td>
+                <td>{item.ngayKhoiHanh}</td>
+                <td>{item.gioKhoiHanh}</td>
+                <td>{item.gioHaCanh}</td>
+                <td>{item.hangBay.tenHangBay}</td>
+                <td>{item.giaVe}</td>
+                <td>{item.trangThaiVanHanh}</td>
+                <td>
+                  <Link
+                    as={Link}
+                    to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
+                    className="text-white"
+                  >
+                    <button className="btn btn-success bg ">Xem</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
@@ -315,15 +314,13 @@ function DanhSachChuyenBay() {
               {renderPageNumbers()}
 
               <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
+                className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
+                  }`}
               >
                 <button
                   type="button"
-                  className={`page-link  bg-success text-white none bg   ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
+                  className={`page-link  bg-success text-white none bg   ${page === totalPages - 1 ? "disabled" : ""
+                    }`}
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages - 1}
                 >
@@ -343,14 +340,12 @@ function DanhSachChuyenBay() {
                 </button>
               </li>
               <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
+                className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
+                  }`}
               >
                 <button
-                  className={`page-link bg-danger text-white bg ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
+                  className={`page-link bg-danger text-white bg ${page === totalPages - 1 ? "disabled" : ""
+                    }`}
                   onClick={() => setPage(totalPages - 1)}
                   disabled={page === totalPages - 1}
                 >
