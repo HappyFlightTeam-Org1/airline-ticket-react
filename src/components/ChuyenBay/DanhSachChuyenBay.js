@@ -15,10 +15,7 @@ function DanhSachChuyenBay() {
   const [sanBays, setSanBays] = useState([]);
   const [diemDi, setDiemDi] = useState();
   const [diemDen, setDiemDen] = useState();
-  const [ngayKhoiHanh, setNgayDi] = useState();
   const [totalPages, setTotalPages] = useState();
-  const [totalElements, setTotalElements] = useState();
-  console.log(totalElements);
 
   //DucNH66 Lấy danh sách sân bay  DucNH66
   useEffect(() => {
@@ -34,7 +31,7 @@ function DanhSachChuyenBay() {
   //DucNH66 load lại danh sách chuyến bay khi có thay đổi
   useEffect(() => {
     fetchChuyenBays();
-  }, [page, size, diemDi, diemDen, ngayKhoiHanh]);
+  }, [page, size, diemDi, diemDen]);
 
   //DucNH66 Lấy danh sách chuyến bay
   const fetchChuyenBays = async () => {
@@ -47,14 +44,12 @@ function DanhSachChuyenBay() {
             size,
             diemDi,
             diemDen,
-            ngayKhoiHanh,
           },
         }
       );
       setTotalPages(response.data.totalPages);
-      setTotalElements(response.data.totalElements);
       console.log("total element: ", response.data.totalElements);
-      if (diemDi || diemDen || ngayKhoiHanh) {
+      if (diemDi || diemDen) {
         setIsSearching(true);
         setSearchResult(response.data.content);
       } else {
@@ -76,8 +71,7 @@ function DanhSachChuyenBay() {
     setPage(0);
     setDiemDi(formData.diemDi);
     setDiemDen(formData.diemDen);
-    setNgayDi(formData.ngayKhoiHanh);
-    if (!diemDi && !diemDen && !ngayKhoiHanh) {
+    if (!diemDi && !diemDen) {
       setIsSearching(false);
       fetchChuyenBays();
     }
@@ -121,9 +115,7 @@ function DanhSachChuyenBay() {
 
   return (
     <div className="container chuyenbay ">
-      <h1 className="h1">
-        DANH SÁCH CHUYẾN BAY <sup style={{ color: "red" }}>{totalElements}</sup>
-      </h1>
+      <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
       {/* Form tìm kiếm  DucNH66*/}
       <form
         className="row justify-content-center search"
@@ -164,17 +156,7 @@ function DanhSachChuyenBay() {
             ))}
           </select>
         </div>
-        <div className="form-group col -md-2 d-flex justify-content-center align-items-center">
-          <input
-            id="ngayKhoiHanh"
-            type="date"
-            name="ngayKhoiHanh"
-            value={formData.ngayKhoiHanh}
-            className="form-control"
-            placeholder="Ngày Khởi Hành"
-            onChange={handleInputChange}
-          />
-        </div>
+
         <div className="form-group col">
           <button type="submit" className="btn btn-success bg">
             Tìm Kiếm

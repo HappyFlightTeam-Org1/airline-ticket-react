@@ -134,6 +134,10 @@ const ThongTinKhachHangDatVe = () => {
     return boardingTime;
   };
 
+  const goBack = () => {
+    window.history.back();
+  };
+
   return (
     <div className="container-fluid mt-10 mb-5">
       <div className="row justify-content-center mt-5">
@@ -344,6 +348,9 @@ const ThongTinKhachHangDatVe = () => {
                       ))}
                     </div>
                     <div className="form-group text-center mt-2">
+                      <a className="btn btn-success bg" onClick={goBack}>
+                        Trở Lại
+                      </a>
                       <a
                         className="btn btn-success bg"
                         onClick={handleSendData}
