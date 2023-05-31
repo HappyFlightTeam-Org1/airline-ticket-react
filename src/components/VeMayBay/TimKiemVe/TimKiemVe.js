@@ -119,16 +119,16 @@ function TimKiemVe() {
         </table>)}
 
         {tickets.length === 0 && (<div className="row justify-content-center">
-          <div className="col-6 d-flex justify-content-center" style={{ minHeight: '328px' }}>
+          <div className="col-6 d-flex justify-content-center" >
             <img
-              src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" style={{ width: '100%', height: 'auto', marginBottom: '10px' }} />
+              src="https://i.giphy.com/media/HTSsuRrErs54g1Tqr5/giphy.webp" alt="Flight" style={{ width: '80%', height: '80%', }} />
             <div className="text-center">
               <p className="text-white">No result!</p>
             </div>
           </div>
         </div>)}
       </div>
-      {tickets.length > 0 && (
+      {tickets.length > 5 && (
         <div className="pagination justify-content-center">
           <nav aria-label="Page navigation example">
             <ul className="pagination">

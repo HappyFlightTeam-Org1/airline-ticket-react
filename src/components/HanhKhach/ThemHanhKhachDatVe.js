@@ -9,7 +9,7 @@ const hanhKhachSchema = Yup.object().shape({
     .required("Vui lòng nhập tên hành khách")
     .matches(/^[A-Za-z\s]+$/, "Tên hành khách chỉ được nhập chữ cái không dấu"),
   ngaySinh: Yup.string().required("Vui lòng nhập trường này"),
-  gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
+  gioiTinh: Yup.string().required("Vui lòng Chọn giới tính"),
 });
 
 const ThongTinKhachHangDatVe = () => {
@@ -162,7 +162,7 @@ const ThongTinKhachHangDatVe = () => {
                           key={`adult${index + 1}`}
                           className="col-md-4 form-input-data "
                         >
-                          <strong> Nguời Lớn {index + 1}</strong>
+                          <strong> Người Lớn {index + 1}</strong>
                           <div>
                             <label>Họ tên:</label>
                             <input
@@ -206,7 +206,7 @@ const ThongTinKhachHangDatVe = () => {
                               }
                             >
                               <option value="" selected>
-                                Chọn Gới Tính
+                                Chọn giới tính
                               </option>
                               <option value="Nam">Nam</option>
                               <option value="Nữ">Nữ</option>
@@ -268,7 +268,7 @@ const ThongTinKhachHangDatVe = () => {
                               }
                             >
                               <option value="" selected>
-                                Chọn Gới Tính
+                                Chọn giới tính
                               </option>
                               <option value="Nam">Nam</option>
                               <option value="Nữ">Nữ</option>
@@ -332,7 +332,7 @@ const ThongTinKhachHangDatVe = () => {
                               }
                             >
                               <option value="" selected>
-                                Chọn Gới Tính
+                                Chọn giới tính
                               </option>
                               <option value="Em Bé Nam">Em Bé Nam</option>
                               <option value="Em Bé Nữ">Em Bé Nữ</option>
