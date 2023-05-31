@@ -50,17 +50,7 @@ export default function Navbar({ handleTogger, on }) {
                 </li>
                 <li className="nav-item">
                   <Link as={Link} to="TinTuc" className="text-white nav-link active">
-                   Tin Tức
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link as={Link} to="ChinhSach" className="text-white nav-link active">
-                   Chính Sách
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link as={Link} to="DieuKhoan" className="text-white nav-link active">
-                   Điều Khoản
+                    Tin Tức
                   </Link>
                 </li>
                 {state.login === "ADMIN" ? (

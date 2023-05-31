@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./HoaDon.css";
+import "../HoaDon/HoaDon.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 function HoaDon() {
@@ -17,6 +17,7 @@ function HoaDon() {
   const maDatCho = JSON.parse(queryParams.get("maDatCho"));
   const maDatChoKhuHoi = JSON.parse(queryParams.get("maDatChoKhuHoi"));
   const emailNguoiDung = localStorage.getItem("email");
+  const [isDisabled, setIsDisabled] = useState(false);
   const giaVeEmBe = 100000;
 
   //lấy list hanhKhachDTO từ component nhập thông tin
@@ -34,7 +35,7 @@ function HoaDon() {
       style: "currency",
       currency: "VND",
     }).format(money);
-
+    console.log("formattedValue", formattedValue);
     return formattedValue;
   };
 
@@ -91,20 +92,43 @@ function HoaDon() {
   //ngày tạo hóa đơn
   const [createDate, setCreateDate] = useState();
 
+  function getOrderCode() {
+    var randomNumber = '';
+    for (var i = 0; i < 8; i++) {
+      randomNumber += Math.floor(Math.random() * 10);
+    }
+    return "OD" + randomNumber;
+  }
+
   //hàm lấy mã hóa đơn
-  const getOrderCode = () => {
+  // const getOrderCode = () => {
+  //   const currentTime = new Date();
+  //   const year = currentTime.getFullYear();
+  //   const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
+  //   const day = String(currentTime.getDate()).padStart(2, "0"); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
+  //   const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
+  //   const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
+  //   const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
+  //   const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+  //   // const orderCode = `OD${year}${month}${day}`;
+  //   const createOrderDate = year + "-" + month + "-" + day;
+  //   setCreateDate(createOrderDate);
+  //   return orderCode;
+  // };
+
+  const getCreateDate = () => {
     const currentTime = new Date();
     const year = currentTime.getFullYear();
     const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
     const day = String(currentTime.getDate()).padStart(2, "0"); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
-    const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
-    const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
-    const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
-    const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
+    // const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
+    // const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
+    // const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
+    // const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
     // const orderCode = `OD${year}${month}${day}`;
     const createOrderDate = year + "-" + month + "-" + day;
-    setCreateDate(createOrderDate);
-    return orderCode;
+    // setCreateDate(createOrderDate);
+    return createOrderDate;
   };
 
   //mã hóa đơn
@@ -116,12 +140,12 @@ function HoaDon() {
   // khi chuyến bay thay đổi thì lấy được tổng tiền để gửi xuống thanh toán
   useEffect(() => {
     setAmount(getTotal());
-  }, [chuyenBay]);
+  }, []);
 
   //hoaDonDTO
   const hoaDonDTO = {
     maHoaDon: orderCode,
-    ngayTao: createDate,
+    ngayTao: getCreateDate(),
     tongTien: amount,
     trangThaiThanhToan: 0,
     trangThaiXoa: 0,
@@ -140,6 +164,7 @@ function HoaDon() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsDisabled(true);
     try {
       //lưu hóa đơn, list vé máy bay và list hành khách đi kèm theo vé
       axios
@@ -195,39 +220,39 @@ function HoaDon() {
               <strong>CHUYẾN BAY ĐI</strong>
             </h6>
             {adultsInfo.length > 0 && (
-              <div className="content">
+              <div className="payment-content">
                 <div>
                   {chuyenBay.hangBay.tenHangBay} (Người lớn x{" "}
                   {adultsInfo.length}){" "}
                 </div>
                 <div>
                   {ticketType === "Phổ Thông"
-                    ? chuyenBay.giaVe * adultsInfo.length
-                    : chuyenBay.giaVe * 1.5 * adultsInfo.length}
+                    ? CurrencyFormat(chuyenBay.giaVe * adultsInfo.length)
+                    : CurrencyFormat(chuyenBay.giaVe * 1.5 * adultsInfo.length)}
                 </div>
               </div>
             )}
 
             {childrenInfo.length > 0 && (
-              <div className="content">
+              <div className="payment-content">
                 <div>
                   {chuyenBay.hangBay.tenHangBay} (Trẻ em x {childrenInfo.length}
                   ){" "}
                 </div>
                 <div>
                   {ticketType === "Phổ Thông"
-                    ? chuyenBay.giaVe * childrenInfo.length
-                    : chuyenBay.giaVe * 1.5 * childrenInfo.length}
+                    ? CurrencyFormat(chuyenBay.giaVe * childrenInfo.length)
+                    : CurrencyFormat(chuyenBay.giaVe * 1.5 * childrenInfo.length)}
                 </div>
               </div>
             )}
             {babyInfo.length > 0 && (
-              <div className="content">
+              <div className="payment-content">
                 <div>
                   {chuyenBay.hangBay.tenHangBay} (Em bé x {babyInfo.length}){" "}
                 </div>
                 <div>
-                  {giaVeEmBe * babyInfo.length}
+                  {CurrencyFormat(giaVeEmBe * babyInfo.length)}
                 </div>
               </div>
             )}
@@ -239,40 +264,40 @@ function HoaDon() {
                 </h6>
 
                 {adultsInfo.length > 0 && (
-                  <div className="content">
+                  <div className="payment-content">
                     <div>
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Người lớn x{" "}
                       {adultsInfo.length}){" "}
                     </div>
                     <div>
                       {ticketTypeKhuHoi === "Phổ Thông"
-                        ? chuyenBayKhuHoi.giaVe
-                        : chuyenBayKhuHoi.giaVe * 1.5 * adultsInfo.length}
+                        ? CurrencyFormat(chuyenBayKhuHoi.giaVe * adultsInfo.length)
+                        : CurrencyFormat(chuyenBayKhuHoi.giaVe * 1.5 * adultsInfo.length)}
                     </div>
                   </div>
                 )}
                 {childrenInfo.length > 0 && (
-                  <div className="content">
+                  <div className="payment-content">
                     <div>
                       {chuyenBayKhuHoi.hangBay.tenHangBay} (Trẻ em x
                       {childrenInfo.length})
                     </div>
                     <div>
                       {ticketTypeKhuHoi === "Phổ Thông"
-                        ? chuyenBayKhuHoi.giaVe
-                        : chuyenBayKhuHoi.giaVe * 1.5 * childrenInfo.length}
+                        ? CurrencyFormat(chuyenBayKhuHoi.giaVe * childrenInfo.length)
+                        : CurrencyFormat(chuyenBayKhuHoi.giaVe * 1.5 * childrenInfo.length)}
                     </div>
                   </div>
                 )}
                 {babyInfo.length > 0 && (
-                  <div className="content">
+                  <div className="payment-content">
                     <div>
                       {chuyenBayKhuHoi != null &&
                         chuyenBayKhuHoi.hangBay.tenHangBay}
                       (Em bé x {babyInfo.length})
                     </div>
                     <div>
-                      {giaVeEmBe * babyInfo.length}
+                      {CurrencyFormat(giaVeEmBe * babyInfo.length)}
                     </div>
                   </div>
                 )}
@@ -281,7 +306,7 @@ function HoaDon() {
           </div>
 
           <hr></hr>
-          <div className="content">
+          <div className="payment-content">
             <div>
               <strong>THÀNH TIỀN</strong>
             </div>
@@ -293,17 +318,17 @@ function HoaDon() {
             <strong>
               <small>Bằng việc nhấn Thanh toán, bạn đồng ý với </small>
               <small className="text-primary">
-                <Link>Điều khoản & Điều kiện</Link>
+                <Link as={Link} to="/DieuKhoan">Điều khoản & Điều kiện</Link>
               </small>
               <small> và </small>
               <small className="text-primary">
-                <Link>Chính sách và quyền riêng tư</Link>
+                <Link as={Link} to="/ChinhSach">Chính sách và quyền riêng tư</Link>
               </small>
               <small>.</small>
             </strong>
           </div>
           <div className="button">
-            <button onClick={handleSubmit} className="shadow">
+            <button disabled={isDisabled} onClick={handleSubmit} className="shadow">
               Thanh Toán
             </button>
           </div>
@@ -364,7 +389,7 @@ function HoaDon() {
               {babyInfo.map((item, index) => (
                 <tr key={index}>
                   <th scope="row">
-                    {item.gioiTinh === "Em Bé Nam" ? "Bé Nam." : "Bé Nữ."}
+                    {item.gioiTinh === "Em Bé Nam" ? "Ông." : "Bà."}
                   </th>
                   <td>{item.tenHanhKhach}</td>
                   <td>{item.loaiHanhKhach}</td>
