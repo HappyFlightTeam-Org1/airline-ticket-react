@@ -6,10 +6,10 @@ import * as Yup from "yup";
 
 const hanhKhachSchema = Yup.object().shape({
   tenHanhKhach: Yup.string()
-    .required("Vui lòng nhập tên hành khách")
-    .matches(/^[A-Za-z\s]+$/, "Tên hành khách chỉ được nhập chữ cái không dấu"),
-  ngaySinh: Yup.string().required("Vui lòng nhập trường này"),
-  gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
+    .required("Không để trống!")
+    .matches(/^[A-Za-z\s]+$/, "Chỉ được nhập chữ cái không dấu!"),
+  ngaySinh: Yup.string().required("Không để trống!"),
+  gioiTinh: Yup.string().required("Không để trống!"),
 });
 
 const ThongTinKhachHangDatVe = () => {

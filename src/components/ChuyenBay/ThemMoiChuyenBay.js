@@ -7,17 +7,17 @@ import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 //DucNH66 check validate client
 const checkForm = Yup.object().shape({
-  maChuyenBay: Yup.string().required("Vui lòng nhập mã chuyến bay"),
-  giaVe: Yup.number().required("Vui lòng nhập giá vé"),
-  diemDi: Yup.string().required("Vui lòng chọn điểm đi"),
-  diemDen: Yup.string().required("Vui lòng chọn điểm đến"),
-  ngayKhoiHanh: Yup.date().required("Vui lòng chọn ngày khởi hành"),
-  gioKhoiHanh: Yup.string().required("Vui lòng nhập giờ khởi hành"),
-  gioHaCanh: Yup.string().required("Vui lòng nhập giờ hạ cánh"),
-  maMayBay: Yup.string().required("Vui lòng chọn tên máy bay"),
-  maHangBay: Yup.string().required("Vui lòng chọn tên hãng bay"),
-  kLHanhLy: Yup.string().required("Vui lòng chọn khối lượng hành lý"),
-  trangThaiVanHanh: Yup.string().required("Vui lòng chọn trạng thái vận hành"),
+  maChuyenBay: Yup.string().required("Không được để trống!"),
+  giaVe: Yup.number().required("Không được để trống!"),
+  diemDi: Yup.string().required("Không được để trống!"),
+  diemDen: Yup.string().required("Không được để trống!"),
+  ngayKhoiHanh: Yup.date().required("Không được để trống!"),
+  gioKhoiHanh: Yup.string().required("Không được để trống!"),
+  gioHaCanh: Yup.string().required("Không được để trống!"),
+  maMayBay: Yup.string().required("Không được để trống!"),
+  maHangBay: Yup.string().required("Không được để trống!"),
+  kLHanhLy: Yup.string().required("Không được để trống!"),
+  trangThaiVanHanh: Yup.string().required("Không được để trống!"),
 });
 function ThemMoiChuyenBay() {
   //DucNH66 lấy  data
@@ -83,7 +83,6 @@ function ThemMoiChuyenBay() {
             console.log(err.response.data);
             if (err.response && err.response.data) {
               setValid(err.response.data);
-              toast.warning("VUI LÒNG KIỂM TRA LẠI THEO YÊU CẦU!");
             }
           });
       })
@@ -93,7 +92,6 @@ function ThemMoiChuyenBay() {
           errors[error.path] = error.message;
         });
         setValid(errors);
-        toast.warning("VUI LÒNG KHÔNG ĐỂ TRỐNG BẤT KỲ TRƯỜNG NÀO!");
       });
   };
 

@@ -7,7 +7,7 @@ export default function Navbar({ handleTogger, on }) {
   const { state, dispatch } = useContext(LoginContext);
 
   return (
-    <div class="fixed-top">
+    <div className="fixed-top">
       <header>
         <nav className={`navbar navbar-expand-lg ${on ? "night" : ""}`}>
           <div className={`container-fluid navbar-bg ${on ? "night" : ""}`}>
