@@ -42,7 +42,7 @@ function HanhKhach() {
       setCurrentPage(currentPage - 1);
     }
   }
-  
+
   function handleBeginPageClick() {
     if (currentPage > 0) {
       setCurrentPage(0);
@@ -71,7 +71,7 @@ function HanhKhach() {
         <h1 className="pt-3 mb-0 text-center">QUẢN LÝ HÀNH KHÁCH</h1>
         <form className="row justify-content-center search" onSubmit={handleSearch}>
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
-            <h5>Tìm Kiếm</h5>
+            <h5>Tìm Kiếm Theo</h5>
           </div>
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
             <input
@@ -118,7 +118,7 @@ function HanhKhach() {
         </table>
 
         {listKH.length === 0 && (
-          <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+          <h1 style={{ textAlign: "center" }}>Không tìm thấy hành khách!</h1>
         )}
       </div>
       <div>

@@ -31,6 +31,9 @@ import LoginStateReducer from "./loginGlobalState/LoginStateReducer";
 import LoginContext from "./loginGlobalState/LoginContext";
 import Logout from "./components/Authen/DangXuat/Logout";
 import ErrorPage from "./components/Commons/ErrorPage/ErrorPage";
+import TinTuc from "./components/TinTuc/TinTuc";
+import ChinhSach from "./components/TinTuc/ChinhSach";
+import DieuKhoan from "./components/TinTuc/DieuKhoan";
 
 function Controller() {
   const [on, setOn] = useState(false);
@@ -100,7 +103,10 @@ function Controller() {
                 <></>
               )}
               <Route path="TimKiemVe" element={<TimKiemVe />} />
+              <Route path="TinTuc" element={<TinTuc />} />
               <Route path="InVe" element={<InVeMayBay />} />
+              <Route path="ChinhSach" element={<ChinhSach />} />
+              <Route path="DieuKhoan" element={<DieuKhoan />} />
               {state.login === "ADMIN" ? (
                 <>
                   <Route

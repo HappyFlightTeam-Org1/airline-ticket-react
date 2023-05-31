@@ -89,7 +89,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         alert("WebSocket connection has not been established yet");
       }
     } else {
-      alert("Please enter content of message");
+      alert("Hãy nhập nội dung cho tin nhắn!!");
     }
   };
 
@@ -121,7 +121,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   useEffect(() => {
     if (searchText !== "") {
       const filteredUsers = listAllUser.filter((user) =>
-        user.includes(searchText)
+        user.toLowerCase().includes(searchText.toLowerCase())
       );
       setListUser(filteredUsers);
     } else {
@@ -205,6 +205,9 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
   useEffect(()=>{
         updateListUserNew();
   },[listMessage])
+  useEffect(()=>{
+    updateListUserNew();
+},[])
 
   useEffect(() => {
     if (componentOpened && chatMessagesRef.current) {
@@ -301,7 +304,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                   <input
                     type="text"
                     className="input-message"
-                    placeholder="enter the message"
+                    placeholder="Nhập tin nhắn"
                     value={userData.content}
                     onChange={handleMessage}
                     onKeyDown={handleKeyDown}
@@ -416,7 +419,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
                 <input
                   type="text"
                   className="input-message"
-                  placeholder="Enter the message"
+                  placeholder="Nhập tin nhắn"
                   value={userData.content}
                   onChange={handleMessage}
                   onKeyDown={handleKeyDown}
