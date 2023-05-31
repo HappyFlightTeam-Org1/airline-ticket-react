@@ -1,41 +1,86 @@
-.container {
-    width: 80%;
-    margin-left: 10%;
-    margin-top: 100px;
+.hanhkhach {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 100px;
 
-    /* background-color: #33ccff; */
+  /* background-color: #33ccff; */
+}
+
+.tablehk {
+  height: 450px;
 }
 
 .table-shadow {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-h1 {
-    text-align: center;
-    margin-top: 50px;
+.h1 {
+  text-align: center;
+  margin-top: 30px;
 }
 
 h5 {
-    margin-top: 6px;
+  margin-top: 6px;
 }
 
 .table {
-    background-color: white;
+  background-color: white;
 }
 
 .search {
-    width: 90%;
-    margin-left: 5%;
-    margin-bottom: 20px;
-    margin-top: 30px;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 30px;
 }
 
 .pagination {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .table button {
-    padding: 0px;
-    width: 50px;
+  padding: 0px;
+  width: 50px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination .page-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px;
+}
+
+.pagination .page-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.pagination .page-item.active {
+  color: #fff;
+}
+
+b {
+  color: beige;
+}
+
+.error-message {
+  color: red;
+}
+
+.bg {
+  color: white;
+  background: var(--gradientColor);
+
+  &:hover {
+    background: var(--gradientColor1);
+  }
+}
+.page-link i{
+font-size: 1rem;
 }

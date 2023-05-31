@@ -32,10 +32,6 @@ li {
   list-style: none;
 }
 
-.section {
-  padding: 2rem 0 2rem;
-}
-
 .container {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -49,6 +45,10 @@ i {
 .flex {
   display: flex;
   align-items: center;
+}
+
+.mg-top-60 {
+  margin-top: 60px !important;
 }
 
 .grid {

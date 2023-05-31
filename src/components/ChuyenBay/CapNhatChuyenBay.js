@@ -1,69 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CapNhatChuyenBay() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id");
-  const [mayBays, setMayBays] = useState([]);
-  const [sanBays, setSanBays] = useState([]);
-  const [hangBays, setHangBays] = useState([]);
   const [formData, setFormData] = useState({});
+  const [tenMayBay, setMayBay] = useState();
+  const [tenHangBay, setHangBay] = useState();
 
+  //DucNH66 lấy thông tin hiển thị lên form
   useEffect(() => {
     if (id) {
       axios
         .get("http://localhost:8080/chuyen-bay/findById/" + id)
         .then((response) => {
           setFormData(response.data);
+          setMayBay(response.data.mayBay.tenMayBay);
+          setHangBay(response.data.hangBay.tenHangBay);
+          console.log(response.data);
         });
     }
   }, [id]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/chuyen-bay/listSelectOption")
-      .then((response) => {
-        const { mayBays, sanBays, hangBays } = response.data;
-        setMayBays(mayBays);
-        setSanBays(sanBays);
-        setHangBays(hangBays);
-      })
-      .catch((err) => console.error);
-  }, []);
-
+  //DucNH66 khi cần cập nhật thì dùng
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
-
+  //DucNH66 trở về
   const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .post("http://localhost:8080/chuyen-bay/save", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        alert("Cap nhat thanh cong");
-        navigate("/DanhSachChuyenBay");
-      })
-      .catch((err) => {
-        alert("Them that bai");
-      });
+    navigate("/DanhSachChuyenBay");
   };
+
   return (
-    <div className="container">
+    <div className="container mb-5 mt-10">
       <div className="row justify-content-center mt-5">
         <div className="col-md-8">
           <div className="card">
-            <div
-              className="card-header  text-white"
-              style={{ backgroundColor: "#FFA500" }}
-            >
-              <h3>Chỉnh Sửa Chuyến Bay</h3>
+            <div className="card-header  text-white bg">
+              <h3 autoFocus>Xem chi tiết</h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
@@ -87,6 +65,7 @@ function CapNhatChuyenBay() {
                       type="text"
                       name="giaVe"
                       id="giaVe"
+                      readOnly="true"
                       value={formData.giaVe}
                       onChange={handleInputChange}
                     />
@@ -95,37 +74,25 @@ function CapNhatChuyenBay() {
                 <div className="form-group row">
                   <div className="col-md-6">
                     <label>Sân bay đi</label>
-                    <select
+                    <input
                       name="diemDi"
                       id="diemDi"
                       value={formData.diemDi}
                       onChange={handleInputChange}
                       className="form-control "
-                    >
-                      <option value="">-- Chọn điểm đi --</option>
-                      {sanBays.map((sanBay) => (
-                        <option key={sanBay.maSanBay} value={sanBay.maSanBay}>
-                          {sanBay.tenSanBay}
-                        </option>
-                      ))}
-                    </select>
+                      readOnly="true"
+                    />
                   </div>
                   <div className="col-md-6">
                     <label>Sân bay hạ cánh</label>
-                    <select
+                    <input
                       name="diemDen"
                       id="diemDen"
                       value={formData.diemDen}
                       onChange={handleInputChange}
                       className="form-control "
-                    >
-                      <option value="">-- Chọn điểm đến--</option>
-                      {sanBays.map((sanBay) => (
-                        <option key={sanBay.maSanBay} value={sanBay.maSanBay}>
-                          {sanBay.tenSanBay}
-                        </option>
-                      ))}
-                    </select>
+                      readOnly="true"
+                    />
                   </div>
                 </div>
 
@@ -139,6 +106,7 @@ function CapNhatChuyenBay() {
                       name="ngayKhoiHanh"
                       value={formData.ngayKhoiHanh}
                       onChange={handleInputChange}
+                      readOnly="true"
                     />
                   </div>
                   <div className="col-md-6">
@@ -150,6 +118,7 @@ function CapNhatChuyenBay() {
                       id="gioKhoiHanh"
                       value={formData.gioKhoiHanh}
                       onChange={handleInputChange}
+                      readOnly="true"
                     />
                   </div>
                 </div>
@@ -164,6 +133,7 @@ function CapNhatChuyenBay() {
                       name="gioHaCanh"
                       value={formData.gioHaCanh}
                       onChange={handleInputChange}
+                      readOnly="true"
                     />
                   </div>
                   <div className="col-md-6">
@@ -175,6 +145,7 @@ function CapNhatChuyenBay() {
                       id="thoiGianBay"
                       value={formData.thoiGianBay}
                       onChange={handleInputChange}
+                      readOnly="true"
                     />
                   </div>
                 </div>
@@ -182,40 +153,27 @@ function CapNhatChuyenBay() {
                 <div className="form-group row">
                   <div className="col-md-6">
                     <label>Tên máy bay</label>
-                    <select
-                      name="maMayBay"
-                      id="maMayBay"
-                      value={formData.maMayBay}
-                      onChange={handleInputChange}
-                      className="form-control "
-                    >
-                      <option value="">-- Chọn máy bay--</option>
-                      {mayBays.map((mayBay) => (
-                        <option key={mayBay.maMayBay} value={mayBay.maMayBay}>
-                          {mayBay.tenMayBay}
-                        </option>
-                      ))}
-                    </select>
+                    {formData && (
+                      <input
+                        name="maMayBay"
+                        id="maMayBay"
+                        value={tenMayBay}
+                        onChange={handleInputChange}
+                        className="form-control "
+                        readOnly="true"
+                      />
+                    )}
                   </div>
                   <div className="col-md-6">
                     <label>Tên hãng bay</label>
-                    <select
+                    <input
                       name="maHangBay"
                       id="maHangBay"
-                      value={formData.maHangBay}
+                      value={tenHangBay}
                       onChange={handleInputChange}
                       className="form-control "
-                    >
-                      <option value="">-- Chọn hãng bay--</option>
-                      {hangBays.map((hangBay) => (
-                        <option
-                          key={hangBay.maHangBay}
-                          value={hangBay.maHangBay}
-                        >
-                          {hangBay.tenHangBay}
-                        </option>
-                      ))}
-                    </select>
+                      readOnly="true"
+                    />
                   </div>
                 </div>
 
@@ -229,6 +187,7 @@ function CapNhatChuyenBay() {
                       name="kLHanhLy"
                       value={formData.klhanhLy}
                       onChange={handleInputChange}
+                      readOnly="true"
                     />
                   </div>
                   <div className="col-md-6">
@@ -240,13 +199,13 @@ function CapNhatChuyenBay() {
                       id="trangThaiVanHanh"
                       value={formData.trangThaiVanHanh}
                       onChange={handleInputChange}
+                      readOnly="true"
                     />
                   </div>
                 </div>
-
                 <div className="form-group text-center mt-2">
-                  <button type="submit" className="btn btn-success">
-                    Lưu
+                  <button type="submit" className="btn btn-success bg">
+                    Trở về
                   </button>
                 </div>
               </form>

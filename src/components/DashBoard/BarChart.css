@@ -1,0 +1,142 @@
+.state-overview{
+    padding-top: 50px;
+     color: white;
+      .info-box{
+           width: 100%;
+           height: 150px;
+           border-radius: 1rem;
+           padding: 1rem;
+           display: grid;
+           grid-template-columns: 1.5fr 3fr;
+           column-gap: 1rem;
+           .icon{
+            margin-top: 30px;
+             height: 50%;
+            background: rgba(0, 0, 0, .2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+           }
+       }
+}
+.barchart button {
+   background: linear-gradient(
+      to right,
+      hsl(187, 85%, 43%),
+      hsl(199, 100%, 33%)
+    );
+  padding: 0.5rem;
+  border-radius: 10px;
+  color: white;
+}
+.chart{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  column-gap: 50px;
+     .bar{
+        width: 90%;
+        margin-left: 5%;
+        padding: 1rem;
+        text-align: center;
+     }
+}
+.chart h6 {
+   margin-top: 20px;
+}
+.chart .color {
+   color: white;
+}
+.bay{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   z-index: 1000;
+   padding: 25%;
+      .icon{
+         color: rgb(252, 247, 247);
+         font-size: 4rem;
+         padding: 5px;
+      }
+}
+.bar1 {
+   position: relative;
+   height: 624px;
+}
+.plane{
+   position: relative;
+   display: inline;
+}
+.plane small {
+   position: absolute;
+   color: black;
+   left: 26px;
+   bottom: 17px;
+}
+.searchCB{
+   display: flex;
+   justify-content:space-evenly;
+   background: linear-gradient(
+      to right,
+      hsl(256, 43%, 73%),
+      hsl(233, 92%, 25%)
+    );
+   padding: 1rem;
+   width: 90%;
+   margin-left: 5%;
+   border-radius: 10px;
+}
+.searchCB input {
+   height: 40px;
+   padding: 0 1rem;
+   border-radius: 3rem;
+   background-color: rgba(255, 255, 255, 0.7);
+}
+
+.detailCB{
+   position: absolute;
+   top:50px;
+   left: 250px;
+   background-color: white;
+   padding: .5rem;
+   border-radius: 5px;
+}
+.detailCB h2, .detailCB i {
+    font-size: .8rem;
+    margin: none;
+}
+.barchart {
+   background: url("../../Assets/12990.jpg") center;
+   background-size: cover;
+   padding-top: 58px;
+}
+.tot{
+   background: url("https://img.freepik.com/premium-photo/using-generative-ai-airplane-flies-city-dusk_28914-15034.jpg?w=2000") center;
+   background-size: cover;
+}
+.iconsearch {
+   position: absolute;
+   z-index: 1000;
+   color: white;
+   left: 20%;
+   top:35%;
+}
+.iconsearch i {
+   font-size: 5rem;
+}
+.notdata {
+   position: absolute;
+   z-index: 1000;
+   color: white;
+   top: 35%;
+}
+.bay li {
+   background: white;
+   border: 1px solid;
+   padding: 5px;
+      &:hover{
+         background-color: rgb(37, 26, 194);
+         color: white;
+      }
+}

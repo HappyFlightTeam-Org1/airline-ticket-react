@@ -1,0 +1,14 @@
+.chinhsach {
+  margin-top: 100px;
+  width: 80%;
+  margin-left: 10%;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+.chinhsach h6 {
+  font-weight: bold;
+}
+
+.chinhsachcontent p {
+  padding: 0 20px;
+}

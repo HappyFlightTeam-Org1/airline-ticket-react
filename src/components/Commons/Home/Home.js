@@ -1,19 +1,125 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import video from "../../../Assets/video.mp4";
+import video2 from "../../../Assets/video2.mp4";
 import "./Home.css";
 import Aos from "aos";
 import "aos/dist/aos.css";
-export default function Home() {
+import axios from "axios";
+import * as Yup from "yup";
+import ChatBox from "../../Chat/Chat";
+import RoundButton from "../../Chat/RoundButton";
+import LoginContext from "../../../loginGlobalState/LoginContext";
+import { toast } from "react-toastify";
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const checkFormSearch = Yup.object().shape({
+  diemDi: Yup.string().required(" Bắt buộc nhập!"),
+  diemDen: Yup.string()
+    .required(" Bắt buộc nhập!")
+    .test(
+      "differentFromDiemDi",
+      " Điểm đến phải khác điểm đi!",
+      function (value) {
+        const { diemDi } = this.parent; // Lấy giá trị của trường "diemDi"
+        return value !== diemDi;
+      }
+    ),
+  ngayDi: Yup.date()
+    .nullable()
+    .required(" Bắt buộc nhập!")
+    .min(yesterday, " Phải lớn hơn hoặc bằng ngày hiện tại!"),
+});
+
+export default function Home({ on }) {
+  const {state, dispatch} = useContext(LoginContext);
+
+  //DucNh66 useState
   const [loaiChuyenBay, setLoaiChuyenBay] = useState("Một Chiều");
-  const [soNguoiLon, setSoNguoiLon] = useState(0);
+  const [soNguoiLon, setSoNguoiLon] = useState(1);
   const [soTreEm, setSoTreEm] = useState(0);
   const [soEmBe, setSoEmBe] = useState(0);
+  const [sanBays, setSanBays] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({ ngayDiKh: "" });
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("");
+  const [listUserA, setListUserA] = useState([]);
+  // const [chatBoxKey, setChatBoxKey] = useState(0);
+
+  // function handleReloadChatBox() {
+  //   setChatBoxKey(chatBoxKey + 1);
+  //   alert(chatBoxKey);
+  // }
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setUser(value);
+  };
+
   const navigate = useNavigate();
 
-  // Chọn chuyến bay 1chiều/khứ hồi
+  //DucNH66 Lấy danh sách sân bay
   useEffect(() => {
-    const ngayVe = document.getElementById("NgayVe");
+    axios
+      .get("http://localhost:8080/chuyen-bay/listSelectOption")
+      .then((response) => {
+        const { sanBays } = response.data;
+        setSanBays(sanBays);
+      })
+      .catch((err) => console.error);
+  }, []);
+  //lấy toàn bộ user
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/chat-box/user`)
+      .then((response) => {
+        const data = response.data;
+        setListUserA(data);
+      })
+      .catch((error) => console.error);
+  }, []);
+
+  useEffect(() => {
+    const userLogin = localStorage.getItem("account");
+    if (userLogin) {
+      setUser(userLogin);
+    } else {
+      let guestFound = true;
+      for (let i = 0; guestFound; i++) {
+        const randomNum = Math.floor(Math.random() * 10000)
+          .toString()
+          .padStart(3, "0");
+        const randomLetters = Math.random()
+          .toString(36)
+          .substring(2, 5)
+          .toUpperCase();
+        const str = `guest${randomNum}${randomLetters}`;
+        console.log("day la ten khach: ", str);
+        if (!listUserA.includes(str)) {
+          setUser(str);
+          console.log("day la user sau khi random", user);
+          guestFound = false;
+        }
+      }
+      if (guestFound) {
+        console.log("Không tìm thấy tài khoản khách trùng");
+      }
+    }
+  }, []);
+
+  //DucNH66 Chọn chuyến bay 1chiều/khứ hồi
+  useEffect(() => {
+    const ngayVe = document.getElementById("ngayDiKh");
     const divNgayVe = document.getElementById("div-NgayVe");
     const labelNgayVe = document.getElementById("label-NgayVe");
     if (loaiChuyenBay === "Một Chiều") {
@@ -26,54 +132,94 @@ export default function Home() {
     }
   }, [loaiChuyenBay]);
 
-  // Chọn số người lớn
-  const chonSoNguoiLon = (event) => {
-    setSoNguoiLon(event.target.value);
+  //DucNH66 lấy dữ liệu từ form nhập dữ liệu tìm kiếm
+  const handleChangeInput = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  // Chọn số trẻ em
-  const chonSoTreEm = (event) => {
-    setSoTreEm(event.target.value);
-  };
-
-  // Chọn số em bé
-  const chonSoEmBe = (event) => {
-    setSoEmBe(event.target.value);
-  };
-
+  const [ngayDIKherr, setngayDIKherr] = useState();
+  //DucNH66 Gởi dữ liệu đi để tìm kiếm chuyến bay
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate(
-      "/ThongTinKhachHangDatVe?soNguoiLon=" +
-        soNguoiLon +
-        "&soTreEm=" +
-        soTreEm +
-        "&soEmBe=" +
-        soEmBe
-    );
-  };
 
+    if (state.login === '') {
+      toast.info('Bạn phải đăng nhập trước khi sử dụng tính năng này');
+      navigate('/Login');
+    }
+
+    checkFormSearch
+      .validate(formData, { abortEarly: false })
+      .then(() => {
+        if (
+          (loaiChuyenBay === "Khứ Hồi" && formData.ngayDiKh === "") ||
+          (loaiChuyenBay === "Khứ Hồi" && formData.ngayDiKh < formData.ngayDi)
+        ) {
+          console.log(formData.ngayDiKh, "");
+          setngayDIKherr("Ngày khứ hồi phải bằng hoặc lớn hơn ngày đi đi!");
+        } else {
+          navigate(
+            "/TimKiemChuyenBay?soNguoiLon=" +
+              soNguoiLon +
+              "&soTreEm=" +
+              soTreEm +
+              "&soEmBe=" +
+              soEmBe +
+              "&diemDi=" +
+              formData.diemDi +
+              "&diemDen=" +
+              formData.diemDen +
+              "&ngayDi=" +
+              formData.ngayDi +
+              "&ngayDiKh=" +
+              formData.ngayDiKh +
+              "&loaiChuyenBay=" +
+              loaiChuyenBay
+          );
+        }
+      })
+      .catch((validationErrors) => {
+        const errors = {};
+        validationErrors.inner.forEach((error) => {
+          errors[error.path] = error.message;
+        });
+        setErrors(errors);
+      });
+  };
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
+
   return (
-    <div>
+    <div className={`${on ? "start" : ""}`}>
       <section className="home">
         <div className="overlay"></div>
-        <video
-          className="video"
-          src={video}
-          muted
-          autoPlay
-          loop
-          type="video/mp4"
-        ></video>
+        {on ? (
+          <video
+            className="video"
+            src={video2}
+            muted
+            autoPlay
+            loop
+            type="video/mp4"
+          />
+        ) : (
+          <video
+            className="video"
+            src={video}
+            muted
+            autoPlay
+            loop
+            type="video/mp4"
+          />
+        )}
         <div className="homeContent">
           <div className="textDiv">
             <h1 data-aos="fade-up" className="homeTitle font-weight-bold">
               Tìm Kiếm Chuyến Bay
             </h1>
           </div>
+
+          {/* Form nhập dữ liệu tìm kiếm */}
           <form onSubmit={handleSubmit}>
             <div data-aos="fade-up" className="cardDiv grid">
               <div className="destinationInput">
@@ -93,43 +239,89 @@ export default function Home() {
               </div>
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
-                  Điểm Đi
+                  Điểm Đi{" "}
+                  {errors.diemDi && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.diemDi}
+                    </span>
+                  )}
                 </label>
-                <select id="flightType" className="select" name="flightType">
-                  <option>Sân Bay Nội Bài</option>
-                  <option>Sân Bay Đà Nẵng</option>
-                  <option>Sân Bay Tân Sơn Nhất</option>
+                <select
+                  name="diemDi"
+                  id="diemDi"
+                  value={formData.diemDi}
+                  onChange={handleChangeInput}
+                  className="select "
+                >
+                  <option value="">-- Chọn điểm đi --</option>
+                  {sanBays.map((sanBay) => (
+                    <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                      {sanBay.thanhPho}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="destinationInput">
                 <label className="label" htmlFor="city">
-                  Điểm Đến
+                  Điểm Đến{" "}
+                  {errors.diemDen && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.diemDen}
+                    </span>
+                  )}
                 </label>
-                <select id="flightType" className="select" name="flightType">
-                  <option>Sân Bay Nội Bài</option>
-                  <option>Sân Bay Đà Nẵng</option>
-                  <option>Sân Bay Tân Sơn Nhất</option>
+                <select
+                  name="diemDen"
+                  id="diemDen"
+                  value={formData.diemDen}
+                  onChange={handleChangeInput}
+                  className="select "
+                >
+                  <option value="">-- Chọn điểm đến --</option>
+                  {sanBays.map((sanBay) => (
+                    <option key={sanBay.maSanBay} value={sanBay.thanhPho}>
+                      {sanBay.thanhPho}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="dateInput">
                 <label className="label" htmlFor="city">
-                  Ngày Đi
+                  Ngày Đi{" "}
+                  {errors.ngayDi && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {errors.ngayDi}
+                    </span>
+                  )}
                 </label>
                 <div className="input flex">
-                  <input type="date" placeholder="name..."></input>
+                  <input
+                    type="date"
+                    placeholder="name..."
+                    value={formData.ngayDi}
+                    name="ngayDi"
+                    onChange={handleChangeInput}
+                  ></input>
                 </div>
               </div>
               <div className="dateInput">
                 <label id="label-NgayVe" className="label" htmlFor="city">
-                  Ngày Về
+                  Ngày Về{" "}
+                  {ngayDIKherr && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      {ngayDIKherr}
+                    </span>
+                  )}
                 </label>
                 <div className="input flex" id="div-NgayVe">
                   <input
                     type="date"
                     placeholder="name..."
                     className="form-control"
-                    name="NgayVe"
-                    id="NgayVe"
+                    name="ngayDiKh"
+                    id="ngayDiKh"
+                    value={formData.ngayDiKh}
+                    onChange={handleChangeInput}
                   ></input>
                 </div>
               </div>
@@ -140,8 +332,9 @@ export default function Home() {
                 <div className="input flex">
                   <input
                     type="number"
-                    min="0"
-                    onChange={chonSoNguoiLon}
+                    min="1"
+                    defaultValue={1}
+                    onChange={(event) => setSoNguoiLon(event.target.value)}
                   ></input>
                 </div>
               </div>
@@ -150,7 +343,11 @@ export default function Home() {
                   Trẻ em (dưới 12 tuổi)
                 </label>
                 <div className="input flex">
-                  <input type="number" min="0" onChange={chonSoTreEm}></input>
+                  <input
+                    type="number"
+                    min="0"
+                    onChange={(event) => setSoTreEm(event.target.value)}
+                  ></input>
                 </div>
               </div>
               <div className="destinationInput">
@@ -158,7 +355,11 @@ export default function Home() {
                   Em bé (dưới 24 tháng)
                 </label>
                 <div className="input flex">
-                  <input type="number" min="0" onChange={chonSoEmBe}></input>
+                  <input
+                    type="number"
+                    min="0"
+                    onChange={(event) => setSoEmBe(event.target.value)}
+                  ></input>
                 </div>
               </div>
               <div className="searchOptions flex mt-3">
@@ -169,22 +370,23 @@ export default function Home() {
               </div>
             </div>
           </form>
+
           <div data-aos="fade-up" className="homeFooterIcons flex">
             <div className="rightIcons">
-              <i class="bx bxl-facebook icon"></i>
-              <i class="bx bxl-instagram icon"></i>
-              <i class="bx bx-layout icon"></i>
+              <i className="bx bxl-facebook icon"></i>
+              <i className="bx bxl-instagram icon"></i>
+              <i className="bx bx-layout icon"></i>
             </div>
             <div className="leftIcons">
-              <i class="bx bxs-playlist icon"></i>
-              <i class="bx bx-qr icon"></i>
+              <i className="bx bxs-playlist icon"></i>
+              <i className="bx bx-qr icon"></i>
             </div>
           </div>
         </div>
       </section>
       <section className="main container section">
         <div className="secTitle">
-          <h3 data-aos="fade-right" className="title">
+          <h3 data-aos="fade-right" className={`title ${on ? "white" : ""}`}>
             Bán vé máy bay với giá rẻ hàng đầu Việt Nam
           </h3>
         </div>
@@ -198,9 +400,9 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Dịch Vụ Trên Không</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -217,21 +419,21 @@ export default function Home() {
             <div className="imageDiv">
               <img
                 className="img"
-                src="https://img.freepik.com/premium-photo/airplane-taking-off-from-airport_37416-74.jpg?w=1800"
+                src="https://img.freepik.com/free-photo/airplane-seats_1308-5011.jpg?w=1800&t=st=1684979099~exp=1684979699~hmac=cc7fb4d31f4c852a1ceb1c217268cc79165ebfc32709ddb5909cb054a1b812c1"
                 alt="Giá rẻ"
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hạng Thương Gia</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Trải nghiệm dịch vụ và công nghệ tân tiến khi bay hạng Thương
+                  Gia cùng Vietnam Airlines. Giờ đây hành khách có thể tận hưởng
+                  một chuyến bay đầy cảm hứng trên mọi khía cạnh.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -241,21 +443,22 @@ export default function Home() {
             <div className="imageDiv">
               <img
                 className="img"
-                src="https://img.freepik.com/premium-photo/airplane-taking-off-from-airport_37416-65.jpg?w=2000"
+                src="https://img.freepik.com/premium-photo/aircraft-cabin-interior_1417-4133.jpg?size=626&ext=jpg"
                 alt="Giá rẻ"
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hạng Phổ Thông Đặt Biệt</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="fa-solid fa-plane-up"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Lý tưởng cho những ai mong muốn có sự linh hoạt và tiện lợi
+                  tối đa, hạng Phổ thông đặc biệt sẽ mang lại cho hành khách
+                  nhiều tiện nghi và các điều kiện đặc biệt để giúp hành trình
+                  trở nên thật thoải mái.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -263,7 +466,7 @@ export default function Home() {
           </div>
         </div>
         <div className="secTitle">
-          <h3 data-aos="fade-right" className="title">
+          <h3 data-aos="fade-right" className={`title ${on ? "white" : ""}`}>
             Dịch vụ của chúng tôi
           </h3>
         </div>
@@ -277,9 +480,9 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Đặt Vé Trực Tuyến</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
@@ -301,16 +504,16 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Chăm sóc khách hàng</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Đội ngũ chăm sóc khách hàng của chúng tôi sẽ luôn sẵn sàng
+                  giải đáp mọi thắc mắc và hỗ trợ khách hàng trong quá trình sử
+                  dụng dịch vụ của chúng tôi.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -325,16 +528,16 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Đổi vé và hoàn tiền</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="bx bx-phone-call"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Chúng tôi cung cấp dịch vụ đổi vé và hoàn tiền linh hoạt để
+                  đảm bảo khách hàng sẽ không gặp phải rủi ro khi thay đổi kế
+                  hoạch của mình.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -342,7 +545,7 @@ export default function Home() {
           </div>
         </div>
         <div className="secTitle">
-          <h3 data-aos="fade-right" className="title">
+          <h3 data-aos="fade-right" className={`title ${on ? "white" : ""}`}>
             Các chuyến bay phổ biến
           </h3>
         </div>
@@ -356,16 +559,15 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hà Nội - Hồ Chí Minh</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
+                <i className="fa-solid fa-plane"></i>
                 <span className="name">B53-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Chuyến bay từ Hà Nội đến Hồ Chí Minh với giá vé hấp dẫn và
+                  thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -380,16 +582,15 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hà Nội - Đà Nẵng</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
-                <span className="name">B53-X1976</span>
+                <i className="fa-solid fa-plane"></i>
+                <span className="name">B52-Y1576</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Chuyến bay từ Hà Nội đến Đà Nẵng với giá vé hấp dẫn và thời
+                  gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -404,16 +605,15 @@ export default function Home() {
               />
             </div>
             <div className="cardInfo">
-              <h4 className="destTitle">Bora Bora</h4>
+              <h4 className="destTitle">Hồ Chí Minh - Đà Nẵng</h4>
               <span className="continent flex">
-                <i class="bx bx-phone-call"></i>
-                <span className="name">B53-X1976</span>
+                <i className="fa-solid fa-plane"></i>
+                <span className="name">B51-X1976</span>
               </span>
               <div className="desc">
                 <p>
-                  Chào mừng đến với trang web bán vé máy bay của chúng tôi.
-                  Chúng tôi cung cấp các dịch vụ vé máy bay với giá rẻ, đảm bảo
-                  sự thuận tiện và an toàn cho chuyến đi của bạn.
+                  Chuyến bay từ Hồ Chí Minh đến Đà Nẵng với giá vé hấp dẫn và
+                  thời gian bay thuận tiện. Đặt vé ngay để trải nghiệm.
                 </p>
               </div>
               <button className="btn flex">Đặt vé ngay</button>
@@ -422,34 +622,46 @@ export default function Home() {
         </div>
       </section>
       <section data-aos="fade-up" className="bottom">
-        <h3 data-aos="fade-right">CÂU HỎI THƯỜNG GẶP</h3>
+        <h3 data-aos="fade-right" className={`${on ? "white" : ""}`}>
+          CÂU HỎI THƯỜNG GẶP
+        </h3>
         <div className="question">
           <div className="textbox">
-            <i class="bx bxs-plane-alt"></i>
+            <i className="bx bxs-plane-alt"></i>
             <h3>Đặt Vé Trực Tuyến</h3>
           </div>
           <div className="textbox">
-            <i class="bx bx-handicap"></i>
+            <i className="bx bx-handicap"></i>
             <h3>Chỗ Ngồi</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-backpack"></i>
+            <i className="bx bxs-backpack"></i>
             <h3>Hành Lý</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-map"></i>
+            <i className="bx bxs-map"></i>
             <h3>Check-In</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-plane-take-off"></i>
+            <i className="bx bxs-plane-take-off"></i>
             <h3>Nối Chuyến</h3>
           </div>
           <div className="textbox">
-            <i class="bx bxs-bowl-hot"></i>
+            <i className="bx bxs-bowl-hot"></i>
             <h3>Xuất Ăn</h3>
           </div>
         </div>
       </section>
+      
+      <RoundButton
+        className="btn-modal"
+        onOpen={handleOpenModal}
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+      >
+        Open Modal
+      </RoundButton>
+      <ChatBox isOpen={isOpen} onClose={handleCloseModal} user={user}></ChatBox>
     </div>
   );
 }

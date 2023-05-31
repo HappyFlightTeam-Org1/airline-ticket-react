@@ -1,91 +1,42 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import * as Yup from "yup";
 
 const hanhKhachSchema = Yup.object().shape({
-  tenHanhKhach: Yup.string().required("Vui lòng nhập tên hành khách"),
-  // ngaySinh: Yup.date()
-  //   .required("Vui lòng chọn ngày sinh Em Bé ")
-  //   .max(new Date(), "Ngày sinh không được lớn hơn ngày hiện tại")
-  //   .test("age", "Người dùng phải nhỏ hơn 2 tuổi", function (value) {
-  //     const today3 = new Date();
-  //     const userBirthday3 = new Date(value);
-  //     const diffYears3 = today3.getFullYear() - userBirthday3.getFullYear();
-  //     const diffMonths3 = today3.getMonth() - userBirthday3.getMonth();
-  //     const diffDays3 = today3.getDate() - userBirthday3.getDate();
-
-  //     if (diffYears3 < 2) {
-  //       return true;
-  //     }
-
-  //     if (diffYears3 === 2 && diffMonths3 < 0) {
-  //       return true;
-  //     }
-  //     if (diffYears3 === 2 && diffMonths3 === 0 && diffDays3 <= 0) {
-  //       return true;
-  //     }
-  //     return false;
-  //   }),
-  // ngaySinh: Yup.date()
-  //   .required("Vui lòng chọn ngày sinh Trẻ Em")
-  //   .max(new Date(), "Ngày sinh không được lớn hơn ngày hiện tại")
-  //   .test("age", "Người dùng phải từ 2 đến 12 tuổi", function (value) {
-  //     const today2 = new Date();
-  //     const userBirthday2 = new Date(value);
-  //     const diffYears2 = today2.getFullYear() - userBirthday2.getFullYear();
-  //     const diffMonths2 = today2.getMonth() - userBirthday2.getMonth();
-  //     const diffDays2 = today2.getDate() - userBirthday2.getDate();
-
-  //     if (diffYears2 >= 2 && diffYears2 <= 12) {
-  //       return true;
-  //     }
-
-  //     if (diffYears2 === 2 && diffMonths2 >= 0 && diffDays2 >= 0) {
-  //       return true;
-  //     }
-  //     return false;
-  //   }),
-  // ngaySinh: Yup.date()
-  //   .required("Vui lòng chọn ngày sinh Người Lớn")
-  //   .max(new Date(), "Ngày sinh không được lớn hơn ngày hiện tại")
-  //   .test("age", "Người dùng phải lớn hơn 12 tuổi", function (value) {
-  //     const today = new Date();
-  //     const userBirthday = new Date(value);
-  //     const diffYears = today.getFullYear() - userBirthday.getFullYear();
-  //     const diffMonths = today.getMonth() - userBirthday.getMonth();
-  //     const diffDays = today.getDate() - userBirthday.getDate();
-  //     if (diffYears > 12) {
-  //       return true;
-  //     }
-  //     if (diffYears === 12 && diffMonths > 0) {
-  //       return true;
-  //     }
-  //     if (diffYears === 12 && diffMonths === 0 && diffDays >= 0) {
-  //       return true;
-  //     }
-  //     return false;
-  //   }),
-  gioiTinh: Yup.string().required("Vui lòng chọn giới tính"),
-  // hoChieu: Yup.string().required("Vui lòng nhập số CMND/CCCD"),
-  // soDienThoai: Yup.string()
-  //   .required("Vui lòng nhập số điện thoại")
-  //   .matches(/^\+84/, 'Số điện thoại phải bắt đầu bằng "+84"'),
+  tenHanhKhach: Yup.string()
+    .required("Không để trống!")
+    .matches(/^[A-Za-z\s]+$/, "Chỉ được nhập chữ cái không dấu!"),
+  ngaySinh: Yup.string().required("Không để trống!"),
+  gioiTinh: Yup.string().required("Không để trống!"),
 });
 
 const ThongTinKhachHangDatVe = () => {
+  //DucNH66 lấy data
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const soNguoiLon = queryParams.get("soNguoiLon") ?? "null";
+  const soTreEm = queryParams.get("soTreEm") ?? "null";
+  const soEmBe = queryParams.get("soEmBe") ?? "null";
+  const tiketType = queryParams.get("tiketType") ?? "null";
+  const tiketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi") ?? "null";
+  const chuyenBay =
+    queryParams.get("chuyenBay") === "undefined"
+      ? null
+      : JSON.parse(queryParams.get("chuyenBay"));
+  const chuyenBayKhuHoi =
+    queryParams.get("chuyenBayKhuHoi") === "undefined"
+      ? null
+      : JSON.parse(queryParams.get("chuyenBayKhuHoi"));
   const [adultsInfo, setAdultsInfo] = useState([]);
   const [childrenInfo, setChildrenInfo] = useState([]);
   const [babyInfo, setBabyInfo] = useState([]);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const soNguoiLon = queryParams.get("soNguoiLon");
-  const soTreEm = queryParams.get("soTreEm");
-  const soEmBe = queryParams.get("soEmBe");
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
 
+  //Ducnh66 số người lớn
   useEffect(() => {
     const adults = [];
     for (let i = 0; i < soNguoiLon; i++) {
@@ -93,122 +44,122 @@ const ThongTinKhachHangDatVe = () => {
         tenHanhKhach: "",
         ngaySinh: "",
         gioiTinh: "",
-        hoChieu: "",
-        soDienThoai: "",
+        loaiHanhKhach: "Người Lớn",
       });
     }
     setAdultsInfo(adults);
   }, [soNguoiLon]);
-
+  //Ducnh66 số trẻ em
   useEffect(() => {
     const children = [];
     for (let i = 0; i < soTreEm; i++) {
-      children.push({ tenHanhKhach: "", ngaySinh: "", gioiTinh: "" });
+      children.push({
+        tenHanhKhach: "",
+        ngaySinh: "",
+        gioiTinh: "",
+        loaiHanhKhach: "Trẻ Em",
+      });
     }
     setChildrenInfo(children);
   }, [soTreEm]);
-
+  //Ducnh66 số em bé
   useEffect(() => {
     const babies = [];
     for (let i = 0; i < soEmBe; i++) {
-      babies.push({ tenHanhKhach: "", ngaySinh: "", gioiTinh: "" });
+      babies.push({
+        tenHanhKhach: "",
+        ngaySinh: "",
+        gioiTinh: "",
+        loaiHanhKhach: "Em Bé",
+      });
     }
     setBabyInfo(babies);
   }, [soEmBe]);
 
+  //DucNH66 nhận dữ liệu từ form người lớn
   const handleAdultInfoChange = (event, index) => {
     const newAdultsInfo = [...adultsInfo];
     newAdultsInfo[index][event.target.name] = event.target.value;
     setAdultsInfo(newAdultsInfo);
   };
-
+  //DucNH66 nhận dữ liệu từ form trẻ em
   const handleChildrenInfoChange = (event, index) => {
     const newChildrenInfo = [...childrenInfo];
     newChildrenInfo[index][event.target.name] = event.target.value;
     setChildrenInfo(newChildrenInfo);
   };
-
+  //DucNH66 nhận dữ liệu từ form em bé
   const handleBabyInfoChange = (event, index) => {
     const newBabyInfo = [...babyInfo];
     newBabyInfo[index][event.target.name] = event.target.value;
     setBabyInfo(newBabyInfo);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo].map(
-      (hanhKhach) => {
-        return {
-          ...hanhKhach,
-          loaiHanhKhach: getCustomerType(hanhKhach),
-        };
-      }
-    );
-    try {
-      const validatedHanhKhachs = await Promise.all(
-        hanhKhachs.map((hanhKhach) =>
-          hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
-        )
-      );
-      await axios.post(
-        "http://localhost:8080/VeMayBay/save",
-        validatedHanhKhachs,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+  //DucNH66 gởi data sang trang đặt chỗ
+  const handleSendData = () => {
+    const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo];
+    Promise.all(
+      hanhKhachs.map((hanhKhach) =>
+        hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
+      )
+    )
+      .then(() => {
+        const queryParams = new URLSearchParams();
+        queryParams.set("adultsInfo", JSON.stringify(adultsInfo));
+        queryParams.set("childrenInfo", JSON.stringify(childrenInfo));
+        queryParams.set("babyInfo", JSON.stringify(babyInfo));
+        queryParams.set("chuyenBay", JSON.stringify(chuyenBay));
+        queryParams.set("chuyenBayKhuHoi", JSON.stringify(chuyenBayKhuHoi));
+        queryParams.set("tiketType", tiketType);
+        queryParams.set("tiketTypeKhuHoi", tiketTypeKhuHoi);
+        const queryString = queryParams.toString();
+        navigate(`/DatCho?${queryString}`);
+      })
+      .catch((error) => {
+        if (error instanceof Yup.ValidationError) {
+          console.error(error);
+          const errorMessages = {};
+          error.inner.forEach((err) => {
+            errorMessages[err.path] = err.message;
+          });
+          setErrors(errorMessages);
+        } else {
+          console.error(error);
         }
-      );
-      alert("Thành công!");
-      navigate("/DanhSachKhachHangDatVe");
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errorMessages = {};
-        error.inner.forEach((err) => {
-          errorMessages[err.path] = err.message;
-        });
-        setErrors(errorMessages);
-      } else {
-        console.error(error);
-        alert("Đặt vé thất bại!");
-      }
-    }
+      });
   };
 
-  const getCustomerType = (hanhKhach) => {
-    if (adultsInfo.includes(hanhKhach)) {
-      return "Người Lớn";
-    } else if (childrenInfo.includes(hanhKhach)) {
-      return "Trẻ Em";
-    } else {
-      return "Em Bé";
-    }
+  const convertBoardingTime = (fullBoaringTime) => {
+    const boardingTime = fullBoaringTime.substr(0, 5);
+    return boardingTime;
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mt-10 mb-5">
       <div className="row justify-content-center mt-5">
         <div className="d-flex">
-          <div className="col-1"></div>
-          {/* form nhập thông tin khách hàng */}
           <div className="col-6 m-3">
             <div>
               <div className="card">
                 <div
                   className="card-header  text-white"
-                  style={{ backgroundColor: "orange" }}
+                  style={{
+                    background:
+                      "linear-gradient( to right,hsl(187, 85%, 43%),hsl(199, 100%, 33%)",
+                  }}
                 >
                   <h3> Thông Tin Hành Khách</h3>
                 </div>
                 <div className="card-body">
-                  <form onSubmit={handleSubmit}>
+                  {/* form nhập thông tin khách hàng */}
+                  <form>
                     <div className="form-group row form-tong">
                       {adultsInfo.map((adult, index) => (
                         <div
                           key={`adult${index + 1}`}
                           className="col-md-4 form-input-data "
                         >
-                          <strong> Nguời Lớn {index + 1}</strong>
+                          <strong> Người Lớn {index + 1}</strong>
                           <div>
                             <label>Họ tên:</label>
                             <input
@@ -252,45 +203,13 @@ const ThongTinKhachHangDatVe = () => {
                               }
                             >
                               <option value="" selected>
-                                Chọn Gới Tính
+                                Chọn giới tính
                               </option>
                               <option value="Nam">Nam</option>
                               <option value="Nữ">Nữ</option>
                             </select>
                             {errors.gioiTinh && (
                               <p className="error-message">{errors.gioiTinh}</p>
-                            )}
-                          </div>
-                          <div>
-                            <label>Số CMND/CCCD:</label>
-                            <input
-                              className="form-control mb-1"
-                              type="text"
-                              name="hoChieu"
-                              value={adult.hoChieu}
-                              onChange={(event) =>
-                                handleAdultInfoChange(event, index)
-                              }
-                            />
-                            {errors.hoChieu && (
-                              <p className="error-message ">{errors.hoChieu}</p>
-                            )}
-                          </div>
-                          <div>
-                            <label>Số ĐT:</label>
-                            <input
-                              className="form-control mb-1"
-                              type="text"
-                              name="soDienThoai"
-                              value={adult.soDienThoai}
-                              onChange={(event) =>
-                                handleAdultInfoChange(event, index)
-                              }
-                            />
-                            {errors.soDienThoai && (
-                              <p className="error-message ">
-                                {errors.soDienThoai}
-                              </p>
                             )}
                           </div>
                         </div>
@@ -346,7 +265,7 @@ const ThongTinKhachHangDatVe = () => {
                               }
                             >
                               <option value="" selected>
-                                Chọn Gới Tính
+                                Chọn giới tính
                               </option>
                               <option value="Nam">Nam</option>
                               <option value="Nữ">Nữ</option>
@@ -410,7 +329,7 @@ const ThongTinKhachHangDatVe = () => {
                               }
                             >
                               <option value="" selected>
-                                Chọn Gới Tính
+                                Chọn giới tính
                               </option>
                               <option value="Em Bé Nam">Em Bé Nam</option>
                               <option value="Em Bé Nữ">Em Bé Nữ</option>
@@ -425,110 +344,172 @@ const ThongTinKhachHangDatVe = () => {
                       ))}
                     </div>
                     <div className="form-group text-center mt-2">
-                      <button type="submit" className="btn btn-success">
+                      <a
+                        className="btn btn-success bg"
+                        onClick={handleSendData}
+                      >
                         Tiếp Tục
-                      </button>
+                      </a>
                     </div>
                   </form>
                 </div>
               </div>
             </div>
           </div>
+
           {/* form thông tin chuyến bay  */}
-          <div className="col-4">
+          <div>
             <div className="m-3">
               <strong>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-airplane-engines"
-                  viewBox="0 0 16 16"
-                  color="#0099ff"
-                >
-                  <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
-                </svg>
-                TP HCM ⇄ Đà Nẵng
+                {chuyenBayKhuHoi && chuyenBay && (
+                  <span>
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-airplane-engines"
+                      viewBox="0 0 16 16"
+                      color="#0099ff"
+                    >
+                      <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
+                    </svg>
+                    {chuyenBay.diemDi}{" "}
+                    <span style={{ color: "#3498db" }}>⇄ </span>{" "}
+                    {chuyenBay.diemDen}
+                  </span>
+                )}
               </strong>
-            </div>
-            {/* Chuyến bay đi */}
-            <div className="m-3">
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="card">
-                    <div className="card-body box-shadow-tt-ve">
-                      <div className="row">
-                        <b>Chuyến bay đi • Wed, 10 May 2023</b>
-                        <div style={{ height: "10px" }}></div>
-                        <div className="col-md-6">
-                          <p>
-                            <strong>Sân bay đi:</strong> Nội Bài
-                          </p>
-                          <p>
-                            <strong>Thời gian bay:</strong> 1 tiếng 15 phút
-                          </p>
-                          <p>
-                            <strong>Loại máy bay:</strong> Airbus A359
-                          </p>
-                        </div>
-                        <div className="col-md-6">
-                          <p>
-                            <strong>Sân bay đến:</strong> Tân Sơn Nhất
-                          </p>
-                          <p>
-                            <strong>Số chuyến bay:</strong> VN 1346
-                          </p>
-                          <p>
-                            <strong>Hãng hàng không:</strong> Vietnam Airlines
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* chuyến bay về */}
-            <div className="m-3">
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="card">
-                    <div className="card-body box-shadow-tt-ve">
-                      <div className="row">
-                        <b>Chuyến bay về • Thu, 11 May 2023</b>
-                        <div style={{ height: "10px" }}></div>
-                        <div className="col-md-6">
-                          <p>
-                            <strong>Sân bay đi:</strong> Tân Sơn Nhất
-                          </p>
-                          <p>
-                            <strong>Thời gian bay:</strong> 1 tiếng 15 phút
-                          </p>
-                          <p>
-                            <strong>Loại máy bay:</strong> Airbus A359
-                          </p>
-                        </div>
-                        <div className="col-md-6">
-                          <p>
-                            <strong>Sân bay đến:</strong> Nội Bài
-                          </p>
 
-                          <p>
-                            <strong>Số chuyến bay:</strong> VN 1400
-                          </p>
-                          <p>
-                            <strong>Hãng hàng không:</strong> Vietnam Airlines
-                          </p>
+              {chuyenBay && !chuyenBayKhuHoi && (
+                <strong>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-airplane-engines"
+                    viewBox="0 0 16 16"
+                    color="#0099ff"
+                  >
+                    <path d="M8 0c-.787 0-1.292.592-1.572 1.151A4.347 4.347 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0ZM7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1c.213 0 .458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7V3Z" />
+                  </svg>
+                  {chuyenBay.diemDi}{" "}
+                  <span style={{ color: "#3498db" }}>⇉ </span>
+                  {chuyenBay.diemDen}
+                </strong>
+              )}
+            </div>
+
+            {/* Chuyến bay đi */}
+            {chuyenBay && (
+              <div className="m-3">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="card">
+                      <div className="card-body box-shadow-tt-ve ">
+                        <div className="row">
+                          {chuyenBay && !chuyenBayKhuHoi ? (
+                            <strong className="d-flex justify-content-between">
+                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}{" "}
+                              <img
+                                style={{ height: "25px", width: "auto" }}
+                                src={chuyenBay.hangBay.logoURL}
+                              />
+                            </strong>
+                          ) : (
+                            <strong className="d-flex justify-content-between">
+                              Chuyến bay đi • {chuyenBay.ngayKhoiHanh}
+                              <img
+                                style={{ height: "25px", width: "auto" }}
+                                src={chuyenBay.hangBay.logoURL}
+                              />
+                            </strong>
+                          )}
+
+                          <div style={{ height: "10px" }}></div>
+                          <div className="col-md-6">
+                            <p>
+                              <strong>Điểm đi : {chuyenBay.diemDi} </strong>
+                            </p>
+                            <p>
+                              <strong>
+                                Giờ cất cạnh :{" "}
+                                {convertBoardingTime(chuyenBay.gioKhoiHanh)}
+                              </strong>{" "}
+                            </p>
+                          </div>
+                          <div className="col-md-6">
+                            <p>
+                              <strong>
+                                Sân bay đến : {chuyenBay.diemDen}{" "}
+                              </strong>
+                            </p>
+                            <p>
+                              <strong>
+                                Giờ hạ cánh :{" "}
+                                {convertBoardingTime(chuyenBay.gioHaCanh)}{" "}
+                              </strong>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* chuyến bay về */}
+            {chuyenBayKhuHoi && (
+              <div className="m-3">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="card">
+                      <div className="card-body box-shadow-tt-ve ">
+                        <div className="row">
+                          <strong className="d-flex justify-content-between">
+                            Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
+                            <img
+                              style={{ height: "25px", width: "auto" }}
+                              src={chuyenBayKhuHoi.hangBay.logoURL}
+                            />
+                          </strong>
+                          <div style={{ height: "10px" }}></div>
+                          <div className="col-md-6">
+                            <p>
+                              <strong>
+                                Điểm đi : {chuyenBayKhuHoi.diemDi}{" "}
+                              </strong>
+                            </p>
+                            <p>
+                              <strong>
+                                Giờ cất cánh : {chuyenBayKhuHoi.gioKhoiHanh}{" "}
+                              </strong>
+                            </p>
+                          </div>
+                          <div className="col-md-6">
+                            <p>
+                              <strong>
+                                Điểm đến : {chuyenBayKhuHoi.diemDen}{" "}
+                              </strong>
+                            </p>
+                            <p>
+                              <strong>
+                                Giờ hạ cánh :{" "}
+                                {convertBoardingTime(chuyenBayKhuHoi.gioHaCanh)}{" "}
+                              </strong>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="col-1"></div>
         </div>
       </div>
     </div>
