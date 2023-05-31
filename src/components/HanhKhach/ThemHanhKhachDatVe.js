@@ -6,10 +6,10 @@ import * as Yup from "yup";
 
 const hanhKhachSchema = Yup.object().shape({
   tenHanhKhach: Yup.string()
-    .required("Vui lòng nhập tên hành khách")
-    .matches(/^[A-Za-z\s]+$/, "Tên hành khách chỉ được nhập chữ cái không dấu"),
-  ngaySinh: Yup.string().required("Vui lòng nhập trường này"),
-  gioiTinh: Yup.string().required("Vui lòng Chọn giới tính"),
+    .required("Không để trống!")
+    .matches(/^[A-Za-z\s]+$/, "Chỉ được nhập chữ cái không dấu!"),
+  ngaySinh: Yup.string().required("Không để trống!"),
+  gioiTinh: Yup.string().required("Không để trống!"),
 });
 
 const ThongTinKhachHangDatVe = () => {
@@ -127,15 +127,6 @@ const ThongTinKhachHangDatVe = () => {
         }
       });
   };
-
-  //DucNH66 LOG
-  console.log("nguoi lon: ", adultsInfo);
-  console.log("tre em: ", childrenInfo);
-  console.log("em be: ", babyInfo);
-  console.log("loai ve 1: ", tiketType);
-  console.log("loai ve 2: ", tiketTypeKhuHoi);
-  console.log("Chuyen Bay Di hk: ", chuyenBay);
-  console.log("Chuyen Bay Khu Hoi hk: ", chuyenBayKhuHoi);
 
   return (
     <div className="container-fluid mt-10 mb-5">
