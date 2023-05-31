@@ -1,30 +1,57 @@
 import React, { useState, useEffect } from "react";
 import './ThanhToanThanhCong.css'
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 function ThanhToanThanhCong() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const orderCode = queryParams.get("vnp_TxnRef");
-    const [render, setRender] = useState(true)
+    const [render, setRender] = useState(true);
     const [tickets, setTickets] = useState([]);
     const apiURLUpdate = "http://localhost:8080/hoa-don/update/" + orderCode;
     const apiURLQuery = "http://localhost:8080/VeMayBay/list/" + orderCode;
+
+    //CHỨC NĂNG IN VÉ
+    const handlePrint = (maVe) => {
+        axios.get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
+            .then((response) => {
+                console.log("response.data ", response.data);
+                if (response.data === "EMPTY") {
+                    toast.error("VÉ KHÔNG TỒN TẠI!")
+                } else {
+                    window.location.href = `http://localhost:3000/InVe?maVe=${maVe.toString()}`;
+                }
+            }).catch((error) => {
+                console.error("error at function handlePrint", error);
+            })
+    }
 
     useEffect(() => {
         axios
             .post(apiURLUpdate)
             .then((response) => {
-                if (response.data !== "PAID") {
-                    toast.success(response.data);
+                if (response.data === "DONE") {
+                    toast.success("THANH TOÁN THÀNH CÔNG!");
                     axios
                         .get(apiURLQuery)
                         .then((response) => {
                             setTickets(response.data);
-                            // setRender(render);
+                            console.log("tickets", tickets);
                         })
                         .catch((err) => console.error);
+                } else if (response.data === "PAID") {
+                    axios
+                        .get(apiURLQuery)
+                        .then((response) => {
+                            setTickets(response.data);
+                            console.log("tickets", tickets);
+                        })
+                        .catch((err) => console.error);
+                } else if (response.data === "FAIL") {
+                    toast.error("THANH TOÁN THẤT BẠI!");
+                } else {
+                    toast.error(response.data);
                 }
 
             })
@@ -69,15 +96,12 @@ function ThanhToanThanhCong() {
                                 <td>{(item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông") ? item.giaVe : item.giaVe * 1.5}</td>
 
                                 <td>
-                                    <Link
-                                        as={Link}
-                                        to={`/InVe?maVe=${item.maVe.toString()}`}
-                                        className="text-white"
+                                    <button
+                                        onClick={() => handlePrint(item.maVe.toString())}
+                                        className="btn bg text-white"
                                     >
-                                        <button className="btn bg" type="submit">
-
-                                            In</button>
-                                    </Link>
+                                        In
+                                    </button>
                                 </td>
                             </tr>
                         )

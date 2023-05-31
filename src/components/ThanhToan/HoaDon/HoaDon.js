@@ -35,7 +35,6 @@ function HoaDon() {
       style: "currency",
       currency: "VND",
     }).format(money);
-    console.log("formattedValue", formattedValue);
     return formattedValue;
   };
 
@@ -92,6 +91,7 @@ function HoaDon() {
   //ngày tạo hóa đơn
   const [createDate, setCreateDate] = useState();
 
+  //hàm lấy mã hóa đơn
   function getOrderCode() {
     var randomNumber = '';
     for (var i = 0; i < 8; i++) {
@@ -100,34 +100,14 @@ function HoaDon() {
     return "OD" + randomNumber;
   }
 
-  //hàm lấy mã hóa đơn
-  // const getOrderCode = () => {
-  //   const currentTime = new Date();
-  //   const year = currentTime.getFullYear();
-  //   const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
-  //   const day = String(currentTime.getDate()).padStart(2, "0"); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
-  //   const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
-  //   const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
-  //   const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
-  //   const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
-  //   // const orderCode = `OD${year}${month}${day}`;
-  //   const createOrderDate = year + "-" + month + "-" + day;
-  //   setCreateDate(createOrderDate);
-  //   return orderCode;
-  // };
-
+  //hàm lấy ngày tạo hóa đơn
   const getCreateDate = () => {
     const currentTime = new Date();
     const year = currentTime.getFullYear();
     const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
     const day = String(currentTime.getDate()).padStart(2, "0"); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
-    // const hours = String(currentTime.getHours()).padStart(2, "0"); // Chèn số 0 vào trước nếu giờ chỉ có 1 chữ số
-    // const minutes = String(currentTime.getMinutes()).padStart(2, "0"); // Chèn số 0 vào trước nếu phút chỉ có 1 chữ số
-    // const seconds = String(currentTime.getSeconds()).padStart(2, "0"); // Chèn số 0 vào trước nếu giây chỉ có 1 chữ số
-    // const orderCode = `OD${year}${month}${day}${hours}${minutes}${seconds}`;
-    // const orderCode = `OD${year}${month}${day}`;
     const createOrderDate = year + "-" + month + "-" + day;
-    // setCreateDate(createOrderDate);
+    setCreateDate(createOrderDate);
     return createOrderDate;
   };
 
@@ -145,7 +125,7 @@ function HoaDon() {
   //hoaDonDTO
   const hoaDonDTO = {
     maHoaDon: orderCode,
-    ngayTao: getCreateDate(),
+    ngayTao: createDate,
     tongTien: amount,
     trangThaiThanhToan: 0,
     trangThaiXoa: 0,
@@ -159,8 +139,6 @@ function HoaDon() {
     maDatChoDis: maDatCho.length > 0 ? maDatCho : [],
     maDatChoKhuHois: maDatChoKhuHoi.length > 0 ? maDatChoKhuHoi : [],
   };
-
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
