@@ -1,0 +1,6 @@
+.error{
+  margin-top: 60px;
+  background: url("../../../Assets/error.jpg") center;
+  background-size: cover;
+  min-height: 100vh;
+}
