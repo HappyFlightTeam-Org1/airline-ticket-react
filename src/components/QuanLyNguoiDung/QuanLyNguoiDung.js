@@ -151,7 +151,7 @@ export default function QuanLyNguoiDung() {
         </tbody>
       </table>
       {dataNguoiDung.length === 0 && (
-        <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+        <h1 style={{ textAlign: "center" }}>Không tìm thấy người dùng</h1>
       )}
       {dataNguoiDung.length > 0 && (
         <div className="pagination justify-content-center">
