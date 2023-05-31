@@ -211,6 +211,8 @@ const DatCho = () => {
   console.log("Chuyen Bay Di: ", chuyenBay);
   console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
 
+  console.log(seatList1Chieu," ghe 1 chieu");
+
   return (
     <div className="container d-c">
       {/* DucNH66 Ghế chuyến bay đi */}

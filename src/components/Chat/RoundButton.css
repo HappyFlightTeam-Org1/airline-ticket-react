@@ -8,4 +8,5 @@
             &:hover{
               background: var(--gradientColor1);
             }
+    z-index: 3000;
 }

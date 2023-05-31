@@ -5,7 +5,7 @@ import ComponentToPrint from './ComponentToPrint';
 export default function InVeMayBay() {
 
     return (
-        <div>
+        <div className='mg-top-60'>
             <ComponentToPrint />
         </div>
     );

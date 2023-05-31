@@ -49,7 +49,7 @@ export default function Navbar({ handleTogger, on }) {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link as={Link} to="/" className="text-white nav-link active">
+                  <Link as={Link} to="TinTuc" className="text-white nav-link active">
                    Tin Tức
                   </Link>
                 </li>
