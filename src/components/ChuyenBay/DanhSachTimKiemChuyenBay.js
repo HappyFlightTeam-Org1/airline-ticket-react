@@ -145,18 +145,10 @@ function DanhSachTimKiemChuyenBay() {
     navigate("/");
   };
 
-  //DucNH66 LOG
-  console.log("sl nguoi lon: ", soNguoiLon);
-  console.log("sl tre em: ", soTreEm);
-  console.log("sl em be: ", soEmBe);
-  console.log("loai ve 1: ", tiketType);
-  console.log("loai ve 2: ", tiketTypeKhuHoi);
-  console.log("id Chuyen Bay Di: ", idChuyenBayDi);
-  console.log("id Chuyen Bay Khu Hoi: ", idChuyenBayKhuHoi);
-  console.log("Chuyen Bay Di: ", chuyenBay);
-  console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
-  console.log("ngay di: ", ngayDi);
-  console.log("ngay di kh: ", ngayDiKh);
+  const convertBoardingTime = (fullBoaringTime) => {
+    const boardingTime = fullBoaringTime.substr(0, 5);
+    return boardingTime;
+  };
 
   return (
     <div className="container duc mb-5 ">
@@ -284,29 +276,41 @@ function DanhSachTimKiemChuyenBay() {
                     {/* Thông tin chuyến bay */}
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong style={{ fontSize: "0.8rem" }}>Nơi đi:</strong>
-                        {chuyenBay.diemDi}
+                        <strong style={{ fontSize: "0.8rem" }}>
+                          Điểm đi :{chuyenBay.diemDi}
+                        </strong>
                       </p>
+
+                      <parent
+                        style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}
+                      >
+                        <strong>
+                          Giờ cất cánh :{" "}
+                          {convertBoardingTime(chuyenBay.gioKhoiHanh)}
+                        </strong>
+                      </parent>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Giờ cất cánh :</strong> {chuyenBay.gioKhoiHanh}
-                      </p>
-                      <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Hãng bay:</strong>{" "}
-                        {chuyenBay.hangBay.tenHangBay}
+                        <strong>
+                          Hãng bay : {chuyenBay.hangBay.tenHangBay}
+                        </strong>{" "}
                       </p>
                     </div>
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem" }}>
-                          Sân bay đến:
+                          Điểm đến : {chuyenBay.diemDen}
                         </strong>
-                        {chuyenBay.diemDen}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Giờ hạ cánh :</strong> {chuyenBay.gioHaCanh}
+                        <strong>
+                          Giờ hạ cánh :{" "}
+                          {convertBoardingTime(chuyenBay.gioHaCanh)}{" "}
+                        </strong>
                       </p>
                       <p style={{ fontSize: "0.8rem" }}>
-                        <strong>Thời gian bay :</strong> {chuyenBay.thoiGianBay}
+                        <strong>
+                          Thời gian bay : {chuyenBay.thoiGianBay}{" "}
+                        </strong>{" "}
                       </p>
                     </div>
 
@@ -391,6 +395,7 @@ function DanhSachTimKiemChuyenBay() {
                 </div>
               </div>
             ))}
+
           {/* Hiển thị thêm dữ liệu của danh sách chuyến bay đi */}
           {hidden1Chieu &&
             chuyenBays.length > 0 &&
@@ -431,32 +436,38 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="row ">
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong style={{ fontSize: "0.8rem" }}>Nơi đi:</strong>
-                        {chuyenBayKhuHoi.diemDi}
+                        <strong style={{ fontSize: "0.8rem" }}>
+                          Điểm đi : {chuyenBayKhuHoi.diemDi}
+                        </strong>
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Giờ cất cánh :</strong>{" "}
-                        {chuyenBayKhuHoi.gioKhoiHanh}
+                        <strong>
+                          Giờ cất cánh :{" "}
+                          {convertBoardingTime(chuyenBayKhuHoi.gioKhoiHanh)}{" "}
+                        </strong>{" "}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Hãng bay:</strong>{" "}
-                        {chuyenBayKhuHoi.hangBay.tenHangBay}
+                        <strong>
+                          Hãng bay : {chuyenBayKhuHoi.hangBay.tenHangBay}
+                        </strong>{" "}
                       </p>
                     </div>
                     <div className="col-md-3">
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
                         <strong style={{ fontSize: "0.8rem" }}>
-                          Sân bay đến:
+                          Điểm đến : {chuyenBayKhuHoi.diemDen}
                         </strong>
-                        {chuyenBayKhuHoi.diemDen}
                       </p>
                       <p style={{ fontSize: "0.8rem", marginBottom: "0.4rem" }}>
-                        <strong>Giờ hạ cánh :</strong>{" "}
-                        {chuyenBayKhuHoi.gioHaCanh}
+                        <strong>
+                          Giờ hạ cánh :{" "}
+                          {convertBoardingTime(chuyenBayKhuHoi.gioHaCanh)}
+                        </strong>{" "}
                       </p>
                       <p style={{ fontSize: "0.8rem" }}>
-                        <strong>Thời gian bay :</strong>{" "}
-                        {chuyenBayKhuHoi.thoiGianBay}
+                        <strong>
+                          Thời gian bay : {chuyenBayKhuHoi.thoiGianBay}
+                        </strong>{" "}
                       </p>
                     </div>
                     {/* Phổ Thông */}
@@ -576,53 +587,67 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="card">
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
-                        <strong>
+                        <strong className="d-flex justify-content-between">
                           Chuyến bay đi • {chuyenBay.ngayKhoiHanh}
+                          <img
+                            style={{ height: "25px", width: "auto" }}
+                            src={chuyenBay.hangBay.logoURL}
+                          />
                         </strong>{" "}
                         <div style={{ height: "10px" }}></div>
                         <div className="col-md-4">
                           <p>
-                            <strong>Sân bay đi:</strong> {chuyenBay.diemDi}
+                            <strong>Điểm đi : {chuyenBay.diemDi}</strong>
                           </p>{" "}
                           <p>
-                            <strong>Giờ cất cạnh</strong>{" "}
-                            {chuyenBay.gioKhoiHanh}
+                            <strong>
+                              Giờ cất cạnh :{" "}
+                              {convertBoardingTime(chuyenBay.gioKhoiHanh)}{" "}
+                            </strong>{" "}
                           </p>
                           <p>
-                            <strong>Thời gian bay:</strong>{" "}
-                            {chuyenBay.thoiGianBay}
+                            <strong>
+                              Thời gian bay : {chuyenBay.thoiGianBay}
+                            </strong>{" "}
                           </p>
                         </div>
                         <div className="col-md-4">
                           <p>
-                            <strong>Sân bay đến:</strong> {chuyenBay.diemDen}
+                            <strong>Điểm đến : {chuyenBay.diemDen} </strong>
                           </p>{" "}
                           <p>
-                            <strong>Giờ hạ cánh:</strong> {chuyenBay.gioHaCanh}
+                            <strong>
+                              Giờ hạ cánh :{" "}
+                              {convertBoardingTime(chuyenBay.gioHaCanh)}{" "}
+                            </strong>
                           </p>
                           <p>
-                            <strong>Khối lượng hành lý:</strong>{" "}
-                            {chuyenBay.klhanhLy}
+                            <strong>
+                              Khối lượng hành lý : {chuyenBay.klhanhLy}{" "}
+                            </strong>{" "}
                           </p>
                         </div>
                         <div className="col-md-4">
                           <p>
-                            <strong>Hạng vé: </strong> {tiketType}
+                            <strong> Hạng vé : {tiketType} </strong>
                           </p>
                           <p>
-                            <strong>Giá vé: </strong>
-                            {tiketType === "Phổ Thông"
-                              ? `${(chuyenBay.giaVe * 1).toLocaleString(
-                                  "vi-VN"
-                                )} `
-                              : `${(chuyenBay.giaVe * 1.5).toLocaleString(
-                                  "vi-VN"
-                                )} `}
-                            <sup>VND</sup>
+                            <strong>
+                              Giá vé :{" "}
+                              {tiketType === "Phổ Thông"
+                                ? `${(chuyenBay.giaVe * 1).toLocaleString(
+                                    "vi-VN"
+                                  )} `
+                                : `${(chuyenBay.giaVe * 1.5).toLocaleString(
+                                    "vi-VN"
+                                  )} `}{" "}
+                              <sup>VND</sup>
+                            </strong>
                           </p>
                           <p>
-                            <strong>Hãng bay: </strong>{" "}
-                            {chuyenBay.hangBay.tenHangBay}
+                            <strong>
+                              Hãng bay : {chuyenBay.hangBay.tenHangBay}
+                            </strong>{" "}
                           </p>
                         </div>
                       </div>
@@ -640,56 +665,71 @@ function DanhSachTimKiemChuyenBay() {
                   <div className="card">
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
-                        <strong>
-                          Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}{" "}
-                        </strong>
+                        <strong className="d-flex justify-content-between">
+                          Chuyến bay đi • {chuyenBayKhuHoi.ngayKhoiHanh}
+                          <img
+                            style={{ height: "25px", width: "auto" }}
+                            src={chuyenBayKhuHoi.hangBay.logoURL}
+                          />
+                        </strong>{" "}
                         <div style={{ height: "10px" }}></div>
                         <div className="col-md-4">
                           <p>
-                            <strong>Sân bay đi:</strong>{" "}
-                            {chuyenBayKhuHoi.diemDi}
+                            <strong>
+                              Sân bay đi : {chuyenBayKhuHoi.diemDi}
+                            </strong>{" "}
                           </p>
                           <p>
-                            <strong>Giờ cất cánh:</strong>{" "}
-                            {chuyenBayKhuHoi.gioKhoiHanh}
+                            <strong>
+                              Giờ cất cánh :{" "}
+                              {convertBoardingTime(chuyenBayKhuHoi.gioKhoiHanh)}
+                            </strong>{" "}
                           </p>
                           <p>
-                            <strong>Thời gian bay:</strong>{" "}
-                            {chuyenBayKhuHoi.thoiGianBay}
-                          </p>
-                        </div>
-                        <div className="col-md-4">
-                          <p>
-                            <strong>Sân bay đến:</strong>{" "}
-                            {chuyenBayKhuHoi.diemDen}
-                          </p>
-                          <p>
-                            <strong>Giờ hạ cánh:</strong>{" "}
-                            {chuyenBayKhuHoi.gioHaCanh}
-                          </p>
-                          <p>
-                            <strong>Khối lượng hành lý:</strong>{" "}
-                            {chuyenBayKhuHoi.klhanhLy}
+                            <strong>
+                              Thời gian bay : {chuyenBayKhuHoi.thoiGianBay}
+                            </strong>{" "}
                           </p>
                         </div>
                         <div className="col-md-4">
                           <p>
-                            <strong>Hạng vé: </strong> {tiketTypeKhuHoi}
+                            <strong>
+                              Sân bay đến : {chuyenBayKhuHoi.diemDen}
+                            </strong>{" "}
                           </p>
                           <p>
-                            <strong>Gía vé:</strong>
-                            {tiketTypeKhuHoi === "Phổ Thông"
-                              ? `${(chuyenBayKhuHoi.giaVe * 1).toLocaleString(
-                                  "vi-VN"
-                                )} `
-                              : `${(chuyenBayKhuHoi.giaVe * 1.5).toLocaleString(
-                                  "vi-VN"
-                                )} `}
-                            <sup>VND</sup>
+                            <strong>
+                              Giờ hạ cánh :{" "}
+                              {convertBoardingTime(chuyenBayKhuHoi.gioHaCanh)}
+                            </strong>{" "}
                           </p>
                           <p>
-                            <strong>Hãng bay: </strong>{" "}
-                            {chuyenBayKhuHoi.hangBay.tenHangBay}
+                            <strong>
+                              Khối lượng hành lý : {chuyenBayKhuHoi.klhanhLy}
+                            </strong>{" "}
+                          </p>
+                        </div>
+                        <div className="col-md-4">
+                          <p>
+                            <strong>Hạng vé : {tiketTypeKhuHoi} </strong>
+                          </p>
+                          <p>
+                            <strong>
+                              Gía vé :{" "}
+                              {tiketTypeKhuHoi === "Phổ Thông"
+                                ? `${(chuyenBayKhuHoi.giaVe * 1).toLocaleString(
+                                    "vi-VN"
+                                  )} `
+                                : `${(
+                                    chuyenBayKhuHoi.giaVe * 1.5
+                                  ).toLocaleString("vi-VN")} `}
+                              <sup>VND</sup>
+                            </strong>
+                          </p>
+                          <p>
+                            <strong>
+                              Hãng bay : {chuyenBayKhuHoi.hangBay.tenHangBay}{" "}
+                            </strong>{" "}
                           </p>
                         </div>
                       </div>
