@@ -652,7 +652,7 @@ export default function Home({ on }) {
           </div>
         </div>
       </section>
-      <input type="text" onChange={handleInputChange}></input>
+      
       <RoundButton
         className="btn-modal"
         onOpen={handleOpenModal}
