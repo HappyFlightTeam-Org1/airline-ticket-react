@@ -78,6 +78,17 @@ export default function QuanLyNguoiDung() {
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
   }
+
+  function handleBeginPageClick() {
+    if (currentPage > 0) {
+      setCurrentPage(0);
+    }
+  }
+  function handleEndPageClick() {
+    if (currentPage < totalPage-1) {
+      setCurrentPage(totalPage-1);
+    }
+  }
   return (
     <div className='container bg-body table-shadow'>
       <div className="pt-5 pb-3">
@@ -149,9 +160,12 @@ export default function QuanLyNguoiDung() {
               <li
                 className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
               >
-                <button className="page-link bg" onClick={handlePreviousPageClick}>
-                  Previous
+                <button className="page-link bg" onClick={handleBeginPageClick}>
+                   <i class="fa-solid fa-angles-left"></i>
                 </button>
+                <button className="page-link bg" onClick={handlePreviousPageClick}>
+                  <i class="fa-solid fa-angle-left"></i>
+                  </button>
               </li>
               {pageNumbers
                 .slice(currentPage, currentPage + 3)
@@ -178,9 +192,12 @@ export default function QuanLyNguoiDung() {
                 className={`page-item ${currentPage === totalPage - 1 ? "disabled" : ""
                   }`}
               >
-                <button className="page-link bg" onClick={handleNextPageClick}>
-                  Next
-                </button>
+                 <button className="page-link bg" onClick={handleNextPageClick}>
+                  <i class="fa-solid fa-chevron-right"></i>
+                  </button>
+                  <button className="page-link bg" onClick={handleEndPageClick}>
+                  <i class="fa-solid fa-angles-right"></i>
+                  </button>
               </li>
             </ul>
           </nav>
