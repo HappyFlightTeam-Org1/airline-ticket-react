@@ -197,21 +197,8 @@ const DatCho = () => {
 
   //DucNH66 reload lại trang để chọn lại
   const goBack = () => {
-    window.location.reload();
+    window.history.back();
   };
-
-  //DucNH66 LOG
-  console.log("nguoi lon: ", adultsInfo);
-  console.log("tre em: ", childrenInfo);
-  console.log("em be: ", babyInfo);
-  console.log("loai ve 1: ", tiketType);
-  console.log("loai ve 2: ", tiketTypeKhuHoi);
-  console.log("ma dat cho 1: ", selectedSeats);
-  console.log("ma dat cho 2: ", selectedSeatsKhuHoi);
-  console.log("Chuyen Bay Di: ", chuyenBay);
-  console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
-
-  console.log(seatList1Chieu," ghe 1 chieu");
 
   return (
     <div className="container d-c">
@@ -402,7 +389,7 @@ const DatCho = () => {
               </div>
               <div className="ghichu5 ">
                 <button className="btn  btn-success bg" onClick={goBack}>
-                  Chọn Lại Ghế
+                  Trở Lại
                 </button>{" "}
                 <button
                   className="btn  btn-success bg"
