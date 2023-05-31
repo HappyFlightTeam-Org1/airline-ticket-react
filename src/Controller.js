@@ -43,18 +43,17 @@ function Controller() {
     console.log(on);
   };
 
-  const loginInitialState = { login: '' };
+  const loginInitialState = { login: "" };
   const [state, dispatch] = useReducer(LoginStateReducer, loginInitialState);
 
   useEffect(() => {
-    if (localStorage.getItem('login') === 'user') {
-      dispatch({ type: 'USER' });
+    if (localStorage.getItem("login") === "user") {
+      dispatch({ type: "USER" });
     }
-    if (localStorage.getItem('login') === 'admin') {
-      dispatch({ type: 'ADMIN' });
+    if (localStorage.getItem("login") === "admin") {
+      dispatch({ type: "ADMIN" });
     }
   }, []);
-
 
   return (
     <div className="Controller">
@@ -65,38 +64,50 @@ function Controller() {
             <Route path="/" element={<Home on={on} />} />
             {/* Thêm mới chuyến bay */}
             <Route>
-              {state.login === 'ADMIN'
-                ?
+              {state.login === "ADMIN" ? (
                 <>
                   <Route path="ThemChuyenBay" element={<ThemMoiChuyenBay />} />
-                  <Route path="CapNhatChuyenBay" element={<CapNhatChuyenBay />} />
-                  <Route path="DanhSachChuyenBay" element={<DanhSachChuyenBay />} />
-                  <Route path="TimKiemChuyenBay" element={<TimKiemChuyenBay />} />
+                  <Route
+                    path="CapNhatChuyenBay"
+                    element={<CapNhatChuyenBay />}
+                  />
+                  <Route
+                    path="DanhSachChuyenBay"
+                    element={<DanhSachChuyenBay />}
+                  />
+                  <Route
+                    path="TimKiemChuyenBay"
+                    element={<TimKiemChuyenBay />}
+                  />
                   <Route path="HanhKhach" element={<HanhKhach />} />
                 </>
-                :
-                <></>}
+              ) : (
+                <>
+                  <Route
+                    path="TimKiemChuyenBay"
+                    element={<TimKiemChuyenBay />}
+                  />
+                </>
+              )}
             </Route>
             {/* Hành Khách */}
             <Route>
-              {state.login !== ''
-                ?
+              {state.login !== "" ? (
                 <>
                   <Route
                     path="ThongTinKhachHangDatVe"
                     element={<ThemHanhKhachDatVe />}
                   />
                 </>
-                :
+              ) : (
                 <></>
-              }
+              )}
               <Route path="TimKiemVe" element={<TimKiemVe />} />
               <Route path="TinTuc" element={<TinTuc />} />
               <Route path="InVe" element={<InVeMayBay />} />
               <Route path="ChinhSach" element={<ChinhSach />} />
               <Route path="DieuKhoan" element={<DieuKhoan />} />
-              {state.login === 'ADMIN'
-                ?
+              {state.login === "ADMIN" ? (
                 <>
                   <Route
                     path="DanhSachKhachHangDatVe"
@@ -104,61 +115,62 @@ function Controller() {
                   />
                   <Route path="LichSuDatVe" element={<LichSuDatVe />} />
                 </>
-                :
+              ) : (
                 <></>
-              }
+              )}
             </Route>
             {/* Hiển thị danh sách đặt chỗ*/}
             <Route>
-              {state.login !== ''
-                ?
+              {state.login !== "" ? (
                 <>
                   <Route path="DatCho" element={<DatCho />} />
                 </>
-                :
-                <>
-                </>}
+              ) : (
+                <></>
+              )}
             </Route>
             {/* Quản lý người dùng và thống kê */}
             <Route>
-              {state.login === 'ADMIN'
-                ?
+              {state.login === "ADMIN" ? (
                 <>
                   <Route path="QuanLyNguoiDung" element={<QuanLyNguoiDung />} />
                   <Route path="BarChart" element={<BarChart on={on} />} />
                 </>
-                :
-                <>
-                </>
-              }
+              ) : (
+                <></>
+              )}
 
               <Route path="Login" element={<Login />} />
               <Route path="DangKy" element={<DangKy />} />
-              <Route path="GuiEmail" element={< GuiEmail />} />
-              <Route path="ThietLapMatKhauMoi" element={< ThietLapMatKhauMoi />} />
+              <Route path="GuiEmail" element={<GuiEmail />} />
+              <Route
+                path="ThietLapMatKhauMoi"
+                element={<ThietLapMatKhauMoi />}
+              />
 
-              {state.login !== ''
-                ?
+              {state.login !== "" ? (
                 <>
                   <Route path="Logout" element={<Logout />} />
-                  <Route path="SuaThongTinCaNhan" element={< SuaThongTinCaNhan />} />
-                  <Route path="ThayDoiMatKhau" element={< ThayDoiMatKhau />} />
+                  <Route
+                    path="SuaThongTinCaNhan"
+                    element={<SuaThongTinCaNhan />}
+                  />
+                  <Route path="ThayDoiMatKhau" element={<ThayDoiMatKhau />} />
                 </>
-                :
-                <>
-                </>}
+              ) : (
+                <></>
+              )}
             </Route>
             {/* Hóa Đơn */}
             <Route>
-              {state.login !== ''
-                ?
+              {state.login !== "" ? (
                 <>
                   <Route path="ThanhToan" element={<HoaDon />} />
                   <Route path="ThanhCong" element={<ThanhToanThanhCong />} />
                 </>
-                :
-                <>
-                </>}
+              ) : (
+                <></>
+              )}
             </Route>
             <Route path="/*" element={<ErrorPage />} />
           </Routes>
