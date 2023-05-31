@@ -132,7 +132,7 @@ export default function QuanLyNguoiDung() {
         <tbody>
           {dataNguoiDung.map((data, index) => (
             <tr className="align-middle">
-              <th scope="row">{index + 1}</th>
+              <th scope="row">{index + 1 +currentPage*pageSize}</th>
               <td>{data.hoVaTen}</td>
               <td>{data.email}</td>
               <td>{data.soDienThoai}</td>

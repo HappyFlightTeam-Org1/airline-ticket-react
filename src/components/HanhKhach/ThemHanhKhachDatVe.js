@@ -411,8 +411,12 @@ const ThongTinKhachHangDatVe = () => {
                       <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
                           {chuyenBay && !chuyenBayKhuHoi ? (
-                            <strong>
-                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}
+                            <strong className="d-flex justify-content-between">
+                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}{" "}
+                              <img
+                                style={{ height: "25px", width: "auto" }}
+                                src={chuyenBay.hangBay.logoURL}
+                              />
                             </strong>
                           ) : (
                             <strong className="d-flex justify-content-between">
