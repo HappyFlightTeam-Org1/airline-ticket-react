@@ -33,7 +33,7 @@
     -2px -2px 4px rgba(255, 255, 255, 0.5);
 }
 
-.content {
+.payment-content {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;

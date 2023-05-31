@@ -15,7 +15,7 @@ import QuanLyNguoiDung from "./components/QuanLyNguoiDung/QuanLyNguoiDung.js";
 import BarChart from "./components/DashBoard/BarChart.js";
 import DatCho from "./components/DatCho/DanhSachDatCho/DatCho.js";
 import HanhKhach from "./components/HanhKhach/DanhSachHanhKhach.js";
-import HoaDon from "./components/ThanhToan/HoaDon.js";
+import HoaDon from "./components/ThanhToan/HoaDon/HoaDon.js";
 import Login from "./components/Authen/DangNhap/Login";
 import ThanhToanThanhCong from "./components/ThanhToan/ThanhToanThanhCong/ThanhToanThanhCong";
 import InVeMayBay from "./components/VeMayBay/InVeMayBay/InVeMayBay";

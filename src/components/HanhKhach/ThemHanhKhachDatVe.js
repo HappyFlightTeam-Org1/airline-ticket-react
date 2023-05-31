@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
@@ -126,6 +127,11 @@ const ThongTinKhachHangDatVe = () => {
           console.error(error);
         }
       });
+  };
+
+  const convertBoardingTime = (fullBoaringTime) => {
+    const boardingTime = fullBoaringTime.substr(0, 5);
+    return boardingTime;
   };
 
   return (
@@ -405,32 +411,46 @@ const ThongTinKhachHangDatVe = () => {
                       <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
                           {chuyenBay && !chuyenBayKhuHoi ? (
-                            <strong>
-                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}
+                            <strong className="d-flex justify-content-between">
+                              Ngày Khởi Hành• {chuyenBay.ngayKhoiHanh}{" "}
+                              <img
+                                style={{ height: "25px", width: "auto" }}
+                                src={chuyenBay.hangBay.logoURL}
+                              />
                             </strong>
                           ) : (
-                            <strong>
+                            <strong className="d-flex justify-content-between">
                               Chuyến bay đi • {chuyenBay.ngayKhoiHanh}
+                              <img
+                                style={{ height: "25px", width: "auto" }}
+                                src={chuyenBay.hangBay.logoURL}
+                              />
                             </strong>
                           )}
 
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đi </strong> {chuyenBay.diemDi}
+                              <strong>Điểm đi : {chuyenBay.diemDi} </strong>
                             </p>
                             <p>
-                              <strong>Giờ cất cạnh</strong>{" "}
-                              {chuyenBay.gioKhoiHanh}
+                              <strong>
+                                Giờ cất cạnh :{" "}
+                                {convertBoardingTime(chuyenBay.gioKhoiHanh)}
+                              </strong>{" "}
                             </p>
                           </div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đến </strong> {chuyenBay.diemDen}
+                              <strong>
+                                Sân bay đến : {chuyenBay.diemDen}{" "}
+                              </strong>
                             </p>
                             <p>
-                              <strong>Giờ hạ cánh </strong>
-                              {chuyenBay.gioHaCanh}
+                              <strong>
+                                Giờ hạ cánh :{" "}
+                                {convertBoardingTime(chuyenBay.gioHaCanh)}{" "}
+                              </strong>
                             </p>
                           </div>
                         </div>
@@ -449,28 +469,37 @@ const ThongTinKhachHangDatVe = () => {
                     <div className="card">
                       <div className="card-body box-shadow-tt-ve ">
                         <div className="row">
-                          <strong>
+                          <strong className="d-flex justify-content-between">
                             Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
+                            <img
+                              style={{ height: "25px", width: "auto" }}
+                              src={chuyenBayKhuHoi.hangBay.logoURL}
+                            />
                           </strong>
                           <div style={{ height: "10px" }}></div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đi </strong>
-                              {chuyenBayKhuHoi.diemDi}
+                              <strong>
+                                Điểm đi : {chuyenBayKhuHoi.diemDi}{" "}
+                              </strong>
                             </p>
                             <p>
-                              <strong>Giờ cất cánh </strong>
-                              {chuyenBayKhuHoi.gioKhoiHanh}
+                              <strong>
+                                Giờ cất cánh : {chuyenBayKhuHoi.gioKhoiHanh}{" "}
+                              </strong>
                             </p>
                           </div>
                           <div className="col-md-6">
                             <p>
-                              <strong>Sân bay đến </strong>
-                              {chuyenBayKhuHoi.diemDen}
+                              <strong>
+                                Điểm đến : {chuyenBayKhuHoi.diemDen}{" "}
+                              </strong>
                             </p>
                             <p>
-                              <strong>Giờ hạ cánh </strong>
-                              {chuyenBayKhuHoi.gioHaCanh}
+                              <strong>
+                                Giờ hạ cánh :{" "}
+                                {convertBoardingTime(chuyenBayKhuHoi.gioHaCanh)}{" "}
+                              </strong>
                             </p>
                           </div>
                         </div>

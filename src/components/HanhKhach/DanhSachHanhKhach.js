@@ -105,7 +105,7 @@ function HanhKhach() {
             {listKH.length > 0 &&
               listKH.map((item, index) => (
                 <tr key={item.maHanhKhach}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1 +currentPage*pageSize}</td>
                   <td>{item.loaiHanhKhach}</td>
                   <td>{item.tenHanhKhach}</td>
                   <td>{item.ngaySinh}</td>
@@ -118,7 +118,7 @@ function HanhKhach() {
         </table>
 
         {listKH.length === 0 && (
-          <h1 style={{ textAlign: "center" }}>Không có dữ liệu</h1>
+          <h1 style={{ textAlign: "center" }}>Không tìm thấy hành khách!</h1>
         )}
       </div>
       <div>
