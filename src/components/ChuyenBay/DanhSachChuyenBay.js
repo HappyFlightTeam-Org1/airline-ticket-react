@@ -11,15 +11,14 @@ function DanhSachChuyenBay() {
   const [isSearching, setIsSearching] = useState(false);
   const [formData, setFormData] = useState({});
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(5);
   const [sanBays, setSanBays] = useState([]);
   const [diemDi, setDiemDi] = useState();
   const [diemDen, setDiemDen] = useState();
   const [ngayKhoiHanh, setNgayDi] = useState();
   const [totalPages, setTotalPages] = useState();
-  console.log("diemDi: ", diemDi);
-  console.log("diemDen: ", diemDen);
-  console.log("ngayKhoiHanh: ", ngayKhoiHanh);
+  const [totalElements, setTotalElements] = useState();
+  console.log(totalElements);
 
   //DucNH66 Lấy danh sách sân bay  DucNH66
   useEffect(() => {
@@ -53,6 +52,8 @@ function DanhSachChuyenBay() {
         }
       );
       setTotalPages(response.data.totalPages);
+      setTotalElements(response.data.totalElements);
+      console.log("total element: ", response.data.totalElements);
       if (diemDi || diemDen || ngayKhoiHanh) {
         setIsSearching(true);
         setSearchResult(response.data.content);
@@ -120,7 +121,9 @@ function DanhSachChuyenBay() {
 
   return (
     <div className="container chuyenbay ">
-      <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
+      <h1 className="h1">
+        DANH SÁCH CHUYẾN BAY <sup style={{ color: "red" }}>{totalElements}</sup>
+      </h1>
       {/* Form tìm kiếm  DucNH66*/}
       <form
         className="row justify-content-center search"
@@ -182,6 +185,7 @@ function DanhSachChuyenBay() {
       <Link as={Link} to="/ThemChuyenBay" className="text-white">
         <button className="btn btn-success bg">Thêm mới</button>
       </Link>
+
       {/* Table dánh sách */}
       <table className="table table-striped shadow text-nowrap">
         <thead className="thead-dark">
