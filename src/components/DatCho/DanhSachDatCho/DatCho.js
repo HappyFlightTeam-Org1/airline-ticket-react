@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import css from "./DatCho.css";
-import plane from "../../../Assets/planeDC.png";
 import plane1 from "../../../Assets/plane1.png";
 
 //Ducnh66 Chọn ghế cho hành khách
@@ -300,7 +299,6 @@ const DatCho = () => {
                   </button>
                 )}
               </div>
-              <img src={plane}></img>
             </div>
           </div>
         </div>
@@ -398,7 +396,6 @@ const DatCho = () => {
                   Thanh Toán
                 </button>{" "}
               </div>
-              <img src={plane}></img>
             </div>
           </div>
         </div>

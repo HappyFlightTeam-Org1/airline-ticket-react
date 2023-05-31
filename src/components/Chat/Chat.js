@@ -344,7 +344,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         >
           {children}
           <div className="tieu-de">
-            <div className="wrap">CHAT ROOM</div>
+            <div className="wrap">CHĂM SÓC KHÁCH HÀNG</div>
             <button onClick={onClose} className="btn-x-admin">
               X
             </button>
