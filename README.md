@@ -6,5 +6,6 @@ II. CÁC BƯỚC RUN PROJECT NÀY:
 BƯỚC 1: clone source code từ repository này về (có thể search cách clone repository github)
 BƯỚC 2: mở dự án bằng VSCode
 BƯỚC 3: click chuột phải vào tên dự án (airline-ticket-react), chọn [Open in integrated Terminal]
-BƯỚC 4: nhập lệnh [ npm install ] vào terminal để tải và cài đặt các thư viện cần thiết cho dự án được import trong file package.json
-BƯỚC 5: sau khi BƯỚC 4 hoàn thành, nhập lệnh [ npm start ] vào terminal để khởi chạy chương trình
+BƯỚC 4: gõ lệnh git checkout dev để chuyển sang nhánh dev (nhánh đang chứa source code tổng hợp của dự án)
+BƯỚC 5: nhập lệnh [ npm install ] vào terminal để tải và cài đặt các thư viện cần thiết cho dự án được import trong file package.json
+BƯỚC 6: sau khi BƯỚC 5 hoàn thành, nhập lệnh [ npm start ] vào terminal để khởi chạy chương trình
