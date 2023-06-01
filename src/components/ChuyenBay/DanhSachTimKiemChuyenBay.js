@@ -135,19 +135,19 @@ function DanhSachTimKiemChuyenBay() {
     navigate(`/ThongTinKhachHangDatVe?${queryString}`);
   };
 
-  //DucNH66 RELOAD lại trang để chọn lại chuyến bay
-  const goBack = () => {
-    window.location.reload();
-  };
-
   //DucNH66 Về lại trang home
   const handleBackHome = () => {
     navigate("/");
   };
 
+  //DucNH66 Convert giờ
   const convertBoardingTime = (fullBoaringTime) => {
     const boardingTime = fullBoaringTime.substr(0, 5);
     return boardingTime;
+  };
+
+  const handleSetUp = () => {
+    setHidden(!hidden1Chieu);
   };
 
   return (
@@ -346,7 +346,7 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem", color: "orange" }}
                             >
-                              Còn {chuyenBay.mayBay.slghePhoThong} ghế
+                              <button className="button-chon">Chọn</button>
                             </p>
                           </div>
                         </div>
@@ -385,7 +385,7 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem" }}
                             >
-                              Còn {chuyenBay.mayBay.slgheThuongGia} ghế
+                              <button className="button-chon">Chọn</button>
                             </p>
                           </div>
                         </div>
@@ -503,10 +503,10 @@ function DanhSachTimKiemChuyenBay() {
                               <sup>VND</sup>
                             </p>
                             <p
-                              className="card-text"
+                              className="card-text text-left"
                               style={{ fontSize: "0.8rem", color: "orange" }}
                             >
-                              Còn {chuyenBayKhuHoi.mayBay.slghePhoThong} ghế
+                              <button className="button-chon">Chọn</button>
                             </p>
                           </div>
                         </div>
@@ -549,7 +549,7 @@ function DanhSachTimKiemChuyenBay() {
                               className="card-text"
                               style={{ fontSize: "0.8rem" }}
                             >
-                              Còn {chuyenBayKhuHoi.mayBay.slgheThuongGia} ghế
+                              <button className="button-chon">Chọn</button>
                             </p>
                           </div>
                         </div>
@@ -666,7 +666,7 @@ function DanhSachTimKiemChuyenBay() {
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
                         <strong className="d-flex justify-content-between">
-                          Chuyến bay đi • {chuyenBayKhuHoi.ngayKhoiHanh}
+                          Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
                           <img
                             style={{ height: "25px", width: "auto" }}
                             src={chuyenBayKhuHoi.hangBay.logoURL}
@@ -742,13 +742,20 @@ function DanhSachTimKiemChuyenBay() {
 
           {/* ẨN HIỆN NÚT CHỌN LẠI  */}
           {loaiChuyenBay === "Một Chiều" && chuyenBay && (
-            <a className="btn btn-primary bg" onClick={goBack}>
+            <a
+              className="btn btn-primary bg"
+              onClick={() => setHidden(!hidden1Chieu)}
+            >
               Chọn lại
             </a>
           )}
 
           {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
-            <a className="btn btn-primary bg" onClick={goBack}>
+            <a
+              className="btn btn-primary bg"
+              // onClick={() => setHidden(!hidden1Chieu)}
+              onClick={handleSetUp}
+            >
               Chọn lại
             </a>
           )}

@@ -228,3 +228,8 @@ header {
 .navbar-bg{
   background: var(--gradientColor);
 }
+@media screen and (max-width:991px){
+  .menu {
+    width: 100%;
+  }
+}

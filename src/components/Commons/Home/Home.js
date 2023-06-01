@@ -652,7 +652,6 @@ export default function Home({ on }) {
           </div>
         </div>
       </section>
-      
       <RoundButton
         className="btn-modal"
         onOpen={handleOpenModal}

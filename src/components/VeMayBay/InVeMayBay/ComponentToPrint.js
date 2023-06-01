@@ -70,7 +70,7 @@ export default function ComponentToPrint() {
                                 <strong>{veMayBay !== null && veMayBay.maVe}</strong>
                             </div>
                             <div style={{ paddingLeft: '1rem' }}>
-                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL} alt='logoHangBay' />
+                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL.toString()} alt='logoHangBay' />
 
                             </div>
                         </div>

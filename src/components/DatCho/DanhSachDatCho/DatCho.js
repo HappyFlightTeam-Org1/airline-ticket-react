@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import css from "./DatCho.css";
-import plane from "../../../Assets/planeDC.png";
 import plane1 from "../../../Assets/plane1.png";
 
 //Ducnh66 Chọn ghế cho hành khách
@@ -197,21 +196,8 @@ const DatCho = () => {
 
   //DucNH66 reload lại trang để chọn lại
   const goBack = () => {
-    window.location.reload();
+    window.history.back();
   };
-
-  //DucNH66 LOG
-  console.log("nguoi lon: ", adultsInfo);
-  console.log("tre em: ", childrenInfo);
-  console.log("em be: ", babyInfo);
-  console.log("loai ve 1: ", tiketType);
-  console.log("loai ve 2: ", tiketTypeKhuHoi);
-  console.log("ma dat cho 1: ", selectedSeats);
-  console.log("ma dat cho 2: ", selectedSeatsKhuHoi);
-  console.log("Chuyen Bay Di: ", chuyenBay);
-  console.log("Chuyen Bay Khu Hoi: ", chuyenBayKhuHoi);
-
-  console.log(seatList1Chieu," ghe 1 chieu");
 
   return (
     <div className="container d-c">
@@ -299,6 +285,9 @@ const DatCho = () => {
               </div>
 
               <div className="ghichu5 ">
+                <button className="btn  btn-success bg" onClick={goBack}>
+                  Trở Lại
+                </button>{" "}
                 {setSeatList1Chieu && seatListKhuHoi.length === 0 && (
                   <button className="btn  btn-success bg" onClick={handleClick}>
                     Thanh Toán
@@ -313,7 +302,6 @@ const DatCho = () => {
                   </button>
                 )}
               </div>
-              <img src={plane}></img>
             </div>
           </div>
         </div>
@@ -402,7 +390,7 @@ const DatCho = () => {
               </div>
               <div className="ghichu5 ">
                 <button className="btn  btn-success bg" onClick={goBack}>
-                  Chọn Lại Ghế
+                  Trở Lại
                 </button>{" "}
                 <button
                   className="btn  btn-success bg"
@@ -411,7 +399,6 @@ const DatCho = () => {
                   Thanh Toán
                 </button>{" "}
               </div>
-              <img src={plane}></img>
             </div>
           </div>
         </div>
