@@ -1,10 +1,23 @@
 import React from 'react';
 import "./ChinhSach.css";
 
-export default function () {
+export default function ChinhSach() {
+  const goBack = () => {
+    window.history.back();
+  };
   return (
     <div className='chinhsach'>
-      <h1 className='text-uppercase'>Chính sách VÀ quyền riêng tư</h1>
+      <div className='d-flex justify-content-between'>
+        <div>
+          <h1>CHÍNH SÁCH & QUYỀN RIÊNG TƯ</h1>
+        </div>
+        <div>
+          <button className="btn  btn-success bg" onClick={goBack}>
+            QUAY LẠI
+          </button>{" "}
+        </div>
+      </div>
+
       <hr></hr>
       <p>Cám ơn quý khách đã truy cập vào website Happyflight. Chúng tôi tôn trọng và cam kết sẽ bảo mật những
         thông tin mang tính riêng tư của bạn. Xin vui lòng đọc bản Chính sách bảo vệ thông tin cá nhân dưới đây

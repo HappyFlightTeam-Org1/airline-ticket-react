@@ -38,6 +38,12 @@ function HoaDon() {
     return formattedValue;
   };
 
+  //BACK LẠI TRANG TRƯỚC
+  const goBack = () => {
+    window.history.back();
+  };
+
+
   //hàm tính tổng tiền
   const getTotal = () => {
     let total = 0;
@@ -306,6 +312,9 @@ function HoaDon() {
             </strong>
           </div>
           <div className="button">
+            <button className="btn  btn-success bg" onClick={goBack}>
+              QUAY LẠI
+            </button>{" "}
             <button disabled={isDisabled} onClick={handleSubmit} className="shadow">
               Thanh Toán
             </button>

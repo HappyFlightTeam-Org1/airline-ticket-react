@@ -17,10 +17,10 @@ function LichSuDatVe() {
 
   //CHỨC NĂNG TÌM KIẾM
   const [pageNumber, setPageNumber] = useState(0);
-  const [tenHanhKhach, setTenHanhKhach] = useState();
-  const [diemDi, setDiemDi] = useState();
-  const [diemDen, setDiemDen] = useState();
-  const [maVe, setMaVe] = useState();
+  const [tenHanhKhach, setTenHanhKhach] = useState('');
+  const [diemDi, setDiemDi] = useState('');
+  const [diemDen, setDiemDen] = useState('');
+  const [maVe, setMaVe] = useState('');
   const [totalPages, setTotalPages] = useState();
   const [sanBay, setSanBay] = useState([]);
 
@@ -119,9 +119,10 @@ function LichSuDatVe() {
           tenHanhKhach,
           diemDi,
           diemDen,
-          emailNguoiDung,
+          emailNguoiDung
         },
       });
+      console.log("RESPONSE LIST DATAA", response);
       setTotalPages(response.data.totalPages);
       if (maVe || tenHanhKhach || diemDi || diemDen) {
         setIsSearching(true);
@@ -286,14 +287,24 @@ function LichSuDatVe() {
               ? searchResult.map((item, index) => {
                 return (
                   <tr className="align-middle text-nowrap" key={item.maVe}>
-                    <th scope="row">{index + 1}</th>
+                    <td> {index + 1 + page * size}</td>
                     <th scope="row">{item.maVe}</th>
-                    <td>{item.hanhKhach.tenHanhKhach}</td>
-                    <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
-                    <td>{item.datCho.chuyenBay.diemDi}</td>
-                    <td>{item.datCho.chuyenBay.diemDen}</td>
-                    <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
-                    <td>{item.giaVe}</td>
+                    <td>{item.tenHanhKhach}</td>
+                    <td>{item.ngayKhoiHanh}</td>
+                    <td>{item.diemDi}</td>
+                    <td>{item.diemDen}</td>
+                    <td>{item.hangVe}</td>
+                    <td>
+                      {item.hangVe === "Phổ Thông"
+                        ? item.giaVe.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })
+                        : (item.giaVe * 1.5).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                    </td>
                     <td>
 
                       <button
@@ -318,15 +329,15 @@ function LichSuDatVe() {
               : tickets.map((item, index) => {
                 return (
                   <tr className="align-middle" key={item.maVe}>
-                    <th scope="row">{index + 1}</th>
+                    <td> {index + 1 + page * size}</td>
                     <th scope="row">{item.maVe}</th>
-                    <td>{item.hanhKhach.tenHanhKhach}</td>
-                    <td>{item.datCho.chuyenBay.ngayKhoiHanh}</td>
-                    <td>{item.datCho.chuyenBay.diemDi}</td>
-                    <td>{item.datCho.chuyenBay.diemDen}</td>
-                    <td>{item.datCho.ghe.loaiGhe.tenLoaiGhe}</td>
+                    <td>{item.tenHanhKhach}</td>
+                    <td>{item.ngayKhoiHanh}</td>
+                    <td>{item.diemDi}</td>
+                    <td>{item.diemDen}</td>
+                    <td>{item.hangVe}</td>
                     <td>
-                      {item.datCho.ghe.loaiGhe.tenLoaiGhe === "Phổ Thông"
+                      {item.hangVe === "Phổ Thông"
                         ? item.giaVe.toLocaleString("vi-VN", {
                           style: "currency",
                           currency: "VND",
@@ -391,8 +402,8 @@ function LichSuDatVe() {
         )}
       </div>
 
-      {((tickets.length > 5 && isSearching === false) ||
-        searchResult.length > 5) && (
+      {((tickets.length > 0 && isSearching === false) ||
+        searchResult.length > 0) && (
           <div className="pagination">
             <nav aria-label="...">
               <ul className="pagination">
