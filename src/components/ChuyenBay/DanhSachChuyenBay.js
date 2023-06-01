@@ -56,7 +56,7 @@ function DanhSachChuyenBay() {
         setIsSearching(false);
         setListCB(response.data.content);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   console.log("listCB_2 : ", listCB);
   console.log("searchResult: ", searchResult);
@@ -114,11 +114,11 @@ function DanhSachChuyenBay() {
   };
 
   return (
-    <div className="container chuyenbay ">
-      <h1 className="h1">DANH SÁCH CHUYẾN BAY</h1>
+    <div className="container chuyenbay shadow">
+      <h1 className="h1 mg-top-60">DANH SÁCH CHUYẾN BAY</h1>
       {/* Form tìm kiếm  DucNH66*/}
       <form
-        className="row justify-content-center search"
+        className="row justify-content-center"
         onSubmit={handleSearch}
       >
         <div className="form-group col -md-2 d-flex justify-content-center align-items-center">
@@ -187,59 +187,59 @@ function DanhSachChuyenBay() {
           {/* Danh sách tìm kiếm  DucNH66 */}
           {isSearching
             ? searchResult.map((item, index) => (
-                <tr key={item.maChuyenBay}>
-                  <td> {index + 1 + page * size}</td>
-                  <td>{item.diemDi}</td>
-                  <td>{item.diemDen}</td>
-                  <td>{item.ngayKhoiHanh}</td>
-                  <td>{item.gioKhoiHanh}</td>
-                  <td>{item.gioHaCanh}</td>
-                  <td>{item.hangBay.tenHangBay}</td>
-                  <td>
-                    {item.giaVe.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>
+              <tr key={item.maChuyenBay}>
+                <td> {index + 1 + page * size}</td>
+                <td>{item.diemDi}</td>
+                <td>{item.diemDen}</td>
+                <td>{item.ngayKhoiHanh}</td>
+                <td>{item.gioKhoiHanh}</td>
+                <td>{item.gioHaCanh}</td>
+                <td>{item.hangBay.tenHangBay}</td>
+                <td>
+                  {item.giaVe.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
 
-                  <td>
-                    <Link
-                      as={Link}
-                      to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
-                      className="text-white"
-                    >
-                      <button className="btn btn-success bg">Xem</button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
+                <td>
+                  <Link
+                    as={Link}
+                    to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
+                    className="text-white"
+                  >
+                    <button className="btn btn-success bg">Xem</button>
+                  </Link>
+                </td>
+              </tr>
+            ))
             : //   Danh sách tất cả  DucNH66
-              listCB.map((item, index) => (
-                <tr key={item.maChuyenBay}>
-                  <td> {index + 1 + page * size}</td>
-                  <td>{item.diemDi}</td>
-                  <td>{item.diemDen}</td>
-                  <td>{item.ngayKhoiHanh}</td>
-                  <td>{item.gioKhoiHanh}</td>
-                  <td>{item.gioHaCanh}</td>
-                  <td>{item.hangBay.tenHangBay}</td>
-                  <td>
-                    {item.giaVe.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>{" "}
-                  <td>
-                    <Link
-                      as={Link}
-                      to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
-                      className="text-white"
-                    >
-                      <button className="btn btn-success bg ">Xem</button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+            listCB.map((item, index) => (
+              <tr key={item.maChuyenBay}>
+                <td> {index + 1 + page * size}</td>
+                <td>{item.diemDi}</td>
+                <td>{item.diemDen}</td>
+                <td>{item.ngayKhoiHanh}</td>
+                <td>{item.gioKhoiHanh}</td>
+                <td>{item.gioHaCanh}</td>
+                <td>{item.hangBay.tenHangBay}</td>
+                <td>
+                  {item.giaVe.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>{" "}
+                <td>
+                  <Link
+                    as={Link}
+                    to={`/CapNhatChuyenBay?id=${item.maChuyenBay.toString()}`}
+                    className="text-white"
+                  >
+                    <button className="btn btn-success bg ">Xem</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
@@ -304,15 +304,13 @@ function DanhSachChuyenBay() {
               {renderPageNumbers()}
 
               <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
+                className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
+                  }`}
               >
                 <button
                   type="button"
-                  className={`page-link  bg-success text-white none bg   ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
+                  className={`page-link  bg-success text-white none bg   ${page === totalPages - 1 ? "disabled" : ""
+                    }`}
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages - 1}
                 >
@@ -332,14 +330,12 @@ function DanhSachChuyenBay() {
                 </button>
               </li>
               <li
-                className={`page-item   ${
-                  page === totalPages - 1 ? "disabled" : ""
-                }`}
+                className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
+                  }`}
               >
                 <button
-                  className={`page-link bg-danger text-white bg ${
-                    page === totalPages - 1 ? "disabled" : ""
-                  }`}
+                  className={`page-link bg-danger text-white bg ${page === totalPages - 1 ? "disabled" : ""
+                    }`}
                   onClick={() => setPage(totalPages - 1)}
                   disabled={page === totalPages - 1}
                 >

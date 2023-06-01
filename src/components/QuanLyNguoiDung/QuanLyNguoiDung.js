@@ -91,8 +91,8 @@ export default function QuanLyNguoiDung() {
     }
   }
   function handleEndPageClick() {
-    if (currentPage < totalPage-1) {
-      setCurrentPage(totalPage-1);
+    if (currentPage < totalPage - 1) {
+      setCurrentPage(totalPage - 1);
     }
   }
 
@@ -167,7 +167,7 @@ export default function QuanLyNguoiDung() {
         <div className="text-center pb-3">
           <h1>DANH SÁCH NGƯỜI DÙNG</h1>
         </div>
-        <form className="row justify-content-center search" onSubmit={handleSearch}>
+        <form className="row justify-content-center" onSubmit={handleSearch}>
           <div className="form-group col-md-2 d-flex justify-content-center align-items-center">
             <h5>Tìm Kiếm Theo</h5>
           </div>
@@ -186,52 +186,52 @@ export default function QuanLyNguoiDung() {
         </form>
       </div>
       <div class="table-responsive">
-      <table className="table table-striped shadow text-nowrap">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Họ Và Tên</th>
-            <th scope="col">Địa chỉ email</th>
-            <th scope="col">Số điện thoại</th>
-            <th scope="col">Giới tính</th>
-            <th scope="col">Ngày sinh</th>
-            <th scope="col">Hộ Chiếu</th>
-            <th scope="col">Địa chỉ</th>
-            <th scope="col">Quốc tịch</th>
-            <th scope="col">Thao Tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataNguoiDung.map((data, index) => (
-            // <tr className="align-middle" key={data.email}>
-            //   <th scope="row">{index + 1 +currentPage*pageSize}</th>
-            //   <td>{data.hoVaTen}</td>
-            //   <td>{data.email}</td>
-            //   <td>{data.soDienThoai}</td>
-            //   <td>{data.gioiTinh}</td>
-            //   <td>{data.ngaySinh}</td>
-            //   <td>{data.hoChieu}</td>
-            //   <td>{data.diaChi}</td>
-            //   <td>{data.quocTich.tenQuocTich}</td>
-            //   <td>
-            //     {data.trangThaiXoa === 0
-            //     ? <button className="btn btn-danger" type="button" onClick={() => handleDeleteNguoiDung(data.email, index)}>Khoá</button>
-            //     : <button className="btn btn-info bg" type="button" onClick={() => handleRemoveDeleteNguoiDung(data.email, index)}>Mở</button>
-            //     }
-            //   </td>
-            // </tr>
-            <QuanLyNguoiDungItem
-              key={data.email}
-              data={data}
-              index={index}
-              currentPage={currentPage}
-              pageSize={pageSize}
-            />
-          )
-          )}
-        </tbody>
-      </table>
-    </div>
+        <table className="table table-striped shadow text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Họ Và Tên</th>
+              <th scope="col">Địa chỉ email</th>
+              <th scope="col">Số điện thoại</th>
+              <th scope="col">Giới tính</th>
+              <th scope="col">Ngày sinh</th>
+              <th scope="col">Hộ Chiếu</th>
+              <th scope="col">Địa chỉ</th>
+              <th scope="col">Quốc tịch</th>
+              <th scope="col">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataNguoiDung.map((data, index) => (
+              // <tr className="align-middle" key={data.email}>
+              //   <th scope="row">{index + 1 +currentPage*pageSize}</th>
+              //   <td>{data.hoVaTen}</td>
+              //   <td>{data.email}</td>
+              //   <td>{data.soDienThoai}</td>
+              //   <td>{data.gioiTinh}</td>
+              //   <td>{data.ngaySinh}</td>
+              //   <td>{data.hoChieu}</td>
+              //   <td>{data.diaChi}</td>
+              //   <td>{data.quocTich.tenQuocTich}</td>
+              //   <td>
+              //     {data.trangThaiXoa === 0
+              //     ? <button className="btn btn-danger" type="button" onClick={() => handleDeleteNguoiDung(data.email, index)}>Khoá</button>
+              //     : <button className="btn btn-info bg" type="button" onClick={() => handleRemoveDeleteNguoiDung(data.email, index)}>Mở</button>
+              //     }
+              //   </td>
+              // </tr>
+              <QuanLyNguoiDungItem
+                key={data.email}
+                data={data}
+                index={index}
+                currentPage={currentPage}
+                pageSize={pageSize}
+              />
+            )
+            )}
+          </tbody>
+        </table>
+      </div>
       {dataNguoiDung.length === 0 && (
         <h1 style={{ textAlign: "center" }}>Không tìm thấy người dùng</h1>
       )}
@@ -243,11 +243,11 @@ export default function QuanLyNguoiDung() {
                 className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
               >
                 <button className="page-link bg" onClick={handleBeginPageClick}>
-                   <i class="fa-solid fa-angles-left"></i>
+                  <i class="fa-solid fa-angles-left"></i>
                 </button>
                 <button className="page-link bg" onClick={handlePreviousPageClick}>
                   <i class="fa-solid fa-angle-left"></i>
-                  </button>
+                </button>
               </li>
               {pageNumbers
                 .slice(currentPage, currentPage + 3)
@@ -274,12 +274,12 @@ export default function QuanLyNguoiDung() {
                 className={`page-item ${currentPage === totalPage - 1 ? "disabled" : ""
                   }`}
               >
-                 <button className="page-link bg" onClick={handleNextPageClick}>
+                <button className="page-link bg" onClick={handleNextPageClick}>
                   <i class="fa-solid fa-chevron-right"></i>
-                  </button>
-                  <button className="page-link bg" onClick={handleEndPageClick}>
+                </button>
+                <button className="page-link bg" onClick={handleEndPageClick}>
                   <i class="fa-solid fa-angles-right"></i>
-                  </button>
+                </button>
               </li>
             </ul>
           </nav>

@@ -10,7 +10,7 @@ function HoaDon() {
   const adultsInfo = JSON.parse(queryParams.get("adultsInfo"));
   const childrenInfo = JSON.parse(queryParams.get("childrenInfo"));
   const babyInfo = JSON.parse(queryParams.get("babyInfo"));
-  const ticketType = queryParams.get("tiketType");
+  const ticketType = JSON.parse(queryParams.get("tiketType"));
   const ticketTypeKhuHoi = queryParams.get("tiketTypeKhuHoi");
   const chuyenBay = JSON.parse(queryParams.get("chuyenBay"));
   const chuyenBayKhuHoi = JSON.parse(queryParams.get("chuyenBayKhuHoi"));
@@ -97,11 +97,16 @@ function HoaDon() {
 
   //hàm lấy mã hóa đơn
   function getOrderCode() {
+    const currentTime = new Date();
+    const year = currentTime.getFullYear();
+    const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
+    const day = String(currentTime.getDate()).padStart(2, "0"); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
+    const createDate = year + month + day;
     var randomNumber = '';
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 6; i++) {
       randomNumber += Math.floor(Math.random() * 10);
     }
-    return "OD" + randomNumber;
+    return "OD" + createDate + randomNumber;
   }
 
   //hàm lấy ngày tạo hóa đơn
@@ -127,6 +132,8 @@ function HoaDon() {
   useEffect(() => {
     setAmount(getTotal());
   }, []);
+
+  console.log("ticketType", ticketType);
 
   //hoaDonDTO
   const hoaDonDTO = {
