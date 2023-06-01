@@ -140,9 +140,14 @@ function DanhSachTimKiemChuyenBay() {
     navigate("/");
   };
 
+  //DucNH66 Convert giờ
   const convertBoardingTime = (fullBoaringTime) => {
     const boardingTime = fullBoaringTime.substr(0, 5);
     return boardingTime;
+  };
+
+  const handleSetUp = () => {
+    setHidden(!hidden1Chieu);
   };
 
   return (
@@ -661,7 +666,7 @@ function DanhSachTimKiemChuyenBay() {
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
                         <strong className="d-flex justify-content-between">
-                          Chuyến bay đi • {chuyenBayKhuHoi.ngayKhoiHanh}
+                          Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
                           <img
                             style={{ height: "25px", width: "auto" }}
                             src={chuyenBayKhuHoi.hangBay.logoURL}
@@ -748,7 +753,8 @@ function DanhSachTimKiemChuyenBay() {
           {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
             <a
               className="btn btn-primary bg"
-              onClick={() => setHidden(!hidden1Chieu)}
+              // onClick={() => setHidden(!hidden1Chieu)}
+              onClick={handleSetUp}
             >
               Chọn lại
             </a>

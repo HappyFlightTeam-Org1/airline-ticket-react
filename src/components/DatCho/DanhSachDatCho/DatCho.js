@@ -285,6 +285,9 @@ const DatCho = () => {
               </div>
 
               <div className="ghichu5 ">
+                <button className="btn  btn-success bg" onClick={goBack}>
+                  Trở Lại
+                </button>{" "}
                 {setSeatList1Chieu && seatListKhuHoi.length === 0 && (
                   <button className="btn  btn-success bg" onClick={handleClick}>
                     Thanh Toán
