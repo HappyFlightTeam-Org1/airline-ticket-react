@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
@@ -8,14 +9,14 @@ import axios from "axios";
 //DucNH66 Danh sách khách hàng tìm kiếm thấy
 function DanhSachTimKiemChuyenBay() {
   //DucNH66 lấy data
-  const [tiketType, setTiketType] = useState();
-  const [tiketTypeKhuHoi, setTiketTypeKhuHoi] = useState();
+  const [tiketType, setTicketType] = useState();
+  const [tiketTypeKhuHoi, setTicketTypeKhuHoi] = useState();
   const [idChuyenBayDi, setIdChuyenBayDi] = useState();
   const [idChuyenBayKhuHoi, setIdChuyenBayKhuHoi] = useState();
   const [chuyenBay, setChuyenBay] = useState();
   const [chuyenBayKhuHoi, setChuyenBayKhuHoi] = useState();
-  const [hidden1Chieu, setHidden] = useState(false);
-  const [hiddenKhuHoi, setHidden1] = useState(false);
+  const [hidden1Chieu, setHidden1Chieu] = useState(false);
+  const [hiddenKhuHoi, setHiddenKhuHoi] = useState(false);
   const [chuyenBays, setChuyenBays] = useState([]);
   const [chuyenBayKhuHois, setChuyenBayKhuHois] = useState([]);
   const [page, setPage] = useState(0);
@@ -38,13 +39,13 @@ function DanhSachTimKiemChuyenBay() {
 
   //DucNH66 xử lý ẩn hiện danh sách chuyến bay 1 chiều
   useEffect(() => {
-    setHidden(!hiddenKhuHoi);
-    setHidden1(!hiddenKhuHoi);
+    setHidden1Chieu(!hiddenKhuHoi);
+    setHiddenKhuHoi(!hiddenKhuHoi);
   }, [idChuyenBayDi]);
 
   //DucNH66 xử lý ẩn hiện danh sách chuyến bay khừ hồi
   useEffect(() => {
-    setHidden1(!hiddenKhuHoi);
+    setHiddenKhuHoi(!hiddenKhuHoi);
   }, [idChuyenBayKhuHoi]);
 
   //DucNH66 thông tin chuyến bay vừa được chọn
@@ -69,7 +70,8 @@ function DanhSachTimKiemChuyenBay() {
   //DucNH66 load lại danh sách chuyến bay được tìm kiếm thấy khi có sự thay đổi
   useEffect(() => {
     fetchChuyenBays();
-  }, [page, size, sortBy, sortDirection, diemDi, diemDen, ngayDi, ngayDiKh]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, size, sortBy, sortDirection]);
 
   //DucNH66  lấy danh sách chuyến bay từ db
   const fetchChuyenBays = async () => {
@@ -110,13 +112,13 @@ function DanhSachTimKiemChuyenBay() {
 
   //DucNH66 Lấy id và hạng ghế chuyến bay 1 chiều
   const handleGetData = (chuyenBay, value) => {
-    setTiketType(value);
+    setTicketType(value);
     setIdChuyenBayDi(chuyenBay.maChuyenBay);
   };
 
   //DucNH66 Lấy id và hạng ghế chuyến bay khứ hồi
   const handleGetDataKhuHoi = (chuyenBayKhuHoi, value) => {
-    setTiketTypeKhuHoi(value);
+    setTicketTypeKhuHoi(value);
     setIdChuyenBayKhuHoi(chuyenBayKhuHoi.maChuyenBay);
   };
 
@@ -140,14 +142,9 @@ function DanhSachTimKiemChuyenBay() {
     navigate("/");
   };
 
-  //DucNH66 Convert giờ
   const convertBoardingTime = (fullBoaringTime) => {
     const boardingTime = fullBoaringTime.substr(0, 5);
     return boardingTime;
-  };
-
-  const handleSetUp = () => {
-    setHidden(!hidden1Chieu);
   };
 
   return (
@@ -666,7 +663,7 @@ function DanhSachTimKiemChuyenBay() {
                     <div className="card-body box-shadow-tt-ve">
                       <div className="row">
                         <strong className="d-flex justify-content-between">
-                          Chuyến bay về • {chuyenBayKhuHoi.ngayKhoiHanh}
+                          Chuyến bay đi • {chuyenBayKhuHoi.ngayKhoiHanh}
                           <img
                             style={{ height: "25px", width: "auto" }}
                             src={chuyenBayKhuHoi.hangBay.logoURL}
@@ -744,7 +741,7 @@ function DanhSachTimKiemChuyenBay() {
           {loaiChuyenBay === "Một Chiều" && chuyenBay && (
             <a
               className="btn btn-primary bg"
-              onClick={() => setHidden(!hidden1Chieu)}
+              onClick={() => setHidden1Chieu(!hidden1Chieu)}
             >
               Chọn lại
             </a>
@@ -753,8 +750,7 @@ function DanhSachTimKiemChuyenBay() {
           {loaiChuyenBay === "Khứ Hồi" && chuyenBay && chuyenBayKhuHoi && (
             <a
               className="btn btn-primary bg"
-              // onClick={() => setHidden(!hidden1Chieu)}
-              onClick={handleSetUp}
+              onClick={() => setHidden1Chieu(!hidden1Chieu)}
             >
               Chọn lại
             </a>
@@ -770,7 +766,7 @@ function DanhSachTimKiemChuyenBay() {
                 Chỉ tìm thấy chuyến bay khứ hồi phù hợp{" "}
                 <a
                   onClick={() => {
-                    setHidden1(!setHidden1);
+                    setHiddenKhuHoi(!hiddenKhuHoi);
                   }}
                   style={{ color: "Red" }}
                 >
