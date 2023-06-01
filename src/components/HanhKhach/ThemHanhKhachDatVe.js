@@ -117,7 +117,6 @@ const ThongTinKhachHangDatVe = () => {
       })
       .catch((error) => {
         if (error instanceof Yup.ValidationError) {
-          console.error(error);
           const errorMessages = {};
           error.inner.forEach((err) => {
             errorMessages[err.path] = err.message;
