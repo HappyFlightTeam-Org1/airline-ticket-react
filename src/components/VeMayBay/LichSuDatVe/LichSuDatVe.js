@@ -14,6 +14,9 @@ function LichSuDatVe() {
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
   const emailNguoiDung = localStorage.getItem("email");
+  const role = localStorage.getItem("login");
+
+  // console.log("ROLE: ", role);
 
   //CHỨC NĂNG TÌM KIẾM
   const [pageNumber, setPageNumber] = useState(0);
@@ -305,22 +308,29 @@ function LichSuDatVe() {
                         })}
                     </td>
                     <td>
-
-                      <button
+                      {role === "user" ? <>
+                        <button
+                          onClick={() => handlePrint(item.maVe.toString())}
+                          className="btn bg text-white"
+                        >
+                          In
+                        </button>
+                      </> : <><button
                         onClick={() => handlePrint(item.maVe.toString())}
                         className="btn bg text-white"
                       >
                         In
                       </button>
 
-                      <button
-                        className="btn btn-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop"
-                        onClick={() => confirmDelete(item)}
-                      >
-                        Hủy
-                      </button>
+                        <button
+                          className="btn btn-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                          onClick={() => confirmDelete(item)}
+                        >
+                          Hủy
+                        </button>
+                      </>}
                     </td>
                   </tr>
                 );
@@ -347,22 +357,29 @@ function LichSuDatVe() {
                         })}
                     </td>
                     <td>
-
-                      <button
+                      {role === "user" ? <>
+                        <button
+                          onClick={() => handlePrint(item.maVe.toString())}
+                          className="btn bg text-white"
+                        >
+                          In
+                        </button>
+                      </> : <><button
                         onClick={() => handlePrint(item.maVe.toString())}
                         className="btn bg text-white"
                       >
                         In
                       </button>
 
-                      <button
-                        className="btn btn-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop"
-                        onClick={() => confirmDelete(item)}
-                      >
-                        Hủy
-                      </button>
+                        <button
+                          className="btn btn-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                          onClick={() => confirmDelete(item)}
+                        >
+                          Hủy
+                        </button>
+                      </>}
                     </td>
                   </tr>
                 );

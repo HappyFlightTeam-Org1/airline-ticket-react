@@ -175,7 +175,7 @@ function TimKiemVe() {
           </div>
         )}
       </div>
-      {tickets.length > 5 && (
+      {tickets.length > 0 && (
         <div className="pagination justify-content-center">
           <nav aria-label="Page navigation example">
             <ul className="pagination">

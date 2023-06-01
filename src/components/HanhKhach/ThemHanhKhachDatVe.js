@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 import css from "../../styles/VeMayBayCSS/ThongTinKhachHangDatVe.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-
+import axios from "axios";
 const hanhKhachSchema = Yup.object().shape({
   tenHanhKhach: Yup.string()
-    .required("Không để trống!")
-    .matches(/^[A-Za-z\s]+$/, "Chỉ được nhập chữ cái không dấu!"),
+    .matches(/^[A-Za-z\s]+$/, "Chỉ được nhập chữ cái không dấu!")
+    .required("Không để trống!"),
   ngaySinh: Yup.string().required("Không để trống!"),
   gioiTinh: Yup.string().required("Không để trống!"),
 });
@@ -97,7 +97,17 @@ const ThongTinKhachHangDatVe = () => {
 
   //DucNH66 gởi data sang trang đặt chỗ
   const handleSendData = () => {
+
+
     const hanhKhachs = [...adultsInfo, ...childrenInfo, ...babyInfo];
+    // console.log("hanhKhachs", hanhKhachs);
+    // axios.post("http://localhost:8080/hanh-khach/validate", hanhKhachs)
+    //   .then((response) => {
+    //     console.log("response validate", response);
+    //   })
+    //   .catch((error) => {
+    //     console.error("error at function Validate", error);
+    //   })
     Promise.all(
       hanhKhachs.map((hanhKhach) =>
         hanhKhachSchema.validate(hanhKhach, { abortEarly: false })
