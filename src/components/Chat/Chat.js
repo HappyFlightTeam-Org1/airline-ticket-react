@@ -143,27 +143,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
       })
       .catch((error) => console.error);
   };
-  // const updateListUserNew = () => {
-  //   axios
-  //     .get(`http://localhost:8080/chat-box/new-message`)
-  //     .then((response) => {
-  //       const data = response.data;
-  //       setTimeout(() => {
-  //         setListUserNew((prevListUserNew) => {
-  //           // update the relevant quantity in the listUserNew array
-  //           const newListUserNew = [...prevListUserNew];
-  //           data.forEach((newUser) => {
-  //             const index = newListUserNew.findIndex((user) => user.user === newUser.user);
-  //             if (index !== -1) {
-  //               newListUserNew[index].quantity = newUser.quantity;
-  //             }
-  //           });
-  //           return newListUserNew;
-  //         });
-  //       }, 1000); // add a delay of 1 second before updating the state
-  //     })
-  //     .catch((error) => console.error);
-  // };
+
   useEffect(() => {
     console.log("day la listmessage mới");
     if (searchText === "") {
@@ -188,14 +168,6 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
           axios
             .get(`http://localhost:8080/chat-box/save-new-message/${lastms}`)
             .catch((error) => console.error);
-          //updateListUserNew();
-          // axios
-          //   .get(`http://localhost:8080/chat-box/new-message`)
-          //   .then((response) => {
-          //     const data = response.data;
-          //     setListUserNew(data);
-          //   })
-          //   .catch((error) => console.error);
           getChat(reciptientnamecurrent);
         }
       }
@@ -208,6 +180,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
  
   useEffect(()=>{
     updateListUserNew();
+    getChat("");
 },[])
 
   useEffect(() => {
@@ -277,7 +250,7 @@ const ChatBox = ({ isOpen, onClose, children, user }) => {
         >
           {children}
           <div className="user-info">
-          <div className="user-name">Chào mừng <span className="user">{user}</span> đến với Happy-Flight!</div>
+          <div className="user-name">Xin chào <span className="user">{user}</span> !!!</div>
           <button onClick={onClose} className="btn-x">
             X
           </button>
