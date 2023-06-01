@@ -74,8 +74,14 @@ export default function Navbar({ handleTogger, on }) {
                         Hành khách
                       </Link>
                     </li>
+                  </>
+                ) : (
+                  <></>
+                )}
 
-                    <li className="nav-item">
+                {state.login !== "" ?
+                <>
+                  <li className="nav-item">
                       <Link
                         as={Link}
                         to="LichSuDatVe"
@@ -84,10 +90,9 @@ export default function Navbar({ handleTogger, on }) {
                         Lịch sử đặt vé
                       </Link>
                     </li>
-                  </>
-                ) : (
-                  <></>
-                )}
+                </>
+                :
+                <></>}
 
                 <li className="nav-item">
                   <Link
@@ -148,14 +153,15 @@ export default function Navbar({ handleTogger, on }) {
                   </>
                 ) : (
                   <>
-                    <li className="nav-item">
-                      <Link
-                        as={Link}
-                        to="Logout"
-                        className="text-white nav-link active"
-                      >
-                        Đăng xuất
-                      </Link>
+                   <li className="nav-item dropdown">
+                      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" style={{color:"white"}} role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Hello {localStorage.getItem('account')}
+                      </a>
+                      <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><Link as={Link} to="SuaThongTinCaNhan" className="dropdown-item">Sửa thông tin cá nhân</Link></li>
+                        <li><Link as={Link} to="ThayDoiMatKhau" className="dropdown-item">Thay đổi mật khẩu</Link></li>
+                        <li><Link as={Link} to="Logout" className="dropdown-item">Đăng xuất</Link></li>
+                      </ul>
                     </li>
                   </>
                 )}

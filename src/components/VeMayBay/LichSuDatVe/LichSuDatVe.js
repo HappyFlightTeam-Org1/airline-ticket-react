@@ -30,7 +30,6 @@ function LichSuDatVe() {
       style: "currency",
       currency: "VND",
     }).format(money);
-    console.log("formattedValue", formattedValue);
     return formattedValue;
   };
 

@@ -321,9 +321,9 @@ function ThemMoiChuyenBay() {
                       onChange={handleInputChange}
                     >
                       <option value="">-- Chọn hành lý --</option>
-                      <option value="20kg"> 20 kg</option>
-                      <option value="25kg"> 25 kg</option>
-                      <option value="30kg"> 30 kg</option>
+                      <option value="20 kg"> 20 kg</option>
+                      <option value="25 kg"> 25 kg</option>
+                      <option value="30 kg"> 30 kg</option>
                     </select>
                   </div>
                   <div className="col-md-6">

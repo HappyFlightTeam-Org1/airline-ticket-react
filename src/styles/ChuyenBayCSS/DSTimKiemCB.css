@@ -1,3 +1,12 @@
+.da-chon {
+    background: rgb(210, 210, 210);
+}
+
+.chon {
+    border-color: rgb(233, 0, 0) !important;
+
+}
+
 @keyframes border-color {
     0% {
         border-color: #33ffb1;
