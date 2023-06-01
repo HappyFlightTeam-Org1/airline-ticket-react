@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 function TimKiemVe() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(5);
   const [totalPage, setTotalPage] = useState(3);
   const [pageNumbers, setPageNumbers] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -20,6 +20,20 @@ function TimKiemVe() {
     console.log("formattedValue", formattedValue);
     return formattedValue;
   };
+
+  //CHỨC NĂNG IN VÉ
+  const handlePrint = (maVe) => {
+    axios.get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
+      .then((response) => {
+        if (response.data === "EMPTY") {
+          toast.error("VÉ KHÔNG TỒN TẠI!")
+        } else {
+          window.location.href = `http://localhost:3000/InVe?maVe=${maVe.toString()}`;
+        }
+      }).catch((error) => {
+        console.error("error at function handlePrint", error);
+      })
+  }
 
   useEffect(() => {
     if (orderCode === "") {
@@ -132,15 +146,12 @@ function TimKiemVe() {
                         })}
                     </td>
                     <td>
-                      <Link
-                        as={Link}
-                        to={`/InVe?maVe=${item.maVe.toString()}`}
-                        className="text-white"
+                      <button
+                        onClick={() => handlePrint(item.maVe.toString())}
+                        className="btn bg text-white"
                       >
-                        <button className="btn bg" type="submit">
-                          In
-                        </button>
-                      </Link>
+                        In
+                      </button>
                     </td>
                   </tr>
                 );
@@ -183,9 +194,8 @@ function TimKiemVe() {
                 .map((pageNumber) => (
                   <li
                     key={pageNumber}
-                    className={`page-item ${
-                      currentPage === pageNumber ? "active" : ""
-                    }`}
+                    className={`page-item ${currentPage === pageNumber ? "active" : ""
+                      }`}
                   >
                     <button
                       className="page-link"
@@ -201,9 +211,8 @@ function TimKiemVe() {
                 </li>
               )}
               <li
-                className={`page-item ${
-                  currentPage === totalPage - 1 ? "disabled" : ""
-                }`}
+                className={`page-item ${currentPage === totalPage - 1 ? "disabled" : ""
+                  }`}
               >
                 <button className="page-link bg" onClick={handleNextPageClick}>
                   Next
