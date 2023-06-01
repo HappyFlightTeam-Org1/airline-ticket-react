@@ -114,6 +114,7 @@ export default function QuanLyNguoiDung() {
           </div>
         </form>
       </div>
+      <div class="table-responsive">
       <table className="table table-striped shadow text-nowrap">
         <thead>
           <tr>
@@ -150,6 +151,7 @@ export default function QuanLyNguoiDung() {
           )}
         </tbody>
       </table>
+    </div>
       {dataNguoiDung.length === 0 && (
         <h1 style={{ textAlign: "center" }}>Không tìm thấy người dùng</h1>
       )}

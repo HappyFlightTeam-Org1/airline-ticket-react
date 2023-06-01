@@ -148,6 +148,15 @@ export default function Navbar({ handleTogger, on }) {
                   </>
                 ) : (
                   <>
+                   <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style={{color:"white"}} role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Hello Admin !
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Thông Tin</a></li>
+                        <li><a class="dropdown-item" href="#">Đăng Xuất</a></li>
+                      </ul>
+                    </li>
                     <li className="nav-item">
                       <Link
                         as={Link}
@@ -157,6 +166,7 @@ export default function Navbar({ handleTogger, on }) {
                         Đăng xuất
                       </Link>
                     </li>
+
                   </>
                 )}
               </ul>
