@@ -355,12 +355,11 @@ function DanhSachTimKiemChuyenBay() {
                           }}
                         >
                           <div
-                            className={` card-body dat-ve ${
-                              idChuyenBayDi === chuyenBay.maChuyenBay &&
-                              ticketType1Chieu === "Phổ Thông"
+                            className={` card-body dat-ve ${idChuyenBayDi === chuyenBay.maChuyenBay &&
+                                ticketType1Chieu === "Phổ Thông"
                                 ? "chon"
                                 : ""
-                            }`}
+                              }`}
                             style={{ padding: "0.5rem" }}
                           >
                             <p
@@ -406,12 +405,11 @@ function DanhSachTimKiemChuyenBay() {
                           }}
                         >
                           <div
-                            className={` card-body dat-ve ${
-                              idChuyenBayDi === chuyenBay.maChuyenBay &&
-                              ticketType1Chieu === "Thương Gia"
+                            className={` card-body dat-ve ${idChuyenBayDi === chuyenBay.maChuyenBay &&
+                                ticketType1Chieu === "Thương Gia"
                                 ? "chon"
                                 : ""
-                            }`}
+                              }`}
                             style={{ padding: "0.5rem" }}
                           >
                             <p
@@ -480,11 +478,10 @@ function DanhSachTimKiemChuyenBay() {
             chuyenBayKhuHois.map((chuyenBayKhuHoi) => (
               <div data-aos="fade-up" className="card my-2 hover-ds">
                 <div
-                  className={` card-body card-bo ${
-                    idChuyenBayKhuHoi === chuyenBayKhuHoi.maChuyenBay
+                  className={` card-body card-bo ${idChuyenBayKhuHoi === chuyenBayKhuHoi.maChuyenBay
                       ? "da-chon"
                       : ""
-                  }`}
+                    }`}
                 >
                   {/* Thông tin chuyến bay */}
                   <div className="row ">
@@ -543,13 +540,12 @@ function DanhSachTimKiemChuyenBay() {
                           }}
                         >
                           <div
-                            className={` card-body dat-ve ${
-                              idChuyenBayKhuHoi ===
+                            className={` card-body dat-ve ${idChuyenBayKhuHoi ===
                                 chuyenBayKhuHoi.maChuyenBay &&
-                              ticketTypeKhuHoi === "Phổ Thông"
+                                ticketTypeKhuHoi === "Phổ Thông"
                                 ? "chon"
                                 : ""
-                            }`}
+                              }`}
                             style={{ padding: "0.5rem" }}
                           >
                             <p
@@ -595,13 +591,12 @@ function DanhSachTimKiemChuyenBay() {
                           }}
                         >
                           <div
-                            className={` card-body dat-ve ${
-                              idChuyenBayKhuHoi ===
+                            className={` card-body dat-ve ${idChuyenBayKhuHoi ===
                                 chuyenBayKhuHoi.maChuyenBay &&
-                              ticketTypeKhuHoi === "Thương Gia"
+                                ticketTypeKhuHoi === "Thương Gia"
                                 ? "chon"
                                 : ""
-                            }`}
+                              }`}
                             style={{ padding: "0.5rem" }}
                           >
                             <p
@@ -710,11 +705,11 @@ function DanhSachTimKiemChuyenBay() {
                               Giá vé :{" "}
                               {ticketType1Chieu === "Phổ Thông"
                                 ? `${(chuyenBay.giaVe * 1).toLocaleString(
-                                    "vi-VN"
-                                  )} `
+                                  "vi-VN"
+                                )} `
                                 : `${(chuyenBay.giaVe * 1.5).toLocaleString(
-                                    "vi-VN"
-                                  )} `}{" "}
+                                  "vi-VN"
+                                )} `}{" "}
                               <sup>VND</sup>
                             </strong>
                           </p>
@@ -792,11 +787,11 @@ function DanhSachTimKiemChuyenBay() {
                               Gía vé :{" "}
                               {ticketTypeKhuHoi === "Phổ Thông"
                                 ? `${(chuyenBayKhuHoi.giaVe * 1).toLocaleString(
-                                    "vi-VN"
-                                  )} `
+                                  "vi-VN"
+                                )} `
                                 : `${(
-                                    chuyenBayKhuHoi.giaVe * 1.5
-                                  ).toLocaleString("vi-VN")} `}
+                                  chuyenBayKhuHoi.giaVe * 1.5
+                                ).toLocaleString("vi-VN")} `}
                               <sup>VND</sup>
                             </strong>
                           </p>

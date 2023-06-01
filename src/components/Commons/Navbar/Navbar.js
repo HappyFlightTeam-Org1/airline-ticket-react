@@ -153,11 +153,11 @@ export default function Navbar({ handleTogger, on }) {
                   </>
                 ) : (
                   <>
-                   <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style={{color:"white"}} role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   <li className="nav-item dropdown">
+                      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" style={{color:"white"}} role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Hello {localStorage.getItem('account')}
                       </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><Link as={Link} to="SuaThongTinCaNhan" className="dropdown-item">Sửa thông tin cá nhân</Link></li>
                         <li><Link as={Link} to="ThayDoiMatKhau" className="dropdown-item">Thay đổi mật khẩu</Link></li>
                         <li><Link as={Link} to="Logout" className="dropdown-item">Đăng xuất</Link></li>
