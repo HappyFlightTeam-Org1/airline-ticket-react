@@ -140,14 +140,6 @@ function Controller() {
                 <></>
               )}
 
-              <Route path="Login" element={<Login />} />
-              <Route path="DangKy" element={<DangKy />} />
-              <Route path="GuiEmail" element={<GuiEmail />} />
-              <Route
-                path="ThietLapMatKhauMoi"
-                element={<ThietLapMatKhauMoi />}
-              />
-
               {state.login !== "" ? (
                 <>
                   <Route path="Logout" element={<Logout />} />
@@ -158,7 +150,15 @@ function Controller() {
                   <Route path="ThayDoiMatKhau" element={<ThayDoiMatKhau />} />
                 </>
               ) : (
-                <></>
+                <>
+                  <Route path="Login" element={<Login />} />
+                  <Route path="DangKy" element={<DangKy />} />
+                  <Route path="GuiEmail" element={<GuiEmail />} />
+                  <Route
+                    path="ThietLapMatKhauMoi"
+                    element={<ThietLapMatKhauMoi />}
+                  />
+                </>
               )}
             </Route>
             {/* Hóa Đơn */}
