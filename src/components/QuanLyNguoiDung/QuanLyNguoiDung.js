@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./QuanLyNguoiDung.css"
 import axios from 'axios';
 import * as XLSX from 'xlsx/xlsx.mjs';
+import QuanLyNguoiDungItem from './QuanLyNguoiDungItem';
 export default function QuanLyNguoiDung() {
   const [dataNguoiDung, setDataNguoiDung] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -13,11 +14,15 @@ export default function QuanLyNguoiDung() {
   const [soDienThoai, setSoDienThoai] = useState("");
   const [email, setEmail] = useState("");
   const [isStatus, setIsStatus] = useState(false);
-  const [dataExcel, setDataExcel] = useState({})
+  const [dataExcel, setDataExcel] = useState({});
+  const [buttonToggleState, setButtonToggleState] = useState([]);
+  const [isToggle, setIsToggle] = useState(true);
+
   useEffect(() => {
     const url = isSearching
       ? `http://localhost:8080/nguoi-dung/search?hoVaTen=${name}&soDienThoai=${soDienThoai}&email=${email}&page=${currentPage}&size=${pageSize}`
-      : `http://localhost:8080/nguoi-dung/list-page?page=${currentPage}&size=${pageSize}`;
+      // : `http://localhost:8080/nguoi-dung/list-page?page=${currentPage}&size=${pageSize}`;
+      : `http://localhost:8080/nguoi-dung/search?page=${currentPage}&size=${pageSize}`
     axios
       .get(
         url
@@ -25,10 +30,12 @@ export default function QuanLyNguoiDung() {
       .then((response) => {
         const data = response.data;
         setTotalPage(data.totalPages);
-        console.log(totalPage);
         setPageNumbers(Array.from(Array(data.totalPages).keys()));
-        setDataNguoiDung(data.content);
-        console.log(dataNguoiDung);
+        setDataNguoiDung([...data.content]);
+        setButtonToggleState(data.content.map((data, index) => ({
+          index: index,
+          toggle: data.trangThaiXoa === 0,
+        })));
       })
       .catch((error) => console.error);
 
@@ -41,11 +48,10 @@ export default function QuanLyNguoiDung() {
           taiKhoan: user.taiKhoan.tenTaiKhoan
         }));
         setDataExcel(users);
-        console.log(dataExcel);
       })
       .catch((err) => console.error);
 
-  }, [currentPage, pageSize, isStatus]);
+  }, [currentPage, pageSize, isStatus, isToggle]);
 
   function handleNextPageClick() {
     if (currentPage < totalPage - 1) {
@@ -61,7 +67,7 @@ export default function QuanLyNguoiDung() {
   function handlePageNumberClick(pageNumber) {
     setCurrentPage(pageNumber);
   }
-  const handleSearch = async (event) => {
+  const handleSearch = (event) => {
     event.preventDefault();
     setName(event.target.elements.name.value);
     setSoDienThoai(event.target.elements.soDienThoai.value);
@@ -89,6 +95,71 @@ export default function QuanLyNguoiDung() {
       setCurrentPage(totalPage-1);
     }
   }
+
+  function handleDeleteNguoiDung(email) {
+    // setButtonToggleState([...buttonToggleState, buttonToggleState.find(item => item.index === index)]);
+    setIsToggle(!isToggle);
+    let formData = new FormData();
+    formData.append("email", email);
+    axios
+      .post("http://localhost:8080/nguoi-dung/delete-nguoi-dung", formData, {
+        withCredentials: true,
+      })
+      .catch(err => console.log(err));
+
+    const url = isSearching
+      ? `http://localhost:8080/nguoi-dung/search?hoVaTen=${name}&soDienThoai=${soDienThoai}&email=${email}&page=${currentPage}&size=${pageSize}`
+      // : `http://localhost:8080/nguoi-dung/list-page?page=${currentPage}&size=${pageSize}`;
+      : `http://localhost:8080/nguoi-dung/search?page=${currentPage}&size=${pageSize}`
+    axios
+      .get(
+        url
+      )
+      .then((response) => {
+        const data = response.data;
+        setTotalPage(data.totalPages);
+        setPageNumbers(Array.from(Array(data.totalPages).keys()));
+        setDataNguoiDung([...data.content]);
+        setButtonToggleState(data.content.map((data, index) => ({
+          index: index,
+          toggle: data.trangThaiXoa === 0,
+        })));
+      })
+      .catch((error) => console.error);
+  }
+
+  function handleRemoveDeleteNguoiDung(email) {
+    // setButtonToggleState([...buttonToggleState, buttonToggleState.find(item => item.index === index)]);
+    setIsToggle(!isToggle);
+    let formData = new FormData();
+    formData.append("email", email);
+    axios
+      .post("http://localhost:8080/nguoi-dung/remove-delete-nguoi-dung", formData, {
+        withCredentials: true,
+      })
+      .catch(err => console.log(err));
+
+    const url = isSearching
+      ? `http://localhost:8080/nguoi-dung/search?hoVaTen=${name}&soDienThoai=${soDienThoai}&email=${email}&page=${currentPage}&size=${pageSize}`
+      // : `http://localhost:8080/nguoi-dung/list-page?page=${currentPage}&size=${pageSize}`;
+      : `http://localhost:8080/nguoi-dung/search?page=${currentPage}&size=${pageSize}`
+    axios
+      .get(
+        url
+      )
+      .then((response) => {
+        const data = response.data;
+        setTotalPage(data.totalPages);
+        setPageNumbers(Array.from(Array(data.totalPages).keys()));
+        setDataNguoiDung([...data.content]);
+        setButtonToggleState(data.content.map((data, index) => ({
+          index: index,
+          toggle: data.trangThaiXoa === 0,
+        })));
+      })
+      .catch((error) => console.error);
+  }
+
   return (
     <div className='container bg-body table-shadow'>
       <div className="pt-5 pb-3">
@@ -132,21 +203,30 @@ export default function QuanLyNguoiDung() {
         </thead>
         <tbody>
           {dataNguoiDung.map((data, index) => (
-            <tr className="align-middle">
-              <th scope="row">{index + 1 +currentPage*pageSize}</th>
-              <td>{data.hoVaTen}</td>
-              <td>{data.email}</td>
-              <td>{data.soDienThoai}</td>
-              <td>{data.gioiTinh}</td>
-              <td>{data.ngaySinh}</td>
-              <td>{data.hoChieu}</td>
-              <td>{data.diaChi}</td>
-              <td>{data.quocTich.tenQuocTich}</td>
-              <td>
-                {/* <button className="btn btn-danger" type="submit">Khoá</button> */}
-                <button className="btn btn-info bg" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mở</button>
-              </td>
-            </tr>
+            // <tr className="align-middle" key={data.email}>
+            //   <th scope="row">{index + 1 +currentPage*pageSize}</th>
+            //   <td>{data.hoVaTen}</td>
+            //   <td>{data.email}</td>
+            //   <td>{data.soDienThoai}</td>
+            //   <td>{data.gioiTinh}</td>
+            //   <td>{data.ngaySinh}</td>
+            //   <td>{data.hoChieu}</td>
+            //   <td>{data.diaChi}</td>
+            //   <td>{data.quocTich.tenQuocTich}</td>
+            //   <td>
+            //     {data.trangThaiXoa === 0
+            //     ? <button className="btn btn-danger" type="button" onClick={() => handleDeleteNguoiDung(data.email, index)}>Khoá</button>
+            //     : <button className="btn btn-info bg" type="button" onClick={() => handleRemoveDeleteNguoiDung(data.email, index)}>Mở</button>
+            //     }
+            //   </td>
+            // </tr>
+            <QuanLyNguoiDungItem
+              key={data.email}
+              data={data}
+              index={index}
+              currentPage={currentPage}
+              pageSize={pageSize}
+            />
           )
           )}
         </tbody>
