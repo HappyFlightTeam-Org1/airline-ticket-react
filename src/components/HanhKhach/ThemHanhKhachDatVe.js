@@ -491,7 +491,10 @@ const ThongTinKhachHangDatVe = () => {
                             </p>
                             <p>
                               <strong>
-                                Giờ cất cánh : {chuyenBayKhuHoi.gioKhoiHanh}{" "}
+                                Giờ cất cánh :{" "}
+                                {convertBoardingTime(
+                                  chuyenBayKhuHoi.gioKhoiHanh
+                                )}{" "}
                               </strong>
                             </p>
                           </div>
