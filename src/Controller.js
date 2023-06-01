@@ -98,6 +98,7 @@ function Controller() {
                     path="ThongTinKhachHangDatVe"
                     element={<ThemHanhKhachDatVe />}
                   />
+                  <Route path="LichSuDatVe" element={<LichSuDatVe />} />
                 </>
               ) : (
                 <></>
@@ -113,7 +114,6 @@ function Controller() {
                     path="DanhSachKhachHangDatVe"
                     element={<DanhSachKhachHangDatVe />}
                   />
-                  <Route path="LichSuDatVe" element={<LichSuDatVe />} />
                 </>
               ) : (
                 <></>

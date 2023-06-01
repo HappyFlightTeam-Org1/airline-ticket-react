@@ -74,8 +74,14 @@ export default function Navbar({ handleTogger, on }) {
                         Hành khách
                       </Link>
                     </li>
+                  </>
+                ) : (
+                  <></>
+                )}
 
-                    <li className="nav-item">
+                {state.login !== "" ?
+                <>
+                  <li className="nav-item">
                       <Link
                         as={Link}
                         to="LichSuDatVe"
@@ -84,10 +90,9 @@ export default function Navbar({ handleTogger, on }) {
                         Lịch sử đặt vé
                       </Link>
                     </li>
-                  </>
-                ) : (
-                  <></>
-                )}
+                </>
+                :
+                <></>}
 
                 <li className="nav-item">
                   <Link
