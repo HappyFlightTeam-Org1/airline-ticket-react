@@ -225,7 +225,7 @@ function BarChart({on,}) {
       let currentDate = new Date();
       let currentMonth = currentDate.getMonth() + 1;
   const tongTienThang = hoaDonThongKe.find(data => data.thang === currentMonth)?.tong_tien_thang;
-  const phanTramTien = tongTienThang/100000*100;
+  const phanTramTien = tongTienThang/100000000*100;
   // Tổng số vé máy bay
   const sumVeMayBay = dataVeMayBay.reduce((total, item) => total + item.so_luong_ve, 0);
   const soVeThang = dataVeMayBay.find(data => data.thang === currentMonth)?.so_luong_ve;
@@ -286,12 +286,12 @@ function BarChart({on,}) {
             <div className='icon'><i class='bx bx-dollar-circle'></i></div>
             <div className="info-box-content">
               <span className="info-box-text">Tổng Tiền Thanh Toán</span><br></br>
-              <span className="info-box-number">{tongTien}</span><span>$</span>
+              <span className="info-box-number">{tongTien}</span><span>VND</span>
               <div class="progress">
                 <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${phanTramTien}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-                {tongTienThang}$ Đạt {phanTramTien}% Tháng Này
+                {tongTienThang}VND Đạt {phanTramTien}% Tháng Này
               </span>
               </div>
             </div>
