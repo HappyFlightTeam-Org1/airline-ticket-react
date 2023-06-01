@@ -88,8 +88,6 @@ function HoaDon() {
 
   const total = CurrencyFormat(getTotal());
 
-  //ngày tạo hóa đơn
-  const [createDate, setCreateDate] = useState();
 
   //hàm lấy mã hóa đơn
   function getOrderCode() {
@@ -106,10 +104,12 @@ function HoaDon() {
     const year = currentTime.getFullYear();
     const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Chèn số 0 vào trước nếu tháng chỉ có 1 chữ số
     const day = String(currentTime.getDate()).padStart(2, "0"); // Chèn số 0 vào trước nếu ngày chỉ có 1 chữ số
-    const createOrderDate = year + "-" + month + "-" + day;
-    setCreateDate(createOrderDate);
-    return createOrderDate;
+    const createDate = year + "-" + month + "-" + day;
+    return createDate;
   };
+
+  //ngày tạo hóa đơn
+  const [createDate, setCreateDate] = useState(getCreateDate());
 
   //mã hóa đơn
   const [orderCode, setOrderCode] = useState(getOrderCode);
