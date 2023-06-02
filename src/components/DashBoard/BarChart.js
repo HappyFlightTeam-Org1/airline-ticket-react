@@ -288,10 +288,10 @@ function BarChart({on,}) {
               <span className="info-box-text">Tổng Tiền Thanh Toán</span><br></br>
               <span className="info-box-number">{tongTien}</span><span>VND</span>
               <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `${phanTramTien}%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style={{ width: `30%` }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <span className="progress-description">
-                {tongTienThang}VND Đạt {phanTramTien}% Tháng Này
+                {tongTienThang}VND Đạt 30% Tháng Này
               </span>
               </div>
             </div>

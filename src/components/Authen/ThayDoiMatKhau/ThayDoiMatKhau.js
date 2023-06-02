@@ -30,6 +30,18 @@ export default function ThayDoiMatKhau() {
                     withCredentials: true
                 })
                 .then(response => {
+                    setMatkhauHienTaiInput({
+                        inputValue: '',
+                        errorMessage: '',
+                    });
+                    setMatKhauMoiInput({
+                        inputValue: '',
+                        errorMessage: '',
+                    });
+                    setXacNhanMatKhauMoiInput({
+                        inputValue: '',
+                        errorMessage: '',
+                    });
                     toast.success('Thay đổi mật khẩu thành công');
                 })
                 .catch(err => {
@@ -121,6 +133,7 @@ export default function ThayDoiMatKhau() {
                             errorMessage: '',
                             inputValue: event.target.value,
                         })}
+                        value={matKhauHienTaiInput.inputValue}
                     />
                     <p>{matKhauHienTaiInput.errorMessage}</p>
                 </div>
@@ -134,6 +147,7 @@ export default function ThayDoiMatKhau() {
                             errorMessage: '',
                             inputValue: event.target.value,
                         })}
+                        value={matKhauMoiInput.inputValue}
                     />
                     <p>{matKhauMoiInput.errorMessage}</p>
                 </div>
@@ -147,6 +161,7 @@ export default function ThayDoiMatKhau() {
                             errorMessage: '',
                             inputValue: event.target.value,
                         })}
+                        value={xacNhanMatKhauMoiInput.inputValue}
                     />
                     <p>{xacNhanMatKhauMoiInput.errorMessage}</p>
                 </div>

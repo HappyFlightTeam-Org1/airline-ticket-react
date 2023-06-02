@@ -48,6 +48,11 @@ export default function ComponentToPrint() {
         return formattedDate;
     }
 
+    //BACK LẠI TRANG TRƯỚC
+    const goBack = () => {
+        window.history.back();
+    };
+
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -59,6 +64,9 @@ export default function ComponentToPrint() {
     return (
         <div className='container'>
             <div className='d-flex justify-content-end pt-3'>
+                <button className="btn  btn-success bg" onClick={goBack}>
+                    QUAY LẠI
+                </button>{" "}
                 <button className='btn bg' onClick={handlePrint}>IN VÉ</button>
             </div>
             <div ref={componentRef} className='d-flex justify-content-center mt-2' style={{ width: '100%' }}>
@@ -70,7 +78,7 @@ export default function ComponentToPrint() {
                                 <strong>{veMayBay !== null && veMayBay.maVe}</strong>
                             </div>
                             <div style={{ paddingLeft: '1rem' }}>
-                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL} alt='logoHangBay' />
+                                <img style={{ height: "25px" }} src={veMayBay !== null && veMayBay.datCho.chuyenBay.hangBay.logoURL.toString()} alt='logoHangBay' />
 
                             </div>
                         </div>

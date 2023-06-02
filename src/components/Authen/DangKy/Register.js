@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "./Register.css";
 import plane from "../../../Assets/planeDC.png";
 import logo from "../../../Assets/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import LoginContext from '../../../loginGlobalState/LoginContext';
 
 export default function Register() {
     const [quocTichList, setQuocTichList] = useState([]);
+    const navigate = useNavigate();
+    const { state, dispatch } = useContext(LoginContext);
+
     useEffect(() => {
         axios
             .get('http://localhost:8080/nguoi-dung/danh-sach-quoc-tich')
             .then(response => setQuocTichList(response.data));
     }, []);
 
-    const navigate = useNavigate();
     const [emailInput, setEmailInput] = useState({
         inputValue: '',
         errorMessage: '',
@@ -254,7 +257,8 @@ export default function Register() {
         return matKhau === nhapLaiMatKhau;
     }
 
-  return (
+    if (state.login === "") 
+    return (
     <div className='dangky'>
       <div className="container register">
                 <div className="row">
@@ -432,5 +436,9 @@ export default function Register() {
                 </div>
             </div>
     </div>
+  )
+  else return (
+    <>
+    </>
   )
 }
