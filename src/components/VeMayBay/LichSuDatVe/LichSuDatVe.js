@@ -20,10 +20,10 @@ function LichSuDatVe() {
 
   //CHỨC NĂNG TÌM KIẾM
   const [pageNumber, setPageNumber] = useState(0);
-  const [tenHanhKhach, setTenHanhKhach] = useState('');
-  const [diemDi, setDiemDi] = useState('');
-  const [diemDen, setDiemDen] = useState('');
-  const [maVe, setMaVe] = useState('');
+  const [tenHanhKhach, setTenHanhKhach] = useState("");
+  const [diemDi, setDiemDi] = useState("");
+  const [diemDen, setDiemDen] = useState("");
+  const [maVe, setMaVe] = useState("");
   const [totalPages, setTotalPages] = useState();
   const [sanBay, setSanBay] = useState([]);
 
@@ -38,18 +38,20 @@ function LichSuDatVe() {
 
   //CHỨC NĂNG IN VÉ
   const handlePrint = (maVe) => {
-    axios.get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
+    axios
+      .get("http://localhost:8080/VeMayBay/InVe?maVe=" + maVe)
       .then((response) => {
         console.log("response.data ", response.data);
         if (response.data === "EMPTY") {
-          toast.error("VÉ KHÔNG TỒN TẠI!")
+          toast.error("VÉ KHÔNG TỒN TẠI!");
         } else {
           window.location.href = `http://localhost:3000/InVe?maVe=${maVe.toString()}`;
         }
-      }).catch((error) => {
-        console.error("error at function handlePrint", error);
       })
-  }
+      .catch((error) => {
+        console.error("error at function handlePrint", error);
+      });
+  };
 
   //CHỨC NĂNG XÓA
   const [selectedObject, setSelectedObject] = useState(null);
@@ -61,7 +63,7 @@ function LichSuDatVe() {
     console.log("vemaybaytostring", veMayBay);
     setSelectedObject(veMayBay);
     setMaVeDelete(veMayBay.maVe);
-    setTenHanhKhachDelete(veMayBay.hanhKhach.tenHanhKhach);
+    setTenHanhKhachDelete(veMayBay.tenHanhKhach);
     setIsModalOpen(true);
   };
 
@@ -70,7 +72,7 @@ function LichSuDatVe() {
       .delete(`http://localhost:8080/VeMayBay/delete/${maVeDelete}`)
       .then((response) => {
         if (response.data === "FAIL") {
-          toast.error("VÉ KHÔNG TỒN TẠI!")
+          toast.error("VÉ KHÔNG TỒN TẠI!");
         } else {
           const cancelEmailDTO = {
             emailNguoiDung: response.data.hoaDon.nguoiDung.email,
@@ -81,12 +83,12 @@ function LichSuDatVe() {
             ngayKhoiHanh: response.data.datCho.chuyenBay.ngayKhoiHanh,
             diemDi: response.data.datCho.chuyenBay.diemDi,
             diemDen: response.data.datCho.chuyenBay.diemDen,
-          }
+          };
           fetchTicketList();
           axios
             .post(`http://localhost:8080/Email/cancel`, cancelEmailDTO)
             .catch((err) => console.error);
-          toast.success("HỦY VÉ THÀNH CÔNG!")
+          toast.success("HỦY VÉ THÀNH CÔNG!");
         }
         // setIsModalOpen(false);
       })
@@ -121,7 +123,7 @@ function LichSuDatVe() {
           tenHanhKhach,
           diemDi,
           diemDen,
-          emailNguoiDung
+          emailNguoiDung,
         },
       });
       console.log("RESPONSE LIST DATAA", response);
@@ -287,103 +289,113 @@ function LichSuDatVe() {
           <tbody>
             {isSearching
               ? searchResult.map((item, index) => {
-                return (
-                  <tr className="align-middle text-nowrap" key={item.maVe}>
-                    <td> {index + 1 + page * size}</td>
-                    <th scope="row">{item.maVe}</th>
-                    <td>{item.tenHanhKhach}</td>
-                    <td>{item.ngayKhoiHanh}</td>
-                    <td>{item.diemDi}</td>
-                    <td>{item.diemDen}</td>
-                    <td>{item.hangVe}</td>
-                    <td>
-                      {item.hangVe === "Phổ Thông"
-                        ? item.giaVe.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })
-                        : (item.giaVe * 1.5).toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                    </td>
-                    <td>
-                      {role === "user" ? <>
-                        <button
-                          onClick={() => handlePrint(item.maVe.toString())}
-                          className="btn bg text-white"
-                        >
-                          In
-                        </button>
-                      </> : <><button
-                        onClick={() => handlePrint(item.maVe.toString())}
-                        className="btn bg text-white"
-                      >
-                        In
-                      </button>
+                  return (
+                    <tr className="align-middle text-nowrap" key={item.maVe}>
+                      <td> {index + 1 + page * size}</td>
+                      <th scope="row">{item.maVe}</th>
+                      <td>{item.tenHanhKhach}</td>
+                      <td>{item.ngayKhoiHanh}</td>
+                      <td>{item.diemDi}</td>
+                      <td>{item.diemDen}</td>
+                      <td>{item.hangVe}</td>
+                      <td>
+                        {item.hangVe === "Phổ Thông"
+                          ? item.giaVe.toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })
+                          : (item.giaVe * 1.5).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                      </td>
+                      <td>
+                        {role === "user" ? (
+                          <>
+                            <button
+                              onClick={() => handlePrint(item.maVe.toString())}
+                              className="btn bg text-white"
+                            >
+                              In
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => handlePrint(item.maVe.toString())}
+                              className="btn bg text-white"
+                            >
+                              In
+                            </button>
 
-                        <button
-                          className="btn btn-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop"
-                          onClick={() => confirmDelete(item)}
-                        >
-                          Hủy
-                        </button>
-                      </>}
-                    </td>
-                  </tr>
-                );
-              })
+                            <button
+                              className="btn btn-danger"
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticBackdrop"
+                              onClick={() => confirmDelete(item)}
+                            >
+                              Hủy
+                            </button>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
               : tickets.map((item, index) => {
-                return (
-                  <tr className="align-middle" key={item.maVe}>
-                    <td> {index + 1 + page * size}</td>
-                    <th scope="row">{item.maVe}</th>
-                    <td>{item.tenHanhKhach}</td>
-                    <td>{item.ngayKhoiHanh}</td>
-                    <td>{item.diemDi}</td>
-                    <td>{item.diemDen}</td>
-                    <td>{item.hangVe}</td>
-                    <td>
-                      {item.hangVe === "Phổ Thông"
-                        ? item.giaVe.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })
-                        : (item.giaVe * 1.5).toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                    </td>
-                    <td>
-                      {role === "user" ? <>
-                        <button
-                          onClick={() => handlePrint(item.maVe.toString())}
-                          className="btn bg text-white"
-                        >
-                          In
-                        </button>
-                      </> : <><button
-                        onClick={() => handlePrint(item.maVe.toString())}
-                        className="btn bg text-white"
-                      >
-                        In
-                      </button>
+                  return (
+                    <tr className="align-middle" key={item.maVe}>
+                      <td> {index + 1 + page * size}</td>
+                      <th scope="row">{item.maVe}</th>
+                      <td>{item.tenHanhKhach}</td>
+                      <td>{item.ngayKhoiHanh}</td>
+                      <td>{item.diemDi}</td>
+                      <td>{item.diemDen}</td>
+                      <td>{item.hangVe}</td>
+                      <td>
+                        {item.hangVe === "Phổ Thông"
+                          ? item.giaVe.toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })
+                          : (item.giaVe * 1.5).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                      </td>
+                      <td>
+                        {role === "user" ? (
+                          <>
+                            <button
+                              onClick={() => handlePrint(item.maVe.toString())}
+                              className="btn bg text-white"
+                            >
+                              In
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => handlePrint(item.maVe.toString())}
+                              className="btn bg text-white"
+                            >
+                              In
+                            </button>
 
-                        <button
-                          className="btn btn-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop"
-                          onClick={() => confirmDelete(item)}
-                        >
-                          Hủy
-                        </button>
-                      </>}
-                    </td>
-                  </tr>
-                );
-              })}
+                            <button
+                              className="btn btn-danger"
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticBackdrop"
+                              onClick={() => confirmDelete(item)}
+                            >
+                              Hủy
+                            </button>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </table>
 
@@ -420,118 +432,122 @@ function LichSuDatVe() {
 
       {((tickets.length > 0 && isSearching === false) ||
         searchResult.length > 0) && (
-          <div className="pagination">
-            <nav aria-label="...">
-              <ul className="pagination">
-                <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
-                  <button
-                    type="button"
-                    className="page-link bg-warning text-white bg"
-                    onClick={() => setPage(0)}
-                    disabled={page === 0}
+        <div className="pagination">
+          <nav aria-label="...">
+            <ul className="pagination">
+              <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
+                <button
+                  type="button"
+                  className="page-link bg-warning text-white bg"
+                  onClick={() => setPage(0)}
+                  disabled={page === 0}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-double-left"
+                    viewBox="0 0 16 16"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-chevron-double-left"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
-                  <button
-                    type="button"
-                    className="page-link bg-success text-white bg"
-                    disabled={page === 0}
-                    onClick={() => handlePageChange(page - 1)}
+                    <path
+                      fillRule="evenodd"
+                      d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
+                <button
+                  type="button"
+                  className="page-link bg-success text-white bg"
+                  disabled={page === 0}
+                  onClick={() => handlePageChange(page - 1)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-left"
+                    viewBox="0 0 16 16"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-chevron-left"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                {renderPageNumbers()}
+                    <path
+                      fillRule="evenodd"
+                      d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                    />
+                  </svg>
+                </button>
+              </li>
+              {renderPageNumbers()}
 
-                <li
-                  className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
-                    }`}
+              <li
+                className={`page-item   ${
+                  page === totalPages - 1 ? "disabled" : ""
+                }`}
+              >
+                <button
+                  type="button"
+                  className={`page-link  bg-success text-white none bg   ${
+                    page === totalPages - 1 ? "disabled" : ""
+                  }`}
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page === totalPages - 1}
                 >
-                  <button
-                    type="button"
-                    className={`page-link  bg-success text-white none bg   ${page === totalPages - 1 ? "disabled" : ""
-                      }`}
-                    onClick={() => handlePageChange(page + 1)}
-                    disabled={page === totalPages - 1}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-right"
+                    viewBox="0 0 16 16"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-chevron-right"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                <li
-                  className={`page-item   ${page === totalPages - 1 ? "disabled" : ""
-                    }`}
+                    <path
+                      fillRule="evenodd"
+                      d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li
+                className={`page-item   ${
+                  page === totalPages - 1 ? "disabled" : ""
+                }`}
+              >
+                <button
+                  className={`page-link bg-danger text-white bg ${
+                    page === totalPages - 1 ? "disabled" : ""
+                  }`}
+                  onClick={() => setPage(totalPages - 1)}
+                  disabled={page === totalPages - 1}
                 >
-                  <button
-                    className={`page-link bg-danger text-white bg ${page === totalPages - 1 ? "disabled" : ""
-                      }`}
-                    onClick={() => setPage(totalPages - 1)}
-                    disabled={page === totalPages - 1}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-double-right"
+                    viewBox="0 0 16 16"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-chevron-double-right"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
-                      />
-                    </svg>
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        )}
+                    <path
+                      fillRule="evenodd"
+                      d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
 
       <div
         className="modal fade"
@@ -558,9 +574,13 @@ function LichSuDatVe() {
             <div className="modal-body">
               <div>
                 <h5>Bạn thực sự muốn hủy vé mày?</h5>
-                <span>- Mã vé: <strong>{maVeDelete}</strong></span>
+                <span>
+                  - Mã vé: <strong>{maVeDelete}</strong>
+                </span>
                 <br></br>
-                <span>- Hành khách: <strong>{tenHanhKhachDelete}</strong></span>
+                <span>
+                  - Hành khách: <strong>{tenHanhKhachDelete}</strong>
+                </span>
               </div>
             </div>
             <div className="modal-footer">
