@@ -5,11 +5,12 @@ import LoginContext from "../../../loginGlobalState/LoginContext";
 export default function Logout() {
     const navigate = useNavigate();
     const {state, dispatch} = useContext(LoginContext);
+    const auth2 = window.gapi.auth2.getAuthInstance();
 
     useEffect(() => {
-        localStorage.removeItem('email');
-        localStorage.removeItem('account');
-        localStorage.removeItem('login');
+        auth2.signOut();
+        localStorage.clear()
+        sessionStorage.clear();
         dispatch({ type: '' });
         navigate('/');
     });
