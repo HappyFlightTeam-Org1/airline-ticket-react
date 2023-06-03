@@ -1,12 +1,31 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { toast } from "react-toastify";
 import LoginContext from "../../../loginGlobalState/LoginContext";
+import GoogleLoginButton from "./GoogleLogin/GoogleLogin";
+import { gapi } from "gapi-script";
+import FacebookLoginButton from "./FacebookLogin/FacebookLogin";
+import TwitterLoginButton from "./TwitterLoginButton/TwitterLoginButton";
+
+import { getAuth, TwitterAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
+
+const clientId = '421616323507-l2dd3nj89jlrfrtbn86auslagqhkhs60.apps.googleusercontent.com';
 
 export default function Login() {
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ''
+      })
+    }
+
+    gapi.load('client:auth2', start);
+  }, []);
+
   const navigate = useNavigate();
   const [tenDangNhapInput, setTenDangNhapInput] = useState({
     inputValue: "",
@@ -89,6 +108,34 @@ export default function Login() {
     return matKhau.length > 0;
   }
 
+  function handleTwitterLogin() {
+    const auth = getAuth();
+    const provider = new TwitterAuthProvider();
+    signInWithPopup(auth, provider)
+      .then(result => {
+        const credential = TwitterAuthProvider.credentialFromResult(result);
+        console.log(credential);
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  function handleFacebookLogin() {
+    const auth = getAuth();
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+    .then(result => {
+      const credential = FacebookAuthProvider.credentialFromResult(result);
+      console.log(credential);
+      console.log(result);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
   return (
     <div>
       <div className="dangnhap">
@@ -147,27 +194,30 @@ export default function Login() {
                 </div>
                 <div className="row mb-3">
                   <div className="col-4 d-flex justify-content-center align-items-center">
-                    <a
-                      href="#"
+                    {/* <a
+                      onClick={handleFacebookLogin}
                       className="btn btn-block btn-social btn-facebook"
                     >
                       Facebook
-                    </a>
+                    </a> */}
+                    {/* <FacebookLoginButton /> */}
                   </div>
 
                   <div className="col-4 d-flex justify-content-center align-items-center">
-                    <a href="#" className="btn btn-block btn-social btn-google">
+                    {/* <a href="#" className="btn btn-block btn-social btn-google">
                       Google
-                    </a>
+                    </a> */}
+                    <GoogleLoginButton />
                   </div>
 
                   <div className="col-4 d-flex justify-content-center align-items-center">
-                    <a
-                      href="#"
+                    {/* <a
+                      onClick={handleTwitterLogin}
                       className="btn btn-block btn-social btn-twitter"
                     >
                       Twitter
-                    </a>
+                    </a> */}
+                    {/* <TwitterLoginButton /> */}
                   </div>
                 </div>
 

@@ -35,6 +35,8 @@ import TinTuc from "./components/TinTuc/TinTuc";
 import ChinhSach from "./components/TinTuc/ChinhSach";
 import DieuKhoan from "./components/TinTuc/DieuKhoan";
 
+import { initializeApp } from 'firebase/app';
+
 function Controller() {
   const [on, setOn] = useState(false);
 
@@ -47,6 +49,17 @@ function Controller() {
   const [state, dispatch] = useReducer(LoginStateReducer, loginInitialState);
 
   useEffect(() => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDPV11ZwQoyei5V7kYJd-V1TBDg1S-dW2U",
+      authDomain: "chat-app-b98be.firebaseapp.com",
+      projectId: "chat-app-b98be",
+      storageBucket: "chat-app-b98be.appspot.com",
+      messagingSenderId: "973777285333",
+      appId: "1:973777285333:web:adb82536c15ce18011725c"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+
     if (localStorage.getItem("login") === "user") {
       dispatch({ type: "USER" });
     }
