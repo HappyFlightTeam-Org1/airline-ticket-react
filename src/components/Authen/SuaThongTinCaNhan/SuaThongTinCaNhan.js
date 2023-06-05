@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 export default function SuaThongTinCaNhan() {
     const [quocTichList, setQuocTichList] = useState([]);
+    const [isValidEmail, setIsValidEmail] = useState(true);
     useEffect(() => {
         axios
             .get('http://localhost:8080/nguoi-dung/danh-sach-quoc-tich')
@@ -88,7 +89,7 @@ export default function SuaThongTinCaNhan() {
     function handleFormSubmit(event) {
         event.preventDefault();
 
-        if (validateFormInput()) {
+        if (validateFormInput() && isValidEmail) {
             let formData = new FormData();
             formData.append('diaChiEmail', emailInput.inputValue);
             formData.append('soDienThoai', soDienThoaiInput.inputValue);
@@ -128,13 +129,17 @@ export default function SuaThongTinCaNhan() {
                 ...emailInput,
                 errorMessage: 'Email không hợp lệ',
             });
+            setIsValidEmail(false);
+        }
+        else {
+            validateDuplicateEmail(emailInput.inputValue);
         }
 
         if (!validateSoDienThoai(soDienThoaiInput.inputValue)) {
             isValid = false;
             setSoDienThoaiInput({
                 ...soDienThoaiInput,
-                errorMessage: 'Số điện thoại không hợp lệ',
+                errorMessage: 'Số điện thoại không hợp lệ. Số điện thoại gồm 10 chữ số, bắt đầu bằng số 03, 05, 07, 08, 09.',
             });
         }
 
@@ -142,7 +147,7 @@ export default function SuaThongTinCaNhan() {
             isValid = false;
             setHoVaTenInput({
                 ...hoVaTenInput,
-                errorMessage: 'Họ và tên không hợp lệ',
+                errorMessage: 'Họ và tên không hợp lệ. Họ và tên chỉ gồm các chữ cái.',
             });
         }
 
@@ -150,7 +155,7 @@ export default function SuaThongTinCaNhan() {
             isValid = false;
             setNgaySinhInput({
                 ...ngaySinhInput,
-                errorMessage: 'Ngày sinh không hợp lệ',
+                errorMessage: 'Ngày sinh không hợp lệ. Người dùng phải trên 14 tuổi và sinh sau năm 1900.',
             });
         }
 
@@ -158,7 +163,7 @@ export default function SuaThongTinCaNhan() {
             isValid = false;
             setHoChieuInput({
                 ...hoChieuInput,
-                errorMessage: 'Số CMND/CCCD không hợp lệ',
+                errorMessage: 'Số CMND/CCCD không hợp lệ. Số CMND (9 số) hoặc CCCD (12 số)',
             });
         }
 
@@ -166,7 +171,7 @@ export default function SuaThongTinCaNhan() {
             isValid = false;
             setDiaChiInput({
                 ...diaChiInput,
-                errorMessage: 'Địa chỉ không hợp lệ',
+                errorMessage: 'Địa chỉ không hợp lệ. Địa chỉ gồm chữ số, chữ cái, dấu , (dấu phẩy), dấu - (dấu gạch ngang)',
             });
         }
 
@@ -186,6 +191,26 @@ export default function SuaThongTinCaNhan() {
         return pattern.test(email);
     }
 
+    function validateDuplicateEmail(email) {
+        if (email === localStorage.getItem('email')) {
+            return;
+        }
+        let formData = new FormData();
+        formData.append('email', email);
+        axios
+            .post('http://localhost:8080/nguoi-dung/validate-email', formData)
+            .then(response => {
+                if (response.data.message === 'This email is exist') {
+                    setEmailInput({
+                        ...emailInput,
+                        errorMessage: 'Email này đã có người sử dụng',
+                    });
+                    setIsValidEmail(false);
+                }
+            })
+            .catch(err => toast.error('Có lỗi đã xảy ra'));
+    }
+
     function validateSoDienThoai(soDienThoai) {
         let pattern = /^0[\d]{9}$/;
         return pattern.test(soDienThoai);
@@ -197,7 +222,51 @@ export default function SuaThongTinCaNhan() {
     }
 
     function validateNgaySinh(ngaySinh) {
-        let pattern = /^\d{4}-\d{2}-\d{2}$/;
+        if (!validateDate(ngaySinh)) {
+            return false;
+        }
+
+        const [year, month, day] = ngaySinh.split('-');
+        const parsedDate = new Date(year, month - 1, day);
+        const todayDate = new Date();
+
+        if (!parsedDate) {
+            return false;
+        }
+
+        if (parsedDate.getFullYear() > todayDate.getFullYear()) {
+            return false;
+        }
+
+        if (parsedDate.getFullYear() === todayDate.getFullYear()) {
+            if (parsedDate.getMonth() > todayDate.getMonth()) {
+                return false;
+            }
+
+            if (parsedDate.getMonth() === todayDate.getMonth()) {
+                if (parsedDate.getDate() > todayDate.getDate()) {
+                    return false;
+                }
+            }
+        }
+
+        let age = todayDate.getFullYear() - parsedDate.getFullYear();
+        if (
+            todayDate.getMonth() < parsedDate.getMonth() ||
+            (todayDate.getMonth() === parsedDate.getMonth() && todayDate.getDay() < parsedDate.getDay())
+        ) {
+            age -= 1;
+        }
+
+        if (age < 14) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateDate(ngaySinh) {
+        let pattern = /^(19|20)\d{2}-\d{2}-\d{2}$/;
         return pattern.test(ngaySinh);
     }
 
@@ -207,7 +276,7 @@ export default function SuaThongTinCaNhan() {
     }
 
     function validateDiaChi(diaChi) {
-        let pattern = /^[\p{L} \d,]+$/u;
+        let pattern = /^[\p{L} \d,-]+$/u;
         return pattern.test(diaChi);
     }
 
@@ -233,19 +302,28 @@ export default function SuaThongTinCaNhan() {
                                   <div className="row register-form">
                                       <div className="col-md-6">
                                           <div className="form-group">
+                                                <label className="form-label">
+                                                    Email <span className="text-danger">(*)</span>
+                                                </label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
                                                     placeholder="Nhập địa chỉ email"
-                                                    onChange={event => setEmailInput({
-                                                        errorMessage: '',
-                                                        inputValue: event.target.value,
-                                                    })}
+                                                    onChange={event => {
+                                                        setEmailInput({
+                                                            errorMessage: '',
+                                                            inputValue: event.target.value,
+                                                        });
+                                                        setIsValidEmail(true);
+                                                    }}
                                                     value={emailInput.inputValue}
                                                 />
-                                                <p>{emailInput.errorMessage}</p>
+                                                <div className="form-text text-danger">{emailInput.errorMessage}</div>
                                           </div>
-                                          <div className="form-group">
+                                          <div className="form-group mt-2">
+                                                <label className="form-label">
+                                                    Số điện thoại <span className="text-danger">(*)</span>
+                                                </label>
                                               <input
                                                 type="text"
                                                 className="form-control"
@@ -255,9 +333,12 @@ export default function SuaThongTinCaNhan() {
                                                     inputValue: event.target.value,
                                                 })}
                                                 value={soDienThoaiInput.inputValue}/>
-                                              <p>{soDienThoaiInput.errorMessage}</p>
+                                              <div className="form-text text-danger">{soDienThoaiInput.errorMessage}</div>
                                           </div>
-                                          <div className="form-group">
+                                          <div className="form-group mt-2">
+                                                <label className="form-label">
+                                                    Họ và tên <span className="text-danger">(*)</span>
+                                                </label>
                                               <input
                                                 type="text"
                                                 className="form-control" 
@@ -267,9 +348,12 @@ export default function SuaThongTinCaNhan() {
                                                     inputValue: event.target.value,
                                                 })}
                                                 value={hoVaTenInput.inputValue}/>
-                                              <p>{hoVaTenInput.errorMessage}</p>
+                                              <div className="form-text text-danger">{hoVaTenInput.errorMessage}</div>
                                           </div>
-                                          <div className="form-group">
+                                          <div className="form-group mt-2">
+                                                <label className="form-label">
+                                                    Ngày sinh <span className="text-danger">(*)</span>
+                                                </label>
                                               <input
                                                 type="date"
                                                 className="form-control"
@@ -278,11 +362,14 @@ export default function SuaThongTinCaNhan() {
                                                     inputValue: event.target.value,
                                                 })}
                                                 value={ngaySinhInput.inputValue}/>
-                                              <p>{ngaySinhInput.errorMessage}</p>
+                                              <div className="form-text text-danger">{ngaySinhInput.errorMessage}</div>
                                           </div>
                                       </div>
                                       <div className="col-md-6">
                                           <div className="form-group">
+                                                <label className="form-label">
+                                                    Số CMND/CCCD <span className="text-danger">(*)</span>
+                                                </label>
                                               <input
                                                 type="text"
                                                 className="form-control"
@@ -292,9 +379,12 @@ export default function SuaThongTinCaNhan() {
                                                     inputValue: event.target.value,
                                                 })}
                                                 value={hoChieuInput.inputValue}/>
-                                                <p>{hoChieuInput.errorMessage}</p>
+                                                <div className="form-text text-danger">{hoChieuInput.errorMessage}</div>
                                           </div>
-                                          <div className="form-group">
+                                          <div className="form-group mt-2">
+                                                <label className="form-label">
+                                                    Địa chỉ <span className="text-danger">(*)</span>
+                                                </label>
                                               <input
                                                 type="text"
                                                 className="form-control"
@@ -304,9 +394,12 @@ export default function SuaThongTinCaNhan() {
                                                     inputValue: event.target.value,
                                                 })}
                                                 value={diaChiInput.inputValue}/>
-                                              <p>{diaChiInput.errorMessage}</p>
+                                              <div className="form-text text-danger">{diaChiInput.errorMessage}</div>
                                           </div>
-                                          <div className="form-group" >
+                                          <div className="form-group mt-2">
+                                                <label className="form-label">
+                                                    Quốc tịch <span className="text-danger">(*)</span>
+                                                </label>
                                               <select
                                                 className="form-select"
                                                 value={quocTichInput.inputValue}
@@ -319,9 +412,12 @@ export default function SuaThongTinCaNhan() {
                                                     <option value={quocTich.maQuocTich} key={quocTich.maQuocTich}>{quocTich.tenQuocTich}</option>
                                                   ))}
                                               </select>
-                                              <p>{quocTichInput.errorMessage}</p>
+                                              <div className="form-text text-danger">{quocTichInput.errorMessage}</div>
                                           </div>
-                                          <div className="form-group">
+                                          <div className="form-group mt-2">
+                                                <label className="form-label">
+                                                    Giới tính <span className="text-danger">(*)</span>
+                                                </label>
                                               <div className="maxl">
                                                   <label className="radio inline">
                                                       <input
