@@ -34,10 +34,23 @@ import ErrorPage from "./components/Commons/ErrorPage/ErrorPage";
 import TinTuc from "./components/TinTuc/TinTuc";
 import ChinhSach from "./components/TinTuc/ChinhSach";
 import DieuKhoan from "./components/TinTuc/DieuKhoan";
-
+import { gapi } from "gapi-script";
 import { initializeApp } from 'firebase/app';
 
+const clientId = '421616323507-l2dd3nj89jlrfrtbn86auslagqhkhs60.apps.googleusercontent.com';
+
 function Controller() {
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ''
+      })
+    }
+
+    gapi.load('client:auth2', start);
+  }, []);
+
   const [on, setOn] = useState(false);
 
   const handleTogger = () => {

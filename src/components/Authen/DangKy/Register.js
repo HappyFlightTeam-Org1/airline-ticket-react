@@ -299,8 +299,9 @@ export default function Register() {
     }
 
     function validateHoChieu(hoChieu) {
-        let pattern = /^((\d{9})|(\d{12}))$/;
-        return pattern.test(hoChieu);
+        let cccdPattern = /^[0-2]\d{10}[1-9]$/;
+        let cmndPattern = /^0[1-8]\d{7}|(09[0-2|5])\d{6}|1\d{8}|2[0-79]\d{7}|28[015]\d{6}|3[0-8]\d{7}$/;
+        return cccdPattern.test(hoChieu) || cmndPattern.test(hoChieu);
     }
 
     function validateDiaChi(diaChi) {
