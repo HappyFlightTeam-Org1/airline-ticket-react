@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 export default function SuaThongTinCaNhan() {
     const [quocTichList, setQuocTichList] = useState([]);
     const [isValidEmail, setIsValidEmail] = useState(true);
+    const [isValidHoChieu, setIsValidHoChieu] = useState(true);
+
     useEffect(() => {
         axios
             .get('http://localhost:8080/nguoi-dung/danh-sach-quoc-tich')
@@ -41,6 +43,7 @@ export default function SuaThongTinCaNhan() {
                     ...hoChieuInput,
                     inputValue: response.data.hoChieu,
                 });
+                localStorage.setItem('hoChieu', response.data.hoChieu);
                 setDiaChiInput({
                     ...diaChiInput,
                     inputValue: response.data.diaChi,
@@ -86,10 +89,10 @@ export default function SuaThongTinCaNhan() {
         errorMessage: '',
     });
 
-    function handleFormSubmit(event) {
+    async function handleFormSubmit(event) {
         event.preventDefault();
 
-        if (validateFormInput() && isValidEmail) {
+        if (validateFormInput() && isValidEmail && isValidHoChieu) {
             let formData = new FormData();
             formData.append('diaChiEmail', emailInput.inputValue);
             formData.append('soDienThoai', soDienThoaiInput.inputValue);
@@ -120,7 +123,7 @@ export default function SuaThongTinCaNhan() {
         }
     }
 
-    function validateFormInput() {
+    async function validateFormInput() {
         let isValid = true;
 
         if (!validateEmail(emailInput.inputValue)) {
@@ -132,7 +135,7 @@ export default function SuaThongTinCaNhan() {
             setIsValidEmail(false);
         }
         else {
-            validateDuplicateEmail(emailInput.inputValue);
+            await validateDuplicateEmail(emailInput.inputValue);
         }
 
         if (!validateSoDienThoai(soDienThoaiInput.inputValue)) {
@@ -166,6 +169,9 @@ export default function SuaThongTinCaNhan() {
                 errorMessage: 'Số CMND/CCCD không hợp lệ. Số CMND (9 số) hoặc CCCD (12 số)',
             });
         }
+        else {
+            await validateDuplicateHoChieu(hoChieuInput.inputValue);
+        }
 
         if (!validateDiaChi(diaChiInput.inputValue)) {
             isValid = false;
@@ -191,7 +197,7 @@ export default function SuaThongTinCaNhan() {
         return pattern.test(email);
     }
 
-    function validateDuplicateEmail(email) {
+    async function validateDuplicateEmail(email) {
         if (email === localStorage.getItem('email')) {
             return;
         }
@@ -274,6 +280,27 @@ export default function SuaThongTinCaNhan() {
         let cccdPattern = /^[0-2]\d{10}[1-9]$/;
         let cmndPattern = /^0[1-8]\d{7}|(09[0-2|5])\d{6}|1\d{8}|2[0-79]\d{7}|28[015]\d{6}|3[0-8]\d{7}$/;
         return cccdPattern.test(hoChieu) || cmndPattern.test(hoChieu);
+    }
+
+    async function validateDuplicateHoChieu(hoChieu) {
+        if (hoChieu === localStorage.getItem('hoChieu')) {
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append('hoChieu', hoChieu);
+        axios
+            .post('http://localhost:8080/nguoi-dung/validate-ho-chieu', formData)
+            .then(response => {
+                if (response.data.message === 'This ho chieu is exist') {
+                    setHoChieuInput({
+                        ...hoChieuInput,
+                        errorMessage: 'Mã CMND/CCCD đã có người sử dụng'
+                    });
+                    setIsValidHoChieu(false);
+                }
+            })
+            .catch(err => toast.error('Có lỗi đã xảy ra'));
     }
 
     function validateDiaChi(diaChi) {
@@ -375,10 +402,13 @@ export default function SuaThongTinCaNhan() {
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Nhập số CMND/CCCD"
-                                                onChange={event => setHoChieuInput({
-                                                    errorMessage: '',
-                                                    inputValue: event.target.value,
-                                                })}
+                                                onChange={event => {
+                                                    setHoChieuInput({
+                                                        errorMessage: '',
+                                                        inputValue: event.target.value,
+                                                    });
+                                                    setIsValidHoChieu(true);
+                                                }}
                                                 value={hoChieuInput.inputValue}/>
                                                 <div className="form-text text-danger">{hoChieuInput.errorMessage}</div>
                                           </div>

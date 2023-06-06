@@ -44,7 +44,7 @@ export default function ThietLapMatKhauMoi() {
         if (!validateMatKhau(matKhauMoiInput.inputValue)) {
             setMatKhauMoiInput({
                 ...matKhauMoiInput,
-                errorMessage: 'Mật khẩu mới không hợp lệ',
+                errorMessage: 'Mật khẩu mới không hợp lệ. Mật khẩu có độ dài từ 6-20 kí tự, có ít nhất: 1 chữ in hoa, 1 chữ in thường, 1 chữ số và 1 kí tự đặc biệt (#?!@$%^&*-)',
             });
         }
         else if (!validateTrungKhopMatKhau(matKhauMoiInput.inputValue, xacNhanMatKhauMoiInput.inputValue)) {
@@ -61,7 +61,7 @@ export default function ThietLapMatKhauMoi() {
         if (!validateMatKhau(xacNhanMatKhauMoiInput.inputValue)) {
             setXacNhanMatKhauMoiInput({
                 ...xacNhanMatKhauMoiInput,
-                errorMessage: 'Xác nhận mật khẩu mới không hợp lệ',
+                errorMessage: 'Xác nhận mật khẩu mới không hợp lệ. Mật khẩu có độ dài từ 6-20 kí tự, có ít nhất: 1 chữ in hoa, 1 chữ in thường, 1 chữ số và 1 kí tự đặc biệt (#?!@$%^&*-)',
             });
         }
         else if (!validateTrungKhopMatKhau(matKhauMoiInput.inputValue, xacNhanMatKhauMoiInput.inputValue)) {
@@ -79,7 +79,8 @@ export default function ThietLapMatKhauMoi() {
     }
 
     function validateMatKhau(matKhau) {
-        return matKhau.length > 0;
+        let pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,20}$/;
+        return pattern.test(matKhau);
     }
 
     function validateTrungKhopMatKhau(matKhau, nhapLaiMatKhau) {

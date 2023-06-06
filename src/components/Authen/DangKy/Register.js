@@ -10,6 +10,8 @@ import LoginContext from '../../../loginGlobalState/LoginContext';
 export default function Register() {
     const [quocTichList, setQuocTichList] = useState([]);
     const [isValidEmail, setIsValidEmail] = useState(true);
+    const [isValidTenTaiKhoan, setIsValidTenTaiKhoan] = useState(true);
+    const [isValidHoChieu, setIsValidHoChieu] = useState(true);
     const navigate = useNavigate();
     const { state, dispatch } = useContext(LoginContext);
 
@@ -64,10 +66,10 @@ export default function Register() {
         errorMessage: '',
     });
 
-    function handleFormSubmit(event) {
+    async function handleFormSubmit(event) {
         event.preventDefault();
 
-        if (validateFormInput() && isValidEmail) {
+        if (validateFormInput() && isValidEmail && isValidTenTaiKhoan && isValidHoChieu) {
             let formData = new FormData();
             formData.append('diaChiEmail', emailInput.inputValue);
             formData.append('tenTaiKhoan', tenTaiKhoanInput.inputValue);
@@ -99,7 +101,7 @@ export default function Register() {
         }
     }
 
-    function validateFormInput() {
+    async function validateFormInput() {
         let isValid = true;
 
         if (!validateEmail(emailInput.inputValue)) {
@@ -111,7 +113,7 @@ export default function Register() {
             setIsValidEmail(false);
         }
         else {
-            validateDuplicateEmail(emailInput.inputValue);
+            await validateDuplicateEmail(emailInput.inputValue);
         }
 
 
@@ -121,6 +123,9 @@ export default function Register() {
                 ...tenTaiKhoanInput,
                 errorMessage: 'Tên tài khoản không hợp lệ. Tên tài khoản hợp lệ có độ dài trong 30 kí tự, chứa các chữ cái tiếng Anh, chữ số và dấu _ (gạch dưới)',
             });
+        }
+        else {
+            await validateDuplicateTenTaiKhoan(tenTaiKhoanInput.inputValue);
         }
 
         if (!validateSoDienThoai(soDienThoaiInput.inputValue)) {
@@ -153,6 +158,9 @@ export default function Register() {
                 ...hoChieuInput,
                 errorMessage: 'Số CMND/CCCD không hợp lệ. Số CMND (9 số) hoặc CCCD (12 số)',
             });
+        }
+        else {
+            await validateDuplicateHoChieu(hoChieuInput.inputValue);
         }
 
         if (!validateDiaChi(diaChiInput.inputValue)) {
@@ -217,7 +225,7 @@ export default function Register() {
         return pattern.test(email);
     }
 
-    function validateDuplicateEmail(email) {
+    async function validateDuplicateEmail(email) {
         let formData = new FormData();
         formData.append('email', email);
         axios
@@ -237,6 +245,23 @@ export default function Register() {
     function validateTenTaiKhoan(tenTaiKhoan) {
         let pattern = /^[\w_]{1,30}$/;
         return pattern.test(tenTaiKhoan);
+    }
+
+    async function validateDuplicateTenTaiKhoan(tenTaiKhoan) {
+        let formData = new FormData();
+        formData.append('tenTaiKhoan', tenTaiKhoan);
+        axios
+            .post('http://localhost:8080/nguoi-dung/validate-ten-tai-khoan', formData)
+            .then(response => {
+                if (response.data.message === 'This ten tai khoan is exist') {
+                    setTenTaiKhoanInput({
+                        ...tenTaiKhoanInput,
+                        errorMessage: 'Tên tài khoản đã có người sử dụng',
+                    });
+                    setIsValidTenTaiKhoan(false);
+                }
+            })
+            .catch(err => toast.error('Có lỗi đã xảy ra'));
     }
 
     function validateSoDienThoai(soDienThoai) {
@@ -302,6 +327,23 @@ export default function Register() {
         let cccdPattern = /^[0-2]\d{10}[1-9]$/;
         let cmndPattern = /^0[1-8]\d{7}|(09[0-2|5])\d{6}|1\d{8}|2[0-79]\d{7}|28[015]\d{6}|3[0-8]\d{7}$/;
         return cccdPattern.test(hoChieu) || cmndPattern.test(hoChieu);
+    }
+
+    async function validateDuplicateHoChieu(hoChieu) {
+        let formData = new FormData();
+        formData.append('hoChieu', hoChieu);
+        axios
+            .post('http://localhost:8080/nguoi-dung/validate-ho-chieu', formData)
+            .then(response => {
+                if (response.data.message === 'This ho chieu is exist') {
+                    setHoChieuInput({
+                        ...hoChieuInput,
+                        errorMessage: 'Mã CMND/CCCD đã có người sử dụng'
+                    });
+                    setIsValidHoChieu(false);
+                }
+            })
+            .catch(err => toast.error('Có lỗi đã xảy ra'));
     }
 
     function validateDiaChi(diaChi) {
@@ -462,10 +504,13 @@ export default function Register() {
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Nhập số CMND/CCCD"
-                                                onChange={event => setHoChieuInput({
-                                                    errorMessage: '',
-                                                    inputValue: event.target.value
-                                                })}
+                                                onChange={event => {
+                                                    setHoChieuInput({
+                                                        errorMessage: '',
+                                                        inputValue: event.target.value
+                                                    });
+                                                    setIsValidHoChieu(true);
+                                                }}
                                             />
                                             <div className='form-text text-danger'>{hoChieuInput.errorMessage}</div>
                                         </div>
