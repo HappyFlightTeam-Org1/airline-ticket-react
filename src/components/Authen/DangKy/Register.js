@@ -9,6 +9,7 @@ import LoginContext from '../../../loginGlobalState/LoginContext';
 
 export default function Register() {
     const [quocTichList, setQuocTichList] = useState([]);
+    const [isValidEmail, setIsValidEmail] = useState(true);
     const navigate = useNavigate();
     const { state, dispatch } = useContext(LoginContext);
 
@@ -66,7 +67,7 @@ export default function Register() {
     function handleFormSubmit(event) {
         event.preventDefault();
 
-        if (validateFormInput()) {
+        if (validateFormInput() && isValidEmail) {
             let formData = new FormData();
             formData.append('diaChiEmail', emailInput.inputValue);
             formData.append('tenTaiKhoan', tenTaiKhoanInput.inputValue);
@@ -105,15 +106,20 @@ export default function Register() {
             isValid = false;
             setEmailInput({
                 ...emailInput,
-                errorMessage: 'Email không hợp lệ',
+                errorMessage: 'Định dạng email không hợp lệ',
             });
+            setIsValidEmail(false);
         }
+        else {
+            validateDuplicateEmail(emailInput.inputValue);
+        }
+
 
         if (!validateTenTaiKhoan(tenTaiKhoanInput.inputValue)) {
             isValid = false;
             setTenTaiKhoanInput({
                 ...tenTaiKhoanInput,
-                errorMessage: 'Tên tài khoản không hợp lệ',
+                errorMessage: 'Tên tài khoản không hợp lệ. Tên tài khoản hợp lệ có độ dài trong 30 kí tự, chứa các chữ cái tiếng Anh, chữ số và dấu _ (gạch dưới)',
             });
         }
 
@@ -121,7 +127,7 @@ export default function Register() {
             isValid = false;
             setSoDienThoaiInput({
                 ...soDienThoaiInput,
-                errorMessage: 'Số điện thoại không hợp lệ',
+                errorMessage: 'Số điện thoại không hợp lệ. Số điện thoại gồm 10 chữ số, bắt đầu bằng số 03, 05, 07, 08, 09.',
             });
         }
 
@@ -129,7 +135,7 @@ export default function Register() {
             isValid = false;
             setHoVaTenInput({
                 ...hoVaTenInput,
-                errorMessage: 'Họ và tên không hợp lệ',
+                errorMessage: 'Họ và tên không hợp lệ. Họ và tên chỉ gồm các chữ cái.',
             });
         }
 
@@ -137,7 +143,7 @@ export default function Register() {
             isValid = false;
             setNgaySinhInput({
                 ...ngaySinhInput,
-                errorMessage: 'Ngày sinh không hợp lệ',
+                errorMessage: 'Ngày sinh không hợp lệ. Người dùng phải trên 14 tuổi và sinh sau năm 1900.',
             });
         }
 
@@ -145,7 +151,7 @@ export default function Register() {
             isValid = false;
             setHoChieuInput({
                 ...hoChieuInput,
-                errorMessage: 'Số CMND/CCCD không hợp lệ',
+                errorMessage: 'Số CMND/CCCD không hợp lệ. Số CMND (9 số) hoặc CCCD (12 số)',
             });
         }
 
@@ -153,7 +159,7 @@ export default function Register() {
             isValid = false;
             setDiaChiInput({
                 ...diaChiInput,
-                errorMessage: 'Địa chỉ không hợp lệ',
+                errorMessage: 'Địa chỉ không hợp lệ. Địa chỉ gồm chữ số, chữ cái, dấu , (dấu phẩy), dấu - (dấu gạch ngang)',
             });
         }
 
@@ -169,7 +175,7 @@ export default function Register() {
             isValid = false;
             setMatKhauInput({
                 ...matKhauInput,
-                errorMessage: 'Mật khẩu không hợp lệ',
+                errorMessage: 'Mật khẩu không hợp lệ. Mật khẩu có độ dài từ 6-20 kí tự, có ít nhất: 1 chữ in hoa, 1 chữ in thường, 1 chữ số và 1 kí tự đặc biệt (#?!@$%^&*-)',
             });
         }
         else if (!validateTrungKhopMatKhau(matKhauInput.inputValue, nhapLaiMatKhauInput.inputValue)) {
@@ -188,7 +194,7 @@ export default function Register() {
             isValid = false;
             setNhapLaiMatKhauInput({
                 ...nhapLaiMatKhauInput,
-                errorMessage: 'Nhập lại mật khẩu không hợp lệ',
+                errorMessage: 'Nhập lại mật khẩu không hợp lệ. Mật khẩu có độ dài từ 6-20 kí tự, có ít nhất: 1 chữ in hoa, 1 chữ in thường, 1 chữ số và 1 kí tự đặc biệt (#?!@$%^&*-)',
             });
         }
         else if (!validateTrungKhopMatKhau(matKhauInput.inputValue, nhapLaiMatKhauInput.inputValue)) {
@@ -211,6 +217,23 @@ export default function Register() {
         return pattern.test(email);
     }
 
+    function validateDuplicateEmail(email) {
+        let formData = new FormData();
+        formData.append('email', email);
+        axios
+            .post('http://localhost:8080/nguoi-dung/validate-email', formData)
+            .then(response => {
+                if (response.data.message === 'This email is exist') {
+                    setEmailInput({
+                        ...emailInput,
+                        errorMessage: 'Email này đã có người sử dụng',
+                    });
+                    setIsValidEmail(false);
+                }
+            })
+            .catch(err => toast.error('Có lỗi đã xảy ra'));
+    }
+
     function validateTenTaiKhoan(tenTaiKhoan) {
         let pattern = /^[\w_]{1,30}$/;
         return pattern.test(tenTaiKhoan);
@@ -227,17 +250,62 @@ export default function Register() {
     }
 
     function validateNgaySinh(ngaySinh) {
-        let pattern = /^\d{4}-\d{2}-\d{2}$/;
+        if (!validateDate(ngaySinh)) {
+            return false;
+        }
+
+        const [year, month, day] = ngaySinh.split('-');
+        const parsedDate = new Date(year, month - 1, day);
+        const todayDate = new Date();
+
+        if (!parsedDate) {
+            return false;
+        }
+
+        if (parsedDate.getFullYear() > todayDate.getFullYear()) {
+            return false;
+        }
+
+        if (parsedDate.getFullYear() === todayDate.getFullYear()) {
+            if (parsedDate.getMonth() > todayDate.getMonth()) {
+                return false;
+            }
+
+            if (parsedDate.getMonth() === todayDate.getMonth()) {
+                if (parsedDate.getDate() > todayDate.getDate()) {
+                    return false;
+                }
+            }
+        }
+
+        let age = todayDate.getFullYear() - parsedDate.getFullYear();
+        if (
+            todayDate.getMonth() < parsedDate.getMonth() ||
+            (todayDate.getMonth() === parsedDate.getMonth() && todayDate.getDay() < parsedDate.getDay())
+        ) {
+            age -= 1;
+        }
+
+        if (age < 14) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateDate(ngaySinh) {
+        let pattern = /^(19|20)\d{2}-\d{2}-\d{2}$/;
         return pattern.test(ngaySinh);
     }
 
     function validateHoChieu(hoChieu) {
-        let pattern = /^((\d{9})|(\d{12}))$/;
-        return pattern.test(hoChieu);
+        let cccdPattern = /^[0-2]\d{10}[1-9]$/;
+        let cmndPattern = /^0[1-8]\d{7}|(09[0-2|5])\d{6}|1\d{8}|2[0-79]\d{7}|28[015]\d{6}|3[0-8]\d{7}$/;
+        return cccdPattern.test(hoChieu) || cmndPattern.test(hoChieu);
     }
 
     function validateDiaChi(diaChi) {
-        let pattern = /^[\p{L} \d,]+$/u;
+        let pattern = /^[\p{L} \d,-]+$/u;
         return pattern.test(diaChi);
     }
 
@@ -246,11 +314,13 @@ export default function Register() {
     }
 
     function validateMatKhau(matKhau) {
-        return matKhau.length > 0;
+        let pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,20}$/;
+        return pattern.test(matKhau);
     }
 
     function validateNhapLaiMatKhau(nhapLaiMatKhau) {
-        return nhapLaiMatKhau.length > 0;
+        let pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,20}$/;
+        return pattern.test(nhapLaiMatKhau);
     }
 
     function validateTrungKhopMatKhau(matKhau, nhapLaiMatKhau) {
@@ -277,18 +347,27 @@ export default function Register() {
                                 <div className="row register-form">
                                     <div className="col-md-6">
                                         <div className="form-group">
+                                            <label className='form-label'>
+                                                Email <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Nhập địa chỉ email"
-                                                onChange={event => setEmailInput({
-                                                    errorMessage: '',
-                                                    inputValue: event.target.value,
-                                                })}
+                                                onChange={event => {
+                                                    setEmailInput({
+                                                        errorMessage: '',
+                                                        inputValue: event.target.value,
+                                                    });
+                                                    setIsValidEmail(true);
+                                                }}
                                             />
-                                            <p>{emailInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{emailInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Tên tài khoản <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -298,9 +377,12 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{tenTaiKhoanInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{tenTaiKhoanInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Số điện thoại <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -310,9 +392,12 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{soDienThoaiInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{soDienThoaiInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Họ và tên <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -322,9 +407,12 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{hoVaTenInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{hoVaTenInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Ngày sinh <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="date"
                                                 className="form-control"
@@ -333,9 +421,12 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{ngaySinhInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{ngaySinhInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Giới tính <span className='text-danger'>(*)</span>
+                                            </label>
                                             <div className="maxl">
                                                 <label className="radio inline">
                                                     <input
@@ -364,6 +455,9 @@ export default function Register() {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
+                                            <label className='form-label'>
+                                                Số CMND/CCCD <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -373,9 +467,12 @@ export default function Register() {
                                                     inputValue: event.target.value
                                                 })}
                                             />
-                                            <p>{hoChieuInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{hoChieuInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Địa chỉ <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -385,9 +482,12 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{diaChiInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{diaChiInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group" >
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Quốc gia <span className='text-danger'>(*)</span>
+                                            </label>
                                             <select
                                                 className='form-select'
                                                 value={quocTichInput.inputValue}
@@ -401,9 +501,12 @@ export default function Register() {
                                                     <option value={quocTich.maQuocTich} key={quocTich.maQuocTich}>{quocTich.tenQuocTich}</option>
                                                 ))}
                                             </select>
-                                            <p>{quocTichInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{quocTichInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Mật khẩu <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="password"
                                                 className="form-control"
@@ -413,9 +516,12 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{matKhauInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{matKhauInput.errorMessage}</div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group mt-2">
+                                            <label className='form-label'>
+                                                Nhập lại mật khẩu <span className='text-danger'>(*)</span>
+                                            </label>
                                             <input
                                                 type="password"
                                                 className="form-control"
@@ -425,7 +531,7 @@ export default function Register() {
                                                     inputValue: event.target.value,
                                                 })}
                                             />
-                                            <p>{nhapLaiMatKhauInput.errorMessage}</p>
+                                            <div className='form-text text-danger'>{nhapLaiMatKhauInput.errorMessage}</div>
                                         </div>
                                         <button className="btnRegister" onClick={handleFormSubmit}>Đăng ký</button>
                                     </div>

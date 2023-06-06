@@ -1,6 +1,6 @@
 .dangky {
   margin-top: 60px;
-  height: 100vh;
+  min-height: 100vh;
   padding: 3%;
   background: url("../../../Assets/plane2.jpg") center;
   background-size: cover;
@@ -44,12 +44,7 @@
   border-bottom-left-radius: 10% 50%;
 }
 .register-right .form-group {
-  margin-bottom: 25px;
   position: relative;
-}
-.register-right .form-group p {
-  position: absolute;
-  left: 4%;
 }
 .register-left p img {
   width: 100%;

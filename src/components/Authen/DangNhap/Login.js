@@ -6,26 +6,12 @@ import "./Login.css";
 import { toast } from "react-toastify";
 import LoginContext from "../../../loginGlobalState/LoginContext";
 import GoogleLoginButton from "./GoogleLogin/GoogleLogin";
-import { gapi } from "gapi-script";
 import FacebookLoginButton from "./FacebookLogin/FacebookLogin";
 import TwitterLoginButton from "./TwitterLoginButton/TwitterLoginButton";
 
 import { getAuth, TwitterAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 
-const clientId = '421616323507-l2dd3nj89jlrfrtbn86auslagqhkhs60.apps.googleusercontent.com';
-
 export default function Login() {
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: ''
-      })
-    }
-
-    gapi.load('client:auth2', start);
-  }, []);
-
   const navigate = useNavigate();
   const [tenDangNhapInput, setTenDangNhapInput] = useState({
     inputValue: "",
